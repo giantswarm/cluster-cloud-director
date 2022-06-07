@@ -1,0 +1,16 @@
+apiVersion: infrastructure.cluster.x-k8s.io/v1alpha4
+kind: VCDCluster
+metadata:
+  name: {{ include "resource.default.name" $ }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "labels.common" . | nindent 4 }}
+spec:
+  site: {{ .Values.cloudDirector.site }}
+  org: {{ .Values.cloudDirector.org }}
+  ovdc: {{ .Values.cloudDirector.ovdc }}
+  ovdcNetwork: {{ .Values.cloudDirector.ovdcNetwork }}
+  userContext:
+    username: {{ .Values.cloudDirector.userContext.username }}
+    password: {{ .Values.cloudDirector.userContext.password }}
+    refreshToken: {{ .Values.cloudDirector.userContext.refreshToken }}

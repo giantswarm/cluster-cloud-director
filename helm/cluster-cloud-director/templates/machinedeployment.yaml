@@ -1,0 +1,27 @@
+apiVersion: cluster.x-k8s.io/v1alpha4
+kind: MachineDeployment
+metadata:
+  name: {{ include "resource.default.name" $ }}-md0
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "labels.common" . | nindent 4 }}
+spec:
+  clusterName: {{ include "resource.default.name" $ }}
+  replicas: {{ .Values.worker.replicas }}
+  selector:
+    matchLabels: null
+  template:
+    spec:
+      bootstrap:
+        configRef:
+          apiVersion: bootstrap.cluster.x-k8s.io/v1alpha4
+          kind: KubeadmConfigTemplate
+          name: {{ include "resource.default.name" $ }}-md0
+          namespace: {{ .Release.Namespace }}
+      clusterName: {{ include "resource.default.name" $ }}
+      infrastructureRef:
+        apiVersion: infrastructure.cluster.x-k8s.io/v1alpha4
+        kind: VCDMachineTemplate
+        name: {{ include "resource.default.name" $ }}-md0
+        namespace: {{ .Release.Namespace }}
+      version: {{ .Values.cluster.kubernetesVersion }}

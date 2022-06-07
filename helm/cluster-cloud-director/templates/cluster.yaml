@@ -1,0 +1,30 @@
+apiVersion: cluster.x-k8s.io/v1alpha4
+kind: Cluster
+metadata:
+  name: {{ include "resource.default.name" $ }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "labels.common" . | nindent 4 }}
+spec:
+  clusterNetwork:
+    pods:
+      cidrBlocks:
+      - {{- range .Values.network.podsCidr }}
+      - {{ . }}
+      {{- end }}
+    serviceDomain: k8s.test
+    services:
+      cidrBlocks:
+      - {{- range .Values.network.cidrBlocks }}
+      - {{ . }}
+      {{- end }}
+  controlPlaneRef:
+    apiVersion: controlplane.cluster.x-k8s.io/v1alpha4
+    kind: KubeadmControlPlane
+    name: {{ include "resource.default.name" $ }}-control-plane
+    namespace: {{ .Release.Namespace }}
+  infrastructureRef:
+    apiVersion: infrastructure.cluster.x-k8s.io/v1alpha4
+    kind: VCDCluster
+    name: {{ include "resource.default.name" $ }}
+    namespace: {{ .Release.Namespace }}

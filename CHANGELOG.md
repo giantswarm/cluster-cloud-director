@@ -7,4 +7,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-[Unreleased]: https://github.com/giantswarm/REPOSITORY_NAME/tree/main
+[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/tree/main

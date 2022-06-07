@@ -1,0 +1,51 @@
+apiVersion: controlplane.cluster.x-k8s.io/v1alpha4
+kind: KubeadmControlPlane
+metadata:
+  name: {{ include "resource.default.name" $ }}-control-plane
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "labels.common" . | nindent 4 }}
+spec:
+  kubeadmConfigSpec:
+    clusterConfiguration:
+      apiServer:
+        certSANs:
+        - localhost
+        - 127.0.0.1
+      controllerManager:
+        extraArgs:
+          enable-hostpath-provisioner: "true"
+      dns:
+        imageRepository: projects.registry.vmware.com/tkg # image repository to pull the DNS image from
+        imageTag: v1.7.0_vmware.12 # DNS image tag associated with the TKGm OVA used. The values must be retrieved from the TKGm ova BOM. Refer to the github documentation for more details
+      etcd:
+        local:
+          imageRepository: projects.registry.vmware.com/tkg # image repository to pull the etcd image from
+          imageTag: v3.4.13_vmware.14 # etcd image tag associated with the TKGm OVA used. The values must be retrieved from the TKGm ova BOM. Refer to the github documentation for more details
+      imageRepository: projects.registry.vmware.com/tkg # image repository to use for the rest of kubernetes images
+    users:
+    - name: {{ .name }}
+      sshAuthorizedKeys:
+      {{- range .authorizedKeys }}
+      - {{ . }}
+      {{- end }}
+    initConfiguration:
+      nodeRegistration:
+        criSocket: /run/containerd/containerd.sock
+        kubeletExtraArgs:
+          eviction-hard: nodefs.available<0%,nodefs.inodesFree<0%,imagefs.available<0%
+          cloud-provider: external
+    joinConfiguration:
+      nodeRegistration:
+        criSocket: /run/containerd/containerd.sock
+        kubeletExtraArgs:
+          eviction-hard: nodefs.available<0%,nodefs.inodesFree<0%,imagefs.available<0%
+          cloud-provider: external
+  machineTemplate:
+    infrastructureRef:
+      apiVersion: infrastructure.cluster.x-k8s.io/v1alpha4
+      kind: VCDMachineTemplate
+        name: {{ include "resource.default.name" $ }}-control-plane
+        namespace: {{ .Release.Namespace }}
+  replicas: {{ .Values.controlPlane.replicas }}
+  version: {{ .Values.cluster.kubernetesVersion }}

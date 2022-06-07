@@ -1,0 +1,41 @@
+cluster:
+  kubernetesVersion: "" #  image defined at template.templateName
+  name: "" # Cluster name; used as a base for names of all cluster resources.
+  organization: "" # The organization which owns this cluster.
+
+network:
+  podsCidr: # List of CIDR(s) to use for pod IPs.
+  - "100.96.0.0/11"
+  cidrBlocks:
+  - "100.64.0.0/13" # service CIDR for the cluster
+
+cloudDirector:
+  site: "" # VCD endpoint with the format https://VCD_HOST. No trailing '/'
+  org: "" # VCD organization name where the cluster should be deployed
+  ovdc: "" # VCD virtual datacenter name where the cluster should be deployed
+  ovdcNetwork: "" # VCD virtual datacenter network to be used by the cluster
+  userContext:
+    username: "" # username of the VCD persona creating the cluster. Skipped if refreshToken is provided.
+    password: "" # password associated with the user creating the cluster
+    refreshToken: "" # refresh token of the client registered with VCD for creating clusters. username and password can be left blank if refresh token is provided
+  
+template:
+  catalog: "" # Catalog hosting the template, which will be used to deploy the control plane VMs
+  controlPlane: 
+    template: ""  # Name of the template to be used to create (or) upgrade the control plane nodes
+    computePolicy: "" # Sizing policy to be used for the control plane VMs (this must be pre-published on the chosen organization virtual datacenter). If no sizing policy should be used, use "".
+  workerNode: 
+    template: ""  # Name of the template to be used to create (or) upgrade the worker nodes
+    computePolicy: "" # Sizing policy to be used for the worker VMs (this must be pre-published on the chosen organization virtual datacenter). If no sizing policy should be used, use "".
+
+kubeadm: # Provisioning options passed to kubeadm.
+  users:
+    - name: ""
+      authorizedKeys: # All public SSH keys to assign to this user.
+        - ""
+
+controlPlane:
+  replicas: 0 # Number of control plance instances to create. Must be an odd number.
+
+worker:
+  replicas: 0 # Number of worker instances to create.
