@@ -19,21 +19,19 @@ Create chart name and version as used by the chart label.
 Common labels
 */}}
 {{- define "labels.common" -}}
-{{ include "labels.selector" . }}
-app.kubernetes.io/name: {{ .Values.name }}
-app.kubernetes.io/instance: {{ .Release.Name | quote }}
-app.giantswarm.io/branch: {{ .Chart.Annotations.branch | replace "#" "-" | replace "/" "-" | replace "." "-" | trunc 63 | trimSuffix "-" | quote }}
-app.giantswarm.io/commit: {{ .Chart.Annotations.commit | quote }}
+app: {{ include "name" . | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+app.kubernetes.io/version: {{ .Chart.Version | quote }}
+cluster.x-k8s.io/cluster-name: {{ include "resource.default.name" . | quote }}
+giantswarm.io/cluster: {{ include "resource.default.name" . | quote }}
+giantswarm.io/organization: {{ .Values.cluster.organization | quote }}
+application.giantswarm.io/team: {{ index .Chart.Annotations "application.giantswarm.io/team" | quote }}
 helm.sh/chart: {{ include "chart" . | quote }}
-giantswarm.io/service-type: {{ .Values.serviceType }}
 {{- end -}}
 
 {{/*
-Selector labels
+Create a prefix for all resource names.
 */}}
-{{- define "labels.selector" -}}
-app.kubernetes.io/name: {{ include "name" . | quote }}
-app.kubernetes.io/instance: {{ .Release.Name | quote }}
+{{- define "resource.default.name" -}}
+{{ .Values.cluster.name }}
 {{- end -}}

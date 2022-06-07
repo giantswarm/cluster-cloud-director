@@ -9,9 +9,9 @@ spec:
   template:
     spec:
       users:
-      - name: {{ .name }}
-        sshAuthorizedKeys:
-        {{- range .authorizedKeys }}
+      - name: {{ .Values.kubeadm.users.name }}
+        sshAuthorizedKeys: 
+        - {{- range .Values.kubeadm.users.authorizedKeys }}
         - {{ . }}
         {{- end }}
       joinConfiguration:

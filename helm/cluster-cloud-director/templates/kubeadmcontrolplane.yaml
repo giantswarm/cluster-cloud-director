@@ -24,9 +24,9 @@ spec:
           imageTag: v3.4.13_vmware.14 # etcd image tag associated with the TKGm OVA used. The values must be retrieved from the TKGm ova BOM. Refer to the github documentation for more details
       imageRepository: projects.registry.vmware.com/tkg # image repository to use for the rest of kubernetes images
     users:
-    - name: {{ .name }}
-      sshAuthorizedKeys:
-      {{- range .authorizedKeys }}
+    - name: {{ .Values.kubeadm.users.name }}
+      sshAuthorizedKeys: 
+      - {{- range .Values.kubeadm.users.authorizedKeys }}
       - {{ . }}
       {{- end }}
     initConfiguration:
@@ -49,3 +49,4 @@ spec:
         namespace: {{ .Release.Namespace }}
   replicas: {{ .Values.controlPlane.replicas }}
   version: {{ .Values.cluster.kubernetesVersion }}
+
