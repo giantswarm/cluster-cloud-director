@@ -8,12 +8,16 @@ metadata:
 spec:
   template:
     spec:
-      users:
-      - name: {{ .Values.kubeadm.users.name }}
-        sshAuthorizedKeys: 
-        - {{- range .Values.kubeadm.users.authorizedKeys }}
-        - {{ . }}
-        {{- end }}
+    {{- if .Values.kubeadm.users }}
+    {{- range .Values.kubeadm.users }}
+    users:
+    - name: {{ .name }}
+      sshAuthorizedKeys:
+      {{- range .authorizedKeys }}
+      - {{ . }}
+      {{- end }}
+    {{- end }}
+    {{- end }}
       joinConfiguration:
         nodeRegistration:
           criSocket: /run/containerd/containerd.sock
