@@ -23,12 +23,16 @@ spec:
           imageRepository: projects.registry.vmware.com/tkg # image repository to pull the etcd image from
           imageTag: v3.4.13_vmware.14 # etcd image tag associated with the TKGm OVA used. The values must be retrieved from the TKGm ova BOM. Refer to the github documentation for more details
       imageRepository: projects.registry.vmware.com/tkg # image repository to use for the rest of kubernetes images
+    {{- if .Values.kubeadm.users }}
+    {{- range .Values.kubeadm.users }}
     users:
-    - name: {{ .Values.kubeadm.users.name }}
+    - name: {{ .name }}
       sshAuthorizedKeys: 
-      - {{- range .Values.kubeadm.users.authorizedKeys }}
+      {{- range .authorizedKeys }}
       - {{ . }}
       {{- end }}
+    {{- end }}
+    {{- end }}
     initConfiguration:
       nodeRegistration:
         criSocket: /run/containerd/containerd.sock
@@ -45,8 +49,7 @@ spec:
     infrastructureRef:
       apiVersion: infrastructure.cluster.x-k8s.io/v1alpha4
       kind: VCDMachineTemplate
-        name: {{ include "resource.default.name" $ }}-control-plane
-        namespace: {{ .Release.Namespace }}
+      name: {{ include "resource.default.name" $ }}-control-plane
+      namespace: {{ .Release.Namespace }}
   replicas: {{ .Values.controlPlane.replicas }}
   version: {{ .Values.cluster.kubernetesVersion }}
-

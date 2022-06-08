@@ -9,13 +9,13 @@ spec:
   clusterNetwork:
     pods:
       cidrBlocks:
-      - {{- range .Values.network.podsCidr }}
+      {{- range .Values.network.podsCidr }}
       - {{ . }}
       {{- end }}
     serviceDomain: k8s.test
     services:
       cidrBlocks:
-      - {{- range .Values.network.cidrBlocks }}
+      {{- range .Values.network.cidrBlocks }}
       - {{ . }}
       {{- end }}
   controlPlaneRef:
