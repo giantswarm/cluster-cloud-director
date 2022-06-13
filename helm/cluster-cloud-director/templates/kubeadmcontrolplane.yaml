@@ -16,13 +16,13 @@ spec:
         extraArgs:
           enable-hostpath-provisioner: "true"
       dns:
-        imageRepository: projects.registry.vmware.com/tkg # image repository to pull the DNS image from
-        imageTag: v1.7.0_vmware.12 # DNS image tag associated with the TKGm OVA used. The values must be retrieved from the TKGm ova BOM. Refer to the github documentation for more details
+        imageRepository: {{ .Values.kubeadm.dns.image }} # image repository to pull the DNS image from
+        imageTag: {{ .Values.kubeadm.dns.tag }} # DNS image tag associated with the TKGm OVA used. The values must be retrieved from the TKGm ova BOM. Refer to the github documentation for more details
       etcd:
         local:
-          imageRepository: projects.registry.vmware.com/tkg # image repository to pull the etcd image from
-          imageTag: v3.4.13_vmware.14 # etcd image tag associated with the TKGm OVA used. The values must be retrieved from the TKGm ova BOM. Refer to the github documentation for more details
-      imageRepository: projects.registry.vmware.com/tkg # image repository to use for the rest of kubernetes images
+          imageRepository: {{ .Values.kubeadm.etcd.image }} # image repository to pull the etcd image from
+          imageTag: {{ .Values.kubeadm.etcd.tag }} # etcd image tag associated with the TKGm OVA used. The values must be retrieved from the TKGm ova BOM. Refer to the github documentation for more details
+      imageRepository: {{ .Values.kubeadm.imageRepository }} # image repository to use for the rest of kubernetes images
     {{- if .Values.kubeadm.users }}
     {{- range .Values.kubeadm.users }}
     users:
