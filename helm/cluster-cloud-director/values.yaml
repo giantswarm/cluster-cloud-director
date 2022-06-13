@@ -33,6 +33,13 @@ kubeadm: # Provisioning options passed to kubeadm.
     - name: ""
       authorizedKeys: # All public SSH keys to assign to this user.
         - ""
+  dns:
+    image: projects.registry.vmware.com/tkg
+    tag: v1.7.0_vmware.12
+  etcd:
+    image: projects.registry.vmware.com/tkg
+    tag: v3.4.13_vmware.14
+  imageRepository: projects.registry.vmware.com/tkg
 
 controlPlane:
   replicas: 0 # Number of control plance instances to create. Must be an odd number.
