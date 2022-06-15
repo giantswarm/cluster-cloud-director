@@ -1,4 +1,4 @@
-apiVersion: infrastructure.cluster.x-k8s.io/v1alpha4
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
 kind: VCDMachineTemplate
 metadata:
   name: {{ include "resource.default.name" $ }}-control-plane
@@ -10,9 +10,11 @@ spec:
     spec:
       catalog: {{ .Values.template.catalog }}
       template: {{ .Values.template.controlPlane.template }}
-      computePolicy: {{ .Values.template.controlPlane.computePolicy }}
+      sizingPolicy: {{ .Values.template.controlPlane.sizingPolicy }}
+      placementPolicy: {{ .Values.template.controlPlane.placementPolicy }}
+      storageProfile: {{ .Values.template.controlPlane.storageProfile }}
 ---
-apiVersion: infrastructure.cluster.x-k8s.io/v1alpha4
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
 kind: VCDMachineTemplate
 metadata:
   name: {{ include "resource.default.name" $ }}-md0
@@ -24,4 +26,6 @@ spec:
     spec:
       catalog: {{ .Values.template.catalog }}
       template: {{ .Values.template.workerNode.template }}
-      computePolicy: {{ .Values.template.workerNode.computePolicy }}
+      sizingPolicy: {{ .Values.template.workerNode.sizingPolicy }}
+      placementPolicy: {{ .Values.template.workerNode.placementPolicy }}
+      storageProfile: {{ .Values.template.workerNode.storageProfile }}

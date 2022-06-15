@@ -1,4 +1,4 @@
-apiVersion: infrastructure.cluster.x-k8s.io/v1alpha4
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
 kind: VCDCluster
 metadata:
   name: {{ include "resource.default.name" $ }}
@@ -10,7 +10,23 @@ spec:
   org: {{ .Values.cloudDirector.org }}
   ovdc: {{ .Values.cloudDirector.ovdc }}
   ovdcNetwork: {{ .Values.cloudDirector.ovdcNetwork }}
+  parentUid: {{ .Values.cloudDirector.parentUid }}
+  useAsManagementCluster: {{ .Values.cloudDirector.useAsManagementCluster }}
   userContext:
-    username: {{ .Values.cloudDirector.userContext.username }}
-    password: {{ .Values.cloudDirector.userContext.password }}
-    refreshToken: {{ .Values.cloudDirector.userContext.refreshToken }}
+    {{- if .Values.userContext.secretRef.useSecretRef }}
+    secretRef:
+      name: {{ .Values.userContext.secretRef.secretName }}
+      namespace: {{ .Release.Namespace }}
+    {{- else }}
+    refreshToken: {{ .Values.userContext.refreshToken }}
+    username: {{ .Values.userContext.username }}
+    password: {{ .Values.userContext.password }}
+    {{- end }}
+  {{- if .Values.cloudDirector.storage.createStorageClass }}
+  defaultStorageClassOptions:
+    vcdStorageProfileName: {{ .Values.cloudDirector.storage.vcdStorageProfileName }}
+    k8sStorageClassName: {{ .Values.cloudDirector.storage.k8sStorageClassName }}
+    useDeleteReclaimPolicy: {{ .Values.cloudDirector.storage.useDeleteReclaimPolicy }}
+    fileSystem: {{ .Values.cloudDirector.storage.fileSystem }}
+  {{- end }}
+  rdeId: {{ .Values.cloudDirector.rdeId }}
