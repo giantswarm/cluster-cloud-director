@@ -1,7 +1,7 @@
 apiVersion: v2
 name: cluster-cloud-director
-version: 0.0.0
-appVersion: 0.5.1
+version: 0.0.2
+appVersion: 1.0.0-dev
 home: https://github.com/giantswarm/cluster-cloud-director
 sources:
 - https://github.com/giantswarm/cluster-cloud-director
@@ -19,4 +19,4 @@ maintainers:
   email: team-rocket@giantswarm.io
 restrictions:
   compatibleProviders:
-    - clouddirector # Check if this is correct
+    - vcd

@@ -1,10 +1,11 @@
-apiVersion: cluster.x-k8s.io/v1alpha4
+apiVersion: cluster.x-k8s.io/v1beta1
 kind: Cluster
 metadata:
   name: {{ include "resource.default.name" $ }}
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "labels.common" . | nindent 4 }}
+    # cni: antrea # clusterResourceSet matching
 spec:
   clusterNetwork:
     pods:
@@ -12,19 +13,19 @@ spec:
       {{- range .Values.network.podsCidr }}
       - {{ . }}
       {{- end }}
-    serviceDomain: k8s.test
+    serviceDomain: {{ .Values.cluster.serviceDomain }}
     services:
       cidrBlocks:
       {{- range .Values.network.cidrBlocks }}
       - {{ . }}
       {{- end }}
   controlPlaneRef:
-    apiVersion: controlplane.cluster.x-k8s.io/v1alpha4
+    apiVersion: controlplane.cluster.x-k8s.io/v1beta1
     kind: KubeadmControlPlane
     name: {{ include "resource.default.name" $ }}-control-plane
     namespace: {{ .Release.Namespace }}
   infrastructureRef:
-    apiVersion: infrastructure.cluster.x-k8s.io/v1alpha4
+    apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
     kind: VCDCluster
     name: {{ include "resource.default.name" $ }}
     namespace: {{ .Release.Namespace }}

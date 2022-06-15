@@ -1,4 +1,4 @@
-apiVersion: cluster.x-k8s.io/v1alpha4
+apiVersion: cluster.x-k8s.io/v1beta1
 kind: MachineDeployment
 metadata:
   name: {{ include "resource.default.name" $ }}-md0
@@ -14,13 +14,13 @@ spec:
     spec:
       bootstrap:
         configRef:
-          apiVersion: bootstrap.cluster.x-k8s.io/v1alpha4
+          apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
           kind: KubeadmConfigTemplate
           name: {{ include "resource.default.name" $ }}-md0
           namespace: {{ .Release.Namespace }}
       clusterName: {{ include "resource.default.name" $ }}
       infrastructureRef:
-        apiVersion: infrastructure.cluster.x-k8s.io/v1alpha4
+        apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
         kind: VCDMachineTemplate
         name: {{ include "resource.default.name" $ }}-md0
         namespace: {{ .Release.Namespace }}
