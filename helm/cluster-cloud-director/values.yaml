@@ -30,8 +30,8 @@ userContext:
   password: "" # (Optional) ignored if refreshToken is set.
   refreshToken: "" # (Optional) refreshToken (API token) - recommended.
   secretRef:
-    # If set to false, you must specify username/password or refreshToken which will be in userContext of VCDCluster.
-    # Ignores secretName if set to false.
+    # If set to false, ignores secretName and you must specify username/password or refreshToken which will be in userContext of VCDCluster.
+    # If set to true, ignores credentials, you must specify secretName and have a pre-existing secret <= recommended method.
     useSecretRef: true
     # Name of the pre-existing secret containing the credentials of the VCD user.
     secretName: ""
