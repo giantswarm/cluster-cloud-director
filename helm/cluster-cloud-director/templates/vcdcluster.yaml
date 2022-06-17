@@ -6,12 +6,22 @@ metadata:
   labels:
     {{- include "labels.common" . | nindent 4 }}
 spec:
-  site: {{ .Values.cloudDirector.site }}
-  org: {{ .Values.cloudDirector.org }}
-  ovdc: {{ .Values.cloudDirector.ovdc }}
-  ovdcNetwork: {{ .Values.cloudDirector.ovdcNetwork }}
-  parentUid: {{ .Values.cloudDirector.parentUid }}
-  useAsManagementCluster: {{ .Values.cloudDirector.useAsManagementCluster }}
+  {{- with .Values.cloudDirector }}
+  site: {{ .site }}
+  org: {{ .org }}
+  ovdc: {{ .ovdc }}
+  ovdcNetwork: {{ .ovdcNetwork }}
+  parentUid: {{ .parentUid }}
+  useAsManagementCluster: {{ .useAsManagementCluster }}
+  rdeId: {{ .rdeId }}
+  {{- if .storage.createStorageClass }}
+  defaultStorageClassOptions:
+    vcdStorageProfileName: {{ .storage.vcdStorageProfileName }}
+    k8sStorageClassName: {{ .storage.k8sStorageClassName }}
+    useDeleteReclaimPolicy: {{ .storage.useDeleteReclaimPolicy }}
+    fileSystem: {{ .storage.fileSystem }}
+  {{- end }}
+  {{- end }}
   userContext:
     {{- if .Values.userContext.secretRef.useSecretRef }}
     secretRef:
@@ -22,11 +32,3 @@ spec:
     username: {{ .Values.userContext.username }}
     password: {{ .Values.userContext.password }}
     {{- end }}
-  {{- if .Values.cloudDirector.storage.createStorageClass }}
-  defaultStorageClassOptions:
-    vcdStorageProfileName: {{ .Values.cloudDirector.storage.vcdStorageProfileName }}
-    k8sStorageClassName: {{ .Values.cloudDirector.storage.k8sStorageClassName }}
-    useDeleteReclaimPolicy: {{ .Values.cloudDirector.storage.useDeleteReclaimPolicy }}
-    fileSystem: {{ .Values.cloudDirector.storage.fileSystem }}
-  {{- end }}
-  rdeId: {{ .Values.cloudDirector.rdeId }}

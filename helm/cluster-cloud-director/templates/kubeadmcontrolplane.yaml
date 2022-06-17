@@ -15,16 +15,18 @@ spec:
       controllerManager:
         extraArgs:
           enable-hostpath-provisioner: "true"
+      {{- with .Values.kubeadm }}
       dns:
-        imageRepository: {{ .Values.kubeadm.dns.image }}
-        imageTag: {{ .Values.kubeadm.dns.tag }}
+        imageRepository: {{ .dns.image }}
+        imageTag: {{ .dns.tag }}
       etcd:
         local:
-          imageRepository: {{ .Values.kubeadm.etcd.image }}
-          imageTag: {{ .Values.kubeadm.etcd.tag }}
-      imageRepository: {{ .Values.kubeadm.imageRepository }}
-    {{- if .Values.kubeadm.users }}
-    {{- range .Values.kubeadm.users }}
+          imageRepository: {{ .etcd.image }}
+          imageTag: {{ .etcd.tag }}
+      imageRepository: {{ .imageRepository }}
+    {{- end }}
+    {{- if .users }}
+    {{- range .users }}
     users:
     - name: {{ .name }}
       sshAuthorizedKeys: 
