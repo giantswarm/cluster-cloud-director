@@ -3,20 +3,19 @@ cluster:
   name: "" # Cluster name; used as a base for names of all cluster resources.
   organization: "" # The organization which owns this cluster.
   serviceDomain: k8s.test
-
-network:
-  podsCidr: # (Optional) List of CIDR(s) to use for pod IPs.
-  - "100.96.0.0/11"
-  cidrBlocks: # (Optional) service CIDR for the cluster.
-  - "100.64.0.0/13"
+  network:
+    podsCidrBlocks: # (Optional) List of CIDR(s) to use for pod IPs.
+    - "100.96.0.0/11"
+    servicesCidrBlocks: # (Optional) service CIDR for the cluster.
+    - "100.64.0.0/13"
 
 cloudDirector:
   site: "" # VCD endpoint with the format https://VCD_HOST. No trailing '/'.
   org: "" # VCD organization name.
   ovdc: "" # VCD virtual datacenter.
   ovdcNetwork: "" # VCD virtual datacenter network to connect VMs.
-  storage:
-    createStorageClass: false # Set to true only if a default storage class needs to be created.
+  defaultStorageClass:
+    enable: false # Set to true only if a default storage class needs to be created.
     vcdStorageProfileName: "" # (Optional) VCD storage profile used to create the storage class.
     k8sStorageClassName: "" # (Optional) storage class in kubernetes.
     useDeleteReclaimPolicy: true # (Optional) true sets Reclaim policy to "Delete", false sets to "Retain".

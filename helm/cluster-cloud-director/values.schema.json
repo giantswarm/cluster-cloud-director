@@ -5,6 +5,26 @@
         "cloudDirector": {
             "type": "object",
             "properties": {
+                "defaultStorageClass": {
+                    "type": "object",
+                    "properties": {
+                        "enable": {
+                            "type": "boolean"
+                        },
+                        "fileSystem": {
+                            "type": "string"
+                        },
+                        "k8sStorageClassName": {
+                            "type": "string"
+                        },
+                        "useDeleteReclaimPolicy": {
+                            "type": "boolean"
+                        },
+                        "vcdStorageProfileName": {
+                            "type": "string"
+                        }
+                    }
+                },
                 "org": {
                     "type": "string"
                 },
@@ -23,26 +43,6 @@
                 "site": {
                     "type": "string"
                 },
-                "storage": {
-                    "type": "object",
-                    "properties": {
-                        "createStorageClass": {
-                            "type": "boolean"
-                        },
-                        "fileSystem": {
-                            "type": "string"
-                        },
-                        "k8sStorageClassName": {
-                            "type": "string"
-                        },
-                        "useDeleteReclaimPolicy": {
-                            "type": "boolean"
-                        },
-                        "vcdStorageProfileName": {
-                            "type": "string"
-                        }
-                    }
-                },
                 "useAsManagementCluster": {
                     "type": "boolean"
                 }
@@ -56,6 +56,23 @@
                 },
                 "name": {
                     "type": "string"
+                },
+                "network": {
+                    "type": "object",
+                    "properties": {
+                        "podsCidrBlocks": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "servicesCidrBlocks": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
                 },
                 "organization": {
                     "type": "string"
@@ -80,26 +97,25 @@
                     "type": "object",
                     "properties": {
                         "image": {
-                            "type": "string"
-                        },
-                        "tag": {
-                            "type": "string"
+                            "type": "object",
+                            "properties": {
+                                "repository": {
+                                    "type": "string"
+                                },
+                                "tag": {
+                                    "type": "string"
+                                }
+                            }
                         }
                     }
                 },
-                "etcd": {
+                "image": {
                     "type": "object",
                     "properties": {
-                        "image": {
-                            "type": "string"
-                        },
-                        "tag": {
+                        "repository": {
                             "type": "string"
                         }
                     }
-                },
-                "imageRepository": {
-                    "type": "string"
                 },
                 "users": {
                     "type": "array",
@@ -116,23 +132,6 @@
                                 "type": "string"
                             }
                         }
-                    }
-                }
-            }
-        },
-        "network": {
-            "type": "object",
-            "properties": {
-                "cidrBlocks": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                "podsCidr": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
                     }
                 }
             }

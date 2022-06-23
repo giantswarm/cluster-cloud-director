@@ -14,12 +14,12 @@ spec:
   parentUid: {{ .parentUid }}
   useAsManagementCluster: {{ .useAsManagementCluster }}
   rdeId: {{ .rdeId }}
-  {{- if .storage.createStorageClass }}
+  {{- if .defaultStorageClass.enable }}
   defaultStorageClassOptions:
-    vcdStorageProfileName: {{ .storage.vcdStorageProfileName }}
-    k8sStorageClassName: {{ .storage.k8sStorageClassName }}
-    useDeleteReclaimPolicy: {{ .storage.useDeleteReclaimPolicy }}
-    fileSystem: {{ .storage.fileSystem }}
+    vcdStorageProfileName: {{ .defaultStorageClass.vcdStorageProfileName }}
+    k8sStorageClassName: {{ .defaultStorageClass.k8sStorageClassName }}
+    useDeleteReclaimPolicy: {{ .defaultStorageClass.useDeleteReclaimPolicy }}
+    fileSystem: {{ .defaultStorageClass.fileSystem }}
   {{- end }}
   {{- end }}
   userContext:
