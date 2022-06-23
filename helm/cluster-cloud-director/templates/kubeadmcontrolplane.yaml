@@ -17,13 +17,13 @@ spec:
           enable-hostpath-provisioner: "true"
       {{- with .Values.kubeadm }}
       dns:
-        imageRepository: {{ .dns.image }}
-        imageTag: {{ .dns.tag }}
+        imageRepository: {{ .dns.image.repository }}
+        imageTag: {{ .dns.image.tag }}
       etcd:
         local:
-          imageRepository: {{ .etcd.image }}
-          imageTag: {{ .etcd.tag }}
-      imageRepository: {{ .imageRepository }}
+          imageRepository: projects.registry.vmware.com/tkg
+          imageTag: v3.4.13_vmware.14
+      imageRepository: {{ .image.repository }}
     {{- end }}
     {{- if .users }}
     {{- range .users }}

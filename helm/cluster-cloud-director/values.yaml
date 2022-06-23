@@ -55,12 +55,11 @@ kubeadm:
       authorizedKeys: # (Optional) All public SSH keys to assign to this user.
         - ""
   dns:
-    image: projects.registry.vmware.com/tkg # (Optional) image repository to pull the DNS image from.
-    tag: v1.7.0_vmware.12 # (Optional) DNS image tag associated with the TKGm OVA used. The values must be retrieved from the TKGm ova BOM.
-  etcd:
-    image: projects.registry.vmware.com/tkg # (Optional) image repository to pull the etcd image from.
-    tag: v3.4.13_vmware.14 # (Optional) etcd image tag associated with the TKGm OVA used. The values must be retrieved from the TKGm ova BOM.
-  imageRepository: projects.registry.vmware.com/tkg  # (Optional) image repository to use for the rest of kubernetes images.
+    image: 
+      repository: projects.registry.vmware.com/tkg # (Optional) image repository to pull the DNS image from.
+      tag: v1.7.0_vmware.12 # (Optional) DNS image tag associated with the TKGm OVA used. The values must be retrieved from the TKGm ova BOM.
+  image:
+    repository: projects.registry.vmware.com/tkg  # (Optional) image repository to use for the rest of kubernetes images.
 
 controlPlane:
   replicas: 0 # Number of control plane instances to create (odd number).
