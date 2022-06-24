@@ -5,7 +5,6 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "labels.common" . | nindent 4 }}
-    # cni: antrea # clusterResourceSet matching
 spec:
   clusterNetwork:
     pods:
@@ -22,10 +21,10 @@ spec:
   controlPlaneRef:
     apiVersion: controlplane.cluster.x-k8s.io/v1beta1
     kind: KubeadmControlPlane
-    name: {{ include "resource.default.name" $ }}-control-plane
+    name: {{ include "resource.default.name" $ }}
     namespace: {{ .Release.Namespace }}
   infrastructureRef:
-    apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+    apiVersion: {{ include "infrastructureApiVersion" . }}
     kind: VCDCluster
     name: {{ include "resource.default.name" $ }}
     namespace: {{ .Release.Namespace }}

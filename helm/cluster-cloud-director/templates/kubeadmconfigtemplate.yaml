@@ -1,15 +1,17 @@
+{{- range .Values.nodePools }}
+---
 apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
 kind: KubeadmConfigTemplate
 metadata:
-  name: {{ include "resource.default.name" $ }}-md0
-  namespace: {{ .Release.Namespace }}
+  name: {{ include "resource.default.name" $ }}-{{ .name }}
+  namespace: {{ $.Release.Namespace }}
   labels:
     {{- include "labels.common" . | nindent 4 }}
 spec:
   template:
     spec:
-      {{- if .Values.kubeadm.users }}
-      {{- range .Values.kubeadm.users }}
+      {{- if $.Values.kubeadm.users }}
+      {{- range $.Values.kubeadm.users }}
       users:
       - name: {{ .name }}
         sshAuthorizedKeys:
@@ -24,3 +26,5 @@ spec:
           kubeletExtraArgs:
             eviction-hard: nodefs.available<0%,nodefs.inodesFree<0%,imagefs.available<0%
             cloud-provider: external
+            node-labels: "giantswarm.io/node-pool={{ .name }}"
+{{- end }}

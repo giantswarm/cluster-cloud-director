@@ -54,22 +54,27 @@ userContext:
     useSecretRef: true
     secretName: "xav-secret"
 
-template:
-  catalog: "giantswarm"
-  controlPlane:
-    template: "ubuntu-2004-kube-v1.22.5"
-  workerNode:
-    template: "ubuntu-2004-kube-v1.22.5"
-
-kubeadm:
-  users:
-    - name: "root"
-      authorizedKeys:
-        - "ssh-rsa AAA..."
-
 controlPlane:
   replicas: 1
+  catalog: "giantswarm"
+  template: "ubuntu-2004-kube-v1.22.5"
+  sizingPolicy: ""
+  placementPolicy: ""
+  storageProfile: ""
 
-worker:
-  replicas: 1
+nodeClasses:
+  - name: worker
+    catalog: "giantswarm"
+    template: "ubuntu-2004-kube-v1.22.5"
+    sizingPolicy: ""
+    placementPolicy: ""
+    storageProfile: ""
+
+nodePools:
+  - class: worker
+    name: worker
+    replicas: 2
+  - class: worker
+    name: lazy
+    replicas: 1
 ```

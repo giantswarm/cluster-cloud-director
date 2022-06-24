@@ -1,35 +1,18 @@
-apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
-kind: VCDMachineTemplate
-metadata:
-  name: {{ include "resource.default.name" $ }}-control-plane
-  namespace: {{ .Release.Namespace }}
-  labels:
-    {{- include "labels.common" . | nindent 4 }}
-spec:
-  template:
-    spec:
-      {{- with .Values.template }}
-      catalog: {{ .catalog }}
-      template: {{ .controlPlane.template }}
-      sizingPolicy: {{ .controlPlane.sizingPolicy }}
-      placementPolicy: {{ .controlPlane.placementPolicy }}
-      storageProfile: {{ .controlPlane.storageProfile }}
-      {{- end }}
+{{- range (append .Values.nodeClasses ((merge (dict "name" "control-plane") .Values.controlPlane))) }}
 ---
-apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+apiVersion: {{ include "infrastructureApiVersion" . }}
 kind: VCDMachineTemplate
 metadata:
-  name: {{ include "resource.default.name" $ }}-md0
-  namespace: {{ .Release.Namespace }}
+  name: {{ include "resource.default.name" $ }}-{{ .name }}-{{ include "mtRevision" (merge . $) }}
+  namespace: {{ $.Release.Namespace }}
   labels:
     {{- include "labels.common" . | nindent 4 }}
 spec:
   template:
     spec:
-      {{- with .Values.template }}
       catalog: {{ .catalog }}
-      template: {{ .workerNode.template }}
-      sizingPolicy: {{ .workerNode.sizingPolicy }}
-      placementPolicy: {{ .workerNode.placementPolicy }}
-      storageProfile: {{ .workerNode.storageProfile }}
-      {{- end }}
+      template: {{ .template }}
+      sizingPolicy: {{ .sizingPolicy }}
+      placementPolicy: {{ .placementPolicy }}
+      storageProfile: {{ .storageProfile }}
+{{- end }}
