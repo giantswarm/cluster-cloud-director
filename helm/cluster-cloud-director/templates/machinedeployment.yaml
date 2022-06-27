@@ -7,6 +7,7 @@ metadata:
   namespace: {{ $.Release.Namespace }}
   labels:
     {{- include "labels.common" $ | nindent 4 }}
+    app.kubernetes.io/version: {{ .Chart.Version | quote }}
 spec:
   clusterName: {{ include "resource.default.name" $ }}
   replicas: {{ .replicas }}
@@ -16,6 +17,7 @@ spec:
     metadata:
       labels:
         {{- include "labels.common" $ | nindent 8 }}
+        # Removed app.kubernetes.io/version <= https://github.com/giantswarm/giantswarm/issues/22441
     spec:
       bootstrap:
         configRef:
