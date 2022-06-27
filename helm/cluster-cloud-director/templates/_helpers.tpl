@@ -40,6 +40,23 @@ Create a prefix for all resource names.
 {{ .Values.cluster.name }}
 {{- end -}}
 
+{{- define "kubeletExtraArgs" -}}
+{{- .Files.Get "files/kubelet-args" -}}
+{{- end -}}
+
+{{/*
+Updates in KubeadmConfigTemplate will not trigger any rollout for worker nodes.
+It is necessary to create a new template with a new name to trigger an upgrade.
+See https://github.com/kubernetes-sigs/cluster-api/issues/4910
+See https://github.com/kubernetes-sigs/cluster-api/pull/5027/files
+*/}}
+{{- define "kubeAdmConfigTemplateRevision" -}}
+{{- $inputs := (dict
+  "users" .Values.kubeadm.users
+  "kubeletExtraArgs" (include "kubeletExtraArgs" .) ) }}
+{{- mustToJson $inputs | toString | quote | sha1sum | trunc 8 }}
+{{- end -}}
+
 {{/*
 VCDMachineTemplate is immutable. We need to create new versions during upgrades.
 Here we are generating a hash suffix to trigger upgrade when only it is necessary by
