@@ -1,6 +1,6 @@
 apiVersion: v2
 name: cluster-cloud-director
-version: 0.0.2
+version: 0.0.3
 appVersion: 1.0.0-dev
 home: https://github.com/giantswarm/cluster-cloud-director
 sources:

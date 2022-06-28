@@ -1,7 +1,7 @@
 apiVersion: controlplane.cluster.x-k8s.io/v1beta1
 kind: KubeadmControlPlane
 metadata:
-  name: {{ include "resource.default.name" $ }}-control-plane
+  name: {{ include "resource.default.name" $ }}
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "labels.common" . | nindent 4 }}
@@ -12,21 +12,20 @@ spec:
         certSANs:
         - localhost
         - 127.0.0.1
+        - "api.{{ include "resource.default.name" $ }}.{{ .Values.cluster.serviceDomain }}"
       controllerManager:
         extraArgs:
           enable-hostpath-provisioner: "true"
-      {{- with .Values.kubeadm }}
       dns:
-        imageRepository: {{ .dns.image }}
-        imageTag: {{ .dns.tag }}
-      etcd:
+        imageRepository: {{ .Values.kubeadm.dns.image.repository }}
+        imageTag: {{ .Values.kubeadm.dns.image.tag }}
+      etcd:  # We don't want to expose etcd to the customer, hence the static values.
         local:
-          imageRepository: {{ .etcd.image }}
-          imageTag: {{ .etcd.tag }}
-      imageRepository: {{ .imageRepository }}
-    {{- end }}
-    {{- if .users }}
-    {{- range .users }}
+          imageRepository: projects.registry.vmware.com/tkg
+          imageTag: v3.4.13_vmware.14
+      imageRepository: {{ .Values.kubeadm.image.repository }}
+    {{- if .Values.kubeadm.users }}
+    {{- range .Values.kubeadm.users }}
     users:
     - name: {{ .name }}
       sshAuthorizedKeys: 
@@ -49,9 +48,9 @@ spec:
           cloud-provider: external
   machineTemplate:
     infrastructureRef:
-      apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+      apiVersion: {{ include "infrastructureApiVersion" . }}
       kind: VCDMachineTemplate
-      name: {{ include "resource.default.name" $ }}-control-plane
+      name: {{ include "resource.default.name" . }}-control-plane-{{ include "mtRevisionOfControlPlane" $ }}
       namespace: {{ .Release.Namespace }}
   replicas: {{ .Values.controlPlane.replicas }}
   version: {{ .Values.cluster.kubernetesVersion }}

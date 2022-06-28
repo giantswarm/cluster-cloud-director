@@ -1,34 +1,43 @@
 cluster:
   kubernetesVersion: ""
-  name: "" # Cluster name; used as a base for names of all cluster resources.
-  organization: "" # The organization which owns this cluster.
+  name: ""  # Cluster name; used as a base for names of all cluster resources.
+  organization: ""  # The organization which owns this cluster.
+  ######### All the cluster fields below can be left as default #########
   serviceDomain: k8s.test
-
-network:
-  podsCidr: # (Optional) List of CIDR(s) to use for pod IPs.
-  - "100.96.0.0/11"
-  cidrBlocks: # (Optional) service CIDR for the cluster.
-  - "100.64.0.0/13"
+  network:
+    podsCidrBlocks:  # (Optional) List of CIDR(s) to use for pod IPs.
+    - "100.96.0.0/11"
+    servicesCidrBlocks:  # (Optional) service CIDR for the cluster.
+    - "100.64.0.0/13"
+  controlPlaneEndpoint:
+    host: ""  # [string] Manually select an IP for LB
+    port: ""  # [int] Port to use
+  defaultStorageClass:
+    enable: false  # Set to true only if a default storage class needs to be created.
+    vcdStorageProfileName: ""  # (Optional) VCD storage profile to create the storage class.
+    k8sStorageClassName: ""  # (Optional) Associated storage class in kubernetes.
+    useDeleteReclaimPolicy: true  # (Optional) true sets Reclaim policy to "Delete", false sets to "Retain".
+    fileSystem: "ext4"  # (Optional) file system for the persistent volumes from the storage class.
+  proxyConfig:  # Defines HTTP proxy environment variables
+    httpProxy: ""
+    httpsProxy: ""
+    noProxy: ""  # Bypass the proxy for specific hosts - cluster IP range for instance.
+  loadBalancer:
+    useOneArm: false  # https://github.com/vmware/cluster-api-provider-cloud-director/blob/9496da684e229ef0947ab43e3d67ca242c2ff632/vendor/github.com/vmware/cloud-provider-for-cloud-director/pkg/vcdsdk/gateway.go#L1366-L1370
+  rdeId: ""  # (Optional) rdeId if it is already created. If empty, CAPVCD will create one for the cluster.
+  parentUid: ""  # (Optional) Create the CAPVCD cluster from a specific management cluster associated with this UID.
+  useAsManagementCluster: false  # (Optional) Displays as management cluster in the UI (cosmetic).
 
 cloudDirector:
-  site: "" # VCD endpoint with the format https://VCD_HOST. No trailing '/'.
-  org: "" # VCD organization name.
-  ovdc: "" # VCD virtual datacenter.
-  ovdcNetwork: "" # VCD virtual datacenter network to connect VMs.
-  storage:
-    createStorageClass: false # Set to true only if a default storage class needs to be created.
-    vcdStorageProfileName: "" # (Optional) VCD storage profile used to create the storage class.
-    k8sStorageClassName: "" # (Optional) storage class in kubernetes.
-    useDeleteReclaimPolicy: true # (Optional) true sets Reclaim policy to "Delete", false sets to "Retain".
-    fileSystem: "ext4" # (Optional) file system format for the persistent volumes created from the storage class.
-  rdeId: "" # (Optional) rdeId if it is already created. If empty, CAPVCD will create one for the cluster.
-  parentUid: "" # (Optional) Create the CAPVCD cluster from a specific management cluster associated with this UID.
-  useAsManagementCluster: false # (Optional) Displays as management cluster in the UI (cosmetic).
+  site: ""  # VCD endpoint with the format https://VCD_HOST. No trailing '/'.
+  org: ""  # VCD organization name.
+  ovdc: ""  # VCD virtual datacenter.
+  ovdcNetwork: ""  # VCD network to connect VMs.
 
 userContext:
-  username: "" # (Optional) ignored if refreshToken is set.
-  password: "" # (Optional) ignored if refreshToken is set.
-  refreshToken: "" # (Optional) refreshToken (API token) - recommended.
+  username: ""  # (Optional) ignored if refreshToken is set.
+  password: ""  # (Optional) ignored if refreshToken is set.
+  refreshToken: ""  # (Optional) refreshToken (API token) - recommended.
   secretRef:
     # If set to false, ignores secretName and you must specify username/password or refreshToken which will be in userContext of VCDCluster.
     # If set to true, ignores credentials, you must specify secretName and have a pre-existing secret <= recommended method.
@@ -36,34 +45,35 @@ userContext:
     # Name of the pre-existing secret containing the credentials of the VCD user.
     secretName: ""
 
-template:
-  catalog: "" # VCD Catalog hosting the templates.
-  controlPlane: 
-    template: ""  # template used to create (or) upgrade control plane nodes.
-    sizingPolicy: "" # (Optional) Sizing policy for the control plane VMs (must be pre-published on the ovdc). "" for no sizing policy.
-    placementPolicy: "" # (Optional) Placement policy for control plane VMs (must be pre-published on the ovdc). "" for no placement Policy.
-    storageProfile: "" # (Optional) Storage profile for the control plane VMs (must be pre-published on the ovdc) "" for no Storage profile.
-  workerNode: 
-    template: ""  # template used to create (or) upgrade worker nodes.
-    sizingPolicy: "" # (Optional) Sizing policy for the worker VMs (must be pre-published on the ovdc). "" for no sizing policy.
-    placementPolicy: "" # (Optional) Placement policy for worker VMs (must be pre-published on the ovdc). "" for no placement Policy.
-    storageProfile: "" # (Optional) Storage profile for the worker VMs (must be pre-published on the ovdc) "" for no Storage profile.
-
 kubeadm:
   users:
     - name: ""
-      authorizedKeys: # (Optional) All public SSH keys to assign to this user.
+      authorizedKeys:  # (Optional) All public SSH keys to assign to this user.
         - ""
   dns:
-    image: projects.registry.vmware.com/tkg # (Optional) image repository to pull the DNS image from.
-    tag: v1.7.0_vmware.12 # (Optional) DNS image tag associated with the TKGm OVA used. The values must be retrieved from the TKGm ova BOM.
-  etcd:
-    image: projects.registry.vmware.com/tkg # (Optional) image repository to pull the etcd image from.
-    tag: v3.4.13_vmware.14 # (Optional) etcd image tag associated with the TKGm OVA used. The values must be retrieved from the TKGm ova BOM.
-  imageRepository: projects.registry.vmware.com/tkg  # (Optional) image repository to use for the rest of kubernetes images.
+    image: 
+      repository: projects.registry.vmware.com/tkg  # (Optional) image repository to pull the DNS image from.
+      tag: v1.7.0_vmware.12  # (Optional) DNS image tag associated with the TKGm OVA used. The values must be retrieved from the TKGm ova BOM.
+  image:
+    repository: projects.registry.vmware.com/tkg  # (Optional) image repository to use for the rest of kubernetes images.
 
-controlPlane:
-  replicas: 0 # Number of control plane instances to create (odd number).
+controlPlane:  # Must match nodeClasses' fields except "name" and must contain "replicas".
+  replicas: 0  # Number of control plane instances to create (odd number).
+  catalog: ""
+  template: ""  # template used to create (or) upgrade control plane nodes.
+  sizingPolicy: ""  # (Optional) Sizing policy for the control plane VMs (must be pre-published on the ovdc). "" for no sizing policy.
+  placementPolicy: ""  # (Optional) Placement policy for control plane VMs (must be pre-published on the ovdc). "" for no placement Policy.
+  storageProfile: ""  # (Optional) Storage profile for the control plane VMs (must be pre-published on the ovdc) "" for no Storage profile.
 
-worker:
-  replicas: 0 # Number of worker instanes to create.
+nodeClasses: []
+  # - name: worker  # Name of the class to use in nodePool and machinetemplate name.
+  #   catalog: ""
+  #   template: ""
+  #   sizingPolicy: ""
+  #   placementPolicy: ""
+  #   storageProfile: ""
+
+nodePools: []
+  # - class: worker
+  #   name: worker  # Name of nodepool used in machinedeple name
+  #   replicas: 2

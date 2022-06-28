@@ -1,4 +1,4 @@
-apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+apiVersion: {{ include "infrastructureApiVersion" . }}
 kind: VCDCluster
 metadata:
   name: {{ include "resource.default.name" $ }}
@@ -11,19 +11,44 @@ spec:
   org: {{ .org }}
   ovdc: {{ .ovdc }}
   ovdcNetwork: {{ .ovdcNetwork }}
+  {{- end }}
+
+  {{- with .Values.cluster }}
+  # Not tested
+  controlPlaneEndpoint:
+    host: {{ .controlPlaneEndpoint.host }}
+    port: {{ .controlPlaneEndpoint.port }}
+
+  # One arm is the old implementation with dnat rule + one arm LB
+  loadBalancer:
+    useOneArm: {{ .loadBalancer.useOneArm }}
+
+  # Persistent storage with Named disks
+  {{- with .defaultStorageClass }}
+  {{- if .enable }}
+  defaultStorageClassOptions:
+    vcdStorageProfileName: {{ .vcdStorageProfileName }}
+    k8sStorageClassName: {{ .k8sStorageClassName }}
+    useDeleteReclaimPolicy: {{ .useDeleteReclaimPolicy }}
+    fileSystem: {{ .fileSystem }}
+  {{- end }}
+  {{- end }}
+
+  # Proxy settings
+  proxyConfig:
+    httpProxy: {{ .proxyConfig.httpProxy }}
+    httpsProxy: {{ .proxyConfig.httpsProxy }}
+    noProxy: {{ .proxyConfig.noProxy }}
+
+  # Not tested - not sure how
+  rdeId: {{ .rdeId }}
   parentUid: {{ .parentUid }}
   useAsManagementCluster: {{ .useAsManagementCluster }}
-  rdeId: {{ .rdeId }}
-  {{- if .storage.createStorageClass }}
-  defaultStorageClassOptions:
-    vcdStorageProfileName: {{ .storage.vcdStorageProfileName }}
-    k8sStorageClassName: {{ .storage.k8sStorageClassName }}
-    useDeleteReclaimPolicy: {{ .storage.useDeleteReclaimPolicy }}
-    fileSystem: {{ .storage.fileSystem }}
   {{- end }}
-  {{- end }}
+
+  # Authentication  
   userContext:
-    {{- if .Values.userContext.secretRef.useSecretRef }}
+    {{- if .Values.userContext.secretRef.useSecretRef }}  # I don't trust the upstream prioritization.
     secretRef:
       name: {{ .Values.userContext.secretRef.secretName }}
       namespace: {{ .Release.Namespace }}
