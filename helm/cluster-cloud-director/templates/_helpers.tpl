@@ -20,17 +20,26 @@ infrastructure.cluster.x-k8s.io/v1beta1
 {{- end -}}
 
 {{/*
-Common labels
+Common labels without kubernetes version
+https://github.com/giantswarm/giantswarm/issues/22441
 */}}
-{{- define "labels.common" -}}
+{{- define "labels.common-no-version" -}}
 app: {{ include "name" . | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
-app.kubernetes.io/version: {{ .Chart.Version | quote }}
 cluster.x-k8s.io/cluster-name: {{ include "resource.default.name" . | quote }}
 giantswarm.io/cluster: {{ include "resource.default.name" . | quote }}
 giantswarm.io/organization: {{ .Values.cluster.organization | quote }}
 application.giantswarm.io/team: {{ index .Chart.Annotations "application.giantswarm.io/team" | quote }}
 helm.sh/chart: {{ include "chart" . | quote }}
+{{- end -}}
+
+{{/*
+Common labels with kubernetes version
+https://github.com/giantswarm/giantswarm/issues/22441
+*/}}
+{{- define "labels.common" -}}
+{{- include "labels.common-no-version" . }}
+app.kubernetes.io/version: {{ $.Chart.Version | quote }}
 {{- end -}}
 
 {{/*
