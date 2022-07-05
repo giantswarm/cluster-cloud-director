@@ -185,57 +185,9 @@
             }
         },
         "nodeClasses": {
-            "items": {
-                "properties": {
-                    "name": {
-                        "type": "string"
-                    },
-                    "catalog": {
-                        "type": "string"
-                    },
-                    "template": {
-                        "type": "string"
-                    },
-                    "sizingPolicy": {
-                        "type": "string"
-                    },
-                    "placementPolicy": {
-                        "type": "string"
-                    },
-                    "storageProfile": {
-                        "type": "string"
-                    }
-                },
-                "required": [
-                    "name",
-                    "catalog",
-                    "template"
-                ]
-            },
-            "minItems": 1,
             "type": "array"
         },
         "nodePools": {
-            "items": {
-                "properties": {
-                    "class": {
-                        "type": "string"
-                    },
-                    "name": {
-                        "type": "string"
-                    },
-                    "replicas": {
-                        "minimum": 1,
-                        "type": "integer"
-                    }
-                },
-                "required": [
-                    "class",
-                    "name",
-                    "replicas"
-                ]
-            },
-            "minItems": 1,
             "type": "array"
         },
         "userContext": {
