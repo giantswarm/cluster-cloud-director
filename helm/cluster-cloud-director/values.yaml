@@ -51,7 +51,7 @@ kubeadm:
       authorizedKeys:  # (Optional) All public SSH keys to assign to this user.
         - ""
   dns:
-    image: 
+    image:
       repository: projects.registry.vmware.com/tkg  # (Optional) image repository to pull the DNS image from.
       tag: v1.7.0_vmware.12  # (Optional) DNS image tag associated with the TKGm OVA used. The values must be retrieved from the TKGm ova BOM.
   image:
@@ -66,14 +66,14 @@ controlPlane:  # Must match nodeClasses' fields except "name" and must contain "
   storageProfile: ""  # (Optional) Storage profile for the control plane VMs (must be pre-published on the ovdc) "" for no Storage profile.
 
 nodeClasses: []
-  # - name: worker  # Name of the class to use in nodePool and machinetemplate name.
-  #   catalog: ""
-  #   template: ""
-  #   sizingPolicy: ""
-  #   placementPolicy: ""
-  #   storageProfile: ""
+# - name: worker  # Name of the class to use in nodePool and machinetemplate name.
+#   catalog: ""
+#   template: ""
+#   sizingPolicy: ""
+#   placementPolicy: ""
+#   storageProfile: ""
 
 nodePools: []
-  # - class: worker
-  #   name: worker  # Name of nodepool used in machinedeple name
-  #   replicas: 2
+# - class: worker
+#   name: worker  # Name of nodepool used in machinedeple name
+#   replicas: 2
