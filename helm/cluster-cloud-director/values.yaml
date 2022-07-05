@@ -51,7 +51,7 @@ kubeadm:
       authorizedKeys:  # (Optional) All public SSH keys to assign to this user.
         - ""
   dns:
-    image: 
+    image:
       repository: projects.registry.vmware.com/tkg  # (Optional) image repository to pull the DNS image from.
       tag: v1.7.0_vmware.12  # (Optional) DNS image tag associated with the TKGm OVA used. The values must be retrieved from the TKGm ova BOM.
   image:
