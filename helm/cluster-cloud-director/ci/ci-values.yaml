@@ -47,9 +47,9 @@ kubeadm:
       authorizedKeys:
         - "a fake secret"
   dns:
-    image: 
+    image:
       repository: projects.registry.vmware.com/tkg
-      tag: v1.7.0_vmware.12 
+      tag: v1.7.0_vmware.12
   image:
     repository: projects.registry.vmware.com/tkg
 
