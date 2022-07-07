@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.1.1] - 2022-07-07
 
+### FIXED
+
+- Fixed breaking whitespaces in values files.
+
 ## [0.1.0] - 2022-06-28
 
 ### CHANGED
