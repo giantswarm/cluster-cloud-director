@@ -16,9 +16,9 @@ spec:
   {{- with .Values.cluster }}
   # Picks an IP automatically if unset
   {{- if and .controlPlaneEndpoint.host .controlPlaneEndpoint.port }}
-    controlPlaneEndpoint:
-      host: {{ .controlPlaneEndpoint.host }}
-      port: {{ .controlPlaneEndpoint.port }}
+  controlPlaneEndpoint:
+    host: {{ .controlPlaneEndpoint.host }}
+    port: {{ .controlPlaneEndpoint.port }}
   {{- end }}
 
   # One arm is the old implementation with dnat rule + one arm LB
