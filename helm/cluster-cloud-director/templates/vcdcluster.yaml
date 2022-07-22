@@ -14,10 +14,12 @@ spec:
   {{- end }}
 
   {{- with .Values.cluster }}
-  # Not tested
-  controlPlaneEndpoint:
-    host: {{ .controlPlaneEndpoint.host }}
-    port: {{ .controlPlaneEndpoint.port }}
+  # Picks an IP automatically if unset
+  {{- if and .controlPlaneEndpoint.host .controlPlaneEndpoint.port }}
+    controlPlaneEndpoint:
+      host: {{ .controlPlaneEndpoint.host }}
+      port: {{ .controlPlaneEndpoint.port }}
+  {{- end }}
 
   # One arm is the old implementation with dnat rule + one arm LB
   loadBalancer:
