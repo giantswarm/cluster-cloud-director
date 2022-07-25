@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### FIXED
+
+- Fixed validating data error when controlPlaneEndpoint properties are not set.
+
 ## [0.1.1] - 2022-07-07
 
 ### FIXED
