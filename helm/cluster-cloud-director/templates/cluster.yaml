@@ -4,6 +4,7 @@ metadata:
   name: {{ include "resource.default.name" $ }}
   namespace: {{ .Release.Namespace }}
   labels:
+    cluster-apps-operator.giantswarm.io/watching: ""
     {{- include "labels.common" . | nindent 4 }}
 spec:
   clusterNetwork:
