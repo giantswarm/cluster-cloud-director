@@ -35,12 +35,7 @@ data:
 
 Edit the values file (at least the fields that aren't identified as optional), reference the secret containing the user's VCD credentials by name under `userContext > secretRef > secretName` and install the chart in the same namespace.
 
-In the UI `vipSubnet` is the field in `Networking > Edge Gateway > IP Management > IP Allocations > Allocated IPs > IP Block`. For instance in Ikoula:
-
-``` yaml
-vcd:
-  vipSubnet: "178.170.32.1/24"
-```
+In the UI `vipSubnet` is the field in `Networking > Edge Gateway > IP Management > IP Allocations > Allocated IPs > IP Block`. For instance in Ikoula `178.170.32.1/24`
 
 Example of a values.yaml file for Cloud provider Ikoula with minimum input (making use of default values):
 
@@ -50,7 +45,7 @@ cluster:
   name: "xav"
   organization: "giantswarm"
   loadBalancer:
-    vipSubnet: ""
+    vipSubnet: "w.x.y.z/aa"
 
 cloudDirector:
   site: "https://vmware.ikoula.com"
