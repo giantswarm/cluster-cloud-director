@@ -2,6 +2,8 @@ cluster:
   kubernetesVersion: ""
   name: ""  # Cluster name; used as a base for names of all cluster resources.
   organization: ""  # The organization which owns this cluster.
+  loadBalancer:
+    vipSubnet: ""  # Virtual IP CIDR for the external network
   ######### All the cluster fields below can be left as default #########
   serviceDomain: k8s.test
   network:
@@ -22,8 +24,6 @@ cluster:
     httpProxy: ""
     httpsProxy: ""
     noProxy: ""  # Bypass the proxy for specific hosts - cluster IP range for instance.
-  loadBalancer:
-    useOneArm: false  # https://github.com/vmware/cluster-api-provider-cloud-director/blob/9496da684e229ef0947ab43e3d67ca242c2ff632/vendor/github.com/vmware/cloud-provider-for-cloud-director/pkg/vcdsdk/gateway.go#L1366-L1370
   rdeId: ""  # (Optional) rdeId if it is already created. If empty, CAPVCD will create one for the cluster.
   parentUid: ""  # (Optional) Create the CAPVCD cluster from a specific management cluster associated with this UID.
   useAsManagementCluster: false  # (Optional) Displays as management cluster in the UI (cosmetic).

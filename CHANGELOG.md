@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### CHANGED
+
+- Moved vipSubnet from `cluster-api-provider-cloud-director-app` to `cluster-cloud-director`
+
 ## [0.1.3] - 2022-08-03
 
 ### CHANGED

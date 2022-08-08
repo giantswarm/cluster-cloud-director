@@ -59,8 +59,8 @@
                 "loadBalancer": {
                     "type": "object",
                     "properties": {
-                        "useOneArm": {
-                            "type": "boolean"
+                        "vipSubnet": {
+                            "type": "string"
                         }
                     }
                 },

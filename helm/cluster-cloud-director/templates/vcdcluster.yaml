@@ -23,7 +23,7 @@ spec:
 
   # One arm is the old implementation with dnat rule + one arm LB
   loadBalancer:
-    useOneArm: {{ .loadBalancer.useOneArm }}
+    vipSubnet: {{ .loadBalancer.vipSubnet }}
 
   # Persistent storage with Named disks
   {{- with .defaultStorageClass }}
