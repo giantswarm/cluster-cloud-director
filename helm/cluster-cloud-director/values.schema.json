@@ -121,6 +121,17 @@
                 "catalog": {
                     "type": "string"
                 },
+                "etcd": {
+                    "type": "object",
+                    "properties": {
+                        "imageRepository": {
+                            "type": "string"
+                        },
+                        "imageTag": {
+                            "type": "string"
+                        }
+                    }
+                },
                 "placementPolicy": {
                     "type": "string"
                 },

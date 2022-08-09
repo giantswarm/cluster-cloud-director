@@ -64,6 +64,9 @@ controlPlane:  # Must match nodeClasses' fields except "name" and must contain "
   sizingPolicy: ""  # (Optional) Sizing policy for the control plane VMs (must be pre-published on the ovdc). "" for no sizing policy.
   placementPolicy: ""  # (Optional) Placement policy for control plane VMs (must be pre-published on the ovdc). "" for no placement Policy.
   storageProfile: ""  # (Optional) Storage profile for the control plane VMs (must be pre-published on the ovdc) "" for no Storage profile.
+  etcd:
+    imageRepository: "giantswarm"
+    imageTag: 3.5.4-0-k8s
 
 nodeClasses: []
   # - name: worker  # Name of the class to use in nodePool and machinetemplate name.
