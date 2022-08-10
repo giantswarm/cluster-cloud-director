@@ -19,10 +19,10 @@ spec:
       dns:
         imageRepository: {{ .Values.kubeadm.dns.image.repository }}
         imageTag: {{ .Values.kubeadm.dns.image.tag }}
-      etcd:  # We don't want to expose etcd to the customer, hence the static values.
+      etcd:
         local:
-          imageRepository: projects.registry.vmware.com/tkg
-          imageTag: v3.4.13_vmware.14
+          imageRepository: {{ .Values.controlPlane.etcd.imageRepository }}
+          imageTag: {{ .Values.controlPlane.etcd.imageTag }}
       imageRepository: {{ .Values.kubeadm.image.repository }}
     {{- if .Values.kubeadm.users }}
     {{- range .Values.kubeadm.users }}
