@@ -26,7 +26,7 @@ controlPlane:  # Must match nodeClasses' fields except "name" and must contain "
   etcd:
     imageRepository: "giantswarm"
     imageTag: 3.5.4-0-k8s
-  dns: 
+  dns:
     imageRepository: projects.registry.vmware.com/tkg
     imageTag: v1.7.0_vmware.12
   image:
