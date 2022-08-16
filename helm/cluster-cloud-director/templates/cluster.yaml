@@ -3,6 +3,8 @@ kind: Cluster
 metadata:
   name: {{ include "resource.default.name" $ }}
   namespace: {{ .Release.Namespace }}
+  annotations:
+    cluster.giantswarm.io/description: "{{ .Values.clusterDescription }}"
   labels:
     cluster-apps-operator.giantswarm.io/watching: ""
     {{- include "labels.common" . | nindent 4 }}
@@ -10,13 +12,13 @@ spec:
   clusterNetwork:
     pods:
       cidrBlocks:
-      {{- range .Values.cluster.network.podsCidrBlocks }}
+      {{- range .Values.network.podsCidrBlocks }}
       - {{ . }}
       {{- end }}
-    serviceDomain: {{ .Values.cluster.serviceDomain }}
+    serviceDomain: {{ .Values.baseDomain }}
     services:
       cidrBlocks:
-      {{- range .Values.cluster.network.servicesCidrBlocks }}
+      {{- range .Values.network.servicesCidrBlocks }}
       - {{ . }}
       {{- end }}
   controlPlaneRef:

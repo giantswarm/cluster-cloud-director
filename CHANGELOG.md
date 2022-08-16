@@ -7,12 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### CHANGED
+
+- Align values file structure with other providers.
+- Removed cluster name from values file in favour of the chart's name.
+
 ### Added
 
 - Allow setting etcd image repository and tag.
 - Set the default etcd version to 3.5.4 (kubeadm default is 3.5.0 which is not
   recommended in production).
 - Set the default etcd image to retagged Giant Swarm one.
+- Added `skipRDE` switch which include `RdeID` to `VCDCluster` when __NO_RDE__ is used to fix `clusterctl move`.
 
 ## [0.2.0] - 2022-08-09
 

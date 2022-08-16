@@ -10,8 +10,8 @@ metadata:
 spec:
   template:
     spec:
-      {{- if $.Values.kubeadm.users }}
-      {{- range $.Values.kubeadm.users }}
+      {{- if $.Values.ssh.users }}
+      {{- range $.Values.ssh.users }}
       users:
       - name: {{ .name }}
         sshAuthorizedKeys:

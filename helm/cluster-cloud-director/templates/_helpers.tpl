@@ -28,7 +28,7 @@ app: {{ include "name" . | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
 cluster.x-k8s.io/cluster-name: {{ include "resource.default.name" . | quote }}
 giantswarm.io/cluster: {{ include "resource.default.name" . | quote }}
-giantswarm.io/organization: {{ .Values.cluster.organization | quote }}
+giantswarm.io/organization: {{ .Values.organization | quote }}
 application.giantswarm.io/team: {{ index .Chart.Annotations "application.giantswarm.io/team" | quote }}
 helm.sh/chart: {{ include "chart" . | quote }}
 {{- end -}}
@@ -46,7 +46,7 @@ app.kubernetes.io/version: {{ $.Chart.Version | quote }}
 Create a prefix for all resource names.
 */}}
 {{- define "resource.default.name" -}}
-{{ .Values.cluster.name }}
+{{ .Release.Name }}
 {{- end -}}
 
 {{- define "kubeletExtraArgs" -}}
@@ -61,7 +61,7 @@ See https://github.com/kubernetes-sigs/cluster-api/pull/5027/files
 */}}
 {{- define "kubeAdmConfigTemplateRevision" -}}
 {{- $inputs := (dict
-  "users" .Values.kubeadm.users
+  "users" .Values.ssh.users
   "kubeletExtraArgs" (include "kubeletExtraArgs" .) ) }}
 {{- mustToJson $inputs | toString | quote | sha1sum | trunc 8 }}
 {{- end -}}

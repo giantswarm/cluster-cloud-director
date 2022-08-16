@@ -1,32 +1,8 @@
-cluster:
-  kubernetesVersion: ""
-  name: ""  # Cluster name; used as a base for names of all cluster resources.
-  organization: ""  # The organization which owns this cluster.
-  loadBalancer:
-    vipSubnet: ""  # Virtual IP CIDR for the external network
-  ######### All the cluster fields below can be left as default #########
-  serviceDomain: k8s.test
-  network:
-    podsCidrBlocks:  # (Optional) List of CIDR(s) to use for pod IPs.
-    - "100.96.0.0/11"
-    servicesCidrBlocks:  # (Optional) service CIDR for the cluster.
-    - "100.64.0.0/13"
-  controlPlaneEndpoint:
-    host: ""  # [string] Manually select an IP for LB
-    port: ""  # [int] Port to use
-  defaultStorageClass:
-    enable: false  # Set to true only if a default storage class needs to be created.
-    vcdStorageProfileName: ""  # (Optional) VCD storage profile to create the storage class.
-    k8sStorageClassName: ""  # (Optional) Associated storage class in kubernetes.
-    useDeleteReclaimPolicy: true  # (Optional) true sets Reclaim policy to "Delete", false sets to "Retain".
-    fileSystem: "ext4"  # (Optional) file system for the persistent volumes from the storage class.
-  proxyConfig:  # Defines HTTP proxy environment variables
-    httpProxy: ""
-    httpsProxy: ""
-    noProxy: ""  # Bypass the proxy for specific hosts - cluster IP range for instance.
-  rdeId: ""  # (Optional) rdeId if it is already created. If empty, CAPVCD will create one for the cluster.
-  parentUid: ""  # (Optional) Create the CAPVCD cluster from a specific management cluster associated with this UID.
-  useAsManagementCluster: false  # (Optional) Displays as management cluster in the UI (cosmetic).
+baseDomain: k8s.test
+clusterDescription: ""  # Cluster description used in metadata.
+# clusterName: ""  # Name of cluster. Used as base name for all cluster resources in the management cluster.
+kubernetesVersion: ""
+organization: ""  # The organization which owns this cluster.
 
 cloudDirector:
   site: ""  # VCD endpoint with the format https://VCD_HOST. No trailing '/'.
@@ -34,39 +10,49 @@ cloudDirector:
   ovdc: ""  # VCD virtual datacenter.
   ovdcNetwork: ""  # VCD network to connect VMs.
 
-userContext:
-  username: ""  # (Optional) ignored if refreshToken is set.
-  password: ""  # (Optional) ignored if refreshToken is set.
-  refreshToken: ""  # (Optional) refreshToken (API token) - recommended.
-  secretRef:
-    # If set to false, ignores secretName and you must specify username/password or refreshToken which will be in userContext of VCDCluster.
-    # If set to true, ignores credentials, you must specify secretName and have a pre-existing secret <= recommended method.
-    useSecretRef: true
-    # Name of the pre-existing secret containing the credentials of the VCD user.
-    secretName: ""
-
-kubeadm:
-  users:
-    - name: ""
-      authorizedKeys:  # (Optional) All public SSH keys to assign to this user.
-        - ""
-  dns:
-    image:
-      repository: projects.registry.vmware.com/tkg  # (Optional) image repository to pull the DNS image from.
-      tag: v1.7.0_vmware.12  # (Optional) DNS image tag associated with the TKGm OVA used. The values must be retrieved from the TKGm ova BOM.
-  image:
-    repository: projects.registry.vmware.com/tkg  # (Optional) image repository to use for the rest of kubernetes images.
+cluster:
+  rdeId: ""  # (Optional) If empty, CAPVCD will create one.
+  parentUid: ""  # (Optional) Create the CAPVCD cluster from a specific management cluster associated with this UID.
+  useAsManagementCluster: false  # (Optional) Displays as management cluster in the UI (cosmetic).
+  skipRDE: false
 
 controlPlane:  # Must match nodeClasses' fields except "name" and must contain "replicas".
   replicas: 0  # Number of control plane instances to create (odd number).
-  catalog: ""
+  catalog: ""  # VCD catalog where the template is stored.
   template: ""  # template used to create (or) upgrade control plane nodes.
-  sizingPolicy: ""  # (Optional) Sizing policy for the control plane VMs (must be pre-published on the ovdc). "" for no sizing policy.
-  placementPolicy: ""  # (Optional) Placement policy for control plane VMs (must be pre-published on the ovdc). "" for no placement Policy.
-  storageProfile: ""  # (Optional) Storage profile for the control plane VMs (must be pre-published on the ovdc) "" for no Storage profile.
+  sizingPolicy: ""  # Sizing policy for the control plane VMs. "" for no sizing policy.
+  placementPolicy: ""  # Placement policy for control plane VMs. "" for no placement Policy.
+  storageProfile: ""  # Storage profile for the control plane VMs. "" for no Storage profile.
   etcd:
     imageRepository: "giantswarm"
     imageTag: 3.5.4-0-k8s
+  dns: 
+    imageRepository: projects.registry.vmware.com/tkg
+    imageTag: v1.7.0_vmware.12
+  image:
+    repository: projects.registry.vmware.com/tkg
+
+defaultStorageClass:
+  enable: false  # Set to true to create a default storage class.
+  vcdStorageProfileName: ""  # VCD storage profile to create the storage class.
+  k8sStorageClassName: ""  # Associated storage class in kubernetes.
+  useDeleteReclaimPolicy: true  # true sets Reclaim policy to "Delete", false sets it to "Retain".
+  fileSystem: "ext4"  # file system for the persistent volumes.
+
+network:
+  podsCidrBlocks:
+  - "100.96.0.0/11"
+  servicesCidrBlocks:
+  - "100.64.0.0/13"
+  controlPlaneEndpoint:
+    host: ""  # [string] Manually select an IP for kube API. "" for auto selection from pool.
+    port: ""  # [int] Port to use. "" defaults to 6443.
+  loadBalancer:
+    vipSubnet: ""  # Virtual IP CIDR for the external network.
+  proxyConfig:  # (Optional) Defines HTTP proxy environment variables.
+    httpProxy: ""
+    httpsProxy: ""
+    noProxy: ""  # Bypass the proxy for specific hosts - cluster IP range for instance.
 
 nodeClasses: []
   # - name: worker  # Name of the class to use in nodePool and machinetemplate name.
@@ -80,3 +66,19 @@ nodePools: []
   # - class: worker
   #   name: worker  # Name of nodepool used in machinedeple name
   #   replicas: 2
+
+ssh:
+  users:  # (Optional) public SSH keys/users to access the nodes.
+    - name: ""
+      authorizedKeys:
+        - ""
+
+userContext:
+  username: ""  # (Optional) ignored if refreshToken is set.
+  password: ""  # (Optional) ignored if refreshToken is set.
+  refreshToken: ""  # (Optional) refreshToken (API token).
+  secretRef:
+    # If set to false, ignores secretName and you must specify username/password or refreshToken which will be in userContext of VCDCluster.
+    # If set to true, ignores username/password/refreshToken, you must specify secretName and have a pre-existing secret <= recommended method.
+    useSecretRef: true
+    secretName: ""  # Name of the pre-existing secret containing the credentials of the VCD user.
