@@ -14,7 +14,7 @@ cluster:
   rdeId: ""  # (Optional) If empty, CAPVCD will create one.
   parentUid: ""  # (Optional) Create the CAPVCD cluster from a specific management cluster associated with this UID.
   useAsManagementCluster: false  # (Optional) Displays as management cluster in the UI (cosmetic).
-  skipRDE: false
+  skipRDE: false  # Set to "true" if API schema extension isn't registered.
 
 controlPlane:  # Must match nodeClasses' fields except "name" and must contain "replicas".
   replicas: 0  # Number of control plane instances to create (odd number).

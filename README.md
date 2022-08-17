@@ -37,48 +37,54 @@ Edit the values file (at least the fields that aren't identified as optional), r
 
 In the UI `vipSubnet` is the field in `Networking > Edge Gateway > IP Management > IP Allocations > Allocated IPs > IP Block`. For instance in Ikoula `178.170.32.1/24`
 
+Set skipRDE if the [VCD API schema extension](https://github.com/vmware/cluster-api-provider-cloud-director/blob/main/docs/VCD_SETUP.md#register-cluster-api-schema) wasn't registered by the cloud provider.
+
 Example of a values.yaml file for Cloud provider Ikoula with minimum input (making use of default values):
 
 ```yaml
-cluster:
-  kubernetesVersion: "v1.22.5+vmware.1"
-  name: "xav"
-  organization: "giantswarm"
-  loadBalancer:
-    vipSubnet: "w.x.y.z/aa"
+baseDomain: k8s.test
+clusterDescription: "test cluster Xavier"
+kubernetesVersion: "v1.22.5+vmware.1"
+organization: "giantswarm"
 
 cloudDirector:
   site: "https://vmware.ikoula.com"
-  org: "xxxx"
-  ovdc: "xxxx"
-  ovdcNetwork: "xxxx"
+  org: "xxx"
+  ovdc: "xxx"
+  ovdcNetwork: "xxx"
 
-userContext:
-  secretRef:
-    useSecretRef: true
-    secretName: "xav-secret"
+cluster:
+  skipRDE: true
 
 controlPlane:
   replicas: 1
   catalog: "giantswarm"
   template: "ubuntu-2004-kube-v1.22.5"
-  sizingPolicy: ""
-  placementPolicy: ""
-  storageProfile: ""
+  sizingPolicy: "m1.medium"
+
+network:
+  loadBalancer:
+    vipSubnet: "178.170.32.1/24"
 
 nodeClasses:
-  - name: worker
+  - name: "worker"
     catalog: "giantswarm"
     template: "ubuntu-2004-kube-v1.22.5"
-    sizingPolicy: ""
-    placementPolicy: ""
-    storageProfile: ""
+    sizingPolicy: "m1.medium"
 
 nodePools:
-  - class: worker
-    name: worker
-    replicas: 2
-  - class: worker
-    name: lazy
-    replicas: 1
+  - class: "worker"
+    name: "worker"
+    replicas: 3
+
+ssh:
+  users:
+    - name: "root"
+      authorizedKeys:
+        - "xxx"
+
+userContext:
+  refreshToken: "xxxx"
+  secretRef:
+    useSecretRef: false
 ```
