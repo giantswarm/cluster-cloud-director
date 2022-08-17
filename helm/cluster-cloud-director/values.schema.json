@@ -20,7 +20,13 @@
                 "site": {
                     "type": "string"
                 }
-            }
+            },
+            "required": [
+                "org",
+                "ovdc",
+                "ovdcNetwork",
+                "site"
+            ]
         },
         "cluster": {
             "type": "object",
@@ -44,6 +50,13 @@
         },
         "controlPlane": {
             "type": "object",
+            "required": [
+                "catalog",
+                "template",
+                "replicas",
+                "dns",
+                "etcd"
+            ],
             "properties": {
                 "catalog": {
                     "type": "string"
@@ -166,7 +179,12 @@
                         "type": "string"
                     }
                 }
-            }
+            },
+            "required": [
+                "loadBalancer",
+                "podsCidrBlocks",
+                "servicesCidrBlocks"
+            ]
         },
         "nodeClasses": {
             "items": {
