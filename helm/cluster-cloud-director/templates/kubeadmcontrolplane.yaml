@@ -12,20 +12,20 @@ spec:
         certSANs:
         - localhost
         - 127.0.0.1
-        - "api.{{ include "resource.default.name" $ }}.{{ .Values.cluster.serviceDomain }}"
+        - "api.{{ include "resource.default.name" $ }}.{{ .Values.baseDomain }}"
       controllerManager:
         extraArgs:
           enable-hostpath-provisioner: "true"
       dns:
-        imageRepository: {{ .Values.kubeadm.dns.image.repository }}
-        imageTag: {{ .Values.kubeadm.dns.image.tag }}
+        imageRepository: {{ .Values.controlPlane.dns.imageRepository }}
+        imageTag: {{ .Values.controlPlane.dns.imageTag }}
       etcd:
         local:
           imageRepository: {{ .Values.controlPlane.etcd.imageRepository }}
           imageTag: {{ .Values.controlPlane.etcd.imageTag }}
-      imageRepository: {{ .Values.kubeadm.image.repository }}
-    {{- if .Values.kubeadm.users }}
-    {{- range .Values.kubeadm.users }}
+      imageRepository: {{ .Values.controlPlane.image.repository }}
+    {{- if .Values.ssh.users }}
+    {{- range .Values.ssh.users }}
     users:
     - name: {{ .name }}
       sshAuthorizedKeys: 
@@ -53,4 +53,4 @@ spec:
       name: {{ include "resource.default.name" . }}-control-plane-{{ include "mtRevisionOfControlPlane" $ }}
       namespace: {{ .Release.Namespace }}
   replicas: {{ .Values.controlPlane.replicas }}
-  version: {{ .Values.cluster.kubernetesVersion }}
+  version: {{ .Values.kubernetesVersion }}

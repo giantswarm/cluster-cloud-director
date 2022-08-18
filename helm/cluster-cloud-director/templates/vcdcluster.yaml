@@ -13,7 +13,7 @@ spec:
   ovdcNetwork: {{ .ovdcNetwork }}
   {{- end }}
 
-  {{- with .Values.cluster }}
+  {{- with .Values.network }}
   # Picks an IP automatically if unset
   {{- if and .controlPlaneEndpoint.host .controlPlaneEndpoint.port }}
   controlPlaneEndpoint:
@@ -21,12 +21,19 @@ spec:
     port: {{ .controlPlaneEndpoint.port }}
   {{- end }}
 
-  # One arm is the old implementation with dnat rule + one arm LB
+  # One arm was the old implementation with dnat rule + one arm LB
   loadBalancer:
     vipSubnet: {{ .loadBalancer.vipSubnet }}
 
+  # Proxy settings
+  proxyConfig:
+    httpProxy: {{ .proxyConfig.httpProxy }}
+    httpsProxy: {{ .proxyConfig.httpsProxy }}
+    noProxy: {{ .proxyConfig.noProxy }}
+  {{- end }}
+
   # Persistent storage with Named disks
-  {{- with .defaultStorageClass }}
+  {{- with .Values.defaultStorageClass }}
   {{- if .enable }}
   defaultStorageClassOptions:
     vcdStorageProfileName: {{ .vcdStorageProfileName }}
@@ -36,21 +43,17 @@ spec:
   {{- end }}
   {{- end }}
 
-  # Proxy settings
-  proxyConfig:
-    httpProxy: {{ .proxyConfig.httpProxy }}
-    httpsProxy: {{ .proxyConfig.httpsProxy }}
-    noProxy: {{ .proxyConfig.noProxy }}
-
   # Not tested - not sure how
+  {{- with .Values.cluster }}
   rdeId: {{ .rdeId }}
   parentUid: {{ .parentUid }}
   useAsManagementCluster: {{ .useAsManagementCluster }}
+  skipRDE: {{ .skipRDE }}
   {{- end }}
 
   # Authentication  
   userContext:
-    {{- if .Values.userContext.secretRef.useSecretRef }}  # I don't trust the upstream prioritization.
+    {{- if .Values.userContext.secretRef.useSecretRef }}
     secretRef:
       name: {{ .Values.userContext.secretRef.secretName }}
       namespace: {{ .Release.Namespace }}

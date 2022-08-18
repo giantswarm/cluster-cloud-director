@@ -1,78 +1,45 @@
-cluster:
-  kubernetesVersion: "v1.22.5+vmware.1"
-  name: "testcluster"
-  organization: "giantswarmtestorg"
-  serviceDomain: k8s.test
-  network:
-    podsCidrBlocks:
-    - "10.10.10.10/11"
-    servicesCidrBlocks:
-    - "11.10.10.10/13"
-  controlPlaneEndpoint:
-    host: "1.2.3.4"
-    port: "6443"
-  defaultStorageClass:
-    enable: false
-    vcdStorageProfileName: ""
-    k8sStorageClassName: ""
-    useDeleteReclaimPolicy: true
-    fileSystem: "ext4"
-  proxyConfig:
-    httpProxy: ""
-    httpsProxy: ""
-    noProxy: ""
-  loadBalancer:
-    useOneArm: false
-  rdeId: ""
-  parentUid: ""
-  useAsManagementCluster: false
+baseDomain: k8s.test
+clusterDescription: "test cluster Xavier"
+kubernetesVersion: "v1.22.5+vmware.1"
+organization: "giantswarm"
 
 cloudDirector:
-  site: "https://test.vcd.com"
-  org: "testorg"
-  ovdc: "testovdc"
-  ovdcNetwork: "test-network"
+  site: "https://vmware.ikoula.com"
+  org: "xxx"
+  ovdc: "xxx"
+  ovdcNetwork: "xxx"
 
-userContext:
-  username: ""
-  password: ""
-  refreshToken: ""
-  secretRef:
-    useSecretRef: true
-    secretName: "test-secret"
-
-kubeadm:
-  users:
-    - name: "root"
-      authorizedKeys:
-        - "a fake secret"
-  dns:
-    image:
-      repository: projects.registry.vmware.com/tkg
-      tag: v1.7.0_vmware.12
-  image:
-    repository: projects.registry.vmware.com/tkg
+cluster:
+  skipRDE: true
 
 controlPlane:
   replicas: 1
-  catalog: "a test catalog"
-  template: "a test template"
-  sizingPolicy: ""
-  placementPolicy: ""
-  storageProfile: ""
+  catalog: "giantswarm"
+  template: "ubuntu-2004-kube-v1.22.5"
+  sizingPolicy: "m1.medium"
+
+network:
+  loadBalancer:
+    vipSubnet: "178.170.32.1/24"
 
 nodeClasses:
-  - name: worker
-    catalog: "a test catalog"
-    template: "a test template"
-    sizingPolicy: ""
-    placementPolicy: ""
-    storageProfile: ""
+  - name: "worker"
+    catalog: "giantswarm"
+    template: "ubuntu-2004-kube-v1.22.5"
+    sizingPolicy: "m1.medium"
 
 nodePools:
-  - class: worker
-    name: worker
-    replicas: 9000
-  - class: worker
-    name: lazy
-    replicas: 1
+  - class: "worker"
+    name: "worker"
+    replicas: 3
+
+ssh:
+  users:
+    - name: "root"
+      authorizedKeys:
+        - "xxx"
+
+userContext:
+  refreshToken: "xxxx"
+  secretRef:
+    useSecretRef: false

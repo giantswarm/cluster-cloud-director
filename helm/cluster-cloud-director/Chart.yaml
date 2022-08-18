@@ -19,4 +19,4 @@ maintainers:
   email: team-rocket@giantswarm.io
 restrictions:
   compatibleProviders:
-    - vcd
+    - cloud-director

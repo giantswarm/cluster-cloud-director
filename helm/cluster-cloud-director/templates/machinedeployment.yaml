@@ -29,5 +29,5 @@ spec:
         kind: VCDMachineTemplate
         name: {{ include "resource.default.name" $ }}-{{ .class }}-{{ include "mtRevisionByClass" (merge . $) }}
         namespace: {{ $.Release.Namespace }}
-      version: {{ $.Values.cluster.kubernetesVersion }}
+      version: {{ $.Values.kubernetesVersion }}
 {{- end }}

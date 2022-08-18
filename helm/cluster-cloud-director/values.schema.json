@@ -2,6 +2,9 @@
     "$schema": "http://json-schema.org/schema#",
     "type": "object",
     "properties": {
+        "baseDomain": {
+            "type": "string"
+        },
         "cloudDirector": {
             "type": "object",
             "properties": {
@@ -17,109 +20,57 @@
                 "site": {
                     "type": "string"
                 }
-            }
+            },
+            "required": [
+                "org",
+                "ovdc",
+                "ovdcNetwork",
+                "site"
+            ]
         },
         "cluster": {
             "type": "object",
             "properties": {
-                "controlPlaneEndpoint": {
-                    "type": "object",
-                    "properties": {
-                        "host": {
-                            "type": "string"
-                        },
-                        "port": {
-                            "type": "string"
-                        }
-                    }
-                },
-                "defaultStorageClass": {
-                    "type": "object",
-                    "properties": {
-                        "enable": {
-                            "type": "boolean"
-                        },
-                        "fileSystem": {
-                            "type": "string"
-                        },
-                        "k8sStorageClassName": {
-                            "type": "string"
-                        },
-                        "useDeleteReclaimPolicy": {
-                            "type": "boolean"
-                        },
-                        "vcdStorageProfileName": {
-                            "type": "string"
-                        }
-                    }
-                },
-                "kubernetesVersion": {
-                    "type": "string"
-                },
-                "loadBalancer": {
-                    "type": "object",
-                    "properties": {
-                        "vipSubnet": {
-                            "type": "string"
-                        }
-                    }
-                },
-                "name": {
-                    "type": "string"
-                },
-                "network": {
-                    "type": "object",
-                    "properties": {
-                        "podsCidrBlocks": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            }
-                        },
-                        "servicesCidrBlocks": {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            }
-                        }
-                    }
-                },
-                "organization": {
-                    "type": "string"
-                },
                 "parentUid": {
                     "type": "string"
-                },
-                "proxyConfig": {
-                    "type": "object",
-                    "properties": {
-                        "httpProxy": {
-                            "type": "string"
-                        },
-                        "httpsProxy": {
-                            "type": "string"
-                        },
-                        "noProxy": {
-                            "type": "string"
-                        }
-                    }
                 },
                 "rdeId": {
                     "type": "string"
                 },
-                "serviceDomain": {
-                    "type": "string"
-                },
                 "useAsManagementCluster": {
+                    "type": "boolean"
+                },
+                "skipRDE": {
                     "type": "boolean"
                 }
             }
         },
+        "clusterDescription": {
+            "type": "string"
+        },
         "controlPlane": {
             "type": "object",
+            "required": [
+                "catalog",
+                "template",
+                "replicas",
+                "dns",
+                "etcd"
+            ],
             "properties": {
                 "catalog": {
                     "type": "string"
+                },
+                "dns": {
+                    "type": "object",
+                    "properties": {
+                        "imageRepository": {
+                            "type": "string"
+                        },
+                        "imageTag": {
+                            "type": "string"
+                        }
+                    }
                 },
                 "etcd": {
                     "type": "object",
@@ -128,6 +79,14 @@
                             "type": "string"
                         },
                         "imageTag": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "image": {
+                    "type": "object",
+                    "properties": {
+                        "repository": {
                             "type": "string"
                         }
                     }
@@ -149,51 +108,83 @@
                 }
             }
         },
-        "kubeadm": {
+        "defaultStorageClass": {
             "type": "object",
             "properties": {
-                "dns": {
-                    "type": "object",
-                    "properties": {
-                        "image": {
-                            "type": "object",
-                            "properties": {
-                                "repository": {
-                                    "type": "string"
-                                },
-                                "tag": {
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    }
+                "enable": {
+                    "type": "boolean"
                 },
-                "image": {
+                "fileSystem": {
+                    "type": "string"
+                },
+                "k8sStorageClassName": {
+                    "type": "string"
+                },
+                "useDeleteReclaimPolicy": {
+                    "type": "boolean"
+                },
+                "vcdStorageProfileName": {
+                    "type": "string"
+                }
+            }
+        },
+        "kubernetesVersion": {
+            "type": "string"
+        },
+        "network": {
+            "type": "object",
+            "properties": {
+                "controlPlaneEndpoint": {
                     "type": "object",
                     "properties": {
-                        "repository": {
+                        "host": {
+                            "type": "string"
+                        },
+                        "port": {
                             "type": "string"
                         }
                     }
                 },
-                "users": {
-                    "type": "array",
-                    "items": {
-                        "type": "object",
-                        "properties": {
-                            "authorizedKeys": {
-                                "type": "array",
-                                "items": {
-                                    "type": "string"
-                                }
-                            },
-                            "name": {
-                                "type": "string"
-                            }
+                "loadBalancer": {
+                    "type": "object",
+                    "properties": {
+                        "vipSubnet": {
+                            "type": "string"
                         }
                     }
+                },
+                "podsCidrBlocks": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "proxyConfig": {
+                    "type": "object",
+                    "properties": {
+                        "httpProxy": {
+                            "type": "string"
+                        },
+                        "httpsProxy": {
+                            "type": "string"
+                        },
+                        "noProxy": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "servicesCidrBlocks": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 }
-            }
+            },
+            "required": [
+                "loadBalancer",
+                "podsCidrBlocks",
+                "servicesCidrBlocks"
+            ]
         },
         "nodeClasses": {
             "items": {
@@ -248,6 +239,31 @@
             },
             "minItems": 1,
             "type": "array"
+        },
+	"organization": {
+            "type": "string"
+        },
+        "ssh": {
+            "type": "object",
+            "properties": {
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "authorizedKeys": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "name": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
         },
         "userContext": {
             "type": "object",
