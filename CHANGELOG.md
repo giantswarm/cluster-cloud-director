@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+
+### CHANGED
+
+- Set `revisionHistoryLimit` in `VCDMachineDeployment` as `0` for `deletion-blocker-operator`.
+
 ## [0.2.2] - 2022-08-18
 
 ### CHANGED
