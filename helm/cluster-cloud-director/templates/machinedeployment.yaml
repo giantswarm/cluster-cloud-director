@@ -10,6 +10,7 @@ metadata:
 spec:
   clusterName: {{ include "resource.default.name" $ }}
   replicas: {{ .replicas }}
+  revisionHistoryLimit: 0
   selector:
     matchLabels: null
   template:
