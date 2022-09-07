@@ -265,6 +265,10 @@
                 }
             }
         },
+        "servicePriority": {
+            "type": "string",
+            "enum": ["lowest", "medium", "highest"]
+        },
         "userContext": {
             "type": "object",
             "properties": {
