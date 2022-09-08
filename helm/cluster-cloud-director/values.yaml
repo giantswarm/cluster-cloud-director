@@ -1,8 +1,9 @@
 baseDomain: k8s.test
 clusterDescription: ""  # Cluster description used in metadata.
-# clusterName: ""  # Name of cluster. Used as base name for all cluster resources in the management cluster.
 kubernetesVersion: ""
 organization: ""  # The organization which owns this cluster.
+servicePriority: "highest"
+# clusterName: ""  # Name of cluster. Used as base name for all cluster resources in the management cluster.
 
 cloudDirector:
   site: ""  # VCD endpoint with the format https://VCD_HOST. No trailing '/'.
