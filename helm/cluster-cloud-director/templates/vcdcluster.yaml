@@ -32,17 +32,6 @@ spec:
     noProxy: {{ .proxyConfig.noProxy }}
   {{- end }}
 
-  # Persistent storage with Named disks
-  {{- with .Values.defaultStorageClass }}
-  {{- if .enable }}
-  defaultStorageClassOptions:
-    vcdStorageProfileName: {{ .vcdStorageProfileName }}
-    k8sStorageClassName: {{ .k8sStorageClassName }}
-    useDeleteReclaimPolicy: {{ .useDeleteReclaimPolicy }}
-    fileSystem: {{ .fileSystem }}
-  {{- end }}
-  {{- end }}
-
   # Not tested - not sure how
   {{- with .Values.cluster }}
   rdeId: {{ .rdeId }}
