@@ -108,26 +108,6 @@
                 }
             }
         },
-        "defaultStorageClass": {
-            "type": "object",
-            "properties": {
-                "enable": {
-                    "type": "boolean"
-                },
-                "fileSystem": {
-                    "type": "string"
-                },
-                "k8sStorageClassName": {
-                    "type": "string"
-                },
-                "useDeleteReclaimPolicy": {
-                    "type": "boolean"
-                },
-                "vcdStorageProfileName": {
-                    "type": "string"
-                }
-            }
-        },
         "kubernetesVersion": {
             "type": "string"
         },

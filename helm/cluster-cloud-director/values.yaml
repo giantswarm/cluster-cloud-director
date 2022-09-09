@@ -33,13 +33,6 @@ controlPlane:  # Must match nodeClasses' fields except "name" and must contain "
   image:
     repository: projects.registry.vmware.com/tkg
 
-defaultStorageClass:
-  enable: false  # Set to true to create a default storage class.
-  vcdStorageProfileName: ""  # VCD storage profile to create the storage class.
-  k8sStorageClassName: ""  # Associated storage class in kubernetes.
-  useDeleteReclaimPolicy: true  # true sets Reclaim policy to "Delete", false sets it to "Retain".
-  fileSystem: "ext4"  # file system for the persistent volumes.
-
 network:
   podsCidrBlocks:
   - "100.96.0.0/11"

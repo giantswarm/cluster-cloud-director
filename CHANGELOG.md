@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### CHANGED
 
 - Set `revisionHistoryLimit` in `MachineDeployment` as `0` for `deletion-blocker-operator`.
+- Removed `defaultStorageClass` since it was moved to the cloud provider.
 
 ## [0.2.2] - 2022-08-18
 
