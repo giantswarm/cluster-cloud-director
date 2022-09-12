@@ -10,9 +10,5 @@ metadata:
 spec:
   template:
     spec:
-      catalog: {{ .catalog }}
-      template: {{ .template }}
-      sizingPolicy: {{ .sizingPolicy }}
-      placementPolicy: {{ .placementPolicy }}
-      storageProfile: {{ .storageProfile }}
+      {{- include "mtSpec" (merge . $) | nindent 6 -}}
 {{- end }}
