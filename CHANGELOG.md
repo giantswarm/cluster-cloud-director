@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Add servicePriority label on cluster object in the chart.
+- Move specs to helpers.tpl to have single source of truth.
 
 ### CHANGED
 

@@ -59,27 +59,49 @@ It is necessary to create a new template with a new name to trigger an upgrade.
 See https://github.com/kubernetes-sigs/cluster-api/issues/4910
 See https://github.com/kubernetes-sigs/cluster-api/pull/5027/files
 */}}
+{{- define "kubeAdmConfigTemplateSpec" -}}
+{{- if $.Values.ssh.users }}
+{{- range $.Values.ssh.users -}}
+users:
+- name: {{ .name }}
+  sshAuthorizedKeys:
+  {{- range .authorizedKeys }}
+  - {{ . }}
+  {{- end }}
+{{- end -}}
+{{- end }}
+joinConfiguration:
+  nodeRegistration:
+    criSocket: /run/containerd/containerd.sock
+    kubeletExtraArgs:
+      {{- include "kubeletExtraArgs" . | nindent  6}}
+      node-labels: "giantswarm.io/node-pool={{ .pool.name }}"
+{{- end -}}
+
 {{- define "kubeAdmConfigTemplateRevision" -}}
 {{- $inputs := (dict
-  "users" .Values.ssh.users
-  "kubeletExtraArgs" (include "kubeletExtraArgs" .) ) }}
+  "data" (include "kubeAdmConfigTemplateSpec" .) ) }}
 {{- mustToJson $inputs | toString | quote | sha1sum | trunc 8 }}
 {{- end -}}
+
 
 {{/*
 VCDMachineTemplate is immutable. We need to create new versions during upgrades.
 Here we are generating a hash suffix to trigger upgrade when only it is necessary by
 using only the parameters used in vcdmachinetemplate.yaml.
 */}}
+{{- define "mtSpec" -}}
+catalog: {{ .catalog }}
+template: {{ .template }}
+sizingPolicy: {{ .sizingPolicy }}
+placementPolicy: {{ .placementPolicy }}
+storageProfile: {{ .storageProfile }}
+{{- end -}}
+
 {{- define "mtRevision" -}}
 {{- $inputs := (dict
-  "catalog" .catalog
-  "template" .template
-  "sizingPolicy" .sizingPolicy
-  "placementPolicy" .placementPolicy
-  "storageProfile" .storageProfile
-  "infrastructureApiVersion" ( include "infrastructureApiVersion" . )
-  "name" .name ) }}
+  "spec" (include "mtSpec" .)
+  "infrastructureApiVersion" ( include "infrastructureApiVersion" . ) ) }}
 {{- mustToJson $inputs | toString | quote | sha1sum | trunc 8 }}
 {{- end -}}
 

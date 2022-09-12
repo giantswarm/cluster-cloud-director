@@ -3,27 +3,12 @@
 apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
 kind: KubeadmConfigTemplate
 metadata:
-  name: {{ include "resource.default.name" $ }}-{{ .name }}-{{- include "kubeAdmConfigTemplateRevision" $ }}
+  name: {{ include "resource.default.name" $ }}-{{ .name }}-{{- include "kubeAdmConfigTemplateRevision" (merge (dict "pool" .) $) }}
   namespace: {{ $.Release.Namespace }}
   labels:
     {{- include "labels.common" . | nindent 4 }}
 spec:
   template:
     spec:
-      {{- if $.Values.ssh.users }}
-      {{- range $.Values.ssh.users }}
-      users:
-      - name: {{ .name }}
-        sshAuthorizedKeys:
-        {{- range .authorizedKeys }}
-        - {{ . }}
-        {{- end }}
-      {{- end }}
-      {{- end }}
-      joinConfiguration:
-        nodeRegistration:
-          criSocket: /run/containerd/containerd.sock
-          kubeletExtraArgs:
-            {{- include "kubeletExtraArgs" . | nindent  12}}
-            node-labels: "giantswarm.io/node-pool={{ .name }}"
+      {{- include "kubeAdmConfigTemplateSpec" (merge (dict "pool" .) $) | nindent 6 -}}
 {{- end }}
