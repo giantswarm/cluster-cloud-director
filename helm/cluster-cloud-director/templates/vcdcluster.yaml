@@ -24,13 +24,13 @@ spec:
   # One arm was the old implementation with dnat rule + one arm LB
   loadBalancer:
     vipSubnet: {{ .loadBalancer.vipSubnet }}
+  {{- end }}
 
   # Proxy settings
   proxyConfig:
-    httpProxy: {{ .proxyConfig.httpProxy }}
-    httpsProxy: {{ .proxyConfig.httpsProxy }}
-    noProxy: {{ .proxyConfig.noProxy }}
-  {{- end }}
+    httpProxy: {{ .Values.proxy.httpProxy }}
+    httpsProxy: {{ .Values.proxy.httpsProxy }}
+    noProxy: {{ .Values.proxy.noProxy }}
 
   # Not tested - not sure how
   {{- with .Values.cluster }}

@@ -43,10 +43,11 @@ network:
     port: ""  # [int] Port to use. "" defaults to 6443.
   loadBalancer:
     vipSubnet: ""  # Virtual IP CIDR for the external network.
-  proxyConfig:  # (Optional) Defines HTTP proxy environment variables.
-    httpProxy: ""
-    httpsProxy: ""
-    noProxy: ""  # Bypass the proxy for specific hosts - cluster IP range for instance.
+
+proxy:  # (Optional) Defines HTTP proxy environment variables.
+  httpProxy: ""
+  httpsProxy: ""
+  noProxy: ""  # Bypass the proxy for specific hosts - cluster IP range for instance.
 
 nodeClasses: []
   # - name: worker  # Name of the class to use in nodePool and machinetemplate name.
