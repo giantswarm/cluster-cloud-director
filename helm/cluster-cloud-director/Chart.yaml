@@ -1,22 +1,21 @@
 apiVersion: v2
 name: cluster-cloud-director
-version: 0.0.3
-appVersion: 1.0.0-dev
+version: 0.2.2
 home: https://github.com/giantswarm/cluster-cloud-director
 sources:
-- https://github.com/giantswarm/cluster-cloud-director
+  - https://github.com/giantswarm/cluster-cloud-director
 description: A helm chart for creating Cluster API clusters with the VMware Cloud Director (VCD) infrastructure provider (CAPVCD).
 keywords:
-- capvcd
-- vmware
-- cloud
-- director
-- vcd
+  - capvcd
+  - vmware
+  - cloud
+  - director
+  - vcd
 annotations:
   application.giantswarm.io/team: "rocket"
 maintainers:
-- name: Team Rocket
-  email: team-rocket@giantswarm.io
+  - name: Team Rocket
+    email: team-rocket@giantswarm.io
 restrictions:
   compatibleProviders:
     - cloud-director
