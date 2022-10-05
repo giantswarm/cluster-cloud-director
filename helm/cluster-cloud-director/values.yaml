@@ -45,6 +45,7 @@ network:
     vipSubnet: ""  # Virtual IP CIDR for the external network.
 
 proxy:  # (Optional) Defines HTTP proxy environment variables.
+  enabled: false
   httpProxy: ""
   httpsProxy: ""
   noProxy: ""  # Bypass the proxy for specific hosts - cluster IP range for instance.

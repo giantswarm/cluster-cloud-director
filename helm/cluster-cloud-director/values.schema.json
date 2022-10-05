@@ -155,6 +155,9 @@
         "proxy": {
             "type": "object",
             "properties": {
+                "enabled": {
+                    "type": "boolean"
+                },                
                 "httpProxy": {
                     "type": "string"
                 },
