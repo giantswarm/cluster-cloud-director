@@ -40,6 +40,5 @@ ssh:
         - "xxx"
 
 userContext:
-  refreshToken: "xxxx"
   secretRef:
-    useSecretRef: false
+    secretName: "xxx"
