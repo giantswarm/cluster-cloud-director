@@ -70,11 +70,5 @@ ssh:
         - ""
 
 userContext:
-  username: ""  # (Optional) ignored if refreshToken is set.
-  password: ""  # (Optional) ignored if refreshToken is set.
-  refreshToken: ""  # (Optional) refreshToken (API token).
   secretRef:
-    # If set to false, ignores secretName and you must specify username/password or refreshToken which will be in userContext of VCDCluster.
-    # If set to true, ignores username/password/refreshToken, you must specify secretName and have a pre-existing secret <= recommended method.
-    useSecretRef: true
     secretName: ""  # Name of the pre-existing secret containing the credentials of the VCD user.

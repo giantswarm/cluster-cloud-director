@@ -4,7 +4,7 @@ This repository contains the Helm chart used for deploying CAPI clusters via [CA
 
 ## Authentication to VCD
 
-Authentication to the VCD API is achieved as part of the cluster creation process to abide by user-defined resource quotas. At the moment, it can be achieved by referencing a secret (preferred method) or specifying creds/token in the VCDCluster definition.
+Authentication to the VCD API is achieved as part of the cluster creation process to abide by user-defined resource quotas. It can be achieved by referencing a secret (preferred method) or specifying creds/token in the VCDCluster definition. We only support referencing a secret in this app.
 
 Before deploying a cluster, make sure there is a secret containing the base64 encoded user credentials or [API token](https://docs.vmware.com/en/VMware-Cloud-Director/10.3/VMware-Cloud-Director-Tenant-Portal-Guide/GUID-A1B3B2FA-7B2C-4EE1-9D1B-188BE703EEDE.html) of the VCD user in the namespace where you will deploy the cluster.
 
@@ -26,8 +26,6 @@ metadata:
   namespace: default
 type: Opaque
 data:
-  username: ""
-  password: ""
   refreshToken: "xxxxxxxxxxx"
 ```
 
@@ -84,7 +82,6 @@ ssh:
         - "xxx"
 
 userContext:
-  refreshToken: "xxxx"
   secretRef:
-    useSecretRef: false
+    secretName: "xxxxxxxx"
 ```

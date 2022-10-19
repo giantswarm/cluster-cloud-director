@@ -255,25 +255,13 @@
         "userContext": {
             "type": "object",
             "properties": {
-                "password": {
-                    "type": "string"
-                },
-                "refreshToken": {
-                    "type": "string"
-                },
                 "secretRef": {
                     "type": "object",
                     "properties": {
                         "secretName": {
                             "type": "string"
-                        },
-                        "useSecretRef": {
-                            "type": "boolean"
                         }
                     }
-                },
-                "username": {
-                    "type": "string"
                 }
             }
         }

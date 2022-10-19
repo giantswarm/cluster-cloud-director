@@ -44,12 +44,6 @@ spec:
 
   # Authentication  
   userContext:
-    {{- if .Values.userContext.secretRef.useSecretRef }}
     secretRef:
       name: {{ .Values.userContext.secretRef.secretName }}
       namespace: {{ .Release.Namespace }}
-    {{- else }}
-    refreshToken: {{ .Values.userContext.refreshToken }}
-    username: {{ .Values.userContext.username }}
-    password: {{ .Values.userContext.password }}
-    {{- end }}
