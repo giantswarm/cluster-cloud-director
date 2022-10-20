@@ -9,9 +9,6 @@ cloudDirector:
   ovdc: "xxx"
   ovdcNetwork: "xxx"
 
-cluster:
-  skipRDE: true
-
 controlPlane:
   replicas: 1
   catalog: "giantswarm"

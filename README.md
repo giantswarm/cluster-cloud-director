@@ -4,13 +4,13 @@ This repository contains the Helm chart used for deploying CAPI clusters via [CA
 
 ## Authentication to VCD
 
-Authentication to the VCD API is achieved as part of the cluster creation process to abide by user-defined resource quotas. It can be achieved by referencing a secret (preferred method) or specifying creds/token in the VCDCluster definition. We only support referencing a secret in this app.
+Authentication to the VCD API is achieved as part of the cluster creation process to abide by user-defined resource quotas. It can be achieved by referencing a secret (preferred method) or specifying creds/token in the VCDCluster definition. **We only support referencing a secret in this app**.
 
-Before deploying a cluster, make sure there is a secret containing the base64 encoded user credentials or [API token](https://docs.vmware.com/en/VMware-Cloud-Director/10.3/VMware-Cloud-Director-Tenant-Portal-Guide/GUID-A1B3B2FA-7B2C-4EE1-9D1B-188BE703EEDE.html) of the VCD user in the namespace where you will deploy the cluster.
+Before deploying a cluster, make sure there is a secret containing the base64 encoded [API token](https://docs.vmware.com/en/VMware-Cloud-Director/10.3/VMware-Cloud-Director-Tenant-Portal-Guide/GUID-A1B3B2FA-7B2C-4EE1-9D1B-188BE703EEDE.html) of the VCD user in the namespace where you will deploy the cluster.
 
 ### API token
 
-Using an API token is preferred for authentication over credentials as it can be revoked easily. If both credentials and an API token are specified, the credentials will be ignored. In order to create an API token:
+Using an API token is preferred for authentication over credentials as it can be revoked easily (If both credentials and an API token were specified, the credentials would be ignored). In order to create an API token:
 
 * In the top right corner of the navigation bar, click your user name, and select User preferences.
 * Under the Access Tokens section, click New.
@@ -29,13 +29,15 @@ data:
   refreshToken: "xxxxxxxxxxx"
 ```
 
+Or
+
+`k create secret generic vcd-credential --from-literal refreshToken="xxxxxxxxx"`
+
 ## Create a cluster
 
 Edit the values file (at least the fields that aren't identified as optional), reference the secret containing the user's VCD credentials by name under `userContext > secretRef > secretName` and install the chart in the same namespace.
 
 In the UI `vipSubnet` is the field in `Networking > Edge Gateway > IP Management > IP Allocations > Allocated IPs > IP Block`. For instance in Ikoula `178.170.32.1/24`
-
-Set skipRDE if the [VCD API schema extension](https://github.com/vmware/cluster-api-provider-cloud-director/blob/main/docs/VCD_SETUP.md#register-cluster-api-schema) wasn't registered by the cloud provider.
 
 Example of a values.yaml file for Cloud provider Ikoula with minimum input (making use of default values):
 
@@ -50,9 +52,6 @@ cloudDirector:
   org: "xxx"
   ovdc: "xxx"
   ovdcNetwork: "xxx"
-
-cluster:
-  skipRDE: true
 
 controlPlane:
   replicas: 1
