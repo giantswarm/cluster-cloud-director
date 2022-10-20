@@ -31,7 +31,7 @@ data:
 
 Or
 
-`k create secret generic vcd-credential --from-literal refreshToken="xxxxxxxxx"`
+`kubectl create secret generic vcd-credential --from-literal refreshToken="xxxxxxxxx"`
 
 ## Create a cluster
 
