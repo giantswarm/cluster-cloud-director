@@ -17,13 +17,7 @@ This PR:
 Description on how {APP-NAME} can be tested.
 
 - [ ] fresh install works
-  - [ ] AWS
-  - [ ] Azure
-  - [ ] KVM
 - [ ] upgrade from previous version works
-  - [ ] AWS
-  - [ ] Azure
-  - [ ] KVM
 
 #### Other testing
 
@@ -41,3 +35,4 @@ Changelog must always be updated.
 
 - [ ] Update changelog in CHANGELOG.md.
 - [ ] Make sure `values.yaml` and `values.schema.json` are valid.
+- [ ] Update Lastpass values if required.

@@ -3,7 +3,6 @@ clusterDescription: ""  # Cluster description used in metadata.
 kubernetesVersion: ""
 organization: ""  # The organization which owns this cluster.
 servicePriority: "highest"
-# clusterName: ""  # Name of cluster. Used as base name for all cluster resources in the management cluster.
 
 cloudDirector:
   site: ""  # VCD endpoint with the format https://VCD_HOST. No trailing '/'.
@@ -15,7 +14,6 @@ cluster:
   rdeId: ""  # (Optional) If empty, CAPVCD will create one.
   parentUid: ""  # (Optional) Create the CAPVCD cluster from a specific management cluster associated with this UID.
   useAsManagementCluster: false  # (Optional) Displays as management cluster in the UI (cosmetic).
-  skipRDE: false  # Set to "true" if API schema extension isn't registered.
 
 controlPlane:  # Must match nodeClasses' fields except "name" and must contain "replicas".
   replicas: 0  # Number of control plane instances to create (odd number).
@@ -24,6 +22,7 @@ controlPlane:  # Must match nodeClasses' fields except "name" and must contain "
   sizingPolicy: ""  # Sizing policy for the control plane VMs. "" for no sizing policy.
   placementPolicy: ""  # Placement policy for control plane VMs. "" for no placement Policy.
   storageProfile: ""  # Storage profile for the control plane VMs. "" for no Storage profile.
+  diskSize: ""
   etcd:
     imageRepository: "giantswarm"
     imageTag: 3.5.4-0-k8s
@@ -57,6 +56,7 @@ nodeClasses: []
   #   sizingPolicy: ""
   #   placementPolicy: ""
   #   storageProfile: ""
+  #   diskSize: ""
 
 nodePools: []
   # - class: worker

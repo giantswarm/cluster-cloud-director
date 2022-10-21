@@ -39,9 +39,6 @@
                 },
                 "useAsManagementCluster": {
                     "type": "boolean"
-                },
-                "skipRDE": {
-                    "type": "boolean"
                 }
             }
         },
@@ -105,6 +102,12 @@
                 },
                 "template": {
                     "type": "string"
+                },
+                "diskSize": {
+                    "anyOf": [
+                       {"type": "integer"},
+                       {"type": "string"}
+                    ]
                 }
             }
         },
@@ -189,6 +192,12 @@
                     },
                     "storageProfile": {
                         "type": "string"
+                    },
+                    "diskSize": {
+                        "anyOf": [
+                           {"type": "integer"},
+                           {"type": "string"}
+                        ]
                     }
                 },
                 "required": [
