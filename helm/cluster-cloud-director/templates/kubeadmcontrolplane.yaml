@@ -34,6 +34,20 @@ spec:
       {{- end }}
     {{- end }}
     {{- end }}
+    {{- if and .Values.proxy.enabled }}
+    files:
+      - path: /etc/systemd/system/containerd.service.d/99-http-proxy.conf
+        permissions: "0600"
+        contentFrom:
+          secret:
+            name: {{ include "resource.default.name" $ }}-cluster-values
+            key: containerdProxy    
+    {{- end }}
+    {{- if and .Values.proxy.enabled }}
+    preKubeadmCommands:
+    - systemctl daemon-reload
+    - systemctl restart containerd
+    {{- end }}
     initConfiguration:
       nodeRegistration:
         criSocket: /run/containerd/containerd.sock

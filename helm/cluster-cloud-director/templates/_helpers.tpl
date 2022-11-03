@@ -19,6 +19,14 @@ Create chart name and version as used by the chart label.
 infrastructure.cluster.x-k8s.io/v1beta1
 {{- end -}}
 
+
+{{- define "proxyFiles" -}}
+- path: /etc/systemd/system/containerd.service.d/http-proxy.conf
+  permissions: "0644"
+  encoding: base64
+  content: {{ tpl ($.Files.Get "files/etc/systemd/system/containerd.service.d/http-proxy.conf") $ | b64enc }}
+{{- end -}}
+
 {{/*
 Common labels without kubernetes version
 https://github.com/giantswarm/giantswarm/issues/22441
@@ -76,6 +84,20 @@ joinConfiguration:
     kubeletExtraArgs:
       {{- include "kubeletExtraArgs" . | nindent  6}}
       node-labels: "giantswarm.io/node-pool={{ .pool.name }}"
+{{- if $.Values.proxy.enabled }}
+files:
+  - path: /etc/systemd/system/containerd.service.d/99-http-proxy.conf
+    permissions: "0600"
+    contentFrom:
+      secret:
+        name: {{ include "resource.default.name" $ }}-cluster-values
+        key: containerdProxy   
+{{- end }}
+{{- if $.Values.proxy.enabled }}
+preKubeadmCommands:
+- systemctl daemon-reload
+- systemctl restart containerd
+{{- end }}
 {{- end -}}
 
 {{- define "kubeAdmConfigTemplateRevision" -}}

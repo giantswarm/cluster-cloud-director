@@ -45,9 +45,6 @@ network:
 
 proxy:  # (Optional) Defines HTTP proxy environment variables.
   enabled: false
-  httpProxy: ""
-  httpsProxy: ""
-  noProxy: ""  # Bypass the proxy for specific hosts - cluster IP range for instance.
 
 nodeClasses: []
   # - name: worker  # Name of the class to use in nodePool and machinetemplate name.
