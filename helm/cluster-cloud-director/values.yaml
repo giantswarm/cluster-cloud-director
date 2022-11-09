@@ -44,6 +44,7 @@ network:
     vipSubnet: ""  # Virtual IP CIDR for the external network.
 
 proxy:  # (Optional) Defines HTTP proxy environment variables.
+  secretName: ""
   enabled: false
 
 nodeClasses: []

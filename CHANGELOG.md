@@ -7,9 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Changed
+### Added
 
 - Use `cluster-apps-operator` generated `containerd` proxy configuration, if `proxy` is enabled
+- It's possible to define an alternative `containerd` proxy configuration via `values.proxy.secretName`. Primarily used for bootstrapping new management clusters.
 
 ## [0.2.4] - 2022-10-25
 

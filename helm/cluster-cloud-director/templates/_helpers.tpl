@@ -62,6 +62,27 @@ Create a prefix for all resource names.
 {{- end -}}
 
 {{/*
+use the cluster-apps-operator created secret <clusterName>-cluster-values as default
+*/}}
+{{- define "containerdProxySecret" -}}
+{{- $defaultContainerdProxySecret := printf "%s-cluster-values" (include "resource.default.name" . ) -}}
+{{ .Values.proxy.secretName | default $defaultContainerdProxySecret }}
+{{- end -}}
+
+{{- define "containerdProxyConfig" -}}
+files:
+  - path: /etc/systemd/system/containerd.service.d/99-http-proxy.conf
+    permissions: "0600"
+    contentFrom:
+      secret:
+        name: {{ include "containerdProxySecret" $ }}
+        key: containerdProxy   
+preKubeadmCommands:
+- systemctl daemon-reload
+- systemctl restart containerd
+{{- end -}}
+
+{{/*
 Updates in KubeadmConfigTemplate will not trigger any rollout for worker nodes.
 It is necessary to create a new template with a new name to trigger an upgrade.
 See https://github.com/kubernetes-sigs/cluster-api/issues/4910
@@ -85,18 +106,7 @@ joinConfiguration:
       {{- include "kubeletExtraArgs" . | nindent  6}}
       node-labels: "giantswarm.io/node-pool={{ .pool.name }}"
 {{- if $.Values.proxy.enabled }}
-files:
-  - path: /etc/systemd/system/containerd.service.d/99-http-proxy.conf
-    permissions: "0600"
-    contentFrom:
-      secret:
-        name: {{ include "resource.default.name" $ }}-cluster-values
-        key: containerdProxy   
-{{- end }}
-{{- if $.Values.proxy.enabled }}
-preKubeadmCommands:
-- systemctl daemon-reload
-- systemctl restart containerd
+{{- include "containerdProxyConfig" . | nindent 0}}
 {{- end }}
 {{- end -}}
 

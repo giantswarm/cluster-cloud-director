@@ -105,8 +105,12 @@
                 },
                 "diskSize": {
                     "anyOf": [
-                       {"type": "integer"},
-                       {"type": "string"}
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "string"
+                        }
                     ]
                 }
             }
@@ -158,6 +162,9 @@
         "proxy": {
             "type": "object",
             "properties": {
+                "secretName": {
+                    "type": "string"
+                },
                 "enabled": {
                     "type": "boolean"
                 }
@@ -186,8 +193,12 @@
                     },
                     "diskSize": {
                         "anyOf": [
-                           {"type": "integer"},
-                           {"type": "string"}
+                            {
+                                "type": "integer"
+                            },
+                            {
+                                "type": "string"
+                            }
                         ]
                     }
                 },
@@ -223,7 +234,7 @@
             "minItems": 1,
             "type": "array"
         },
-	"organization": {
+        "organization": {
             "type": "string"
         },
         "ssh": {
@@ -250,7 +261,11 @@
         },
         "servicePriority": {
             "type": "string",
-            "enum": ["lowest", "medium", "highest"]
+            "enum": [
+                "lowest",
+                "medium",
+                "highest"
+            ]
         },
         "userContext": {
             "type": "object",
