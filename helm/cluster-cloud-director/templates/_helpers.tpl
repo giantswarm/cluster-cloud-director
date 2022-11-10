@@ -19,14 +19,6 @@ Create chart name and version as used by the chart label.
 infrastructure.cluster.x-k8s.io/v1beta1
 {{- end -}}
 
-
-{{- define "proxyFiles" -}}
-- path: /etc/systemd/system/containerd.service.d/http-proxy.conf
-  permissions: "0644"
-  encoding: base64
-  content: {{ tpl ($.Files.Get "files/etc/systemd/system/containerd.service.d/http-proxy.conf") $ | b64enc }}
-{{- end -}}
-
 {{/*
 Common labels without kubernetes version
 https://github.com/giantswarm/giantswarm/issues/22441
@@ -65,7 +57,7 @@ Create a prefix for all resource names.
 use the cluster-apps-operator created secret <clusterName>-cluster-values as default
 */}}
 {{- define "containerdProxySecret" -}}
-{{- $defaultContainerdProxySecret := printf "%s-cluster-values" (include "resource.default.name" . ) -}}
+{{- $defaultContainerdProxySecret := printf "%s-systemd-proxy" (include "resource.default.name" . ) -}}
 {{ .Values.proxy.secretName | default $defaultContainerdProxySecret }}
 {{- end -}}
 
