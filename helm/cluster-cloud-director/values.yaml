@@ -47,8 +47,8 @@ proxy:  # (Optional) Defines HTTP proxy environment variables.
   secretName: ""
   enabled: false
 
-nodeClasses: []
-  # - name: worker  # Name of the class to use in nodePool and machinetemplate name.
+nodeClasses: {}  # Class definitions for worker node pools. The "name" of the class is the key of the object. Example:
+  # default:  # Name of the class to use in nodePool and machinetemplate name.
   #   catalog: ""
   #   template: ""
   #   sizingPolicy: ""
@@ -57,8 +57,8 @@ nodeClasses: []
   #   diskSize: ""
 
 nodePools: []
-  # - class: worker
-  #   name: worker  # Name of nodepool used in machinedeple name
+  # worker:
+  #   name: default  # Node classes name (defined above)
   #   replicas: 2
 
 ssh:

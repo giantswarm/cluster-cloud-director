@@ -1,14 +1,15 @@
-{{- range (append .Values.nodeClasses ((merge (dict "name" "control-plane") .Values.controlPlane))) }}
+{{- range $name, $value := (merge .Values.nodeClasses (dict "control-plane" .Values.controlPlane)) }}
+{{- $c := (merge (dict "currentClass"  $value) $.Values) }}
 ---
 apiVersion: {{ include "infrastructureApiVersion" . }}
 kind: VCDMachineTemplate
 metadata:
-  name: {{ include "resource.default.name" $ }}-{{ .name }}-{{ include "mtRevision" (merge . $) }}
+  name: {{ include "resource.default.name" $ }}-{{ $name }}-{{ include "mtRevision" $c }}
   namespace: {{ $.Release.Namespace }}
   labels:
-    {{- include "labels.common" . | nindent 4 }}
+    {{- include "labels.common" $ | nindent 4 }}
 spec:
   template:
     spec:
-      {{- include "mtSpec" (merge . $) | nindent 6 -}}
+      {{- include "mtSpec" $c | nindent 6 -}}
 {{- end }}

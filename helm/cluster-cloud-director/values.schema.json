@@ -171,68 +171,10 @@
             }
         },
         "nodeClasses": {
-            "items": {
-                "properties": {
-                    "name": {
-                        "type": "string"
-                    },
-                    "catalog": {
-                        "type": "string"
-                    },
-                    "template": {
-                        "type": "string"
-                    },
-                    "sizingPolicy": {
-                        "type": "string"
-                    },
-                    "placementPolicy": {
-                        "type": "string"
-                    },
-                    "storageProfile": {
-                        "type": "string"
-                    },
-                    "diskSize": {
-                        "anyOf": [
-                            {
-                                "type": "integer"
-                            },
-                            {
-                                "type": "string"
-                            }
-                        ]
-                    }
-                },
-                "required": [
-                    "name",
-                    "catalog",
-                    "template"
-                ]
-            },
-            "minItems": 1,
-            "type": "array"
+            "type": "object"
         },
         "nodePools": {
-            "items": {
-                "properties": {
-                    "class": {
-                        "type": "string"
-                    },
-                    "name": {
-                        "type": "string"
-                    },
-                    "replicas": {
-                        "minimum": 1,
-                        "type": "integer"
-                    }
-                },
-                "required": [
-                    "class",
-                    "name",
-                    "replicas"
-                ]
-            },
-            "minItems": 1,
-            "type": "array"
+            "type": "object"
         },
         "organization": {
             "type": "string"

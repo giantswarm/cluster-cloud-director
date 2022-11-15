@@ -1,34 +1,34 @@
-{{- range .Values.nodePools }}
+{{- range $name, $value := .Values.nodePools }}
 ---
 apiVersion: cluster.x-k8s.io/v1beta1
 kind: MachineDeployment
 metadata:
-  name: {{ include "resource.default.name" $ }}-{{ .name }}
+  name: {{ include "resource.default.name" $ }}-{{ $name }}
   namespace: {{ $.Release.Namespace }}
   labels:
     {{- include "labels.common" $ | nindent 4 }}
 spec:
   clusterName: {{ include "resource.default.name" $ }}
-  replicas: {{ .replicas }}
+  replicas: {{ $value.replicas }}
   revisionHistoryLimit: 0
   selector:
     matchLabels: null
   template:
     metadata:
       labels:
-        {{- include "labels.common-no-version" $ | nindent 8 }}
+        {{- include "labels.selector" $ | nindent 8 }}
     spec:
       bootstrap:
         configRef:
           apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
           kind: KubeadmConfigTemplate
-          name: {{ include "resource.default.name" $ }}-{{ .name }}-{{- include "kubeAdmConfigTemplateRevision" (merge (dict "pool" .) $) }}
+          name: {{ include "resource.default.name" $ }}-{{ $name }}-{{- include "kubeAdmConfigTemplateRevision" (merge (dict "pool" (set $value "name" $name)) $) }}
           namespace: {{ $.Release.Namespace }}
       clusterName: {{ include "resource.default.name" $ }}
       infrastructureRef:
         apiVersion: {{ include "infrastructureApiVersion" . }}
         kind: VCDMachineTemplate
-        name: {{ include "resource.default.name" $ }}-{{ .class }}-{{ include "mtRevisionByClass" (merge . $) }}
+        name: {{ include "resource.default.name" $ }}-{{ $value.class }}-{{ include "mtRevisionByClass" (merge (dict "currentValues" $.Values) $value) }}
         namespace: {{ $.Release.Namespace }}
       version: {{ $.Values.kubernetesVersion }}
 {{- end }}
