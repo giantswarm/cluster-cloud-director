@@ -34,6 +34,9 @@ spec:
       {{- end }}
     {{- end }}
     {{- end }}
+    {{- if $.Values.proxy.enabled }}
+    {{- include "containerdProxyConfig" . | nindent 4}}
+    {{- end }}
     initConfiguration:
       nodeRegistration:
         criSocket: /run/containerd/containerd.sock

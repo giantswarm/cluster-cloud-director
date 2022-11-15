@@ -26,14 +26,6 @@ spec:
     vipSubnet: {{ .loadBalancer.vipSubnet }}
   {{- end }}
 
-  # Proxy settings
-  {{- if .Values.proxy.enabled }}
-  proxyConfigSpec:
-    httpProxy: {{ .Values.proxy.httpProxy }}
-    httpsProxy: {{ .Values.proxy.httpsProxy }}
-    noProxy: {{ .Values.proxy.noProxy }}
-  {{- end }}
-
   # Not tested - not sure how
   {{- with .Values.cluster }}
   rdeId: {{ .rdeId }}
