@@ -58,7 +58,7 @@ nodeClasses: {}  # Class definitions for worker node pools. The "name" of the cl
 
 nodePools: []
   # worker:
-  #   name: default  # Node classes name (defined above)
+  #   class: default  # Node classes name (defined above)
   #   replicas: 2
 
 ssh:
