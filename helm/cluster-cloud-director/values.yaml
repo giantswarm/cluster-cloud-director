@@ -31,6 +31,7 @@ controlPlane:  # Must match nodeClasses' fields except "name" and must contain "
     imageTag: v1.7.0_vmware.12
   image:
     repository: projects.registry.vmware.com/tkg
+  resourceRatio: 8  # Ratio between node resources and apiserver resource requests.
 
 network:
   podsCidrBlocks:
