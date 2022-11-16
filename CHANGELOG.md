@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Restructure nodepools and nodeclasses for GitOps.
+- Allow core-component configuration via `kubeadm --patches`.
 
 ## [0.3.0] - 2022-11-15
 
@@ -85,7 +86,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added chart schema.
 - Moved parameters from cloudDirector to cluster.
 - Remove kube version from machine objects.
-- kubeAdmConfigTemplateRevision and mtRevision.
+- kubeadmConfigTemplateRevision and mtRevision.
 
 ### Added
 
