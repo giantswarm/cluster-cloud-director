@@ -52,7 +52,8 @@
                 "template",
                 "replicas",
                 "dns",
-                "etcd"
+                "etcd",
+                "resourceRatio"
             ],
             "properties": {
                 "catalog": {
@@ -112,6 +113,10 @@
                             "type": "string"
                         }
                     ]
+                },
+                "resourceRatio" : {
+                    "minimum": 2,
+                    "type": "integer"
                 }
             }
         },
