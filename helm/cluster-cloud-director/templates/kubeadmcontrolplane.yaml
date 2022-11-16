@@ -53,7 +53,7 @@ spec:
     infrastructureRef:
       apiVersion: {{ include "infrastructureApiVersion" . }}
       kind: VCDMachineTemplate
-      name: {{ include "resource.default.name" . }}-control-plane-{{ include "mtRevisionOfControlPlane" $ }}
+      name: {{ include "resource.default.name" . }}-control-plane-{{ include "mtRevisionByControlPlane" $ }}
       namespace: {{ .Release.Namespace }}
   replicas: {{ .Values.controlPlane.replicas }}
   version: {{ .Values.kubernetesVersion }}

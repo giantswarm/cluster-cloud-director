@@ -23,7 +23,7 @@ infrastructure.cluster.x-k8s.io/v1beta1
 Common labels without kubernetes version
 https://github.com/giantswarm/giantswarm/issues/22441
 */}}
-{{- define "labels.common-no-version" -}}
+{{- define "labels.selector" -}}
 app: {{ include "name" . | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
 cluster.x-k8s.io/cluster-name: {{ include "resource.default.name" . | quote }}
@@ -38,7 +38,7 @@ Common labels with kubernetes version
 https://github.com/giantswarm/giantswarm/issues/22441
 */}}
 {{- define "labels.common" -}}
-{{- include "labels.common-no-version" . }}
+{{- include "labels.selector" . }}
 app.kubernetes.io/version: {{ $.Chart.Version | quote }}
 {{- end -}}
 
@@ -115,11 +115,11 @@ Here we are generating a hash suffix to trigger upgrade when only it is necessar
 using only the parameters used in vcdmachinetemplate.yaml.
 */}}
 {{- define "mtSpec" -}}
-catalog: {{ .catalog }}
-template: {{ .template }}
-sizingPolicy: {{ .sizingPolicy }}
-placementPolicy: {{ .placementPolicy }}
-storageProfile: {{ .storageProfile }}
+catalog: {{ .currentClass.catalog }}
+template: {{ .currentClass.template }}
+sizingPolicy: {{ .currentClass.sizingPolicy }}
+placementPolicy: {{ .currentClass.placementPolicy }}
+storageProfile: {{ .currentClass.storageProfile }}
 {{- end -}}
 
 {{- define "mtRevision" -}}
@@ -131,14 +131,14 @@ storageProfile: {{ .storageProfile }}
 
 {{- define "mtRevisionByClass" -}}
 {{- $outerScope := . }}
-{{- range .Values.nodeClasses }}
-{{- if eq .name $outerScope.class }}
-{{- include "mtRevision" . }}
+{{- range $name, $value := .currentValues.nodeClasses }}
+{{- if eq $name $outerScope.class }}
+{{- include "mtRevision" (merge (dict "currentClass" $value) $outerScope.currentValues) }}
 {{- end }}
 {{- end }}
 {{- end -}}
 
-{{- define "mtRevisionOfControlPlane" -}}
+{{- define "mtRevisionByControlPlane" -}}
 {{- $outerScope := . }}
-{{- include "mtRevision" (set (merge $outerScope .Values.controlPlane) "name" "control-plane") }}
+{{- include "mtRevision" (merge (dict "currentClass" .Values.controlPlane) $outerScope.Values) }}
 {{- end -}}

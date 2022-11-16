@@ -20,14 +20,14 @@ network:
     vipSubnet: "178.170.32.1/24"
 
 nodeClasses:
-  - name: "worker"
+  default:
     catalog: "giantswarm"
     template: "ubuntu-2004-kube-v1.22.5"
     sizingPolicy: "m1.medium"
 
 nodePools:
-  - class: "worker"
-    name: "worker"
+  worker:
+    class: "default"
     replicas: 3
 
 ssh:
