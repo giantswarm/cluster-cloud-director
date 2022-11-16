@@ -38,17 +38,27 @@ spec:
     {{- include "containerdProxyConfig" . | nindent 4}}
     {{- end }}
     initConfiguration:
+      patches:
+        directory: "/tmp/kubeadm/patches"
       nodeRegistration:
         criSocket: /run/containerd/containerd.sock
         kubeletExtraArgs:
           eviction-hard: nodefs.available<0%,nodefs.inodesFree<0%,imagefs.available<0%
           cloud-provider: external
     joinConfiguration:
+      patches:
+        directory: "/tmp/kubeadm/patches"
       nodeRegistration:
         criSocket: /run/containerd/containerd.sock
         kubeletExtraArgs:
           eviction-hard: nodefs.available<0%,nodefs.inodesFree<0%,imagefs.available<0%
           cloud-provider: external
+    files:
+      {{- range $kubeadmPatch, $_ :=  .Files.Glob  "files/etc/patches/**" }}
+      - path: {{ (printf "/tmp/kubeadm/patches/%s" (base $kubeadmPatch)) }}
+        content: |-
+          {{- $.Files.Get $kubeadmPatch | nindent 10 }}
+      {{- end }}
   machineTemplate:
     infrastructureRef:
       apiVersion: {{ include "infrastructureApiVersion" . }}
