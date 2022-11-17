@@ -120,6 +120,12 @@
                 }
             }
         },
+        "includeClusterResourceSet": {
+            "type": "string"
+        },
+        "kubectlImage": {
+            "type": "object"
+        },
         "kubernetesVersion": {
             "type": "string"
         },
