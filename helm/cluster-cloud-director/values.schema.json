@@ -2,6 +2,32 @@
     "$schema": "http://json-schema.org/schema#",
     "type": "object",
     "properties": {
+        "apiServer": {
+            "type": "object",
+            "properties": {
+                "enableAdmissionPlugins": {
+                    "type": "string"
+                },
+                "featureGates": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "enableAdmissionPlugins",
+                "featureGates"
+            ]
+        },
+        "controllerManager": {
+            "type": "object",
+            "properties": {
+                "featureGates": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "featureGates"
+            ]
+        },
         "baseDomain": {
             "type": "string"
         },
@@ -187,6 +213,35 @@
         "nodePools": {
             "type": "object"
         },
+        "oidc": {
+            "type": "object",
+            "properties": {
+                "caFile": {
+                    "type": "string"
+                },
+                "clientId": {
+                    "type": "string"
+                },
+                "groupsClaim": {
+                    "type": "string"
+                },
+                "issuerUrl": {
+                    "type": "string"
+                },
+                "usernameClaim": {
+                    "type": "string"
+                },
+                "usernamePrefix": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "clientId",
+                "groupsClaim",
+                "issuerUrl",
+                "usernameClaim"
+            ]
+        },
         "organization": {
             "type": "string"
         },
@@ -233,5 +288,17 @@
                 }
             }
         }
-    }
+    },
+    "required": [
+        "apiServer",
+        "baseDomain",
+        "controllerManager",
+        "cloudDirector",
+        "controlPlane",
+        "network",
+        "nodeClasses",
+        "nodePools",
+        "organization",
+        "userContext"
+    ]
 }

@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Allow core-component configuration via `kubeadm --patches`.
 - Configure API priority and fairness flags based on node resources.
 - Import the `cluster-shared` chart to apply additional `coredns` resources in a Workload Cluster via `ClusterResourceSets`
+- Adapt control-plane configuration by comparing CAPO.
 
 ## [0.3.0] - 2022-11-15
 
