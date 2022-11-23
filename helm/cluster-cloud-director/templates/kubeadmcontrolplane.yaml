@@ -16,6 +16,7 @@ spec:
         extraArgs:
           cloud-provider: external
           enable-admission-plugins: {{ .Values.apiServer.enableAdmissionPlugins }}
+          encryption-provider-config: /etc/kubernetes/encryption/config.yaml
           feature-gates: {{ .Values.apiServer.featureGates }}
           kubelet-preferred-address-types: "InternalIP"
           logtostderr: "true"
@@ -37,6 +38,12 @@ spec:
           requestheader-allowed-names: "front-proxy-client"
           runtime-config: "api/all=true"
           tls-cipher-suites: "TLS_AES_128_GCM_SHA256,TLS_AES_256_GCM_SHA384,TLS_CHACHA20_POLY1305_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256,TLS_RSA_WITH_AES_128_CBC_SHA,TLS_RSA_WITH_AES_128_GCM_SHA256,TLS_RSA_WITH_AES_256_CBC_SHA,TLS_RSA_WITH_AES_256_GCM_SHA384"
+        extraVolumes:
+          - name: encryption
+            hostPath: /etc/kubernetes/encryption
+            mountPath: /etc/kubernetes/encryption
+            readOnly: false
+            pathType: DirectoryOrCreate
       controllerManager:
         extraArgs:
           authorization-always-allow-paths: "/healthz,/readyz,/livez,/metrics"
@@ -87,6 +94,12 @@ spec:
         content: |-
           {{- $.Files.Get $kubeadmPatch | nindent 10 }}
       {{- end }}
+      - path: /etc/kubernetes/encryption/config.yaml
+        permissions: "0600"
+        contentFrom:
+          secret:
+            name: {{ include "resource.default.name" $ }}-encryption-provider-config
+            key: encryption
     preKubeadmCommands:
       - bash /tmp/kubeadm/patches/kube-apiserver-patch.sh {{ .Values.controlPlane.resourceRatio }}
   machineTemplate:
