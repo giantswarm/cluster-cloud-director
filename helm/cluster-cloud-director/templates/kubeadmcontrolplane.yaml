@@ -13,9 +13,39 @@ spec:
         - localhost
         - 127.0.0.1
         - "api.{{ include "resource.default.name" $ }}.{{ .Values.baseDomain }}"
+        extraArgs:
+          cloud-provider: external
+          enable-admission-plugins: {{ .Values.apiServer.enableAdmissionPlugins }}
+          feature-gates: {{ .Values.apiServer.featureGates }}
+          kubelet-preferred-address-types: "InternalIP"
+          logtostderr: "true"
+          {{- if .Values.oidc.issuerUrl }}
+          {{- with .Values.oidc }}
+          oidc-issuer-url: {{ .issuerUrl }}
+          oidc-client-id: {{ .clientId }}
+          oidc-username-claim: {{ .usernameClaim }}
+          oidc-groups-claim: {{ .groupsClaim }}
+          {{- if .usernamePrefix }}
+          oidc-username-prefix: {{ .usernamePrefix | quote }}
+          {{- end }}
+          {{- if .caFile }}
+          oidc-ca-file: {{ .caFile }}
+          {{- end }}
+          {{- end }}
+          {{- end }}
+          profiling: "false"
+          requestheader-allowed-names: "front-proxy-client"
+          runtime-config: "api/all=true"
+          tls-cipher-suites: "TLS_AES_128_GCM_SHA256,TLS_AES_256_GCM_SHA384,TLS_CHACHA20_POLY1305_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256,TLS_RSA_WITH_AES_128_CBC_SHA,TLS_RSA_WITH_AES_128_GCM_SHA256,TLS_RSA_WITH_AES_256_CBC_SHA,TLS_RSA_WITH_AES_256_GCM_SHA384"
       controllerManager:
         extraArgs:
-          enable-hostpath-provisioner: "true"
+          authorization-always-allow-paths: "/healthz,/readyz,/livez,/metrics"
+          bind-address: "0.0.0.0"
+          cloud-provider: external
+          enable-hostpath-provisioner: "true"          
+          feature-gates: {{ .Values.controllerManager.featureGates }}
+          logtostderr: "true"
+          profiling: "false"
       dns:
         imageRepository: {{ .Values.controlPlane.dns.imageRepository }}
         imageTag: {{ .Values.controlPlane.dns.imageTag }}
@@ -43,16 +73,14 @@ spec:
       nodeRegistration:
         criSocket: /run/containerd/containerd.sock
         kubeletExtraArgs:
-          eviction-hard: nodefs.available<0%,nodefs.inodesFree<0%,imagefs.available<0%
-          cloud-provider: external
+          {{- include "kubeletExtraArgs" . | nindent 10}}
     joinConfiguration:
       patches:
         directory: "/tmp/kubeadm/patches"
       nodeRegistration:
         criSocket: /run/containerd/containerd.sock
         kubeletExtraArgs:
-          eviction-hard: nodefs.available<0%,nodefs.inodesFree<0%,imagefs.available<0%
-          cloud-provider: external
+          {{- include "kubeletExtraArgs" . | nindent 10}}
     files:
       {{- range $kubeadmPatch, $_ :=  .Files.Glob  "files/etc/patches/**" }}
       - path: {{ (printf "/tmp/kubeadm/patches/%s" (base $kubeadmPatch)) }}

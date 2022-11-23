@@ -1,3 +1,9 @@
+apiServer:
+  enableAdmissionPlugins: "NamespaceLifecycle,LimitRanger,ServiceAccount,ResourceQuota,PersistentVolumeClaimResize,DefaultStorageClass,Priority,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook"
+  featureGates: "TTLAfterFinished=true"
+controllerManager:
+  featureGates: "ExpandPersistentVolumes=true,TTLAfterFinished=true"
+
 baseDomain: k8s.test
 clusterDescription: ""  # Cluster description used in metadata.
 kubernetesVersion: ""
@@ -14,6 +20,14 @@ cluster:
   rdeId: ""  # (Optional) If empty, CAPVCD will create one.
   parentUid: ""  # (Optional) Create the CAPVCD cluster from a specific management cluster associated with this UID.
   useAsManagementCluster: false  # (Optional) Displays as management cluster in the UI (cosmetic).
+
+oidc:
+  issuerUrl: ""
+  caFile: ""
+  clientId: ""
+  usernameClaim: ""
+  groupsClaim: ""
+  usernamePrefix: ""
 
 controlPlane:  # Must match nodeClasses' fields except "name" and must contain "replicas".
   replicas: 0  # Number of control plane instances to create (odd number).
