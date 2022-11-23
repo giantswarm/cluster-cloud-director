@@ -74,6 +74,17 @@ preKubeadmCommands:
 - systemctl restart containerd
 {{- end -}}
 
+{{- define "kubeProxyFiles" }}
+- path: /etc/gs-kube-proxy-config.yaml
+  permissions: "0600"
+  content: |
+    {{- .Files.Get "files/etc/gs-kube-proxy-config.yaml" | nindent 4 }}
+- path: /etc/gs-kube-proxy-patch.sh
+  permissions: "0700"
+  content: |
+    {{- .Files.Get "files/etc/gs-kube-proxy-patch.sh" | nindent 4 }}
+{{- end -}}
+
 {{/*
 Updates in KubeadmConfigTemplate will not trigger any rollout for worker nodes.
 It is necessary to create a new template with a new name to trigger an upgrade.
