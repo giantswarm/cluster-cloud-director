@@ -6,6 +6,7 @@ metadata:
   labels:
     {{- include "labels.common" $ | nindent 4 }}
   name: {{ include "resource.default.name" $ }}-{{ $name }}-{{- include "kubeadmConfigTemplateRevision" (merge (dict "pool" $value) $) }}
+  namespace: {{ $.Release.Namespace }}
 spec:
   template:
     spec:
