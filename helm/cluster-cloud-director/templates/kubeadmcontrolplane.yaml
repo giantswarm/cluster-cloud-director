@@ -58,6 +58,8 @@ spec:
         imageTag: {{ .Values.controlPlane.dns.imageTag }}
       etcd:
         local:
+          extraArgs:
+            listen-metrics-urls: "http://0.0.0.0:2381"
           imageRepository: {{ .Values.controlPlane.etcd.imageRepository }}
           imageTag: {{ .Values.controlPlane.etcd.imageTag }}
       imageRepository: {{ .Values.controlPlane.image.repository }}
