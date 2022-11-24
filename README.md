@@ -22,7 +22,7 @@ The generated API token appears. You must copy the token because it appears only
 apiVersion: v1
 kind: Secret
 metadata:
-  name: xav-secret
+  name: vcd-credentials
   namespace: default
 type: Opaque
 data:
@@ -31,7 +31,7 @@ data:
 
 Or
 
-`kubectl create secret generic vcd-credential --from-literal refreshToken="xxxxxxxxx"`
+`kubectl create secret generic vcd-credentials --from-literal refreshToken="xxxxxxxxx"`
 
 ## Create a cluster
 
@@ -42,8 +42,8 @@ In the UI `vipSubnet` is the field in `Networking > Edge Gateway > IP Management
 Example of a values.yaml file for Cloud provider Ikoula with minimum input (making use of default values):
 
 ```yaml
-baseDomain: k8s.test
-clusterDescription: "test cluster Xavier"
+baseDomain: "cluster.local"
+clusterDescription: "glados test cluster"
 kubernetesVersion: "v1.22.5+vmware.1"
 organization: "giantswarm"
 
@@ -54,33 +54,39 @@ cloudDirector:
   ovdcNetwork: "xxx"
 
 controlPlane:
-  replicas: 1
+  replicas: 3
   catalog: "giantswarm"
   template: "ubuntu-2004-kube-v1.22.5"
-  sizingPolicy: "m1.medium"
+  sizingPolicy: "m1.large"
 
 network:
   loadBalancer:
     vipSubnet: "178.170.32.1/24"
 
+proxy:
+    httpProxy: "http://user:pwd@192.168.52.220:3128"
+    httpsProxy: "http://user:pwd@192.168.52.220:3128"
+    noProxy: "100.64.0.0/13,100.96.0.0/11,192.168.52.0/24,178.170.32.0/24"
+
 nodeClasses:
-  - name: "worker"
+  default:
     catalog: "giantswarm"
     template: "ubuntu-2004-kube-v1.22.5"
-    sizingPolicy: "m1.medium"
+    sizingPolicy: "m1.large"
 
 nodePools:
-  - class: "worker"
-    name: "worker"
-    replicas: 3
+  worker:
+    class: "default"
+    replicas: 2
 
 ssh:
   users:
     - name: "root"
       authorizedKeys:
-        - "xxx"
+        - "ssh-rsa AAAAB3NzaC1yc2...NOOcv5HZOXWjE="
 
 userContext:
   secretRef:
-    secretName: "xxxxxxxx"
+    useSecretRef: true
+    secretName: vcd-credentials
 ```
