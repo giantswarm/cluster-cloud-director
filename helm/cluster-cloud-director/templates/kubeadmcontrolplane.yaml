@@ -89,6 +89,7 @@ spec:
         kubeletExtraArgs:
           {{- include "kubeletExtraArgs" . | nindent 10}}
     files:
+      {{- include "kubeProxyFiles" . | nindent 6 }}
       {{- range $kubeadmPatch, $_ :=  .Files.Glob  "files/etc/patches/**" }}
       - path: {{ (printf "/tmp/kubeadm/patches/%s" (base $kubeadmPatch)) }}
         content: |-
@@ -102,6 +103,7 @@ spec:
             key: encryption
     preKubeadmCommands:
       - bash /tmp/kubeadm/patches/kube-apiserver-patch.sh {{ .Values.controlPlane.resourceRatio }}
+      - bash /run/kubeadm/gs-kube-proxy-patch.sh
   machineTemplate:
     infrastructureRef:
       apiVersion: {{ include "infrastructureApiVersion" . }}
