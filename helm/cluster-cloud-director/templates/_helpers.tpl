@@ -75,11 +75,11 @@ preKubeadmCommands:
 {{- end -}}
 
 {{- define "kubeProxyFiles" }}
-- path: /etc/gs-kube-proxy-config.yaml
+- path: /run/kubeadm/gs-kube-proxy-config.yaml
   permissions: "0600"
   content: |
     {{- .Files.Get "files/etc/gs-kube-proxy-config.yaml" | nindent 4 }}
-- path: /etc/gs-kube-proxy-patch.sh
+- path: /run/kubeadm/gs-kube-proxy-patch.sh
   permissions: "0700"
   content: |
     {{- .Files.Get "files/etc/gs-kube-proxy-patch.sh" | nindent 4 }}
