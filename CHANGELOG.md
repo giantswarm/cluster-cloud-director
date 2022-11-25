@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Decouple `preKubeadmCommands` section from `containerdProxyConfig` function in `helpers.tpl`.
+
 ## [0.4.0] - 2022-11-25
 
 ### Changed
