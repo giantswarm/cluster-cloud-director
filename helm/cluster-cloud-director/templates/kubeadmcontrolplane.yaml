@@ -106,6 +106,10 @@ spec:
     preKubeadmCommands:
       - bash /tmp/kubeadm/patches/kube-apiserver-patch.sh {{ .Values.controlPlane.resourceRatio }}
       - bash /run/kubeadm/gs-kube-proxy-patch.sh
+      {{- if $.Values.proxy.enabled }}
+      - systemctl daemon-reload
+      - systemctl restart containerd
+      {{- end }}
   machineTemplate:
     infrastructureRef:
       apiVersion: {{ include "infrastructureApiVersion" . }}
