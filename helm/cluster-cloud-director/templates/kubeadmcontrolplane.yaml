@@ -73,9 +73,6 @@ spec:
       {{- end }}
     {{- end }}
     {{- end }}
-    {{- if $.Values.proxy.enabled }}
-    {{- include "containerdProxyConfig" . | nindent 4}}
-    {{- end }}
     initConfiguration:
       patches:
         directory: "/tmp/kubeadm/patches"
@@ -91,6 +88,9 @@ spec:
         kubeletExtraArgs:
           {{- include "kubeletExtraArgs" . | nindent 10}}
     files:
+      {{- if $.Values.proxy.enabled }}
+      {{- include "containerdProxyConfig" . | nindent 6}}
+      {{- end }}
       {{- include "kubeProxyFiles" . | nindent 6 }}
       {{- range $kubeadmPatch, $_ :=  .Files.Glob  "files/etc/patches/**" }}
       - path: {{ (printf "/tmp/kubeadm/patches/%s" (base $kubeadmPatch)) }}
