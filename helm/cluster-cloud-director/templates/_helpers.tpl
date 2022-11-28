@@ -69,9 +69,6 @@ files:
       secret:
         name: {{ include "containerdProxySecret" $ }}
         key: containerdProxy   
-preKubeadmCommands:
-- systemctl daemon-reload
-- systemctl restart containerd
 {{- end -}}
 
 {{- define "kubeProxyFiles" }}
@@ -111,6 +108,13 @@ joinConfiguration:
 {{- if $.Values.proxy.enabled }}
 {{- include "containerdProxyConfig" . | nindent 0}}
 {{- end }}
+
+preKubeadmCommands:
+{{- if $.Values.proxy.enabled }}
+- systemctl daemon-reload
+- systemctl restart containerd
+{{- end }}
+
 {{- end -}}
 
 {{- define "kubeadmConfigTemplateRevision" -}}
