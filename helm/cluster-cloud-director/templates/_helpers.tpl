@@ -71,6 +71,12 @@ files:
         key: containerdProxy   
 {{- end -}}
 
+{{- define "staticRoutes" -}}
+{{- range $.Values.network.staticRoutes }}
+- ip route add {{ .destination }} via {{ .via }}
+{{- end -}}
+{{- end }}
+
 {{- define "kubeProxyFiles" }}
 - path: /run/kubeadm/gs-kube-proxy-config.yaml
   permissions: "0600"
@@ -108,13 +114,15 @@ joinConfiguration:
 {{- if $.Values.proxy.enabled }}
 {{- include "containerdProxyConfig" . | nindent 0}}
 {{- end }}
-
 preKubeadmCommands:
 {{- if $.Values.proxy.enabled }}
 - systemctl daemon-reload
 - systemctl restart containerd
 {{- end }}
-
+postKubeadmCommands:
+{{- if $.Values.network.staticRoutes }}
+{{- include "staticRoutes" . }}
+{{- end -}}
 {{- end -}}
 
 {{- define "kubeadmConfigTemplateRevision" -}}

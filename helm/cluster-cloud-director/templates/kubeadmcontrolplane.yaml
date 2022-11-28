@@ -110,6 +110,10 @@ spec:
       - systemctl daemon-reload
       - systemctl restart containerd
       {{- end }}
+    postKubeadmCommands:  
+      {{- if $.Values.network.staticRoutes }}
+      {{- include "staticRoutes" . | nindent 6}}
+      {{- end }}
   machineTemplate:
     infrastructureRef:
       apiVersion: {{ include "infrastructureApiVersion" . }}
