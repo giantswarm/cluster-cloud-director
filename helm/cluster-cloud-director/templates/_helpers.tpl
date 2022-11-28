@@ -62,13 +62,12 @@ use the cluster-apps-operator created secret <clusterName>-cluster-values as def
 {{- end -}}
 
 {{- define "containerdProxyConfig" -}}
-files:
-  - path: /etc/systemd/system/containerd.service.d/99-http-proxy.conf
-    permissions: "0600"
-    contentFrom:
-      secret:
-        name: {{ include "containerdProxySecret" $ }}
-        key: containerdProxy   
+- path: /etc/systemd/system/containerd.service.d/99-http-proxy.conf
+  permissions: "0600"
+  contentFrom:
+    secret:
+      name: {{ include "containerdProxySecret" $ }}
+      key: containerdProxy   
 {{- end -}}
 
 {{- define "staticRoutes" -}}
@@ -112,7 +111,8 @@ joinConfiguration:
       {{- include "kubeletExtraArgs" . | nindent  6}}
       node-labels: "giantswarm.io/node-pool={{ .pool.name }}"
 {{- if $.Values.proxy.enabled }}
-{{- include "containerdProxyConfig" . | nindent 0}}
+files:
+{{- include "containerdProxyConfig" . | nindent 2}}
 {{- end }}
 preKubeadmCommands:
 {{- if $.Values.proxy.enabled }}
