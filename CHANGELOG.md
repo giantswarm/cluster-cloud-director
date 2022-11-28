@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Configurable static routes.
 
+## [0.4.1] - 2022-11-28
+
 ### Fixed
 
 - Decouple `preKubeadmCommands` section from `containerdProxyConfig` function in `helpers.tpl`.
