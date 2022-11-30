@@ -16,7 +16,6 @@ spec:
       {{- range .Values.network.podsCidrBlocks }}
       - {{ . }}
       {{- end }}
-    serviceDomain: {{ .Values.baseDomain }}
     services:
       cidrBlocks:
       {{- range .Values.network.servicesCidrBlocks }}
