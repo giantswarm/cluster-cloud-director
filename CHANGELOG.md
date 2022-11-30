@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Remove `serviceDomain` from `Cluster` spec to fix invalid noProxy value. 
+- Remove chart name (including app version) from selectors to enable upgrades.
 
 ## [0.4.3] - 2022-11-28
 
