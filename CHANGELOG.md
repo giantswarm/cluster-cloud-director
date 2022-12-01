@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.4] - 2022-12-01
+
 ### Fixed
 
 - Remove `serviceDomain` from `Cluster` spec to fix invalid noProxy value. 
@@ -126,7 +128,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added VCDCluster parameters to match CRD.
 - Nodepool and nodeclass support.
 
-[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.4.3...HEAD
+[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.4.4...HEAD
+[0.4.4]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.4.3...v0.4.4
 [0.4.3]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.4.2...v0.4.3
 [0.4.2]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.4.1...v0.4.2
 [0.4.1]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.4.0...v0.4.1
