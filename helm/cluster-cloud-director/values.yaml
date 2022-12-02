@@ -76,7 +76,7 @@ nodeClasses: {}  # Class definitions for worker node pools. The "name" of the cl
   #   storageProfile: ""
   #   diskSize: ""
 
-nodePools: []
+nodePools: {}
   # worker:
   #   class: default  # Node classes name (defined above)
   #   replicas: 2
