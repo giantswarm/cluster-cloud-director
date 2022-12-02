@@ -190,7 +190,24 @@
                     }
                 },
                 "staticRoutes": {
-                    "type": "array"
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "destination": {
+                                "type": "string",
+                                "examples": ["10.128.0.0/16"]
+                            },
+                            "via": {
+                                "type": "string",
+                                "format": "ipv4"
+                            }
+                        },
+                        "required": [
+                            "destination",
+                            "via"
+                        ]
+                    }
                 }
             },
             "required": [
