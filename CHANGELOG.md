@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add items schema for `.network.staticRoutes`.
 - Add properties schema for `.nodePools` and `.nodeClasses`.
+- Support `extraOvdcNetworks` to attach multiple network to machines.
 
 ## [0.4.4] - 2022-12-01
 

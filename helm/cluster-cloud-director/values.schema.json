@@ -243,6 +243,12 @@
                             "via"
                         ]
                     }
+                },
+                "extraOvdcNetworks": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 }
             },
             "required": [
