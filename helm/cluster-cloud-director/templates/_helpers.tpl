@@ -143,6 +143,12 @@ template: {{ .currentClass.template }}
 sizingPolicy: {{ .currentClass.sizingPolicy }}
 placementPolicy: {{ .currentClass.placementPolicy }}
 storageProfile: {{ .currentClass.storageProfile }}
+{{- if $.network.extraOvdcNetworks }}
+extraOvdcNetworks:
+  {{- range $.network.extraOvdcNetworks }}
+  - {{ . }}
+  {{- end }}
+{{- end -}}
 {{- end -}}
 
 {{- define "mtRevision" -}}
