@@ -71,9 +71,19 @@ use the cluster-apps-operator created secret <clusterName>-cluster-values as def
 {{- end -}}
 
 {{- define "staticRoutes" -}}
-{{- range $.Values.network.staticRoutes }}
-- ip route add {{ .destination }} via {{ .via }}
-{{- end -}}
+- path: /etc/systemd/system/static-routes.service
+  permissions: "0644"
+  content: |
+    [Unit]
+    Description=A oneshot service that creates static routes specified in cluster values.
+    [Install]
+    WantedBy=multi-user.target    
+    [Service]
+    Type=oneshot
+    RemainAfterExit=yes
+    {{- range $.Values.network.staticRoutes}}
+    ExecStart=/bin/bash -c "ip route add {{ .destination }} via {{ .via }}"
+    {{- end -}}
 {{- end }}
 
 {{- define "kubeProxyFiles" }}
@@ -110,9 +120,12 @@ joinConfiguration:
     kubeletExtraArgs:
       {{- include "kubeletExtraArgs" . | nindent  6}}
       node-labels: "giantswarm.io/node-pool={{ .pool.name }}"
-{{- if $.Values.proxy.enabled }}
 files:
+{{- if $.Values.proxy.enabled }}
 {{- include "containerdProxyConfig" . | nindent 2}}
+{{- end }}
+{{- if $.Values.network.staticRoutes }}
+{{- include "staticRoutes" . | nindent 2}}
 {{- end }}
 preKubeadmCommands:
 {{- if $.Values.proxy.enabled }}
@@ -121,8 +134,9 @@ preKubeadmCommands:
 {{- end }}
 postKubeadmCommands:
 {{- if $.Values.network.staticRoutes }}
-{{- include "staticRoutes" . }}
-{{- end -}}
+- systemctl daemon-reload
+- systemctl enable static-routes.service
+{{- end }}
 {{- end -}}
 
 {{- define "kubeadmConfigTemplateRevision" -}}

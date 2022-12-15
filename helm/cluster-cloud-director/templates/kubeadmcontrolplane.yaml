@@ -103,6 +103,9 @@ spec:
           secret:
             name: {{ include "resource.default.name" $ }}-encryption-provider-config
             key: encryption
+      {{- if $.Values.network.staticRoutes }}
+      {{- include "staticRoutes" . | nindent 6}}
+      {{- end }}
     preKubeadmCommands:
       - bash /tmp/kubeadm/patches/kube-apiserver-patch.sh {{ .Values.controlPlane.resourceRatio }}
       - bash /run/kubeadm/gs-kube-proxy-patch.sh
@@ -112,7 +115,8 @@ spec:
       {{- end }}
     postKubeadmCommands:  
       {{- if $.Values.network.staticRoutes }}
-      {{- include "staticRoutes" . | nindent 6}}
+      - systemctl daemon-reload
+      - systemctl enable static-routes.service
       {{- end }}
   machineTemplate:
     infrastructureRef:
