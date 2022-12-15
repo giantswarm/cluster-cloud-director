@@ -138,6 +138,7 @@ postKubeadmCommands:
 {{- if $.Values.network.staticRoutes }}
 - systemctl daemon-reload
 - systemctl enable static-routes.service
+- systemctl start static-routes.service
 {{- end }}
 {{- end -}}
 
