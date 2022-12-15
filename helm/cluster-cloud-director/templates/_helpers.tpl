@@ -76,6 +76,8 @@ use the cluster-apps-operator created secret <clusterName>-cluster-values as def
   content: |
     [Unit]
     Description=A oneshot service that creates static routes specified in cluster values.
+    After=network-online.target
+    Wants=network-online.target
     [Install]
     WantedBy=multi-user.target    
     [Service]
