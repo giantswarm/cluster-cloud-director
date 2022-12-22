@@ -185,7 +185,7 @@
         "kubectlImage": {
             "type": "object",
             "title": "Kubectl image",
-            "description": "Used by cluster-shared library chart.",
+            "description": "Used by cluster-shared library chart to configure coredns in-cluster.",
             "properties": {
                 "type": "object",
                 "properties": {
