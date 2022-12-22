@@ -33,7 +33,7 @@
             ]
         },
         "diskSizeGB": {
-            "type": "integer",
+            "type": "string",
             "title": "virtual disk size"
         }
     },
