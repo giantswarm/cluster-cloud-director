@@ -184,7 +184,7 @@
         },
         "kubectlImage": {
             "type": "object",
-            "title": "kubectl Image",
+            "title": "Kubectl image",
             "description": "Used by cluster-shared library chart.",
             "additionalProperties": {
                 "type": "object",
