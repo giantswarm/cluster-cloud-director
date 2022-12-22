@@ -183,7 +183,20 @@
             "type": "string"
         },
         "kubectlImage": {
-            "type": "object"
+            "type": "object",
+            "title": "Kubectl image",
+            "description": "Used by cluster-shared library chart to configure coredns in-cluster.",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "registry": {
+                    "type": "string"
+                },
+                "tag": {
+                    "type": "string"
+                }
+            }
         },
         "kubernetesVersion": {
             "type": "string"

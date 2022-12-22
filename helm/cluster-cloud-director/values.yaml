@@ -97,4 +97,7 @@ userContext:
 # cluster-shared configuration
 includeClusterResourceSet: "true"  # must be a string
 # let's use the kubectl image defaults
-kubectlImage: {}
+kubectlImage:
+  registry: quay.io
+  name: giantswarm/kubectl
+  tag: 1.23.5
