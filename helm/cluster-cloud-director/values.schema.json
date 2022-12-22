@@ -31,6 +31,10 @@
             "examples": [
                 "ubuntu-2004-kube-v1.22.5"
             ]
+        },
+        "diskSizeGB": {
+            "type": "integer",
+            "title": "virtual disk size"
         }
     },
     "type": "object",
@@ -163,15 +167,8 @@
                 "template": {
                     "$ref": "#/$defs/template"
                 },
-                "diskSize": {
-                    "anyOf": [
-                        {
-                            "type": "integer"
-                        },
-                        {
-                            "type": "string"
-                        }
-                    ]
+                "diskSizeGB": {
+                    "$ref": "#/$defs/diskSizeGB"
                 },
                 "resourceRatio": {
                     "minimum": 2,
@@ -290,9 +287,8 @@
                     "storageProfile": {
                         "$ref": "#/$defs/storageProfile"
                     },
-                    "diskSize": {
-                        "type": "string",
-                        "title": "Disk size"
+                    "diskSizeGB": {
+                        "$ref": "#/$defs/diskSizeGB"
                     }
                 }
             }
