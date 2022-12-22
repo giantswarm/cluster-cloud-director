@@ -183,7 +183,23 @@
             "type": "string"
         },
         "kubectlImage": {
-            "type": "object"
+            "type": "object",
+            "title": "kubectl Image",
+            "description": "Used by cluster-shared library chart.",
+            "additionalProperties": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "registry": {
+                        "type": "string"
+                    },
+                    "tag": {
+                        "type": "string"
+                    }
+                }
+            }
         },
         "kubernetesVersion": {
             "type": "string"
