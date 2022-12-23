@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 - Add schema for `.kubectlImage`.
+- Add support for `diskSize`.
 
 ## [0.5.0] - 2022-12-18
 

@@ -159,6 +159,7 @@ template: {{ .currentClass.template }}
 sizingPolicy: {{ .currentClass.sizingPolicy }}
 placementPolicy: {{ .currentClass.placementPolicy }}
 storageProfile: {{ .currentClass.storageProfile }}
+diskSize: {{ .currentClass.diskSize }}
 {{- if $.network.extraOvdcNetworks }}
 extraOvdcNetworks:
   {{- range $.network.extraOvdcNetworks }}

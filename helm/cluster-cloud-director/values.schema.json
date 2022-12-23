@@ -31,6 +31,14 @@
             "examples": [
                 "ubuntu-2004-kube-v1.22.5"
             ]
+        },
+        "diskSize": {
+            "type": "string",
+            "title": "Node disk size",
+            "description": "Change size of the nodes OS disk.",
+            "examples": [
+                "30Gi"
+            ]
         }
     },
     "type": "object",
@@ -164,14 +172,7 @@
                     "$ref": "#/$defs/template"
                 },
                 "diskSize": {
-                    "anyOf": [
-                        {
-                            "type": "integer"
-                        },
-                        {
-                            "type": "string"
-                        }
-                    ]
+                    "$ref": "#/$defs/diskSize"
                 },
                 "resourceRatio": {
                     "minimum": 2,
@@ -304,8 +305,7 @@
                         "$ref": "#/$defs/storageProfile"
                     },
                     "diskSize": {
-                        "type": "string",
-                        "title": "Disk size"
+                        "$ref": "#/$defs/diskSize"
                     }
                 }
             }
