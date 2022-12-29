@@ -9,6 +9,7 @@ clusterDescription: ""  # Cluster description used in metadata.
 kubernetesVersion: ""
 organization: ""  # The organization which owns this cluster.
 servicePriority: "highest"
+clusterLabels: {}
 
 cloudDirector:
   site: ""  # VCD endpoint with the format https://VCD_HOST. No trailing '/'.

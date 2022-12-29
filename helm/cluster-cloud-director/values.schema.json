@@ -202,6 +202,9 @@
         "kubernetesVersion": {
             "type": "string"
         },
+        "clusterLabels": {
+            "type": "object"
+        },
         "network": {
             "type": "object",
             "properties": {
