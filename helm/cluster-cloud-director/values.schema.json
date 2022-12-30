@@ -203,7 +203,8 @@
             "type": "string"
         },
         "clusterLabels": {
-            "type": "object"
+            "type": "object",
+            "description": "Used for adding configurable labels for cluster CRs in cluster chart values"
         },
         "network": {
             "type": "object",
