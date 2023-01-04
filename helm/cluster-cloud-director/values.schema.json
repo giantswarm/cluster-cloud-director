@@ -202,6 +202,10 @@
         "kubernetesVersion": {
             "type": "string"
         },
+        "clusterLabels": {
+            "type": "object",
+            "description": "Used for adding configurable labels to the cluster CR."
+        },
         "network": {
             "type": "object",
             "properties": {
