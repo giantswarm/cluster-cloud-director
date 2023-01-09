@@ -37,7 +37,7 @@
             "title": "Node disk size in GB",
             "description": "Change size of the nodes OS disk.",
             "examples": [
-                "30"
+                30
             ]
         }
     },
