@@ -120,8 +120,9 @@ joinConfiguration:
   nodeRegistration:
     criSocket: /run/containerd/containerd.sock
     kubeletExtraArgs:
-      {{- include "kubeletExtraArgs" . | nindent  6}}
-      node-labels: "giantswarm.io/node-pool={{ .pool.name }}"
+      {{- include "kubeletExtraArgs" . | nindent  6 -}}
+      node-labels: "giantswarm.io/node-pool={{ .pool.name }},{{- include "labelsByClass" . -}}"
+    {{- include "taintsByClass" . | nindent  4}}
 files:
 {{- if $.Values.proxy.enabled }}
 {{- include "containerdProxyConfig" . | nindent 2}}
@@ -169,6 +170,17 @@ extraOvdcNetworks:
 {{- end -}}
 {{- end -}}
 
+{{- define "taints" -}}
+{{- with . -}}
+taints:
+{{- range . }}
+- key: {{ .key | quote }}
+  value: {{ .value | quote }}
+  effect: {{ .effect | quote }}
+{{- end }}
+{{- end }}
+{{- end -}}
+
 {{- define "mtRevision" -}}
 {{- $inputs := (dict
   "spec" (include "mtSpec" .)
@@ -181,6 +193,24 @@ extraOvdcNetworks:
 {{- range $name, $value := .currentValues.nodeClasses }}
 {{- if eq $name $outerScope.class }}
 {{- include "mtRevision" (merge (dict "currentClass" $value) $outerScope.currentValues) }}
+{{- end }}
+{{- end }}
+{{- end -}}
+
+{{- define "taintsByClass" -}}
+{{- $outerScope := . }}
+{{- range $name, $value := .Values.nodeClasses }}
+{{- if eq $name $outerScope.pool.class }}
+{{- include "taints" $value.customNodeTaints }}
+{{- end }}
+{{- end }}
+{{- end -}}
+
+{{- define "labelsByClass" -}}
+{{- $outerScope := . }}
+{{- range $name, $value := .Values.nodeClasses }}
+{{- if eq $name $outerScope.pool.class }}
+{{- join "," $value.customNodeLabels -}}
 {{- end }}
 {{- end }}
 {{- end -}}
