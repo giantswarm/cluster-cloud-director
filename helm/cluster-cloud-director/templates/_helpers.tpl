@@ -152,6 +152,7 @@ postKubeadmCommands:
 VCDMachineTemplate is immutable. We need to create new versions during upgrades.
 Here we are generating a hash suffix to trigger upgrade when only it is necessary by
 using only the parameters used in vcdmachinetemplate.yaml.
+diskSize is computed with 1024^3 instead of 1000^3 because of https://github.com/vmware/cluster-api-provider-cloud-director/blob/501b616011dced31ddf3e0e3da0036a7a49ce015/controllers/vcdmachine_controller.go#L651
 */}}
 {{- define "mtSpec" -}}
 catalog: {{ .currentClass.catalog }}
