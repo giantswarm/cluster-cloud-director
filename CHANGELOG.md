@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add configurable cluster CR labels.
 - Add schema for `.kubectlImage`.
 - Add support for `diskSizeGB`.
+- Add support for setting node labels using `customNodeLabels`.
+- Add support for setting node taints using `customNodeTaints`.
 
 ## [0.5.0] - 2022-12-18
 

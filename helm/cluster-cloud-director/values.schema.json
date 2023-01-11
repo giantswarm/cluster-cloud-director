@@ -9,6 +9,44 @@
                 "giantswarm"
             ]
         },
+        "nodeLabels": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "title": "Custom node label",
+                "pattern": "^[A-Za-z0-9-_\\./]{1,63}=[A-Za-z0-9-_\\.]{0,63}$",
+                "examples": [
+                    "key=value"
+                ]
+            }
+        },
+        "nodeTaints": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "title": "Custom node taint",
+                "properties": {
+                    "key": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "Name of the label on a node"
+                    },
+                    "value": {
+                        "type": "string",
+                        "description": "value of the label identified by the key"
+                    },
+                    "effect": {
+                        "type": "string",
+                        "description": "One of NoSchedule, PreferNoSchedule or NoExecute",
+                        "enum": ["NoSchedule", "PreferNoSchedule", "NoExecute"]
+                    }
+                },
+                "required": [
+                    "key",
+                    "effect"
+                ]
+            }
+        },
         "placementPolicy": {
             "type": "string",
             "title": "Placement policy"
@@ -125,6 +163,9 @@
             "properties": {
                 "catalog": {
                     "$ref": "#/$defs/catalog"
+                },
+                "customNodeLabels": {
+                    "$ref": "#/$defs/nodeLabels"
                 },
                 "dns": {
                     "type": "object",
@@ -295,6 +336,12 @@
                 "properties": {
                     "catalog": {
                         "$ref": "#/$defs/catalog"
+                    },
+                    "customNodeLabels": {
+                        "$ref": "#/$defs/nodeLabels"
+                    },
+                    "customNodeTaints": {
+                        "$ref": "#/$defs/nodeTaints"
                     },
                     "template": {
                         "$ref": "#/$defs/template"
