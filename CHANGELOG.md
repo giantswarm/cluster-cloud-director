@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add support for `diskSizeGB`.
 - Add support for setting node labels using `customNodeLabels`.
 - Add support for setting node taints using `customNodeTaints`.
+- Include common labels for `kubeadmcontrolplane.spec.machinetemplate.metadata`.
 
 ## [0.5.0] - 2022-12-18
 

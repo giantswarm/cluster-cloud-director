@@ -124,6 +124,8 @@ spec:
       - systemctl enable --now static-routes.service
       {{- end }}
   machineTemplate:
+    metadata:
+      labels: {{- include "labels.common" . | nindent 8 }}
     infrastructureRef:
       apiVersion: {{ include "infrastructureApiVersion" . }}
       kind: VCDMachineTemplate
