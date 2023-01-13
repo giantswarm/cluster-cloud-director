@@ -1,0 +1,104 @@
+# TODO: Describe what this post-install hook is doing in the comment
+# TODO: Describe what this post-install hook is doing in the comment
+# TODO: Describe what this post-install hook is doing in the comment
+# TODO: Describe what this post-install hook is doing in the comment
+# TODO: Describe what this post-install hook is doing in the comment
+# TODO: Describe what this post-install hook is doing in the comment
+# TODO: Describe what this post-install hook is doing in the comment
+# TODO: Describe what this post-install hook is doing in the comment
+# TODO: Describe what this post-install hook is doing in the comment
+# TODO: Describe what this post-install hook is doing in the comment
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: "{{ include "resource.default.name" $ }}-post-install-rdeid"
+  namespace: "{{ $.Release.Namespace }}"
+  annotations:
+    "helm.sh/hook": "post-install"
+    "helm.sh/hook-delete-policy": "before-hook-creation,hook-succeeded"
+  labels:
+    {{- include "labels.common" $ | nindent 4 }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: "{{ include "resource.default.name" $ }}-post-install-rdeid"
+  namespace: "{{ $.Release.Namespace }}"
+  annotations:
+    "helm.sh/hook": "post-install"
+    "helm.sh/hook-delete-policy": "before-hook-creation,hook-succeeded"
+  labels:
+    {{- include "labels.common" $ | nindent 4 }}
+rules:
+- apiGroups: ["infrastructure.cluster.x-k8s.io"]
+  resources: ["vcdclusters"]
+  resourceNames: ["{{ include "resource.default.name" $ }}"]
+  verbs: ["get"]
+- apiGroups: ["helm.toolkit.fluxcd.io"]
+  resources: ["helmreleases"]
+  resourceNames: ["{{ include "resource.default.name" $ }}-cloud-provider-cloud-director"]
+  verbs: ["get", "patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: "{{ include "resource.default.name" $ }}-post-install-rdeid"
+  namespace: "{{ $.Release.Namespace }}"
+  annotations:
+    "helm.sh/hook": "post-install"
+    "helm.sh/hook-delete-policy": "before-hook-creation,hook-succeeded"
+  labels:
+    {{- include "labels.common" $ | nindent 4 }}
+subjects:
+- kind: ServiceAccount
+  name: "{{ include "resource.default.name" $ }}-post-install-rdeid"
+  namespace: "{{ $.Release.Namespace }}"
+roleRef:
+  kind: Role
+  name: "{{ include "resource.default.name" $ }}-post-install-rdeid"
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ include "resource.default.name" $ }}-post-install-rdeid"
+  namespace: "{{ $.Release.Namespace }}"
+  labels:
+    {{- include "labels.common" $ | nindent 4 }}
+  annotations:
+    "helm.sh/hook": "post-install"
+    "helm.sh/hook-delete-policy": "before-hook-creation,hook-succeeded"
+spec:
+  template:
+    metadata:
+      name: "{{ include "resource.default.name" $ }}-post-install-rdeid"
+      namespace: "{{ $.Release.Namespace }}"
+      labels:
+        {{- include "labels.common" $ | nindent 8 }}
+    spec:
+      restartPolicy: Never
+      serviceAccountName: "{{ include "resource.default.name" $ }}-post-install-rdeid"
+      containers:
+      - name: post-install-job
+        image: "{{ .Values.kubectlImage.registry }}/{{ .Values.kubectlImage.name }}:{{ .Values.kubectlImage.tag }}"
+        command:
+          - "/bin/sh"
+          - "-xc"
+          - |
+            while [ -z "${rde_id}" ] ; do
+              rde_id=$(kubectl get vcdcluster -n {{ $.Release.Namespace }} {{ include "resource.default.name" $ }} -o 'jsonpath={.spec.rdeId}')
+              sleep 5
+            done
+            # TODO move to _helpers.tpl
+            # TODO move to _helpers.tpl
+            # TODO move to _helpers.tpl
+            # TODO move to _helpers.tpl
+            # TODO move to _helpers.tpl
+            # TODO move to _helpers.tpl
+            # TODO move to _helpers.tpl
+            # TODO move to _helpers.tpl
+            # TODO move to _helpers.tpl
+            # TODO move to _helpers.tpl
+            # TODO move to _helpers.tpl
+            # TODO move to _helpers.tpl
+            kubectl patch helmrelease -n {{ $.Release.Namespace }} {{ include "resource.default.name" $ }}-cloud-provider-cloud-director --type=merge -p '{"spec":{"values":{"global": {"vcdConfig": {"clusterid": "'${rde_id}'"}}}}}'

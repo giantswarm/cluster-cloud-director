@@ -1,0 +1,42 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: {{ include "resource.default.name" $ }}-cloud-provider-cloud-director
+  namespace: {{ $.Release.Namespace }}
+spec:
+  releaseName: cloud-provider-cloud-director
+  targetNamespace: kube-system
+  storageNamespace: kube-system
+  chart:
+    spec:
+      chart: cloud-provider-cloud-director
+      version: 0.2.0
+      sourceRef:
+        kind: HelmRepository
+        name: {{ include "resource.default.name" $ }}-default
+  kubeConfig:
+    secretRef:
+      name: {{ include "resource.default.name" $ }}-kubeconfig
+  interval: 10m
+  install:
+    remediation:
+      retries: 3
+  # Default values
+  # https://github.com/giantswarm/cloud-provider-cloud-director-app/blob/main/helm/cloud-provider-cloud-director/values.yaml
+  valuesFrom:
+    - kind: Secret
+      name: {{ .Values.userContext.secretRef.secretName | quote }}
+      valuesKey: "refreshToken"
+      targetPath: "global.basicAuthSecret.refreshToken"
+  values:
+    global:
+      basicAuthSecret:
+        create: true
+      vcdConfig:
+        clusterid: "" # This will be set by the post-install hook in post-install-rdeid-job.yaml.
+        org: {{ .Values.cloudDirector.org | quote }}
+        ovdc: {{ .Values.cloudDirector.ovdc | quote }}
+        ovdcNetwork: {{ .Values.cloudDirector.ovdcNetwork | quote }}
+        site: {{ .Values.cloudDirector.site | quote }}
+        vAppName: {{ include "resource.default.name" $  | quote }}
+        vipSubnet: {{ .Values.network.loadBalancer.vipSubnet | quote }}
