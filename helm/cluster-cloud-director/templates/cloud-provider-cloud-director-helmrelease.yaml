@@ -4,7 +4,7 @@ metadata:
   name: {{ include "resource.default.name" $ }}-cloud-provider-cloud-director
   namespace: {{ $.Release.Namespace }}
 spec:
-  susped: true # It will be unsuspended by the post-install/post-upgrade hook in post-install-rdeid-job.yaml.
+  suspend: true # It will be unsuspended by the post-install/post-upgrade hook in post-install-rdeid-job.yaml.
   releaseName: cloud-provider-cloud-director
   targetNamespace: kube-system
   storageNamespace: kube-system
