@@ -4,6 +4,7 @@ metadata:
   name: {{ include "resource.default.name" $ }}-cloud-provider-cloud-director
   namespace: {{ $.Release.Namespace }}
 spec:
+  susped: true # It will be unsuspended by the post-install/post-upgrade hook in post-install-rdeid-job.yaml.
   releaseName: cloud-provider-cloud-director
   targetNamespace: kube-system
   storageNamespace: kube-system
@@ -33,7 +34,7 @@ spec:
       basicAuthSecret:
         create: true
       vcdConfig:
-        clusterid: "" # This will be set by the post-install hook in post-install-rdeid-job.yaml.
+        clusterid: "" # It will be set by the post-install/post-upgrade hook in post-install-rdeid-job.yaml.
         org: {{ .Values.cloudDirector.org | quote }}
         ovdc: {{ .Values.cloudDirector.ovdc | quote }}
         ovdcNetwork: {{ .Values.cloudDirector.ovdcNetwork | quote }}

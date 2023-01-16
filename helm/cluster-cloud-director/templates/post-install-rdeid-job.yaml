@@ -104,7 +104,7 @@ spec:
               # TODO move to _helpers.tpl
               # TODO move to _helpers.tpl
               # TODO move to _helpers.tpl
-              kubectl patch helmrelease -n {{ $.Release.Namespace }} {{ include "resource.default.name" $ }}-cloud-provider-cloud-director --type=merge -p '{"spec":{"values":{"global": {"vcdConfig": {"clusterid": "'${rde_id}'"}}}}}'
+              kubectl patch helmrelease -n {{ $.Release.Namespace }} {{ include "resource.default.name" $ }}-cloud-provider-cloud-director --type=merge -p '{"spec":{"suspend":false,"values":{"global": {"vcdConfig": {"clusterid": "'${rde_id}'"}}}}}'
           securityContext:
             readOnlyRootFilesystem: true
           resources:
