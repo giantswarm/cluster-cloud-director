@@ -30,14 +30,14 @@ metadata:
   labels:
     {{- include "labels.common" $ | nindent 4 }}
 rules:
-- apiGroups: ["infrastructure.cluster.x-k8s.io"]
-  resources: ["vcdclusters"]
-  resourceNames: ["{{ include "resource.default.name" $ }}"]
-  verbs: ["get"]
-- apiGroups: ["helm.toolkit.fluxcd.io"]
-  resources: ["helmreleases"]
-  resourceNames: ["{{ include "resource.default.name" $ }}-cloud-provider-cloud-director"]
-  verbs: ["get", "patch"]
+  - apiGroups: ["infrastructure.cluster.x-k8s.io"]
+    resources: ["vcdclusters"]
+    resourceNames: ["{{ include "resource.default.name" $ }}"]
+    verbs: ["get"]
+  - apiGroups: ["helm.toolkit.fluxcd.io"]
+    resources: ["helmreleases"]
+    resourceNames: ["{{ include "resource.default.name" $ }}-cloud-provider-cloud-director"]
+    verbs: ["get", "patch"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -50,9 +50,9 @@ metadata:
   labels:
     {{- include "labels.common" $ | nindent 4 }}
 subjects:
-- kind: ServiceAccount
-  name: "{{ include "resource.default.name" $ }}-post-install-rdeid"
-  namespace: "{{ $.Release.Namespace }}"
+  - kind: ServiceAccount
+    name: "{{ include "resource.default.name" $ }}-post-install-rdeid"
+    namespace: "{{ $.Release.Namespace }}"
 roleRef:
   kind: Role
   name: "{{ include "resource.default.name" $ }}-post-install-rdeid"
@@ -79,26 +79,33 @@ spec:
       restartPolicy: Never
       serviceAccountName: "{{ include "resource.default.name" $ }}-post-install-rdeid"
       containers:
-      - name: post-install-job
-        image: "{{ .Values.kubectlImage.registry }}/{{ .Values.kubectlImage.name }}:{{ .Values.kubectlImage.tag }}"
-        command:
-          - "/bin/sh"
-          - "-xc"
-          - |
-            while [ -z "${rde_id}" ] ; do
-              rde_id=$(kubectl get vcdcluster -n {{ $.Release.Namespace }} {{ include "resource.default.name" $ }} -o 'jsonpath={.spec.rdeId}')
-              sleep 5
-            done
-            # TODO move to _helpers.tpl
-            # TODO move to _helpers.tpl
-            # TODO move to _helpers.tpl
-            # TODO move to _helpers.tpl
-            # TODO move to _helpers.tpl
-            # TODO move to _helpers.tpl
-            # TODO move to _helpers.tpl
-            # TODO move to _helpers.tpl
-            # TODO move to _helpers.tpl
-            # TODO move to _helpers.tpl
-            # TODO move to _helpers.tpl
-            # TODO move to _helpers.tpl
-            kubectl patch helmrelease -n {{ $.Release.Namespace }} {{ include "resource.default.name" $ }}-cloud-provider-cloud-director --type=merge -p '{"spec":{"values":{"global": {"vcdConfig": {"clusterid": "'${rde_id}'"}}}}}'
+        - name: post-install-job
+          image: "{{ .Values.kubectlImage.registry }}/{{ .Values.kubectlImage.name }}:{{ .Values.kubectlImage.tag }}"
+          command:
+            - "/bin/sh"
+            - "-xc"
+            - |
+              while [ -z "${rde_id}" ] ; do
+                rde_id=$(kubectl get vcdcluster -n {{ $.Release.Namespace }} {{ include "resource.default.name" $ }} -o 'jsonpath={.spec.rdeId}')
+                sleep 5
+              done
+              # TODO move to _helpers.tpl
+              # TODO move to _helpers.tpl
+              # TODO move to _helpers.tpl
+              # TODO move to _helpers.tpl
+              # TODO move to _helpers.tpl
+              # TODO move to _helpers.tpl
+              # TODO move to _helpers.tpl
+              # TODO move to _helpers.tpl
+              # TODO move to _helpers.tpl
+              # TODO move to _helpers.tpl
+              # TODO move to _helpers.tpl
+              # TODO move to _helpers.tpl
+              kubectl patch helmrelease -n {{ $.Release.Namespace }} {{ include "resource.default.name" $ }}-cloud-provider-cloud-director --type=merge -p '{"spec":{"values":{"global": {"vcdConfig": {"clusterid": "'${rde_id}'"}}}}}'
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "10m"
+            limits:
+              memory: "256Mi"
+              cpu: "100m"
