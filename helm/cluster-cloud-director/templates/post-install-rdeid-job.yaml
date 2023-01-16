@@ -79,7 +79,6 @@ spec:
       restartPolicy: Never
       serviceAccountName: "{{ include "resource.default.name" $ }}-post-install-rdeid"
       securityContext:
-        readOnlyRootFilesystem: true
         runAsUser: {{ .Values.pod.user.id }}
         runAsGroup: {{ .Values.pod.group.id }}
       containers:
@@ -106,6 +105,8 @@ spec:
               # TODO move to _helpers.tpl
               # TODO move to _helpers.tpl
               kubectl patch helmrelease -n {{ $.Release.Namespace }} {{ include "resource.default.name" $ }}-cloud-provider-cloud-director --type=merge -p '{"spec":{"values":{"global": {"vcdConfig": {"clusterid": "'${rde_id}'"}}}}}'
+          securityContext:
+            readOnlyRootFilesystem: true
           resources:
             requests:
               memory: "64Mi"
