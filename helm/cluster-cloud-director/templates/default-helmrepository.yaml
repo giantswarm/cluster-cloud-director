@@ -3,6 +3,15 @@ kind: HelmRepository
 metadata:
   name: {{ include "resource.default.name" $ }}-default
   namespace: {{ $.Release.Namespace }}
+  annotations:
+    cluster.giantswarm.io/description: "{{ .Values.clusterDescription }}"
+  labels:
+    cluster-apps-operator.giantswarm.io/watching: ""
+    giantswarm.io/service-priority: "{{ .Values.servicePriority }}"
+    {{- include "labels.common" . | nindent 4 }}
+    {{- range $key, $val := .Values.clusterLabels }}
+    {{ $key }}: {{ $val | quote }}
+    {{- end}}
 spec:
   interval: 10m
   url: https://giantswarm.github.io/default-catalog
