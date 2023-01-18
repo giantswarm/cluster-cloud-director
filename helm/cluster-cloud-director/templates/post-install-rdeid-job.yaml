@@ -14,7 +14,7 @@ metadata:
   name: "{{ include "resource.default.name" $ }}-post-install-rdeid"
   namespace: "{{ $.Release.Namespace }}"
   annotations:
-    "helm.sh/hook": "post-install"
+    "helm.sh/hook": "post-install,post-upgrade"
     "helm.sh/hook-delete-policy": "before-hook-creation,hook-succeeded"
   labels:
     {{- include "labels.common" $ | nindent 4 }}
