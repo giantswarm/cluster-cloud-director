@@ -27,7 +27,7 @@ spec:
   kubeConfig:
     secretRef:
       name: {{ include "resource.default.name" $ }}-kubeconfig
-  interval: 10m
+  interval: 11m # fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change fake change
   install:
     remediation:
       retries: 3
