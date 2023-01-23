@@ -124,6 +124,7 @@ joinConfiguration:
       node-labels: "giantswarm.io/node-pool={{ .pool.name }},{{- include "labelsByClass" . -}}"
     {{- include "taintsByClass" . | nindent  4}}
 files:
+{{- include "registryFiles" . | nindent 2 }}
 {{- if $.Values.proxy.enabled }}
 {{- include "containerdProxyConfig" . | nindent 2}}
 {{- end }}
@@ -218,4 +219,66 @@ taints:
 {{- define "mtRevisionByControlPlane" -}}
 {{- $outerScope := . }}
 {{- include "mtRevision" (merge (dict "currentClass" .Values.controlPlane) $outerScope.Values) }}
+{{- end -}}
+
+{{/*
+Join elements of a string array by quoting elements and using comma as seperator.
+*/}}
+{{- define "commaJoinedQuotedList" -}}
+{{- $list := list }}
+{{- range . }}
+{{- $list = append $list (printf "\"%s\"" .) }}
+{{- end }}
+{{- join ", " $list }}
+{{- end }}
+
+{{/*
+Generate a stanza for KubeAdmConfig and KubeAdmControlPlane in order to 
+mount containerd configuration for registry configuration in nodes.
+*/}}
+{{- define "registryFiles" -}}
+{{- if .Values.registry.configure -}}
+- path: /etc/containerd/conf.d/registry-config.toml
+  permissions: "0600"
+  contentFrom:
+    secret:
+      name: {{ include "registrySecretName" $ }}
+      key: registry-config.toml
+{{- end -}}
+{{- end -}}
+
+{{/*
+Generate the content of /etc/containerd/conf.d/registry-config.toml in nodes
+for registry configuration
+*/}}
+{{- define "registrySecretContent" -}}
+version = 2
+
+[plugins."io.containerd.grpc.v1.cri".registry]
+
+[plugins."io.containerd.grpc.v1.cri".registry.mirrors]
+{{- range .Values.registry.mirrors }}
+[plugins."io.containerd.grpc.v1.cri".registry.mirrors."{{.name}}"]
+endpoint = [ {{ include "commaJoinedQuotedList" .endpoints }} ]
+{{- end }}
+
+[plugins."io.containerd.grpc.v1.cri".registry.configs]
+{{- range .Values.registry.configs }}
+[plugins."io.containerd.grpc.v1.cri".registry.configs."{{.endpoint}}".auth]
+
+{{- range $key, $value := .credentials }}
+{{ $key}}={{$value |quote}}
+{{- end }}
+
+{{- end }}
+{{- end -}}
+
+{{/*
+Generate name of the k8s secret that contains containerd configuration for registries.
+When there is a change in the secret, it is not recognized by CAPI controllers.
+To enforce upgrades, a version suffix is appended to secret name.
+*/}}
+{{- define "registrySecretName" -}}
+{{- $secretSuffix := include "registrySecretContent" . | b64enc | quote | sha1sum | trunc 8 }}
+{{- include "resource.default.name" $ }}-registry-configuration-{{$secretSuffix}}
 {{- end -}}
