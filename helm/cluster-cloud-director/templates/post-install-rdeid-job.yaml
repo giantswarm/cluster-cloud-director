@@ -25,8 +25,8 @@ metadata:
   name: "{{ include "resource.default.name" $ }}-post-install-rdeid"
   namespace: "{{ $.Release.Namespace }}"
   annotations:
-    "helm.sh/hook": "post-install"
-    "helm.sh/hook-delete-policy": "before-hook-creation,hook-succeeded"
+    "helm.sh/hook": "post-install,post-upgrade"
+    "helm.sh/hook-delete-policy": "before-hook-creation"
   labels:
     {{- include "labels.common" $ | nindent 4 }}
 rules:
@@ -45,8 +45,8 @@ metadata:
   name: "{{ include "resource.default.name" $ }}-post-install-rdeid"
   namespace: "{{ $.Release.Namespace }}"
   annotations:
-    "helm.sh/hook": "post-install"
-    "helm.sh/hook-delete-policy": "before-hook-creation,hook-succeeded"
+    "helm.sh/hook": "post-install,post-upgrade"
+    "helm.sh/hook-delete-policy": "before-hook-creation"
   labels:
     {{- include "labels.common" $ | nindent 4 }}
 subjects:
@@ -66,8 +66,8 @@ metadata:
   labels:
     {{- include "labels.common" $ | nindent 4 }}
   annotations:
-    "helm.sh/hook": "post-install"
-    "helm.sh/hook-delete-policy": "before-hook-creation,hook-succeeded"
+    "helm.sh/hook": "post-install,post-upgrade"
+    "helm.sh/hook-delete-policy": "before-hook-creation"
 spec:
   ttlSecondsAfterFinished: 86400 # 24h
   template:
