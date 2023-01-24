@@ -222,17 +222,6 @@ taints:
 {{- end -}}
 
 {{/*
-Join elements of a string array by quoting elements and using comma as seperator.
-*/}}
-{{- define "commaJoinedQuotedList" -}}
-{{- $list := list }}
-{{- range . }}
-{{- $list = append $list (printf "\"%s\"" .) }}
-{{- end }}
-{{- join ", " $list }}
-{{- end }}
-
-{{/*
 Generate a stanza for KubeAdmConfig and KubeAdmControlPlane in order to 
 mount containerd configuration for registry configuration in nodes.
 */}}
@@ -259,7 +248,7 @@ version = 2
 [plugins."io.containerd.grpc.v1.cri".registry.mirrors]
 {{- range .Values.registry.mirrors }}
 [plugins."io.containerd.grpc.v1.cri".registry.mirrors."{{.name}}"]
-endpoint = [ {{ include "commaJoinedQuotedList" .endpoints }} ]
+endpoint = [ {{ if .endpoints }}"{{ join "\", \"" .endpoints }}"{{ end }} ]
 {{- end }}
 
 [plugins."io.containerd.grpc.v1.cri".registry.configs]
