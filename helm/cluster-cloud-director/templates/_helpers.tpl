@@ -106,9 +106,9 @@ See https://github.com/kubernetes-sigs/cluster-api/issues/4910
 See https://github.com/kubernetes-sigs/cluster-api/pull/5027/files
 */}}
 {{- define "kubeadmConfigTemplateSpec" -}}
-{{- if $.Values.ssh.users }}
-{{- range $.Values.ssh.users -}}
+{{- if $.Values.ssh.users -}}
 users:
+{{- range $.Values.ssh.users }}
 - name: {{ .name }}
   sshAuthorizedKeys:
   {{- range .authorizedKeys }}
