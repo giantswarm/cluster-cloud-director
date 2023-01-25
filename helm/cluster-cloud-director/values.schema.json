@@ -447,7 +447,7 @@
                 "configure": {
                     "type": "boolean"
                 },
-                "mirrors": {
+                "defaultMirrors": {
                     "type": "array",
                     "items": {
                         "type": "object",
@@ -470,7 +470,62 @@
                         ]
                     }
                 },
-                "configs": {
+                "extraMirrors": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "minLength": 1
+                            },
+                            "endpoints": {
+                                "type": "array",
+                                "minLength": 1,
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "required": [
+                            "name",
+                            "endpoints"
+                        ]
+                    }
+                },
+                "defaultConfigs": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "endpoint": {
+                                "type": "string"
+                            },
+                            "credentials": {
+                                "type": "object",
+                                "properties": {
+                                    "username": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    },
+                                    "auth": {
+                                        "type": "string"
+                                    },
+                                    "identitytoken": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        },
+                        "required": [
+                            "endpoint",
+                            "credentials"
+                        ]
+                    }
+                },
+                "extraConfigs": {
                     "type": "array",
                     "items": {
                         "type": "object",

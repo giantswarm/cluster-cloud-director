@@ -113,12 +113,25 @@ kubectlImage:
 
 registry:
   configure: false
-  mirrors: []
+  defaultMirrors: []
 #  - name: docker.io
 #    endpoints:
 #    - "registry-1.docker.io"
-  configs: []
+#    - "my-mirror-registry.mydomain.io"
+  extraMirrors: []
+#  - name: quay.io
+#    endpoints:
+#    - "quay.io.io"
+#    - "my-mirror-registry.mydomain.io"
+  defaultConfigs: []
 #   - endpoint: "registry-1.docker.io"
+#     credentials:
+#       username: ""
+#       password: ""
+#       auth: ""
+#       identitytoken: ""
+  extraConfigs: []
+#   - endpoint: "quay.io"
 #     credentials:
 #       username: ""
 #       password: ""

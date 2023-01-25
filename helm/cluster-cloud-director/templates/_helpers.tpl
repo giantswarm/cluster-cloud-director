@@ -246,13 +246,13 @@ version = 2
 [plugins."io.containerd.grpc.v1.cri".registry]
 
 [plugins."io.containerd.grpc.v1.cri".registry.mirrors]
-{{- range .Values.registry.mirrors }}
+{{- range ( concat .Values.registry.defaultMirrors .Values.registry.extraMirrors)}}
 [plugins."io.containerd.grpc.v1.cri".registry.mirrors."{{.name}}"]
 endpoint = [ {{ if .endpoints }}"{{ join "\", \"" .endpoints }}"{{ end }} ]
 {{- end }}
 
 [plugins."io.containerd.grpc.v1.cri".registry.configs]
-{{- range .Values.registry.configs }}
+{{- range ( concat .Values.registry.defaultConfigs .Values.registry.extraConfigs) }}
 [plugins."io.containerd.grpc.v1.cri".registry.configs."{{.endpoint}}".auth]
 
 {{- range $key, $value := .credentials }}
