@@ -121,7 +121,7 @@ registry:
   extraMirrors: []
 #  - name: quay.io
 #    endpoints:
-#    - "quay.io.io"
+#    - "quay.io"
 #    - "my-mirror-registry.mydomain.io"
   defaultConfigs: []
 #   - endpoint: "registry-1.docker.io"
