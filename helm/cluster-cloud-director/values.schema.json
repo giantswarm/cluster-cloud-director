@@ -77,6 +77,65 @@
             "examples": [
                 30
             ]
+        },
+        "registryConfigs": {
+            "type": "array",
+            "title": "Endpoint Credentials of Container Registies",
+            "description": "Endpoint credentials of container registries in containerd configuration",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "endpoint": {
+                        "type": "string"
+                    },
+                    "credentials": {
+                        "type": "object",
+                        "properties": {
+                            "username": {
+                                "type": "string"
+                            },
+                            "password": {
+                                "type": "string"
+                            },
+                            "auth": {
+                                "type": "string"
+                            },
+                            "identitytoken": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "required": [
+                    "endpoint",
+                    "credentials"
+                ]
+            }
+        },
+        "registryMirrors": {
+            "type": "array",
+            "title": "Endpoints/Mirrors of Container Registries",
+            "description": "Endpoint credentials of container registries in containerd configuration",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "endpoints": {
+                        "type": "array",
+                        "minLength": 1,
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "required": [
+                    "name",
+                    "endpoints"
+                ]
+            }
         }
     },
     "type": "object",
@@ -448,114 +507,16 @@
                     "type": "boolean"
                 },
                 "defaultMirrors": {
-                    "type": "array",
-                    "items": {
-                        "type": "object",
-                        "properties": {
-                            "name": {
-                                "type": "string",
-                                "minLength": 1
-                            },
-                            "endpoints": {
-                                "type": "array",
-                                "minLength": 1,
-                                "items": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "required": [
-                            "name",
-                            "endpoints"
-                        ]
-                    }
+                    "$ref": "#/$defs/registryMirrors"
                 },
                 "extraMirrors": {
-                    "type": "array",
-                    "items": {
-                        "type": "object",
-                        "properties": {
-                            "name": {
-                                "type": "string",
-                                "minLength": 1
-                            },
-                            "endpoints": {
-                                "type": "array",
-                                "minLength": 1,
-                                "items": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "required": [
-                            "name",
-                            "endpoints"
-                        ]
-                    }
+                    "$ref": "#/$defs/registryMirrors"
                 },
                 "defaultConfigs": {
-                    "type": "array",
-                    "items": {
-                        "type": "object",
-                        "properties": {
-                            "endpoint": {
-                                "type": "string"
-                            },
-                            "credentials": {
-                                "type": "object",
-                                "properties": {
-                                    "username": {
-                                        "type": "string"
-                                    },
-                                    "password": {
-                                        "type": "string"
-                                    },
-                                    "auth": {
-                                        "type": "string"
-                                    },
-                                    "identitytoken": {
-                                        "type": "string"
-                                    }
-                                }
-                            }
-                        },
-                        "required": [
-                            "endpoint",
-                            "credentials"
-                        ]
-                    }
+                    "$ref": "#/$defs/registryConfigs"
                 },
                 "extraConfigs": {
-                    "type": "array",
-                    "items": {
-                        "type": "object",
-                        "properties": {
-                            "endpoint": {
-                                "type": "string"
-                            },
-                            "credentials": {
-                                "type": "object",
-                                "properties": {
-                                    "username": {
-                                        "type": "string"
-                                    },
-                                    "password": {
-                                        "type": "string"
-                                    },
-                                    "auth": {
-                                        "type": "string"
-                                    },
-                                    "identitytoken": {
-                                        "type": "string"
-                                    }
-                                }
-                            }
-                        },
-                        "required": [
-                            "endpoint",
-                            "credentials"
-                        ]
-                    }
+                    "$ref": "#/$defs/registryConfigs"
                 }
             }
         },
