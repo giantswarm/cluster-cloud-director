@@ -106,16 +106,7 @@ See https://github.com/kubernetes-sigs/cluster-api/issues/4910
 See https://github.com/kubernetes-sigs/cluster-api/pull/5027/files
 */}}
 {{- define "kubeadmConfigTemplateSpec" -}}
-{{- if $.Values.ssh.users -}}
-users:
-{{- range $.Values.ssh.users }}
-- name: {{ .name }}
-  sshAuthorizedKeys:
-  {{- range .authorizedKeys }}
-  - {{ . }}
-  {{- end }}
-{{- end -}}
-{{- end }}
+{{- include "sshUsers" . }}
 joinConfiguration:
   nodeRegistration:
     criSocket: /run/containerd/containerd.sock
@@ -124,6 +115,7 @@ joinConfiguration:
       node-labels: "giantswarm.io/node-pool={{ .pool.name }},{{- include "labelsByClass" . -}}"
     {{- include "taintsByClass" . | nindent  4}}
 files:
+{{- include "sshFiles" . | nindent 2}}
 {{- include "registryFiles" . | nindent 2 }}
 {{- if $.Values.proxy.enabled }}
 {{- include "containerdProxyConfig" . | nindent 2}}
@@ -137,6 +129,7 @@ preKubeadmCommands:
 - systemctl restart containerd
 {{- end }}
 postKubeadmCommands:
+{{ include "sshPostKubeadmCommands" . }}
 {{- if $.Values.network.staticRoutes }}
 - systemctl daemon-reload
 - systemctl enable --now static-routes.service

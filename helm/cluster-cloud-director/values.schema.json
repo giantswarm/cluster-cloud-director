@@ -473,6 +473,12 @@
         "ssh": {
             "type": "object",
             "properties": {
+                "trustedCaKeys": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
                 "users": {
                     "type": "array",
                     "items": {
@@ -486,8 +492,14 @@
                             },
                             "name": {
                                 "type": "string"
+                            },
+                            "sudo": {
+                                "type": "string"
                             }
-                        }
+                        },
+                        "required": [
+                            "name"
+                        ]
                     }
                 }
             }
