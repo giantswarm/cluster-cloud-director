@@ -469,26 +469,31 @@
         "organization": {
             "type": "string"
         },
-        "ssh": {
-            "type": "object",
-            "properties": {
-                "users": {
-                    "type": "array",
-                    "items": {
-                        "type": "object",
-                        "properties": {
-                            "authorizedKeys": {
-                                "type": "array",
-                                "items": {
-                                    "type": "string"
-                                }
-                            },
-                            "name": {
-                                "type": "string"
-                            }
-                        }
+        "osUsers": {
+            "type": "array",
+            "title": "OS Users",
+            "description": "Configuration for OS users in cluster nodes.",
+            "items": {
+                "type": "object",
+                "title": "User",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "title": "Name",
+                        "description": "Username of the user."
                     }
-                }
+                },
+                "required": [
+                    "name"
+                ]
+            }
+        },
+        "sshTrustedUserCAKeys": {
+            "type": "array",
+            "title": "Ssh trusted user CA keys",
+            "description": "Public keys of certificate authorities that are trusted to sign user certificates for authentication.",
+            "items": {
+                "type": "string"
             }
         },
         "servicePriority": {
