@@ -123,22 +123,22 @@
                                         "username": {
                                             "type": "string",
                                             "title": "Username",
-                                            "description": "Username is the username to login the registry."
+                                            "description": "Used to authenticate for the registry with username/password."
                                         },
                                         "password": {
                                             "type": "string",
                                             "title": "Password",
-                                            "description": "Password is the password to login the registry."
+                                            "description": "Used to authenticate for the registry with username/password."
                                         },
                                         "auth": {
                                             "type": "string",
                                             "title": "Auth",
-                                            "description": " Auth is a base64 encoded string from the concatenation of the username, a colon, and the password."
+                                            "description": "Base64-encoded string from the concatenation of the username, a colon, and the password."
                                         },
                                         "identitytoken": {
                                             "type": "string",
-                                            "title": "Identity Token",
-                                            "description": "Identity Token is used to authenticate the user and get an access token for the registry."
+                                            "title": "Identity token",
+                                            "description": "Used to authenticate the user and obtain an access token for the registry."
                                         }
                                     }
                                 }
@@ -147,21 +147,7 @@
                                 "endpoint"
                             ]
                         }
-                    },
-                    "examples": [
-                        {
-                            "docker.io": [
-                                { 
-                                    "endpoint": "registry-1.docker.io",
-                                    "credentials":{
-                                        "username": "my_user_name",
-                                        "password": "my_password"
-                                    }
-                                },
-                                { "endpoint": "my-mirror-registry.mydomain.io"}
-                            ]
-                        }
-                    ]
+                    }
                 }
             },
             "required": [
