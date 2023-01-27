@@ -530,7 +530,6 @@
     "required": [
         "apiServer",
         "baseDomain",
-        "connectivity",
         "controllerManager",
         "cloudDirector",
         "controlPlane",
