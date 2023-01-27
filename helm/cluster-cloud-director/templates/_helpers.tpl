@@ -106,9 +106,9 @@ See https://github.com/kubernetes-sigs/cluster-api/issues/4910
 See https://github.com/kubernetes-sigs/cluster-api/pull/5027/files
 */}}
 {{- define "kubeadmConfigTemplateSpec" -}}
-{{- if $.Values.ssh.users }}
-{{- range $.Values.ssh.users -}}
+{{- if $.Values.ssh.users -}}
 users:
+{{- range $.Values.ssh.users }}
 - name: {{ .name }}
   sshAuthorizedKeys:
   {{- range .authorizedKeys }}
@@ -120,8 +120,9 @@ joinConfiguration:
   nodeRegistration:
     criSocket: /run/containerd/containerd.sock
     kubeletExtraArgs:
-      {{- include "kubeletExtraArgs" . | nindent  6}}
-      node-labels: "giantswarm.io/node-pool={{ .pool.name }}"
+      {{- include "kubeletExtraArgs" . | nindent  6 -}}
+      node-labels: "giantswarm.io/node-pool={{ .pool.name }},{{- include "labelsByClass" . -}}"
+    {{- include "taintsByClass" . | nindent  4}}
 files:
 {{- if $.Values.proxy.enabled }}
 {{- include "containerdProxyConfig" . | nindent 2}}
@@ -152,6 +153,7 @@ postKubeadmCommands:
 VCDMachineTemplate is immutable. We need to create new versions during upgrades.
 Here we are generating a hash suffix to trigger upgrade when only it is necessary by
 using only the parameters used in vcdmachinetemplate.yaml.
+diskSize is computed with 1024^3 instead of 1000^3 because of https://github.com/vmware/cluster-api-provider-cloud-director/blob/501b616011dced31ddf3e0e3da0036a7a49ce015/controllers/vcdmachine_controller.go#L651
 */}}
 {{- define "mtSpec" -}}
 catalog: {{ .currentClass.catalog }}
@@ -159,13 +161,24 @@ template: {{ .currentClass.template }}
 sizingPolicy: {{ .currentClass.sizingPolicy }}
 placementPolicy: {{ .currentClass.placementPolicy }}
 storageProfile: {{ .currentClass.storageProfile }}
-diskSize: {{ .currentClass.diskSize }}
+diskSize: {{ mul .currentClass.diskSizeGB 1024 1024 1024}}
 {{- if $.network.extraOvdcNetworks }}
 extraOvdcNetworks:
   {{- range $.network.extraOvdcNetworks }}
   - {{ . }}
   {{- end }}
 {{- end -}}
+{{- end -}}
+
+{{- define "taints" -}}
+{{- with . -}}
+taints:
+{{- range . }}
+- key: {{ .key | quote }}
+  value: {{ .value | quote }}
+  effect: {{ .effect | quote }}
+{{- end }}
+{{- end }}
 {{- end -}}
 
 {{- define "mtRevision" -}}
@@ -180,6 +193,24 @@ extraOvdcNetworks:
 {{- range $name, $value := .currentValues.nodeClasses }}
 {{- if eq $name $outerScope.class }}
 {{- include "mtRevision" (merge (dict "currentClass" $value) $outerScope.currentValues) }}
+{{- end }}
+{{- end }}
+{{- end -}}
+
+{{- define "taintsByClass" -}}
+{{- $outerScope := . }}
+{{- range $name, $value := .Values.nodeClasses }}
+{{- if eq $name $outerScope.pool.class }}
+{{- include "taints" $value.customNodeTaints }}
+{{- end }}
+{{- end }}
+{{- end -}}
+
+{{- define "labelsByClass" -}}
+{{- $outerScope := . }}
+{{- range $name, $value := .Values.nodeClasses }}
+{{- if eq $name $outerScope.pool.class }}
+{{- join "," $value.customNodeLabels -}}
 {{- end }}
 {{- end }}
 {{- end -}}

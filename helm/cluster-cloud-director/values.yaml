@@ -47,6 +47,8 @@ controlPlane:  # Must match nodeClasses' fields except "name" and must contain "
   image:
     repository: projects.registry.vmware.com/tkg
   resourceRatio: 8  # Ratio between node resources and apiserver resource requests.
+  customNodeLabels: []  # Labels in key=value format.
+  # - label1=v1
 
 network:
   podsCidrBlocks:
@@ -79,6 +81,12 @@ nodeClasses: {}  # Class definitions for worker node pools. The "name" of the cl
   #   placementPolicy: ""
   #   storageProfile: ""
   #   diskSize: ""
+  #   customNodeTaints: []
+  #   # - key: "key"
+  #   #   value: "value"
+  #   #   effect: "NoSchedule"  # Valid effects are NoSchedule, PreferNoSchedule and NoExecute.
+  #   customNodeLabels: []
+  #   # - label1=val1  # Labels in key=value format
 
 nodePools: {}
   # worker:

@@ -78,6 +78,7 @@ spec:
         directory: "/tmp/kubeadm/patches"
       nodeRegistration:
         criSocket: /run/containerd/containerd.sock
+        {{- include "taints" .Values.controlPlane.customNodeTaints | nindent 8 }}
         kubeletExtraArgs:
           {{- include "kubeletExtraArgs" . | nindent 10}}
     joinConfiguration:
@@ -85,8 +86,12 @@ spec:
         directory: "/tmp/kubeadm/patches"
       nodeRegistration:
         criSocket: /run/containerd/containerd.sock
+        {{- include "taints" .Values.controlPlane.customNodeTaints | nindent 8 }}
         kubeletExtraArgs:
           {{- include "kubeletExtraArgs" . | nindent 10}}
+          {{- with .Values.controlPlane.customNodeLabels -}}
+          node-labels: "{{- join "," . }}"
+          {{- end }}
     files:
       {{- if $.Values.proxy.enabled }}
       {{- include "containerdProxyConfig" . | nindent 6}}
@@ -119,6 +124,8 @@ spec:
       - systemctl enable --now static-routes.service
       {{- end }}
   machineTemplate:
+    metadata:
+      labels: {{- include "labels.common" . | nindent 8 }}
     infrastructureRef:
       apiVersion: {{ include "infrastructureApiVersion" . }}
       kind: VCDMachineTemplate
