@@ -96,6 +96,64 @@
                 "featureGates"
             ]
         },
+        "connectivity": {
+            "type": "object",
+            "title": "Connectivity",
+            "description": "Configurations related to cluster connectivity such as container registries.",
+            "properties": {
+                "containerRegistries": {
+                    "type": "object",
+                    "title": "Container registries",
+                    "description": "Endpoints and credentials configuration for container registries.",
+                    "additionalProperties": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "endpoint": {
+                                    "type": "string",
+                                    "title": "Endpoint",
+                                    "description": "Endpoint for the container registry."
+                                },
+                                "credentials": {
+                                    "type": "object",
+                                    "title": "Credentials",
+                                    "description": "Credentials for the endpoint.",
+                                    "properties": {
+                                        "username": {
+                                            "type": "string",
+                                            "title": "Username",
+                                            "description": "Used to authenticate for the registry with username/password."
+                                        },
+                                        "password": {
+                                            "type": "string",
+                                            "title": "Password",
+                                            "description": "Used to authenticate for the registry with username/password."
+                                        },
+                                        "auth": {
+                                            "type": "string",
+                                            "title": "Auth",
+                                            "description": "Base64-encoded string from the concatenation of the username, a colon, and the password."
+                                        },
+                                        "identitytoken": {
+                                            "type": "string",
+                                            "title": "Identity token",
+                                            "description": "Used to authenticate the user and obtain an access token for the registry."
+                                        }
+                                    }
+                                }
+                            },
+                            "required": [
+                                "endpoint"
+                            ]
+                        }
+                    }
+                }
+            },
+            "required": [
+                "containerRegistries"
+            ]
+        },
         "controllerManager": {
             "type": "object",
             "properties": {
