@@ -14,7 +14,7 @@ metadata:
   name: "{{ include "resource.default.name" $ }}-post-install-rdeid"
   namespace: "{{ $.Release.Namespace }}"
   annotations:
-    "helm.sh/hook": "post-install,post-upgrade"
+    "helm.sh/hook": "post-install,pre-upgrade,post-upgrade"
     "helm.sh/hook-delete-policy": "before-hook-creation"
   labels:
     {{- include "labels.common" $ | nindent 4 }}
@@ -25,7 +25,7 @@ metadata:
   name: "{{ include "resource.default.name" $ }}-post-install-rdeid"
   namespace: "{{ $.Release.Namespace }}"
   annotations:
-    "helm.sh/hook": "post-install,post-upgrade"
+    "helm.sh/hook": "post-install,pre-upgrade,post-upgrade"
     "helm.sh/hook-delete-policy": "before-hook-creation"
   labels:
     {{- include "labels.common" $ | nindent 4 }}
@@ -57,6 +57,60 @@ roleRef:
   kind: Role
   name: "{{ include "resource.default.name" $ }}-post-install-rdeid"
   apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ include "resource.default.name" $ }}-pre-upgrade"
+  namespace: "{{ $.Release.Namespace }}"
+  labels:
+    {{- include "labels.common" $ | nindent 4 }}
+  annotations:
+    "helm.sh/hook": "post-install,pre-upgrade"
+    "helm.sh/hook-delete-policy": "before-hook-creation"
+spec:
+  ttlSecondsAfterFinished: 86400 # 24h
+  template:
+    metadata:
+      name: "{{ include "resource.default.name" $ }}-post-install-rdeid"
+      namespace: "{{ $.Release.Namespace }}"
+      labels:
+        {{- include "labels.common" $ | nindent 8 }}
+    spec:
+      restartPolicy: Never
+      serviceAccountName: "{{ include "resource.default.name" $ }}-post-install-rdeid"
+      securityContext:
+        runAsUser: {{ .Values.pod.user.id }}
+        runAsGroup: {{ .Values.pod.group.id }}
+      containers:
+        - name: post-install-job
+          image: "{{ .Values.kubectlImage.registry }}/{{ .Values.kubectlImage.name }}:{{ .Values.kubectlImage.tag }}"
+          command:
+            - "/bin/sh"
+            - "-xc"
+            - |
+              # TODO move to _helpers.tpl
+              # TODO move to _helpers.tpl
+              # TODO move to _helpers.tpl
+              # TODO move to _helpers.tpl
+              # TODO move to _helpers.tpl
+              # TODO move to _helpers.tpl
+              # TODO move to _helpers.tpl
+              # TODO move to _helpers.tpl
+              # TODO move to _helpers.tpl
+              # TODO move to _helpers.tpl
+              # TODO move to _helpers.tpl
+              # TODO move to _helpers.tpl
+              kubectl patch helmrelease -n {{ $.Release.Namespace }} {{ include "resource.default.name" $ }}-cloud-provider-cloud-director --type=merge -p '{"spec":{"suspend":true}}'
+          securityContext:
+            readOnlyRootFilesystem: true
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "10m"
+            limits:
+              memory: "256Mi"
+              cpu: "100m"
 ---
 apiVersion: batch/v1
 kind: Job
