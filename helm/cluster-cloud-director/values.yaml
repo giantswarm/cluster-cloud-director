@@ -121,4 +121,4 @@ connectivity:
 #   - endpoint: "my-mirror-registry.mydomain.io"
 #     credentials:
 #       auth: ""
-#       identityToken: ""
+#       identitytoken: ""
