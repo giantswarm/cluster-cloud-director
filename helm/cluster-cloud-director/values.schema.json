@@ -96,6 +96,78 @@
                 "featureGates"
             ]
         },
+        "connectivity": {
+            "type": "object",
+            "title": "Connectivity",
+            "description": "Configurations related to cluster connectivity such as container registries.",
+            "properties": {
+                "containerRegistries": {
+                    "type": "object",
+                    "title": "Container registries",
+                    "description": "Endpoints and credentials configuration for container registries.",
+                    "additionalProperties": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "endpoint": {
+                                    "type": "string",
+                                    "title": "Endpoint",
+                                    "description": "Endpoint for the container registry."
+                                },
+                                "credentials": {
+                                    "type": "object",
+                                    "title": "Credentials",
+                                    "description": "Credentials for the endpoint.",
+                                    "properties": {
+                                        "username": {
+                                            "type": "string",
+                                            "title": "Username",
+                                            "description": "Username is the username to login the registry."
+                                        },
+                                        "password": {
+                                            "type": "string",
+                                            "title": "Password",
+                                            "description": "Password is the password to login the registry."
+                                        },
+                                        "auth": {
+                                            "type": "string",
+                                            "title": "Auth",
+                                            "description": " Auth is a base64 encoded string from the concatenation of the username, a colon, and the password."
+                                        },
+                                        "identitytoken": {
+                                            "type": "string",
+                                            "title": "Identity Token",
+                                            "description": "Identity Token is used to authenticate the user and get an access token for the registry."
+                                        }
+                                    }
+                                }
+                            },
+                            "required": [
+                                "endpoint"
+                            ]
+                        }
+                    },
+                    "examples": [
+                        {
+                            "docker.io": [
+                                { 
+                                    "endpoint": "registry-1.docker.io",
+                                    "credentials":{
+                                        "username": "my_user_name",
+                                        "password": "my_password"
+                                    }
+                                },
+                                { "endpoint": "my-mirror-registry.mydomain.io"}
+                            ]
+                        }
+                    ]
+                }
+            },
+            "required": [
+                "containerRegistries"
+            ]
+        },
         "controllerManager": {
             "type": "object",
             "properties": {
@@ -458,6 +530,7 @@
     "required": [
         "apiServer",
         "baseDomain",
+        "connectivity",
         "controllerManager",
         "cloudDirector",
         "controlPlane",

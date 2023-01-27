@@ -110,3 +110,15 @@ kubectlImage:
   registry: quay.io
   name: giantswarm/kubectl
   tag: 1.23.5
+
+connectivity:
+  containerRegistries: {}
+#   docker.io:
+#   - endpoint: "registry-1.docker.io"
+#     credentials:
+#       username: ""
+#       password: ""
+#   - endpoint: "my-mirror-registry.mydomain.io"
+#     credentials:
+#       auth: ""
+#       identityToken: ""
