@@ -126,3 +126,5 @@ connectivity:
 #     credentials:
 #       auth: ""
 #       identitytoken: ""
+
+# vmNamingTemplate: ""  # Go template to generate VM names based on machine and vcdMachine CRs.
