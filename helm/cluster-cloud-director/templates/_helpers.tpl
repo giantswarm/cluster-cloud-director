@@ -128,12 +128,12 @@ preKubeadmCommands:
 - systemctl daemon-reload
 - systemctl restart containerd
 {{- end }}
-postKubeadmCommands:
-{{ include "sshPostKubeadmCommands" . }}
 {{- if $.Values.network.staticRoutes }}
 - systemctl daemon-reload
 - systemctl enable --now static-routes.service
 {{- end }}
+postKubeadmCommands:
+{{ include "sshPostKubeadmCommands" . }}
 {{- end -}}
 
 {{- define "kubeadmConfigTemplateRevision" -}}
