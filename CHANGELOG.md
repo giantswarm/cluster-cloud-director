@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix KubeadmConfigTemplate templating when multiple ssh users are provided.
 - Support registry configuration for containerd.
 - Support sshd configuration for cert-based SSH.
+- Support for VM naming with go templates. 
 
 ## [0.5.0] - 2022-12-18
 
