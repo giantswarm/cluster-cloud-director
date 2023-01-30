@@ -516,6 +516,14 @@
                     }
                 }
             }
+        },
+        "vmNamingTemplate": {
+            "type": "string",
+            "title": "VM naming template",
+            "description": "Go template to generate VM names based on machine and vcdMachine CRs.",
+            "examples": [
+                "mytenant-{{.machine.Name |sha256sum | trunc 7}}"
+            ]
         }
     },
     "required": [
