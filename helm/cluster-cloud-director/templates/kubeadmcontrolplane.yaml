@@ -111,12 +111,12 @@ spec:
       - systemctl daemon-reload
       - systemctl restart containerd
       {{- end }}
-    postKubeadmCommands:  
-      {{- include "sshPostKubeadmCommands" . | nindent 6 }}
       {{- if $.Values.network.staticRoutes }}
       - systemctl daemon-reload
       - systemctl enable --now static-routes.service
       {{- end }}
+    postKubeadmCommands:  
+      {{- include "sshPostKubeadmCommands" . | nindent 6 }}
   machineTemplate:
     metadata:
       labels: {{- include "labels.common" . | nindent 8 }}
