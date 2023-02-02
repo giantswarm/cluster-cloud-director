@@ -66,7 +66,7 @@ metadata:
   labels:
     {{- include "labels.common" $ | nindent 4 }}
   annotations:
-    "helm.sh/hook": "post-install,pre-upgrade"
+    "helm.sh/hook": "pre-upgrade"
     "helm.sh/hook-delete-policy": "before-hook-creation"
 spec:
   ttlSecondsAfterFinished: 86400 # 24h
