@@ -89,6 +89,12 @@
                 },
                 "featureGates": {
                     "type": "string"
+                },
+                "certSANs": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 }
             },
             "required": [

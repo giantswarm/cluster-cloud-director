@@ -1,6 +1,8 @@
 apiServer:
   enableAdmissionPlugins: "NamespaceLifecycle,LimitRanger,ServiceAccount,ResourceQuota,PersistentVolumeClaimResize,DefaultStorageClass,Priority,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook"
   featureGates: "TTLAfterFinished=true"
+  certSANs: []
+
 controllerManager:
   featureGates: "ExpandPersistentVolumes=true,TTLAfterFinished=true"
 

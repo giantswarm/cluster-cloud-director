@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## Added
+
+- Add configurable `apiServer.certSANs`.
+
 ## [0.6.1] - 2023-01-31
 
 ### Changed

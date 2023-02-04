@@ -13,6 +13,11 @@ spec:
         - localhost
         - 127.0.0.1
         - "api.{{ include "resource.default.name" $ }}.{{ .Values.baseDomain }}"
+        {{- if .Values.apiServer.certSANs }}
+        {{- range .Values.apiServer.certSANs}}
+        - {{ . }}
+        {{- end }}
+        {{- end }}
         extraArgs:
           cloud-provider: external
           enable-admission-plugins: {{ .Values.apiServer.enableAdmissionPlugins }}
