@@ -16,7 +16,7 @@ spec:
         {{- if .Values.apiServer.certSANs }}
         {{- range .Values.apiServer.certSANs}}
         - {{ . }}
-        {{- end -}}
+        {{- end }}
         {{- end }}
         extraArgs:
           cloud-provider: external
