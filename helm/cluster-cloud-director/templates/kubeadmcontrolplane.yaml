@@ -109,6 +109,12 @@ spec:
       {{- if $.Values.network.staticRoutes }}
       {{- include "staticRoutes" . | nindent 6}}
       {{- end }}
+    ntp:
+      {{- if .Values.ntp.enabled }}
+      servers:
+      {{- range .Values.ntp.servers }}
+      - {{ . }}
+      {{- end }}
     preKubeadmCommands:
       - bash /tmp/kubeadm/patches/kube-apiserver-patch.sh {{ .Values.controlPlane.resourceRatio }}
       - bash /run/kubeadm/gs-kube-proxy-patch.sh
@@ -132,3 +138,4 @@ spec:
       namespace: {{ .Release.Namespace }}
   replicas: {{ .Values.controlPlane.replicas }}
   version: {{ .Values.kubernetesVersion }}
+  {{- end }}

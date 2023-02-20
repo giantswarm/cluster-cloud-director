@@ -130,6 +130,12 @@ files:
 {{- if $.Values.network.staticRoutes }}
 {{- include "staticRoutes" . | nindent 2}}
 {{- end }}
+ntp:
+{{- if $.Values.ntp.enabled }}
+servers:
+{{- range .servers }}
+ - {{ . }}
+{{- end }}
 preKubeadmCommands:
 {{- if $.Values.proxy.enabled }}
 - systemctl daemon-reload
@@ -142,7 +148,7 @@ preKubeadmCommands:
 postKubeadmCommands:
 {{ include "sshPostKubeadmCommands" . }}
 {{- end -}}
-
+{{- end -}}
 {{- define "kubeadmConfigTemplateRevision" -}}
 {{- $inputs := (dict
   "data" (include "kubeadmConfigTemplateSpec" .) ) }}

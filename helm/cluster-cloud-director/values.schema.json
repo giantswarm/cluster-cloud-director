@@ -341,6 +341,17 @@
                     },
                     "type": "object"
                 },
+                "ntp": {
+                    "type": "object",
+                    "properties": {
+                        "server": {
+                            "type": "string"
+                        },
+                        "enabled": {
+                            "type": "boolean"
+                        }
+                    }
+                },
                 "podsCidrBlocks": {
                     "items": {
                         "type": "string"
