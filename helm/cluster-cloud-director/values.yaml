@@ -97,7 +97,7 @@ nodePools: {}
 ntp:
   servers: 
   - ""
-  enabled: true
+  enabled: false
 
 sshTrustedUserCAKeys:
   # Taken from https://vault.operations.giantswarm.io/v1/ssh/public_key
