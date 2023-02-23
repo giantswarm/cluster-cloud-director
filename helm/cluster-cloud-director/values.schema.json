@@ -341,15 +341,10 @@
                     },
                     "type": "object"
                 },
-                "ntp": {
-                    "type": "object",
-                    "properties": {
-                        "server": {
-                            "type": "string"
-                        },
-                        "enabled": {
-                            "type": "boolean"
-                        }
+                "ntpServers": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
                     }
                 },
                 "podsCidrBlocks": {

@@ -130,12 +130,7 @@ files:
 {{- if $.Values.network.staticRoutes }}
 {{- include "staticRoutes" . | nindent 2}}
 {{- end }}
-ntp:
-{{- if $.Values.ntp.enabled }}
-servers:
-{{- range .servers }}
- - {{ . }}
-{{- end }}
+{{- include "ntpServers" . }}
 preKubeadmCommands:
 {{- if $.Values.proxy.enabled }}
 - systemctl daemon-reload
@@ -148,13 +143,22 @@ preKubeadmCommands:
 postKubeadmCommands:
 {{ include "sshPostKubeadmCommands" . }}
 {{- end -}}
-{{- end -}}
 {{- define "kubeadmConfigTemplateRevision" -}}
 {{- $inputs := (dict
   "data" (include "kubeadmConfigTemplateSpec" .) ) }}
 {{- mustToJson $inputs | toString | quote | sha1sum | trunc 8 }}
 {{- end -}}
 
+{{- define "ntpServers" -}}
+{{- if $.Values.ntpServers }}
+ntp:
+  enabled: true
+  servers:
+  {{- range $.Values.ntpServers}}
+  - {{ . }}
+  {{- end }}
+{{- end }}
+{{- end -}}
 
 {{/*
 VCDMachineTemplate is immutable. We need to create new versions during upgrades.
