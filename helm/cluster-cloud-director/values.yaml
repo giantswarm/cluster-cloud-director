@@ -95,8 +95,7 @@ nodePools: {}
   #   class: default  # Node classes name (defined above)
   #   replicas: 2
 
-# NTP servers for nodes
-ntpServers: []
+ntpServers: []  # NTP servers for nodes
 
 sshTrustedUserCAKeys:
   # Taken from https://vault.operations.giantswarm.io/v1/ssh/public_key
