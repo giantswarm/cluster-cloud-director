@@ -13,7 +13,7 @@ metadata:
     {{ $key }}: {{ $val | quote }}
     {{- end}}
 spec:
-  suspend: true # It will be unsuspended by the post-install/post-upgrade hook in post-install-rdeid-job.yaml.
+  suspend: true # It will be unsuspended by the post-install/post-upgrade hook in update-values-hook-job.yaml.
   releaseName: cloud-provider-cloud-director
   targetNamespace: kube-system
   storageNamespace: kube-system
