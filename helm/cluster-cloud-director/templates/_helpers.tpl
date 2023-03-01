@@ -106,16 +106,7 @@ See https://github.com/kubernetes-sigs/cluster-api/issues/4910
 See https://github.com/kubernetes-sigs/cluster-api/pull/5027/files
 */}}
 {{- define "kubeadmConfigTemplateSpec" -}}
-{{- if $.Values.ssh.users -}}
-users:
-{{- range $.Values.ssh.users }}
-- name: {{ .name }}
-  sshAuthorizedKeys:
-  {{- range .authorizedKeys }}
-  - {{ . }}
-  {{- end }}
-{{- end -}}
-{{- end }}
+{{- include "sshUsers" . }}
 joinConfiguration:
   nodeRegistration:
     criSocket: /run/containerd/containerd.sock
@@ -124,6 +115,8 @@ joinConfiguration:
       node-labels: "giantswarm.io/node-pool={{ .pool.name }},{{- include "labelsByClass" . -}}"
     {{- include "taintsByClass" . | nindent  4}}
 files:
+{{- include "sshFiles" . | nindent 2}}
+{{- include "registryFiles" . | nindent 2 }}
 {{- if $.Values.proxy.enabled }}
 {{- include "containerdProxyConfig" . | nindent 2}}
 {{- end }}
@@ -135,11 +128,12 @@ preKubeadmCommands:
 - systemctl daemon-reload
 - systemctl restart containerd
 {{- end }}
-postKubeadmCommands:
 {{- if $.Values.network.staticRoutes }}
 - systemctl daemon-reload
 - systemctl enable --now static-routes.service
 {{- end }}
+postKubeadmCommands:
+{{ include "sshPostKubeadmCommands" . }}
 {{- end -}}
 
 {{- define "kubeadmConfigTemplateRevision" -}}
@@ -162,6 +156,7 @@ sizingPolicy: {{ .currentClass.sizingPolicy }}
 placementPolicy: {{ .currentClass.placementPolicy }}
 storageProfile: {{ .currentClass.storageProfile }}
 diskSize: {{ mul .currentClass.diskSizeGB 1024 1024 1024}}
+vmNamingTemplate: {{ $.vmNamingTemplate }}
 {{- if $.network.extraOvdcNetworks }}
 extraOvdcNetworks:
   {{- range $.network.extraOvdcNetworks }}
@@ -218,4 +213,65 @@ taints:
 {{- define "mtRevisionByControlPlane" -}}
 {{- $outerScope := . }}
 {{- include "mtRevision" (merge (dict "currentClass" .Values.controlPlane) $outerScope.Values) }}
+{{- end -}}
+
+{{/*
+Generate a stanza for KubeAdmConfig and KubeAdmControlPlane in order to 
+mount containerd configuration for registry configuration in nodes.
+*/}}
+{{- define "registryFiles" -}}
+{{- if and .Values.connectivity .Values.connectivity.containerRegistries -}}
+- path: /etc/containerd/conf.d/registry-config.toml
+  permissions: "0600"
+  contentFrom:
+    secret:
+      name: {{ include "registrySecretName" $ }}
+      key: registry-config.toml
+{{- end -}}
+{{- end -}}
+
+{{/*
+Generate the content of /etc/containerd/conf.d/registry-config.toml in nodes
+for registry configuration
+*/}}
+{{- define "registrySecretContent" -}}
+version = 2
+
+[plugins."io.containerd.grpc.v1.cri".registry]
+
+[plugins."io.containerd.grpc.v1.cri".registry.mirrors]
+{{- range $registry, $mirrors := .Values.connectivity.containerRegistries}}
+
+[plugins."io.containerd.grpc.v1.cri".registry.mirrors."{{$registry}}"]
+{{- $endpoints := list -}}
+{{- range $mirrors }}{{- $endpoints = append $endpoints .endpoint }}{{- end }}
+endpoint = [ "{{join "\" , \"" $endpoints}}" ]
+
+{{- end }}
+
+[plugins."io.containerd.grpc.v1.cri".registry.configs]
+
+{{- range $registry, $mirrors := .Values.connectivity.containerRegistries}}
+{{- range $mirrors }}
+
+{{- if .credentials }}
+[plugins."io.containerd.grpc.v1.cri".registry.configs."{{.endpoint}}".auth]
+{{- range $key, $value := .credentials }}
+{{ $key}}={{$value |quote}}
+{{- end }}
+{{ end }}
+
+{{- end }}
+{{- end }}
+
+{{- end -}}
+
+{{/*
+Generate name of the k8s secret that contains containerd configuration for registries.
+When there is a change in the secret, it is not recognized by CAPI controllers.
+To enforce upgrades, a version suffix is appended to secret name.
+*/}}
+{{- define "registrySecretName" -}}
+{{- $secretSuffix := include "registrySecretContent" . | b64enc | quote | sha1sum | trunc 8 }}
+{{- include "resource.default.name" $ }}-registry-configuration-{{$secretSuffix}}
 {{- end -}}

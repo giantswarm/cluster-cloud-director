@@ -1,6 +1,8 @@
 apiServer:
   enableAdmissionPlugins: "NamespaceLifecycle,LimitRanger,ServiceAccount,ResourceQuota,PersistentVolumeClaimResize,DefaultStorageClass,Priority,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook"
   featureGates: "TTLAfterFinished=true"
+  certSANs: []
+
 controllerManager:
   featureGates: "ExpandPersistentVolumes=true,TTLAfterFinished=true"
 
@@ -93,11 +95,15 @@ nodePools: {}
   #   class: default  # Node classes name (defined above)
   #   replicas: 2
 
-ssh:
-  users:  # (Optional) public SSH keys/users to access the nodes.
-    - name: ""
-      authorizedKeys:
-        - ""
+sshTrustedUserCAKeys:
+  # Taken from https://vault.operations.giantswarm.io/v1/ssh/public_key
+  - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM4cvZ01fLmO9cJbWUj7sfF+NhECgy+Cl0bazSrZX7sU vault-ca@vault.operations.giantswarm.io
+
+osUsers:
+- name: "giantswarm"
+  sudo: "ALL=(ALL) NOPASSWD:ALL"
+# sshAuthorizedKeys:
+# - "ssh public key"
 
 userContext:
   secretRef:
@@ -116,3 +122,17 @@ kubectlImage:
   registry: quay.io
   name: giantswarm/kubectl
   tag: 1.23.5
+
+connectivity:
+  containerRegistries: {}
+#   docker.io:
+#   - endpoint: "registry-1.docker.io"
+#     credentials:
+#       username: ""
+#       password: ""
+#   - endpoint: "my-mirror-registry.mydomain.io"
+#     credentials:
+#       auth: ""
+#       identitytoken: ""
+
+# vmNamingTemplate: ""  # Go template to generate VM names based on machine and vcdMachine CRs.

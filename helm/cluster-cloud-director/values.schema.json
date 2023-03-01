@@ -89,11 +89,75 @@
                 },
                 "featureGates": {
                     "type": "string"
+                },
+                "certSANs": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 }
             },
             "required": [
                 "enableAdmissionPlugins",
                 "featureGates"
+            ]
+        },
+        "connectivity": {
+            "type": "object",
+            "title": "Connectivity",
+            "description": "Configurations related to cluster connectivity such as container registries.",
+            "properties": {
+                "containerRegistries": {
+                    "type": "object",
+                    "title": "Container registries",
+                    "description": "Endpoints and credentials configuration for container registries.",
+                    "additionalProperties": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "endpoint": {
+                                    "type": "string",
+                                    "title": "Endpoint",
+                                    "description": "Endpoint for the container registry."
+                                },
+                                "credentials": {
+                                    "type": "object",
+                                    "title": "Credentials",
+                                    "description": "Credentials for the endpoint.",
+                                    "properties": {
+                                        "username": {
+                                            "type": "string",
+                                            "title": "Username",
+                                            "description": "Used to authenticate for the registry with username/password."
+                                        },
+                                        "password": {
+                                            "type": "string",
+                                            "title": "Password",
+                                            "description": "Used to authenticate for the registry with username/password."
+                                        },
+                                        "auth": {
+                                            "type": "string",
+                                            "title": "Auth",
+                                            "description": "Base64-encoded string from the concatenation of the username, a colon, and the password."
+                                        },
+                                        "identitytoken": {
+                                            "type": "string",
+                                            "title": "Identity token",
+                                            "description": "Used to authenticate the user and obtain an access token for the registry."
+                                        }
+                                    }
+                                }
+                            },
+                            "required": [
+                                "endpoint"
+                            ]
+                        }
+                    }
+                }
+            },
+            "required": [
+                "containerRegistries"
             ]
         },
         "controllerManager": {
@@ -411,26 +475,31 @@
         "organization": {
             "type": "string"
         },
-        "ssh": {
-            "type": "object",
-            "properties": {
-                "users": {
-                    "type": "array",
-                    "items": {
-                        "type": "object",
-                        "properties": {
-                            "authorizedKeys": {
-                                "type": "array",
-                                "items": {
-                                    "type": "string"
-                                }
-                            },
-                            "name": {
-                                "type": "string"
-                            }
-                        }
+        "osUsers": {
+            "type": "array",
+            "title": "OS Users",
+            "description": "Configuration for OS users in cluster nodes.",
+            "items": {
+                "type": "object",
+                "title": "User",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "title": "Name",
+                        "description": "Username of the user."
                     }
-                }
+                },
+                "required": [
+                    "name"
+                ]
+            }
+        },
+        "sshTrustedUserCAKeys": {
+            "type": "array",
+            "title": "Ssh trusted user CA keys",
+            "description": "Public keys of certificate authorities that are trusted to sign user certificates for authentication.",
+            "items": {
+                "type": "string"
             }
         },
         "servicePriority": {
@@ -453,6 +522,14 @@
                     }
                 }
             }
+        },
+        "vmNamingTemplate": {
+            "type": "string",
+            "title": "VM naming template",
+            "description": "Go template to generate VM names based on machine and vcdMachine CRs.",
+            "examples": [
+                "mytenant-{{.machine.Name |sha256sum | trunc 7}}"
+            ]
         }
     },
     "required": [

@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## Added
+
+- Add configurable `apiServer.certSANs`.
+- Add machine health checks for worker nodes.
+
+## [0.6.1] - 2023-01-31
+
+### Changed
+
+- Moved Static routes script from `postKubeadmCommand` to `preKubeadmCommand`.
+
+## [0.6.0] - 2023-01-30
+
 ### Added
 
 - Add configurable cluster CR labels.
@@ -16,6 +29,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add support for setting node taints using `customNodeTaints`.
 - Include common labels for `kubeadmcontrolplane.spec.machinetemplate.metadata`.
 - Fix KubeadmConfigTemplate templating when multiple ssh users are provided.
+- Support registry configuration for containerd.
+- Support sshd configuration for cert-based SSH.
+- Support for VM naming with go templates. 
 
 ## [0.5.0] - 2022-12-18
 
@@ -150,7 +166,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added VCDCluster parameters to match CRD.
 - Nodepool and nodeclass support.
 
-[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.5.0...HEAD
+[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.6.1...HEAD
+[0.6.1]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.6.0...v0.6.1
+[0.6.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.4.4...v0.5.0
 [0.4.4]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.4.3...v0.4.4
 [0.4.3]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.4.2...v0.4.3

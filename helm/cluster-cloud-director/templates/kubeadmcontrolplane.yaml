@@ -13,6 +13,11 @@ spec:
         - localhost
         - 127.0.0.1
         - "api.{{ include "resource.default.name" $ }}.{{ .Values.baseDomain }}"
+        {{- if .Values.apiServer.certSANs }}
+        {{- range .Values.apiServer.certSANs}}
+        - {{ . }}
+        {{- end }}
+        {{- end }}
         extraArgs:
           cloud-provider: external
           enable-admission-plugins: {{ .Values.apiServer.enableAdmissionPlugins }}
@@ -63,16 +68,7 @@ spec:
           imageRepository: {{ .Values.controlPlane.etcd.imageRepository }}
           imageTag: {{ .Values.controlPlane.etcd.imageTag }}
       imageRepository: {{ .Values.controlPlane.image.repository }}
-    {{- if .Values.ssh.users }}
-    {{- range .Values.ssh.users }}
-    users:
-    - name: {{ .name }}
-      sshAuthorizedKeys: 
-      {{- range .authorizedKeys }}
-      - {{ . }}
-      {{- end }}
-    {{- end }}
-    {{- end }}
+    {{- include "sshUsers" . | nindent 4 }}
     initConfiguration:
       patches:
         directory: "/tmp/kubeadm/patches"
@@ -93,10 +89,12 @@ spec:
           node-labels: "{{- join "," . }}"
           {{- end }}
     files:
+      {{- include "sshFiles" . | nindent 6}}
       {{- if $.Values.proxy.enabled }}
       {{- include "containerdProxyConfig" . | nindent 6}}
       {{- end }}
       {{- include "kubeProxyFiles" . | nindent 6 }}
+      {{- include "registryFiles" . | nindent 6 }}
       {{- range $kubeadmPatch, $_ :=  .Files.Glob  "files/etc/patches/**" }}
       - path: {{ (printf "/tmp/kubeadm/patches/%s" (base $kubeadmPatch)) }}
         content: |-
@@ -118,11 +116,12 @@ spec:
       - systemctl daemon-reload
       - systemctl restart containerd
       {{- end }}
-    postKubeadmCommands:  
       {{- if $.Values.network.staticRoutes }}
       - systemctl daemon-reload
       - systemctl enable --now static-routes.service
       {{- end }}
+    postKubeadmCommands:  
+      {{- include "sshPostKubeadmCommands" . | nindent 6 }}
   machineTemplate:
     metadata:
       labels: {{- include "labels.common" . | nindent 8 }}
