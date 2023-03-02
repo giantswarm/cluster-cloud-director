@@ -1,0 +1,153 @@
+# Because RDE ID is not known at the time of cluster creation we use
+# a post-install/post-upgrade hook Job to copy RDE ID from VCDCluster object to
+# HelmRelease object installing cloud-provider-cloud-director.
+#
+# cloud-provider-cloud-director HelmRelease is installed suspended (see
+# cloud-provider-cloud-director-helmrelease.yaml) so it doesn't get installed
+# before the RDE ID is set. The post-install/post-upgrade hook also unsuspends
+# it.
+#
+# There is one thing that isn't clear. During the upgrade values form
+# cloud-provider-cloud-director HelmRelease CR are not reverted to the
+# original. This is unexpected but we couldn't find the root of the problem. So
+# we decided to suspend the mentioned HelmRelease in a separate pre-upgrade
+# hook just in case so CPI is not running without the needed configuration as
+# this may result in creating LBs (for Services of type LB) with different than
+# expected (and colliding) names.
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: "{{ include "resource.default.name" $ }}-update-values-hook"
+  namespace: "{{ $.Release.Namespace }}"
+  annotations:
+    "helm.sh/hook": "post-install,pre-upgrade,post-upgrade"
+    "helm.sh/hook-delete-policy": "before-hook-creation"
+  labels:
+    {{- include "labels.common" $ | nindent 4 }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: "{{ include "resource.default.name" $ }}-update-values-hook"
+  namespace: "{{ $.Release.Namespace }}"
+  annotations:
+    "helm.sh/hook": "post-install,pre-upgrade,post-upgrade"
+    "helm.sh/hook-delete-policy": "before-hook-creation"
+  labels:
+    {{- include "labels.common" $ | nindent 4 }}
+rules:
+  - apiGroups: ["infrastructure.cluster.x-k8s.io"]
+    resources: ["vcdclusters"]
+    resourceNames: ["{{ include "resource.default.name" $ }}"]
+    verbs: ["get"]
+  - apiGroups: ["helm.toolkit.fluxcd.io"]
+    resources: ["helmreleases"]
+    resourceNames: ["{{ include "resource.default.name" $ }}-cloud-provider-cloud-director"]
+    verbs: ["get", "patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: "{{ include "resource.default.name" $ }}-update-values-hook"
+  namespace: "{{ $.Release.Namespace }}"
+  annotations:
+    "helm.sh/hook": "post-install,post-upgrade"
+    "helm.sh/hook-delete-policy": "before-hook-creation"
+  labels:
+    {{- include "labels.common" $ | nindent 4 }}
+subjects:
+  - kind: ServiceAccount
+    name: "{{ include "resource.default.name" $ }}-update-values-hook"
+    namespace: "{{ $.Release.Namespace }}"
+roleRef:
+  kind: Role
+  name: "{{ include "resource.default.name" $ }}-update-values-hook"
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ include "resource.default.name" $ }}-pre-upgrade-suspend-hook"
+  namespace: "{{ $.Release.Namespace }}"
+  labels:
+    {{- include "labels.common" $ | nindent 4 }}
+  annotations:
+    "helm.sh/hook": "pre-upgrade"
+    "helm.sh/hook-delete-policy": "before-hook-creation"
+spec:
+  ttlSecondsAfterFinished: 86400 # 24h
+  template:
+    metadata:
+      name: "{{ include "resource.default.name" $ }}-update-values-hook"
+      namespace: "{{ $.Release.Namespace }}"
+      labels:
+        {{- include "labels.common" $ | nindent 8 }}
+    spec:
+      restartPolicy: Never
+      serviceAccountName: "{{ include "resource.default.name" $ }}-update-values-hook"
+      securityContext:
+        runAsUser: {{ include "securityContext.runAsUser" $ }}
+        runAsGroup: {{ include "securityContext.runAsGroup" $ }}
+      containers:
+        - name: post-install-job
+          image: "{{ .Values.kubectlImage.registry }}/{{ .Values.kubectlImage.name }}:{{ .Values.kubectlImage.tag }}"
+          command:
+            - "/bin/sh"
+            - "-xc"
+            - |
+              kubectl patch helmrelease -n {{ $.Release.Namespace }} {{ include "resource.default.name" $ }}-cloud-provider-cloud-director --type=merge -p '{"spec":{"suspend":true}}'
+          securityContext:
+            readOnlyRootFilesystem: true
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "10m"
+            limits:
+              memory: "256Mi"
+              cpu: "100m"
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ include "resource.default.name" $ }}-update-values-hook"
+  namespace: "{{ $.Release.Namespace }}"
+  labels:
+    {{- include "labels.common" $ | nindent 4 }}
+  annotations:
+    "helm.sh/hook": "post-install,post-upgrade"
+    "helm.sh/hook-delete-policy": "before-hook-creation"
+spec:
+  ttlSecondsAfterFinished: 86400 # 24h
+  template:
+    metadata:
+      name: "{{ include "resource.default.name" $ }}-update-values-hook"
+      namespace: "{{ $.Release.Namespace }}"
+      labels:
+        {{- include "labels.common" $ | nindent 8 }}
+    spec:
+      restartPolicy: Never
+      serviceAccountName: "{{ include "resource.default.name" $ }}-update-values-hook"
+      securityContext:
+        runAsUser: {{ include "securityContext.runAsUser" $ }}
+        runAsGroup: {{ include "securityContext.runAsGroup" $ }}
+      containers:
+        - name: post-install-job
+          image: "{{ .Values.kubectlImage.registry }}/{{ .Values.kubectlImage.name }}:{{ .Values.kubectlImage.tag }}"
+          command:
+            - "/bin/sh"
+            - "-xc"
+            - |
+              while [ -z "${rde_id}" ] ; do
+                rde_id=$(kubectl get vcdcluster -n {{ $.Release.Namespace }} {{ include "resource.default.name" $ }} -o 'jsonpath={.spec.rdeId}')
+                sleep 5
+              done
+              kubectl patch helmrelease -n {{ $.Release.Namespace }} {{ include "resource.default.name" $ }}-cloud-provider-cloud-director --type=merge -p '{"spec":{"suspend":false,"values":{"global": {"vcdConfig": {"clusterid": "'${rde_id}'"}}}}}'
+          securityContext:
+            readOnlyRootFilesystem: true
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "10m"
+            limits:
+              memory: "256Mi"
+              cpu: "100m"
