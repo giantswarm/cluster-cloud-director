@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Added
 
+- :boom: Breaking! Add HelmRelease CRs for CNI (cilium) and CPI/CSI (cloud-provider-cloud-director). Please note this is compatible only with `default-apps-cloud-director` version `0.4.0` and newer.
 - Add configurable `apiServer.certSANs`.
 - Add machine health checks for worker nodes.
 
@@ -31,7 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix KubeadmConfigTemplate templating when multiple ssh users are provided.
 - Support registry configuration for containerd.
 - Support sshd configuration for cert-based SSH.
-- Support for VM naming with go templates. 
+- Support for VM naming with go templates.
 
 ## [0.5.0] - 2022-12-18
 
@@ -49,7 +50,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Remove `serviceDomain` from `Cluster` spec to fix invalid noProxy value. 
+- Remove `serviceDomain` from `Cluster` spec to fix invalid noProxy value.
 - Remove chart name (including app version) from selectors to enable upgrades.
 
 ## [0.4.3] - 2022-11-28
