@@ -12,10 +12,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add configurable `apiServer.certSANs`.
 - Add machine health checks for worker nodes.
 
-### Changed
-
-- Values schema: applied normalization using `schemalint normalize`
-
 ## [0.6.1] - 2023-01-31
 
 ### Changed
