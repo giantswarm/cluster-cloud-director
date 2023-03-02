@@ -1,0 +1,111 @@
+# Because cluster provider resources are often deleted before flux has a chance
+# to uninstall helm releases for all deleted HelmRelease CRs they become
+# leftovers because there is still flux finalizer on them. This looks like
+# following:
+#
+#     $ kubectl get helmrelease -n org-multi-project
+#     NAME                                  AGE     READY   STATUS
+#     pawe1-cilium                          99m     False   failed to get last release revision
+#     pawe1-cloud-provider-cloud-director   99m     False   failed to get last release revision
+#
+# Both HelmRelease CRs in this case have deletionTimestamp and finalizers set,
+# e.g.:
+#
+#     deletionTimestamp: "2023-03-02T14:34:49Z"
+#     finalizers:
+#       - finalizers.fluxcd.io
+#
+# To work around this post-delete Job deletes all finalizers on all HelmRelease
+# CRs created with this chart.
+#
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: "{{ include "resource.default.name" $ }}-cleanup-helmreleases-hook"
+  namespace: "{{ $.Release.Namespace }}"
+  annotations:
+    "helm.sh/hook": "post-delete"
+    "helm.sh/hook-delete-policy": "before-hook-creation"
+  labels:
+    {{- include "labels.common" $ | nindent 4 }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: "{{ include "resource.default.name" $ }}-cleanup-helmreleases-hook"
+  namespace: "{{ $.Release.Namespace }}"
+  annotations:
+    "helm.sh/hook": "post-delete"
+    "helm.sh/hook-delete-policy": "before-hook-creation"
+  labels:
+    {{- include "labels.common" $ | nindent 4 }}
+rules:
+  - apiGroups: ["helm.toolkit.fluxcd.io"]
+    resources: ["helmreleases"]
+    resourceNames:
+      - "{{ include "resource.default.name" $ }}-cilium"
+      - "{{ include "resource.default.name" $ }}-cloud-provider-cloud-director"
+    verbs: ["get", "patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: "{{ include "resource.default.name" $ }}-cleanup-helmreleases-hook"
+  namespace: "{{ $.Release.Namespace }}"
+  annotations:
+    "helm.sh/hook": "post-delete"
+    "helm.sh/hook-delete-policy": "before-hook-creation"
+  labels:
+    {{- include "labels.common" $ | nindent 4 }}
+subjects:
+  - kind: ServiceAccount
+    name: "{{ include "resource.default.name" $ }}-cleanup-helmreleases-hook"
+    namespace: "{{ $.Release.Namespace }}"
+roleRef:
+  kind: Role
+  name: "{{ include "resource.default.name" $ }}-cleanup-helmreleases-hook"
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ include "resource.default.name" $ }}-cleanup-helmreleases-hook"
+  namespace: "{{ $.Release.Namespace }}"
+  annotations:
+    "helm.sh/hook": "post-delete"
+    "helm.sh/hook-delete-policy": "before-hook-creation"
+  labels:
+    {{- include "labels.common" $ | nindent 4 }}
+spec:
+  ttlSecondsAfterFinished: 86400 # 24h
+  template:
+    metadata:
+      name: "{{ include "resource.default.name" $ }}-cleanup-helmreleases-hook"
+      namespace: "{{ $.Release.Namespace }}"
+      labels:
+        {{- include "labels.common" $ | nindent 8 }}
+    spec:
+      restartPolicy: Never
+      serviceAccountName: "{{ include "resource.default.name" $ }}-cleanup-helmreleases-hook"
+      securityContext:
+        runAsUser: {{ include "securityContext.runAsUser" $ }}
+        runAsGroup: {{ include "securityContext.runAsGroup" $ }}
+      containers:
+        - name: post-delete-job
+          image: "{{ .Values.kubectlImage.registry }}/{{ .Values.kubectlImage.name }}:{{ .Values.kubectlImage.tag }}"
+          command:
+            - "/bin/sh"
+            - "-xc"
+            - |
+              for r in $(kubectl get helmrelease -n {{ $.Release.Namespace }} -l "giantswarm.io/cluster={{ include "resource.default.name" . }}" -o name) ; do
+                  kubectl patch -n {{ $.Release.Namespace }} "${r}" --type=merge -p '{"metadata": {"finalizers": []}}'
+              done
+          securityContext:
+            readOnlyRootFilesystem: true
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "10m"
+            limits:
+              memory: "256Mi"
+              cpu: "100m"
