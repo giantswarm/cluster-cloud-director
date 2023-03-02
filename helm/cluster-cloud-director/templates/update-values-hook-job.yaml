@@ -86,8 +86,8 @@ spec:
       restartPolicy: Never
       serviceAccountName: "{{ include "resource.default.name" $ }}-update-values-hook"
       securityContext:
-        runAsUser: {{ .Values.pod.user.id }}
-        runAsGroup: {{ .Values.pod.group.id }}
+        runAsUser: {{ include "securityContext.runAsUser" }}
+        runAsGroup: {{ include "securityContext.runAsGroup" }}
       containers:
         - name: post-install-job
           image: "{{ .Values.kubectlImage.registry }}/{{ .Values.kubectlImage.name }}:{{ .Values.kubectlImage.tag }}"
@@ -128,8 +128,8 @@ spec:
       restartPolicy: Never
       serviceAccountName: "{{ include "resource.default.name" $ }}-update-values-hook"
       securityContext:
-        runAsUser: {{ .Values.pod.user.id }}
-        runAsGroup: {{ .Values.pod.group.id }}
+        runAsUser: {{ include "securityContext.runAsUser" }}
+        runAsGroup: {{ include "securityContext.runAsGroup" }}
       containers:
         - name: post-install-job
           image: "{{ .Values.kubectlImage.registry }}/{{ .Values.kubectlImage.name }}:{{ .Values.kubectlImage.tag }}"

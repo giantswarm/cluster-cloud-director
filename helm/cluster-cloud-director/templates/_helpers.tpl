@@ -49,6 +49,13 @@ Create a prefix for all resource names.
 {{ .Release.Name }}
 {{- end -}}
 
+{{- define "securityContext.runAsUser" -}}
+1000
+{{- end -}}
+{{- define "securityContext.runAsGroup" -}}
+1000
+{{- end -}}
+
 {{- define "kubeletExtraArgs" -}}
 {{- .Files.Get "files/kubelet-args" -}}
 {{- end -}}

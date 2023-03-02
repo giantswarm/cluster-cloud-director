@@ -109,12 +109,6 @@ userContext:
   secretRef:
     secretName: ""  # Name of the pre-existing secret containing the credentials of the VCD user.
 
-pod:
-  user:
-    id: 1000
-  group:
-    id: 1000
-
 # cluster-shared configuration
 includeClusterResourceSet: "true"  # must be a string
 # let's use the kubectl image defaults
