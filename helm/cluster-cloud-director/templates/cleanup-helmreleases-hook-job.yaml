@@ -45,7 +45,7 @@ rules:
     resourceNames:
       - "{{ include "resource.default.name" $ }}-cilium"
       - "{{ include "resource.default.name" $ }}-cloud-provider-cloud-director"
-    verbs: ["get", "patch"]
+    verbs: ["get", "list", "patch"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
