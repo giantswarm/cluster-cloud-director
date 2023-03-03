@@ -42,10 +42,13 @@ metadata:
 rules:
   - apiGroups: ["helm.toolkit.fluxcd.io"]
     resources: ["helmreleases"]
+    verbs: ["get", "list"]
+  - apiGroups: ["helm.toolkit.fluxcd.io"]
+    resources: ["helmreleases"]
     resourceNames:
       - "{{ include "resource.default.name" $ }}-cilium"
       - "{{ include "resource.default.name" $ }}-cloud-provider-cloud-director"
-    verbs: ["get", "list", "patch"]
+    verbs: ["patch"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
