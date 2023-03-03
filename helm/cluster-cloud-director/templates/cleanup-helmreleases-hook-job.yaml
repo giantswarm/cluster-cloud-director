@@ -25,7 +25,8 @@ metadata:
   namespace: "{{ $.Release.Namespace }}"
   annotations:
     "helm.sh/hook": "post-delete"
-    "helm.sh/hook-delete-policy": "before-hook-creation"
+    "helm.sh/hook-delete-policy": "before-hook-creation,hook-succeeded,hook-failed"
+    "helm.sh/hook-weight": "-1"
   labels:
     {{- include "labels.common" $ | nindent 4 }}
 ---
@@ -36,7 +37,8 @@ metadata:
   namespace: "{{ $.Release.Namespace }}"
   annotations:
     "helm.sh/hook": "post-delete"
-    "helm.sh/hook-delete-policy": "before-hook-creation"
+    "helm.sh/hook-delete-policy": "before-hook-creation,hook-succeeded,hook-failed"
+    "helm.sh/hook-weight": "-1"
   labels:
     {{- include "labels.common" $ | nindent 4 }}
 rules:
@@ -57,7 +59,8 @@ metadata:
   namespace: "{{ $.Release.Namespace }}"
   annotations:
     "helm.sh/hook": "post-delete"
-    "helm.sh/hook-delete-policy": "before-hook-creation"
+    "helm.sh/hook-delete-policy": "before-hook-creation,hook-succeeded,hook-failed"
+    "helm.sh/hook-weight": "-1"
   labels:
     {{- include "labels.common" $ | nindent 4 }}
 subjects:
@@ -77,6 +80,7 @@ metadata:
   annotations:
     "helm.sh/hook": "post-delete"
     "helm.sh/hook-delete-policy": "before-hook-creation"
+    "helm.sh/hook-weight": "0"
   labels:
     {{- include "labels.common" $ | nindent 4 }}
 spec:
