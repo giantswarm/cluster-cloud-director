@@ -7,9 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Allow disabling core apps (CNI and CPI/CSI).
+
 ## [0.7.0] - 2023-03-07
 
-## Added
+### Added
 
 - :boom: Breaking! Add HelmRelease CRs for CNI (cilium) and CPI/CSI (cloud-provider-cloud-director). Please note this is compatible only with `default-apps-cloud-director` version `0.4.0` and newer.
 - Add configurable `apiServer.certSANs`.

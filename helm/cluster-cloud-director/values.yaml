@@ -95,6 +95,10 @@ nodePools: {}
   #   class: default  # Node classes name (defined above)
   #   replicas: 2
 
+# Core apps include CNI, CPI and CSI. They are installed using HelmRelease CRs.
+coreApps:
+  enabled: true  # Enables core apps.
+
 sshTrustedUserCAKeys:
   # Taken from https://vault.operations.giantswarm.io/v1/ssh/public_key
   - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM4cvZ01fLmO9cJbWUj7sfF+NhECgy+Cl0bazSrZX7sU vault-ca@vault.operations.giantswarm.io

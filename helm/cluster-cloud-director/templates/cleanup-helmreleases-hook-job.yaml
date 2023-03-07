@@ -1,3 +1,4 @@
+{{- if .Values.coreApps.enabled -}}
 # Because cluster provider resources are often deleted before flux has a chance
 # to uninstall helm releases for all deleted HelmRelease CRs they become
 # leftovers because there is still flux finalizer on them. This looks like
@@ -116,3 +117,4 @@ spec:
             limits:
               memory: "256Mi"
               cpu: "100m"
+{{- end -}}

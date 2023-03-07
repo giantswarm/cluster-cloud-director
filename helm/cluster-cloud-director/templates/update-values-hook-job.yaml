@@ -1,3 +1,4 @@
+{{- if .Values.coreApps.enabled -}}
 # Because RDE ID is not known at the time of cluster creation we use
 # a post-install/post-upgrade hook Job to copy RDE ID from VCDCluster object to
 # HelmRelease object installing cloud-provider-cloud-director.
@@ -156,3 +157,4 @@ spec:
             limits:
               memory: "256Mi"
               cpu: "100m"
+{{- end -}}

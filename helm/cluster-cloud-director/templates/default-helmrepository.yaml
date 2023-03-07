@@ -1,3 +1,4 @@
+{{- if .Values.coreApps.enabled -}}
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
@@ -15,3 +16,4 @@ metadata:
 spec:
   interval: 10m
   url: https://giantswarm.github.io/default-catalog
+{{- end -}}
