@@ -88,14 +88,21 @@
             "properties": {
                 "certSANs": {
                     "items": {
+                        "title": "SAN",
                         "type": "string"
                     },
+                    "title": "Subject alternative names (SAN)",
+                    "description": "Alternative names to encode in the API server's certificate.",
                     "type": "array"
                 },
                 "enableAdmissionPlugins": {
+                    "title": "Admission plugins",
+                    "description": "Comma-separated list of admission plugins to enable.",
                     "type": "string"
                 },
                 "featureGates": {
+                    "title": "Feature gates",
+                    "description": "Enabled feature gates, as a comma-separated list.",
                     "type": "string"
                 }
             },
@@ -103,23 +110,33 @@
                 "enableAdmissionPlugins",
                 "featureGates"
             ],
+            "title": "Kubernetes API server",
             "type": "object"
         },
         "baseDomain": {
+            "title": "Base DNS domain",
             "type": "string"
         },
         "cloudDirector": {
             "properties": {
                 "org": {
+                    "title": "Organization",
+                    "description": "VCD organization name.",
                     "type": "string"
                 },
                 "ovdc": {
+                    "title": "Virtual datacenter",
+                    "description": "TODO",
                     "type": "string"
                 },
                 "ovdcNetwork": {
+                    "title": "Network",
+                    "description": "VCD network to connect VMs.",
                     "type": "string"
                 },
                 "site": {
+                    "title": "Endpoint",
+                    "description": "VCD endpoint URL in the format https://VCD_HOST, without trailing slash.",
                     "type": "string"
                 }
             },
@@ -129,27 +146,36 @@
                 "ovdcNetwork",
                 "site"
             ],
+            "title": "Cloud Director",
             "type": "object"
         },
         "cluster": {
             "properties": {
                 "parentUid": {
+                    "title": "Management cluster UID",
+                    "description": "If set, create the cluster from a specific management cluster associated with this UID.",
                     "type": "string"
                 },
                 "rdeId": {
+                    "title": "RDE ID",
+                    "description": "TODO",
                     "type": "string"
                 },
                 "useAsManagementCluster": {
+                    "title": "Display as management cluster",
                     "type": "boolean"
                 }
             },
             "type": "object"
         },
         "clusterDescription": {
+            "title": "Cluster description",
+            "description": "User-friendly description of the cluster's purpose.",
             "type": "string"
         },
         "clusterLabels": {
-            "description": "Used for adding configurable labels to the cluster CR.",
+            "description": "Used for adding configurable labels to the cluster resource.",
+            "title": "Cluster labels",
             "type": "object"
         },
         "connectivity": {
@@ -506,11 +532,11 @@
             "type": "string"
         },
         "sshTrustedUserCAKeys": {
-            "description": "Public keys of certificate authorities that are trusted to sign user certificates for authentication.",
+            "description": "CA certificates of issuers that are trusted to sign SSH user certificates.",
             "items": {
                 "type": "string"
             },
-            "title": "Ssh trusted user CA keys",
+            "title": "Trusted SSH cert issuers",
             "type": "array"
         },
         "userContext": {
