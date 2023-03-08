@@ -6,12 +6,7 @@ metadata:
   annotations:
     cluster.giantswarm.io/description: "{{ .Values.clusterDescription }}"
   labels:
-    cluster-apps-operator.giantswarm.io/watching: ""
-    giantswarm.io/service-priority: "{{ .Values.servicePriority }}"
     {{- include "labels.common" . | nindent 4 }}
-    {{- range $key, $val := .Values.clusterLabels }}
-    {{ $key }}: {{ $val | quote }}
-    {{- end}}
 spec:
   releaseName: cilium
   targetNamespace: kube-system
