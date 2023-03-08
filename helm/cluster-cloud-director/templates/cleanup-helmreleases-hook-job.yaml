@@ -15,7 +15,7 @@
 #     finalizers:
 #       - finalizers.fluxcd.io
 #
-# To work around this post-delete Job deletes all finalizers on all HelmRelease
+# To work around this, post-delete Job deletes all finalizers on all HelmRelease
 # CRs created with this chart.
 #
 apiVersion: v1
