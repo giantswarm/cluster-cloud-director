@@ -113,7 +113,9 @@ See https://github.com/kubernetes-sigs/cluster-api/issues/4910
 See https://github.com/kubernetes-sigs/cluster-api/pull/5027/files
 */}}
 {{- define "kubeadmConfigTemplateSpec" -}}
+
 {{- include "sshUsers" . }}
+
 joinConfiguration:
   nodeRegistration:
     criSocket: /run/containerd/containerd.sock
@@ -121,7 +123,9 @@ joinConfiguration:
       {{- include "kubeletExtraArgs" . | nindent  6 -}}
       node-labels: "giantswarm.io/node-pool={{ .pool.name }},{{- include "labelsByClass" . -}}"
     {{- include "taintsByClass" . | nindent  4}}
+
 files:
+{{- include "ntpFiles" . | nindent 2}}
 {{- include "sshFiles" . | nindent 2}}
 {{- include "registryFiles" . | nindent 2 }}
 {{- if $.Values.proxy.enabled }}
@@ -130,7 +134,7 @@ files:
 {{- if $.Values.network.staticRoutes }}
 {{- include "staticRoutes" . | nindent 2}}
 {{- end }}
-{{- include "ntpServers" . }}
+
 preKubeadmCommands:
 {{- if $.Values.proxy.enabled }}
 - systemctl daemon-reload
@@ -140,24 +144,16 @@ preKubeadmCommands:
 - systemctl daemon-reload
 - systemctl enable --now static-routes.service
 {{- end }}
+
 postKubeadmCommands:
 {{ include "sshPostKubeadmCommands" . }}
+{{ include "ntpPostKubeadmCommands" . }}
 {{- end -}}
+
 {{- define "kubeadmConfigTemplateRevision" -}}
 {{- $inputs := (dict
   "data" (include "kubeadmConfigTemplateSpec" .) ) }}
 {{- mustToJson $inputs | toString | quote | sha1sum | trunc 8 }}
-{{- end -}}
-
-{{- define "ntpServers" -}}
-{{- if $.Values.ntpServers }}
-ntp:
-  enabled: true
-  servers:
-  {{- range $.Values.ntpServers}}
-  - {{ . }}
-  {{- end }}
-{{- end }}
 {{- end -}}
 
 {{/*
@@ -166,6 +162,7 @@ Here we are generating a hash suffix to trigger upgrade when only it is necessar
 using only the parameters used in vcdmachinetemplate.yaml.
 diskSize is computed with 1024^3 instead of 1000^3 because of https://github.com/vmware/cluster-api-provider-cloud-director/blob/501b616011dced31ddf3e0e3da0036a7a49ce015/controllers/vcdmachine_controller.go#L651
 */}}
+
 {{- define "mtSpec" -}}
 catalog: {{ .currentClass.catalog }}
 template: {{ .currentClass.template }}

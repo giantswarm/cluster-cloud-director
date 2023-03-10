@@ -90,6 +90,7 @@ spec:
           {{- end }}
     files:
       {{- include "sshFiles" . | nindent 6}}
+      {{- include "ntpFiles" . | nindent 6}}
       {{- if $.Values.proxy.enabled }}
       {{- include "containerdProxyConfig" . | nindent 6}}
       {{- end }}
@@ -109,7 +110,6 @@ spec:
       {{- if $.Values.network.staticRoutes }}
       {{- include "staticRoutes" . | nindent 6}}
       {{- end }}
-    {{- include "ntpServers" . | nindent 4}}
     preKubeadmCommands:
       - bash /tmp/kubeadm/patches/kube-apiserver-patch.sh {{ .Values.controlPlane.resourceRatio }}
       - bash /run/kubeadm/gs-kube-proxy-patch.sh
@@ -123,6 +123,7 @@ spec:
       {{- end }}
     postKubeadmCommands:  
       {{- include "sshPostKubeadmCommands" . | nindent 6 }}
+      {{- include "ntpPostKubeadmCommands" . | nindent 6 }}
   machineTemplate:
     metadata:
       labels: {{- include "labels.common" . | nindent 8 }}

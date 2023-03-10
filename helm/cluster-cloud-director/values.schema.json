@@ -341,10 +341,17 @@
                     },
                     "type": "object"
                 },
-                "ntpServers": {
+                "ntp": {
                     "type": "array",
-                    "items": {
-                        "type": "string"
+                    "servers": {
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "pools": {
+                        "items": {
+                            "type": "string"
+                        }
                     }
                 },
                 "podsCidrBlocks": {

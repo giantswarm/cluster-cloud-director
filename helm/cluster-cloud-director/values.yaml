@@ -95,7 +95,9 @@ nodePools: {}
   #   class: default  # Node classes name (defined above)
   #   replicas: 2
 
-ntpServers: []  # NTP servers for nodes
+ntp:  # ntp pools and servers chrony config
+  servers: []
+  pools: []
 
 sshTrustedUserCAKeys:
   # Taken from https://vault.operations.giantswarm.io/v1/ssh/public_key
