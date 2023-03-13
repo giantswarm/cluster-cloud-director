@@ -90,6 +90,7 @@ spec:
           {{- end }}
     files:
       {{- include "sshFiles" . | nindent 6}}
+      {{- include "ntpFiles" . | nindent 6}}
       {{- if $.Values.proxy.enabled }}
       {{- include "containerdProxyConfig" . | nindent 6}}
       {{- end }}
@@ -122,6 +123,7 @@ spec:
       {{- end }}
     postKubeadmCommands:  
       {{- include "sshPostKubeadmCommands" . | nindent 6 }}
+      {{- include "ntpPostKubeadmCommands" . | nindent 6 }}
   machineTemplate:
     metadata:
       labels: {{- include "labels.common" . | nindent 8 }}
