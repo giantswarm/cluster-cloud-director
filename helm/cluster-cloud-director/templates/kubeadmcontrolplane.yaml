@@ -70,6 +70,8 @@ spec:
       imageRepository: {{ .Values.controlPlane.image.repository }}
     {{- include "sshUsers" . | nindent 4 }}
     initConfiguration:
+      skipPhases:
+      - addon/kube-proxy
       patches:
         directory: "/tmp/kubeadm/patches"
       nodeRegistration:
