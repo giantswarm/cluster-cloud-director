@@ -147,8 +147,9 @@ preKubeadmCommands:
 
 postKubeadmCommands:
 {{ include "sshPostKubeadmCommands" . }}
-{{ include "ntpPostKubeadmCommands" . }}
-{{- end -}}
+{{- include "ntpPostKubeadmCommands" . }}
+
+{{- end }}
 
 {{- define "kubeadmConfigTemplateRevision" -}}
 {{- $inputs := (dict
