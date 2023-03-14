@@ -35,4 +35,4 @@ Changelog must always be updated.
 
 - [ ] Update changelog in CHANGELOG.md.
 - [ ] Make sure `values.yaml` and `values.schema.json` are valid.
-- [ ] Update Lastpass values if required.
+- [ ] Update `/examples` if required.
