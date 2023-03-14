@@ -70,8 +70,17 @@ spec:
       imageRepository: {{ .Values.controlPlane.image.repository }}
     {{- include "sshUsers" . | nindent 4 }}
     initConfiguration:
-      skipPhases:
-      - addon/kube-proxy
+      # TODO we need cluster-api-app@1.8.0 to be able to use skipPhases
+      # Right now we do a hackery to workaround this limitation. To revert
+      # this:
+      #     - remove files/var/run/kubeadm/update-kubeadm-yaml-skip-kube-proxy.sh
+      #       from the chart directory
+      #     - remove files/var/run/kubeadm/update-kubeadm-yaml-skip-kube-proxy.sh
+      #       references in _kubeadm.tpl
+      #     - remove _kubeadm.tpl file from the chart directory
+      #     - uncomment lines below
+      #skipPhases:
+      #- addon/kube-proxy
       patches:
         directory: "/tmp/kubeadm/patches"
       nodeRegistration:
@@ -91,12 +100,12 @@ spec:
           node-labels: "{{- join "," . }}"
           {{- end }}
     files:
-      {{- include "sshFiles" . | nindent 6}}
-      {{- include "ntpFiles" . | nindent 6}}
+      {{- include "sshFiles" . | nindent 6 }}
+      {{- include "ntpFiles" . | nindent 6 }}
       {{- if $.Values.proxy.enabled }}
-      {{- include "containerdProxyConfig" . | nindent 6}}
+      {{- include "containerdProxyConfig" . | nindent 6 }}
       {{- end }}
-      {{- include "kubeProxyFiles" . | nindent 6 }}
+      {{- include "kubeadmFiles" . | nident 6 }}
       {{- include "registryFiles" . | nindent 6 }}
       {{- range $kubeadmPatch, $_ :=  .Files.Glob  "files/etc/patches/**" }}
       - path: {{ (printf "/tmp/kubeadm/patches/%s" (base $kubeadmPatch)) }}
@@ -114,7 +123,8 @@ spec:
       {{- end }}
     preKubeadmCommands:
       - bash /tmp/kubeadm/patches/kube-apiserver-patch.sh {{ .Values.controlPlane.resourceRatio }}
-      - bash /run/kubeadm/gs-kube-proxy-patch.sh
+      - bash /var/run/kubeadm/gs-kube-proxy-patch.sh
+      - bash /var/run/kubeadm/gs-update-kubeadm-yaml-skip-kube-proxy.sh
       {{- if $.Values.proxy.enabled }}
       - systemctl daemon-reload
       - systemctl restart containerd
