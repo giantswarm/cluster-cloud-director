@@ -39,7 +39,7 @@ controlPlane:  # Must match nodeClasses' fields except "name" and must contain "
   sizingPolicy: ""  # Sizing policy for the control plane VMs. "" for no sizing policy.
   placementPolicy: ""  # Placement policy for control plane VMs. "" for no placement Policy.
   storageProfile: ""  # Storage profile for the control plane VMs. "" for no Storage profile.
-  diskSize: ""
+  diskSizeGB: ""
   etcd:
     imageRepository: "giantswarm"
     imageTag: 3.5.4-0-k8s
@@ -82,7 +82,7 @@ nodeClasses: {}  # Class definitions for worker node pools. The "name" of the cl
   #   sizingPolicy: ""
   #   placementPolicy: ""
   #   storageProfile: ""
-  #   diskSize: ""
+  #   diskSizeGB: ""
   #   customNodeTaints: []
   #   # - key: "key"
   #   #   value: "value"
