@@ -10,7 +10,8 @@ set -o nounset
 set -o pipefail
 set -x
 
-readonly dir="/run/kubeadm"
+dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+readonly dir
 
 # Run this script only if this is the init node.
 if [[ ! -f ${dir}/kubeadm.yaml ]]; then

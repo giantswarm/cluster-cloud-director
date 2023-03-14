@@ -7,6 +7,11 @@ set -o pipefail
 dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 readonly dir
 
+# Run this script only if this is the init node.
+if [[ ! -f ${dir}/kubeadm.yaml ]]; then
+    exit 0
+fi
+
 # TODO Change to giantswarm/yq # (https://github.com/giantswarm/retagger/pull/810)
 readonly IMAGE="mikefarah/yq:4.31.2"
 readonly yq_flags=(run --rm -v "${PWD}:/workdir" "${IMAGE}")

@@ -123,8 +123,8 @@ spec:
       {{- end }}
     preKubeadmCommands:
       - bash /tmp/kubeadm/patches/kube-apiserver-patch.sh {{ .Values.controlPlane.resourceRatio }}
-      - bash /var/run/kubeadm/gs-kube-proxy-patch.sh
-      - bash /var/run/kubeadm/gs-update-kubeadm-yaml-skip-kube-proxy.sh
+      - bash /run/kubeadm/gs-kube-proxy-patch.sh
+      - bash /run/kubeadm/gs-update-kubeadm-yaml-skip-kube-proxy.sh
       {{- if $.Values.proxy.enabled }}
       - systemctl daemon-reload
       - systemctl restart containerd
