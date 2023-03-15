@@ -12,22 +12,11 @@ if [[ ! -f ${dir}/kubeadm.yaml ]]; then
     exit 0
 fi
 
-# TODO Change to giantswarm/yq # (https://github.com/giantswarm/retagger/pull/810)
-readonly IMAGE="mikefarah/yq:4.31.2"
-readonly yq_flags=(run --rm -v "${PWD}:/workdir" "${IMAGE}")
-readonly YQ="crictl ${yq_flags[*]}"
-
-set -x
-
-crictl pull "${IMAGE}"
-
-cd "${dir}"
-
 # This will add the configuration below to "InitConfiguration":
 #
 #     skipPhases:
 #       - addon/kube-proxy
 #
-$YQ e -i '(select(.kind == "InitConfiguration")).skipPhases += ["addon/kube-proxy"]' kubeadm.yaml
-
+set -x
+sed -i 's/nodeRegistration:/skipPhases:\n  - addon/kube-proxy\nnodeRegistration:/' "${dir}/kubeadm.yaml"
 { set +x; } 2>/dev/null
