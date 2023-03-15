@@ -30,7 +30,7 @@ spec:
   values:
     ipam:
       mode: kubernetes
-    k8sServiceHost: api.{{ .Values.baseDomain }}
+    k8sServiceHost: api.{{ include "resource.default.name" $ }}.{{ .Values.baseDomain }}
     k8sServicePort: 6443
     kubeProxyReplacement: strict
     hubble:
