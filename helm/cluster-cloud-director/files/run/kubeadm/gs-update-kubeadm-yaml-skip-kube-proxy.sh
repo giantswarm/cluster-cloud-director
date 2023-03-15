@@ -18,5 +18,5 @@ fi
 #       - addon/kube-proxy
 #
 set -x
-sed -i 's/nodeRegistration:/skipPhases:\n  - addon/kube-proxy\nnodeRegistration:/' "${dir}/kubeadm.yaml"
+sed -i 's/nodeRegistration:/skipPhases:\n  - addon\/kube-proxy\nnodeRegistration:/' "${dir}/kubeadm.yaml"
 { set +x; } 2>/dev/null
