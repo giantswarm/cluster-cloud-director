@@ -15,11 +15,11 @@ fi
 # TODO Change to giantswarm/yq # (https://github.com/giantswarm/retagger/pull/810)
 readonly IMAGE="mikefarah/yq:4.31.2"
 readonly yq_flags=(run --rm -v "${PWD}:/workdir" "${IMAGE}")
-readonly YQ="docker ${yq_flags[*]}"
+readonly YQ="crictl ${yq_flags[*]}"
 
 set -x
 
-docker pull "${IMAGE}"
+crictl pull "${IMAGE}"
 
 cd "${dir}"
 
