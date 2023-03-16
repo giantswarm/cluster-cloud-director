@@ -30,7 +30,7 @@
 {{- end }}
 
 {{- define "ntpPostKubeadmCommands" -}}
-{{- if or $.Values.ntp.pools $.Values.ntp.servers -}}
+{{- if or $.Values.ntp.pools $.Values.ntp.servers }}
 - systemctl daemon-reload
 - systemctl restart chrony
 {{- end -}}
