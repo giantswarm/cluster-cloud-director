@@ -30,8 +30,12 @@ spec:
   values:
     ipam:
       mode: kubernetes
+    {{- if eq .Values.cilium.k8sServiceHost "default" }}
     k8sServiceHost: api.{{ include "resource.default.name" $ }}.{{ .Values.baseDomain }}
-    k8sServicePort: 6443
+    {{- else }}
+    k8sServiceHost: {{ .Values.cilium.k8sServiceHost | quote }}
+    {{- end }}
+    k8sServicePort: {{ .Values.cilium.k8sServicePort }}
     kubeProxyReplacement: strict
     hubble:
       relay:
