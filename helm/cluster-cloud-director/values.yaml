@@ -39,7 +39,6 @@ controlPlane:  # Must match nodeClasses' fields except "name" and must contain "
   sizingPolicy: ""  # Sizing policy for the control plane VMs. "" for no sizing policy.
   placementPolicy: ""  # Placement policy for control plane VMs. "" for no placement Policy.
   storageProfile: ""  # Storage profile for the control plane VMs. "" for no Storage profile.
-  diskSize: ""
   etcd:
     imageRepository: "giantswarm"
     imageTag: 3.5.4-0-k8s
@@ -51,6 +50,7 @@ controlPlane:  # Must match nodeClasses' fields except "name" and must contain "
   resourceRatio: 8  # Ratio between node resources and apiserver resource requests.
   customNodeLabels: []  # Labels in key=value format.
   # - label1=v1
+  # diskSizeGB:
 
 network:
   podsCidrBlocks:
@@ -87,7 +87,7 @@ nodeClasses: {}  # Class definitions for worker node pools. The "name" of the cl
   #   sizingPolicy: ""
   #   placementPolicy: ""
   #   storageProfile: ""
-  #   diskSize: ""
+  #   diskSizeGB:
   #   customNodeTaints: []
   #   # - key: "key"
   #   #   value: "value"
