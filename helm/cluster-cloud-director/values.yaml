@@ -50,7 +50,7 @@ controlPlane:  # Must match nodeClasses' fields except "name" and must contain "
   resourceRatio: 8  # Ratio between node resources and apiserver resource requests.
   customNodeLabels: []  # Labels in key=value format.
   # - label1=v1
-  #diskSizeGB:
+  # diskSizeGB:
 
 network:
   podsCidrBlocks:
@@ -82,7 +82,7 @@ nodeClasses: {}  # Class definitions for worker node pools. The "name" of the cl
   #   sizingPolicy: ""
   #   placementPolicy: ""
   #   storageProfile: ""
-  #   diskSizeGB: 
+  #   diskSizeGB:
   #   customNodeTaints: []
   #   # - key: "key"
   #   #   value: "value"
