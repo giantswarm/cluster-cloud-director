@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Bump cloud provider to v0.2.4.
+
 ## [0.7.2] - 2023-03-16
 
 ### Fixed
