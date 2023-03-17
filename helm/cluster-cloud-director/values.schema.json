@@ -510,20 +510,6 @@
             },
             "type": "object"
         },
-        "proxy": {
-            "properties": {
-                "k8sServiceHost": {
-                    "description": "API server host used by cilium in kube-proxy replacement mode. Useful when the cluster doesn't have a domain and the IP needs to be set. Special value of \"default\" is replaced with \"api.RELEASE_NAME.{{ .Values.baseDomain }}\".",
-                    "minLength": 1,
-                    "type": "string"
-                },
-                "k8sServicePort": {
-                    "description": "API server port used by cilium in kube-proxy replacement mode.",
-                    "type": "integer"
-                }
-            },
-            "type": "object"
-        },
         "servicePriority": {
             "enum": [
                 "lowest",

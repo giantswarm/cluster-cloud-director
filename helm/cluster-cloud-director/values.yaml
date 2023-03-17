@@ -75,11 +75,6 @@ proxy:  # (Optional) Defines HTTP proxy environment variables.
   secretName: ""
   enabled: false
 
-cilium:
-  # k8sServiceHost
-  k8sServiceHost: "default"  # API server host used by cilium in kube-proxy replacement mode. Useful when the cluster doesn't have a domain and the IP needs to be set. Special value of "default" is replaced with "api.RELEASE_NAME.{{ .Values.baseDomain }}".
-  k8sServicePort: 6443  # API server port used by cilium in kube-proxy replacement mode.
-
 nodeClasses: {}  # Class definitions for worker node pools. The "name" of the class is the key of the object. Example:
   # default:  # Name of the class to use in nodePool and machinetemplate name.
   #   catalog: ""
