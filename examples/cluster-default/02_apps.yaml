@@ -9,7 +9,7 @@ metadata:
 spec:
   name: cluster-cloud-director
   namespace: org-multi-project
-  version: 0.7.1
+  version: 0.8.0
   catalog: cluster
   kubeConfig:
     inCluster: true
