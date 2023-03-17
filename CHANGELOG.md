@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- :boom: **Breaking:** Use cilium kube-proxy replacement.
+
 ## [0.7.4] - 2023-03-17
 
 ### Changed
@@ -35,7 +39,7 @@ Bump cloud provider to v0.2.5 (fix).
 
 ### Added
 
-- :boom: Breaking! Add HelmRelease CRs for CNI (cilium) and CPI/CSI (cloud-provider-cloud-director). Please note this is compatible only with `default-apps-cloud-director` version `0.4.0` and newer.
+- :boom: **Breaking:** Add HelmRelease CRs for CNI (cilium) and CPI/CSI (cloud-provider-cloud-director). Please note this is compatible only with `default-apps-cloud-director` version `0.4.0` and newer.
 - Add configurable `apiServer.certSANs`.
 - Add machine health checks for worker nodes.
 
