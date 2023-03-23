@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Make cloud provider `VirtualServiceSharedIP` configurable.
+
 ### Fixed
 
 - Fix RBAC for pre-upgrade hook.

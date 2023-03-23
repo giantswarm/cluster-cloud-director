@@ -19,6 +19,11 @@ cloudDirector:
   ovdc: ""  # VCD virtual datacenter.
   ovdcNetwork: ""  # VCD network to connect VMs.
 
+cloudProvider:
+  enableVirtualServiceSharedIP: true  # Multiple VS can share an IP if true.
+  oneArm:
+    enabled: false  # Creates a NAT rule instead of direct LB IP if true.
+
 cluster:
   rdeId: ""  # (Optional) If empty, CAPVCD will create one.
   parentUid: ""  # (Optional) Create the CAPVCD cluster from a specific management cluster associated with this UID.
