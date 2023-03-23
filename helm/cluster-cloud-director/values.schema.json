@@ -131,6 +131,25 @@
             ],
             "type": "object"
         },
+        "cloudProvider": {
+            "properties": {
+                "enableVirtualServiceSharedIP": {
+                    "type": "boolean"
+                },
+                "oneArm": {
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        }
+                    }
+                }
+            },
+            "required": [
+                "enableVirtualServiceSharedIP",
+                "oneArm"
+            ],
+            "type": "object"
+        },
         "cluster": {
             "properties": {
                 "parentUid": {
