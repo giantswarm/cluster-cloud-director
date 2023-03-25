@@ -1,0 +1,89 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: test-cluster-proxy
+  namespace: org-multi-project
+data:
+  values: |
+    baseDomain: test.gigantic.io
+    clusterName: test-cluster-proxy
+    clusterDescription: test cluster configured with custom node names.
+    managementCluster: guppy
+    kubernetesVersion: v1.22.9+vmware.1
+    organization: multi-project
+    provider: cloud-director
+    servicePriority: highest
+
+    cloudDirector:
+      org: giantswarm
+      ovdc: vDC 73640
+      site: https://vmware.ikoula.com
+      ovdcNetwork: capvcd-192.168.52.0
+
+    controlPlane:
+      catalog: giantswarm
+      replicas: 3
+      sizingPolicy: m1.medium
+      template: ubuntu-2004-kube-v1.22.9
+
+    network:
+      loadBalancer:
+        vipSubnet: 178.170.32.1/24
+
+    nodeClasses:
+      default:
+        catalog: giantswarm
+        sizingPolicy: m1.medium
+        template: ubuntu-2004-kube-v1.22.9
+
+    nodePools:
+      worker:
+        class: default
+        replicas: 2
+
+    userContext:
+      secretRef:
+        secretName: vcd-credentials
+        useSecretRef: true
+
+    vmNamingTemplate: giantswarm-{{.machine.Name | sha256sum | trunc 5}}
+---
+apiVersion: application.giantswarm.io/v1alpha1
+kind: App
+metadata:
+  labels:
+    app-operator.giantswarm.io/version: 0.0.0
+    giantswarm.io/managed-by: flux
+  name: test-cluster-proxy
+  namespace: org-multi-project
+spec:
+  name: cluster-cloud-director
+  namespace: org-multi-project
+  catalog: cluster-test
+  version: 0.8.1-11e4cfd2b778b0bd75bd1724c6b88a13d0fac5fb
+  kubeConfig:
+    inCluster: true
+  userConfig:
+    configMap:
+      name: test-cluster-proxy-user-values
+      namespace: org-multi-project
+---
+apiVersion: application.giantswarm.io/v1alpha1
+kind: App
+metadata:
+  labels:
+    app-operator.giantswarm.io/version: 0.0.0
+    giantswarm.io/managed-by: flux
+  name: test-cluster-proxy-default-apps
+  namespace: org-multi-project
+spec:
+  name: default-apps-cloud-director
+  namespace: org-multi-project
+  catalog: cluster
+  version: 0.4.0
+  kubeConfig:
+    inCluster: true
+  userConfig:
+    configMap:
+      name: test-cluster-proxy-user-values
+      namespace: org-multi-project
