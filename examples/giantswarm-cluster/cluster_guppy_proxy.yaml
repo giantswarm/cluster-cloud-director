@@ -6,12 +6,9 @@ metadata:
 data:
   values: |
     baseDomain: test.gigantic.io
-    clusterName: test-cluster-proxy
     clusterDescription: test cluster configured with http proxy.
-    managementCluster: guppy
     kubernetesVersion: v1.22.9+vmware.1
     organization: multi-project
-    provider: cloud-director
     servicePriority: highest
 
     cloudDirector:
