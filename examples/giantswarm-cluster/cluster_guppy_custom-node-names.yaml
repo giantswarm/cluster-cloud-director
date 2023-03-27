@@ -1,17 +1,14 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: test-cluster-proxy
+  name: test-customname-cluster-user-values
   namespace: org-multi-project
 data:
   values: |
     baseDomain: test.gigantic.io
-    clusterName: test-cluster-proxy
     clusterDescription: test cluster configured with custom node names.
-    managementCluster: guppy
     kubernetesVersion: v1.22.9+vmware.1
     organization: multi-project
-    provider: cloud-director
     servicePriority: highest
 
     cloudDirector:
@@ -20,7 +17,7 @@ data:
       site: https://vmware.ikoula.com
       ovdcNetwork: capvcd-192.168.52.0
 
-    # Not needed in VCD 10.4+
+    ##### Not needed in VCD 10.4+
     cloudProvider:
       enableVirtualServiceSharedIP: false
       oneArm:
@@ -54,13 +51,24 @@ data:
 
     vmNamingTemplate: giantswarm-{{.machine.Name | sha256sum | trunc 5}}
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: test-customname-da-user-values
+  namespace: org-multi-project
+data:
+  values: |
+    clusterName: test-customname
+    managementCluster: guppy
+    organization: multi-project
+---
 apiVersion: application.giantswarm.io/v1alpha1
 kind: App
 metadata:
   labels:
     app-operator.giantswarm.io/version: 0.0.0
     giantswarm.io/managed-by: flux
-  name: test-cluster-proxy
+  name: test-customname
   namespace: org-multi-project
 spec:
   name: cluster-cloud-director
@@ -71,7 +79,7 @@ spec:
     inCluster: true
   userConfig:
     configMap:
-      name: test-cluster-proxy-user-values
+      name: test-customname-cluster-user-values
       namespace: org-multi-project
 ---
 apiVersion: application.giantswarm.io/v1alpha1
@@ -80,16 +88,16 @@ metadata:
   labels:
     app-operator.giantswarm.io/version: 0.0.0
     giantswarm.io/managed-by: flux
-  name: test-cluster-proxy-default-apps
+  name: test-customname-default-apps
   namespace: org-multi-project
 spec:
   name: default-apps-cloud-director
   namespace: org-multi-project
   catalog: cluster
-  version: 0.4.0
+  version: 0.4.1
   kubeConfig:
     inCluster: true
   userConfig:
     configMap:
-      name: test-cluster-proxy-user-values
+      name: test-customname-da-user-values
       namespace: org-multi-project

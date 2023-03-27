@@ -1,17 +1,14 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: test-cluster-multi-ic
+  name: test-multinic-cluster-user-values
   namespace: org-multi-project
 data:
   values: |
     baseDomain: test.gigantic.io
-    clusterName: test-cluster-multi-ic
     clusterDescription: test cluster with 2 nics and static route.
-    managementCluster: guppy
     kubernetesVersion: v1.22.9+vmware.1
     organization: multi-project
-    provider: cloud-director
     servicePriority: highest
 
     cloudDirector:
@@ -20,7 +17,7 @@ data:
       site: https://vmware.ikoula.com
       ovdcNetwork: capvcd-192.168.52.0
 
-    # Not needed in VCD 10.4+
+    ##### Not needed in VCD 10.4+
     cloudProvider:
       enableVirtualServiceSharedIP: false
       oneArm:
@@ -57,13 +54,24 @@ data:
         secretName: vcd-credentials
         useSecretRef: true
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: test-multinic-da-user-values
+  namespace: org-multi-project
+data:
+  values: |
+    clusterName: test-multinic
+    managementCluster: guppy
+    organization: multi-project
+---
 apiVersion: application.giantswarm.io/v1alpha1
 kind: App
 metadata:
   labels:
     app-operator.giantswarm.io/version: 0.0.0
     giantswarm.io/managed-by: flux
-  name: test-cluster-multi-ic
+  name: test-multinic
   namespace: org-multi-project
 spec:
   name: cluster-cloud-director
@@ -74,7 +82,7 @@ spec:
     inCluster: true
   userConfig:
     configMap:
-      name: test-cluster-multi-ic-user-values
+      name: test-multinic-cluster-user-values
       namespace: org-multi-project
 ---
 apiVersion: application.giantswarm.io/v1alpha1
@@ -83,16 +91,16 @@ metadata:
   labels:
     app-operator.giantswarm.io/version: 0.0.0
     giantswarm.io/managed-by: flux
-  name: test-cluster-multi-ic-default-apps
+  name: test-multinic-default-apps
   namespace: org-multi-project
 spec:
   name: default-apps-cloud-director
   namespace: org-multi-project
   catalog: cluster
-  version: 0.4.0
+  version: 0.4.1
   kubeConfig:
     inCluster: true
   userConfig:
     configMap:
-      name: test-cluster-multi-ic-user-values
+      name: test-multinic-da-user-values
       namespace: org-multi-project
