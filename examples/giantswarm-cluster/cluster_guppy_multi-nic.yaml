@@ -20,6 +20,12 @@ data:
       site: https://vmware.ikoula.com
       ovdcNetwork: capvcd-192.168.52.0
 
+    # Not needed in VCD 10.4+
+    cloudProvider:
+      enableVirtualServiceSharedIP: false
+      oneArm:
+        enabled: true
+
     controlPlane:
       catalog: giantswarm
       replicas: 3
