@@ -118,6 +118,11 @@ userContext:
   secretRef:
     secretName: ""  # Name of the pre-existing secret containing the credentials of the VCD user.
 
+kubectlImage:
+  registry: quay.io
+  name: giantswarm/kubectl
+  tag: 1.23.5
+
 connectivity:
   containerRegistries: {}
 #   docker.io:
