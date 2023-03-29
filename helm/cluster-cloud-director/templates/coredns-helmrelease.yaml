@@ -33,7 +33,7 @@
 #        CIDR: {{ index .Values.network.podsCidrBlocks 0 | quote }}
 #      kubernetes:
 #        API:
-#          clusterIPRange: {{ index .Value.servicesCidrBlocks 0 | quote }}
+#          clusterIPRange: {{ index .Value.network.servicesCidrBlocks 0 | quote }}
 #        DNS:
 #          # TODO Check what happens when it's empty string
 #          # TODO Check what happens when it's empty string
