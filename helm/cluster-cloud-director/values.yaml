@@ -118,14 +118,6 @@ userContext:
   secretRef:
     secretName: ""  # Name of the pre-existing secret containing the credentials of the VCD user.
 
-# cluster-shared configuration
-includeClusterResourceSet: "true"  # must be a string
-# let's use the kubectl image defaults
-kubectlImage:
-  registry: quay.io
-  name: giantswarm/kubectl
-  tag: 1.23.5
-
 connectivity:
   containerRegistries: {}
 #   docker.io:
