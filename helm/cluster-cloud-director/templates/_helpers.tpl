@@ -16,7 +16,7 @@ Create chart name and version as used by the chart label.
 {{- end -}}
 
 {{- define "infrastructureApiVersion" -}}
-infrastructure.cluster.x-k8s.io/v1beta1
+infrastructure.cluster.x-k8s.io/v1beta2
 {{- end -}}
 
 {{/*
