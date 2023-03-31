@@ -14,7 +14,7 @@
     {{- $mask := int (mustRegexReplaceAll `^.*/(\d+)$` $serviceCidrBlock "${1}") -}}
 
     {{- if gt $mask 24 -}}
-        {{- fail (printf ".Values.network.servicesCidrBlocks=%q mask must be <= 24" $serviceCidrBlock) -}}
+        {{- fail (printf ".Values.network.servicesCidrBlocks[0]=%q mask must be <= 24" $serviceCidrBlock) -}}
     {{- end -}}
 
     {{- mustRegexReplaceAll `^(\d+\.\d+\.\d+).*$` $serviceCidrBlock "${1}.10" -}}
