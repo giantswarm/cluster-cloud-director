@@ -374,12 +374,16 @@
                     }
                 },
                 "podsCidrBlocks": {
+                    "minItems": 1,
+                    "maxItems": 1,
                     "items": {
                         "type": "string"
                     },
                     "type": "array"
                 },
                 "servicesCidrBlocks": {
+                    "minItems": 1,
+                    "maxItems": 1,
                     "items": {
                         "type": "string"
                     },

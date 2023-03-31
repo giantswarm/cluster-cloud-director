@@ -35,17 +35,4 @@ spec:
         API:
           clusterIPRange: {{ index .Values.network.servicesCidrBlocks 0 | quote }}
         DNS:
-          # TODO Check what happens when it's empty string
-          # TODO Check what happens when it's empty string
-          # TODO Check what happens when it's empty string
-          # TODO Check what happens when it's empty string
-          # TODO Check what happens when it's empty string
-          # TODO Check what happens when it's empty string
-          # TODO Check what happens when it's empty string
-          # TODO Check what happens when it's empty string
-          # TODO Check what happens when it's empty string
-          # TODO Check what happens when it's empty string
-          # TODO Check what happens when it's empty string
-          # TODO Check what happens when it's empty string
-          # TODO Check what happens when it's empty string
-          IP: ""
+          IP: {{ include "clusterDNS" $ | quote }}
