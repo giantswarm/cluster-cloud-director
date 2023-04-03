@@ -361,17 +361,21 @@
                     "type": "object"
                 },
                 "ntp": {
-                    "type": "array",
-                    "servers": {
-                        "items": {
-                            "type": "string"
+                    "properties": {
+                        "pools": {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        "servers": {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
                         }
                     },
-                    "pools": {
-                        "items": {
-                            "type": "string"
-                        }
-                    }
+                    "type": "object"
                 },
                 "podsCidrBlocks": {
                     "items": {
