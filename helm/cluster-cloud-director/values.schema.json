@@ -450,17 +450,21 @@
                     "type": "object"
                 },
                 "ntp": {
-                    "pools": {
-                        "items": {
-                            "type": "string"
+                    "properties": {
+                        "pools": {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        "servers": {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
                         }
                     },
-                    "servers": {
-                        "items": {
-                            "type": "string"
-                        }
-                    },
-                    "type": "array"
+                    "type": "object"
                 },
                 "podsCidrBlocks": {
                     "description": "IPv4 address range for pods, in CIDR notation.",
