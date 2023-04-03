@@ -126,7 +126,7 @@
                 },
                 "ovdc": {
                     "description": "TODO.",
-                    "title": "Virtual datacenter",
+                    "title": "Organization virtual datacenter (OvDC)",
                     "type": "string"
                 },
                 "ovdcNetwork": {
