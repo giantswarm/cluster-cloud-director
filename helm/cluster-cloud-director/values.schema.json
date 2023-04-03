@@ -125,7 +125,7 @@
                     "type": "string"
                 },
                 "ovdc": {
-                    "description": "TODO",
+                    "description": "TODO.",
                     "title": "Virtual datacenter",
                     "type": "string"
                 },
@@ -152,20 +152,26 @@
         "cloudProvider": {
             "properties": {
                 "enableVirtualServiceSharedIP": {
+                    "description": "TODO.",
+                    "title": "TODO",
                     "type": "boolean"
                 },
                 "oneArm": {
+                    "description": "TODO.",
                     "properties": {
                         "enabled": {
+                            "title": "Enable",
                             "type": "boolean"
                         }
-                    }
+                    },
+                    "title": "TODO"
                 }
             },
             "required": [
                 "enableVirtualServiceSharedIP",
                 "oneArm"
             ],
+            "title": "TODO",
             "type": "object"
         },
         "cluster": {
@@ -410,7 +416,7 @@
         "network": {
             "properties": {
                 "controlPlaneEndpoint": {
-                    "description": "Kubernetes API endpoint",
+                    "description": "Kubernetes API endpoint.",
                     "properties": {
                         "host": {
                             "title": "Host",
@@ -444,17 +450,23 @@
                     "type": "object"
                 },
                 "ntp": {
-                    "type": "array",
-                    "servers": {
+                    "pools": {
+                        "title": "Pools",
                         "items": {
+                            "title": "TODO",
                             "type": "string"
                         }
                     },
-                    "pools": {
+                    "servers": {
+                        "title": "Servers",
                         "items": {
+                            "title": "TODO",
                             "type": "string"
                         }
-                    }
+                    },
+                    "title": "Clock synchronization (NTP)",
+                    "description": "TODO",
+                    "type": "array"
                 },
                 "podsCidrBlocks": {
                     "description": "IPv4 address range for pods, in CIDR notation.",
@@ -587,7 +599,7 @@
                     "type": "string"
                 },
                 "usernamePrefix": {
-                    "description": "Prefix prepended to username values to prevent clashes with existing names",
+                    "description": "Prefix prepended to username values to prevent clashes with existing names.",
                     "title": "Username prefix",
                     "type": "string"
                 }
@@ -628,9 +640,11 @@
             "description": "Whether/how outgoing traffic is routed through proxy servers.",
             "properties": {
                 "enabled": {
+                    "title": "Enable",
                     "type": "boolean"
                 },
                 "secretName": {
+                    "title": "TODO",
                     "type": "string"
                 }
             },
