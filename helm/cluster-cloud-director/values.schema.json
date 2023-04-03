@@ -131,7 +131,7 @@
                 },
                 "ovdcNetwork": {
                     "description": "VCD network to connect VMs.",
-                    "title": "Network",
+                    "title": "OvDC network",
                     "type": "string"
                 },
                 "site": {
