@@ -6,12 +6,7 @@ metadata:
   annotations:
     cluster.giantswarm.io/description: "{{ .Values.clusterDescription }}"
   labels:
-    cluster-apps-operator.giantswarm.io/watching: ""
-    giantswarm.io/service-priority: "{{ .Values.servicePriority }}"
     {{- include "labels.common" . | nindent 4 }}
-    {{- range $key, $val := .Values.clusterLabels }}
-    {{ $key }}: {{ $val | quote }}
-    {{- end}}
 spec:
   releaseName: cilium
   targetNamespace: kube-system
@@ -29,12 +24,15 @@ spec:
   interval: 10m
   install:
     remediation:
-      retries: 3
+      retries: 30
   # Default values
   # https://github.com/giantswarm/cilium-app/blob/main/helm/cilium/values.yaml
   values:
     ipam:
       mode: kubernetes
+    k8sServiceHost: api.{{ include "resource.default.name" $ }}.{{ .Values.baseDomain }}
+    k8sServicePort: 6443
+    kubeProxyReplacement: strict
     hubble:
       relay:
         enabled: true

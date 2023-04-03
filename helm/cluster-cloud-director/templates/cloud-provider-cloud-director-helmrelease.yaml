@@ -20,7 +20,7 @@ spec:
   chart:
     spec:
       chart: cloud-provider-cloud-director
-      version: 0.2.3
+      version: 0.2.5
       sourceRef:
         kind: HelmRepository
         name: {{ include "resource.default.name" $ }}-default
@@ -30,7 +30,7 @@ spec:
   interval: 10m
   install:
     remediation:
-      retries: 3
+      retries: 30
   # Default values
   # https://github.com/giantswarm/cloud-provider-cloud-director-app/blob/main/helm/cloud-provider-cloud-director/values.yaml
   valuesFrom:
@@ -50,3 +50,6 @@ spec:
         site: {{ .Values.cloudDirector.site | quote }}
         vAppName: {{ include "resource.default.name" $  | quote }}
         vipSubnet: {{ .Values.network.loadBalancer.vipSubnet | quote }}
+        enableVirtualServiceSharedIP: {{ .Values.cloudProvider.enableVirtualServiceSharedIP }}
+        oneArm:
+          enabled: {{ .Values.cloudProvider.oneArm.enabled }}

@@ -7,9 +7,51 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## Added
+## [0.8.1] - 2023-03-23
 
-- :boom: Breaking! Add HelmRelease CRs for CNI (cilium) and CPI/CSI (cloud-provider-cloud-director). Please note this is compatible only with `default-apps-cloud-director` version `0.4.0` and newer.
+### Added
+
+- Make cloud provider `VirtualServiceSharedIP` configurable.
+
+### Fixed
+
+- Fix RBAC for pre-upgrade hook.
+
+## [0.8.0] - 2023-03-17
+
+### Changed
+
+- :boom: **Breaking:** Use cilium kube-proxy replacement.
+
+## [0.7.4] - 2023-03-17
+
+### Changed
+
+Bump cloud provider to v0.2.5 (fix).
+
+## [0.7.3] - 2023-03-17
+
+### Changed
+
+- Bump cloud provider to v0.2.4.
+
+## [0.7.2] - 2023-03-16
+
+### Fixed
+
+- Fixed breaking whitespaces.
+
+## [0.7.1] - 2023-03-13
+
+### Added
+
+- Add configurable ntp on nodes.
+
+## [0.7.0] - 2023-03-07
+
+### Added
+
+- :boom: **Breaking:** Add HelmRelease CRs for CNI (cilium) and CPI/CSI (cloud-provider-cloud-director). Please note this is compatible only with `default-apps-cloud-director` version `0.4.0` and newer.
 - Add configurable `apiServer.certSANs`.
 - Add machine health checks for worker nodes.
 
@@ -167,7 +209,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added VCDCluster parameters to match CRD.
 - Nodepool and nodeclass support.
 
-[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.6.1...HEAD
+[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.8.1...HEAD
+[0.8.1]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.8.0...v0.8.1
+[0.8.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.7.4...v0.8.0
+[0.7.4]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.7.3...v0.7.4
+[0.7.3]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.7.2...v0.7.3
+[0.7.2]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.7.1...v0.7.2
+[0.7.1]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.7.0...v0.7.1
+[0.7.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.6.1...v0.7.0
 [0.6.1]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.4.4...v0.5.0

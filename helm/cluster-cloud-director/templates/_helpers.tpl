@@ -95,17 +95,6 @@ use the cluster-apps-operator created secret <clusterName>-cluster-values as def
     {{- end -}}
 {{- end }}
 
-{{- define "kubeProxyFiles" }}
-- path: /run/kubeadm/gs-kube-proxy-config.yaml
-  permissions: "0600"
-  content: |
-    {{- .Files.Get "files/etc/gs-kube-proxy-config.yaml" | nindent 4 }}
-- path: /run/kubeadm/gs-kube-proxy-patch.sh
-  permissions: "0700"
-  content: |
-    {{- .Files.Get "files/etc/gs-kube-proxy-patch.sh" | nindent 4 }}
-{{- end -}}
-
 {{/*
 Updates in KubeadmConfigTemplate will not trigger any rollout for worker nodes.
 It is necessary to create a new template with a new name to trigger an upgrade.
@@ -113,7 +102,9 @@ See https://github.com/kubernetes-sigs/cluster-api/issues/4910
 See https://github.com/kubernetes-sigs/cluster-api/pull/5027/files
 */}}
 {{- define "kubeadmConfigTemplateSpec" -}}
+
 {{- include "sshUsers" . }}
+
 joinConfiguration:
   nodeRegistration:
     criSocket: /run/containerd/containerd.sock
@@ -121,7 +112,9 @@ joinConfiguration:
       {{- include "kubeletExtraArgs" . | nindent  6 -}}
       node-labels: "giantswarm.io/node-pool={{ .pool.name }},{{- include "labelsByClass" . -}}"
     {{- include "taintsByClass" . | nindent  4}}
+
 files:
+{{- include "ntpFiles" . | nindent 2}}
 {{- include "sshFiles" . | nindent 2}}
 {{- include "registryFiles" . | nindent 2 }}
 {{- if $.Values.proxy.enabled }}
@@ -130,6 +123,7 @@ files:
 {{- if $.Values.network.staticRoutes }}
 {{- include "staticRoutes" . | nindent 2}}
 {{- end }}
+
 preKubeadmCommands:
 {{- if $.Values.proxy.enabled }}
 - systemctl daemon-reload
@@ -139,9 +133,12 @@ preKubeadmCommands:
 - systemctl daemon-reload
 - systemctl enable --now static-routes.service
 {{- end }}
+
 postKubeadmCommands:
 {{ include "sshPostKubeadmCommands" . }}
-{{- end -}}
+{{- include "ntpPostKubeadmCommands" . }}
+
+{{- end }}
 
 {{- define "kubeadmConfigTemplateRevision" -}}
 {{- $inputs := (dict
@@ -149,13 +146,13 @@ postKubeadmCommands:
 {{- mustToJson $inputs | toString | quote | sha1sum | trunc 8 }}
 {{- end -}}
 
-
 {{/*
 VCDMachineTemplate is immutable. We need to create new versions during upgrades.
 Here we are generating a hash suffix to trigger upgrade when only it is necessary by
 using only the parameters used in vcdmachinetemplate.yaml.
 diskSize is computed with 1024^3 instead of 1000^3 because of https://github.com/vmware/cluster-api-provider-cloud-director/blob/501b616011dced31ddf3e0e3da0036a7a49ce015/controllers/vcdmachine_controller.go#L651
 */}}
+
 {{- define "mtSpec" -}}
 catalog: {{ .currentClass.catalog }}
 template: {{ .currentClass.template }}

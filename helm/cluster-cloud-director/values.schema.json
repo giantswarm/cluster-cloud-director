@@ -149,6 +149,25 @@
             "title": "Cloud Director",
             "type": "object"
         },
+        "cloudProvider": {
+            "properties": {
+                "enableVirtualServiceSharedIP": {
+                    "type": "boolean"
+                },
+                "oneArm": {
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        }
+                    }
+                }
+            },
+            "required": [
+                "enableVirtualServiceSharedIP",
+                "oneArm"
+            ],
+            "type": "object"
+        },
         "cluster": {
             "properties": {
                 "parentUid": {
@@ -423,6 +442,19 @@
                     },
                     "title": "Load balancer",
                     "type": "object"
+                },
+                "ntp": {
+                    "type": "array",
+                    "servers": {
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "pools": {
+                        "items": {
+                            "type": "string"
+                        }
+                    }
                 },
                 "podsCidrBlocks": {
                     "description": "IPv4 address range for pods, in CIDR notation.",

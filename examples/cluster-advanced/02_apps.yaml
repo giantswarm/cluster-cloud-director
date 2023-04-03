@@ -1,0 +1,39 @@
+apiVersion: application.giantswarm.io/v1alpha1
+kind: App
+metadata:
+  labels:
+    app-operator.giantswarm.io/version: 0.0.0
+    giantswarm.io/managed-by: flux
+  name: cluster02
+  namespace: org-multi-project
+spec:
+  name: cluster-cloud-director
+  namespace: org-multi-project
+  version: 0.7.1
+  catalog: cluster
+  kubeConfig:
+    inCluster: true
+  userConfig:
+    configMap:
+      name: cluster02-user-values
+      namespace: org-multi-project
+---
+apiVersion: application.giantswarm.io/v1alpha1
+kind: App
+metadata:
+  labels:
+    app-operator.giantswarm.io/version: 0.0.0
+    giantswarm.io/managed-by: flux
+  name: cluster02-default-apps
+  namespace: org-multi-project
+spec:
+  name: default-apps-cloud-director
+  namespace: org-multi-project
+  catalog: cluster
+  version: 0.4.0
+  kubeConfig:
+    inCluster: true
+  userConfig:
+    configMap:
+      name: cluster02-user-values
+      namespace: org-multi-project

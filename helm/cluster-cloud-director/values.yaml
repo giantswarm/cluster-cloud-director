@@ -19,6 +19,11 @@ cloudDirector:
   ovdc: ""  # VCD virtual datacenter.
   ovdcNetwork: ""  # VCD network to connect VMs.
 
+cloudProvider:
+  enableVirtualServiceSharedIP: true  # Multiple VS can share an IP if true.
+  oneArm:
+    enabled: false  # Creates a NAT rule instead of direct LB IP if true.
+
 cluster:
   rdeId: ""  # (Optional) If empty, CAPVCD will create one.
   parentUid: ""  # (Optional) Create the CAPVCD cluster from a specific management cluster associated with this UID.
@@ -39,7 +44,6 @@ controlPlane:  # Must match nodeClasses' fields except "name" and must contain "
   sizingPolicy: ""  # Sizing policy for the control plane VMs. "" for no sizing policy.
   placementPolicy: ""  # Placement policy for control plane VMs. "" for no placement Policy.
   storageProfile: ""  # Storage profile for the control plane VMs. "" for no Storage profile.
-  diskSize: ""
   etcd:
     imageRepository: "giantswarm"
     imageTag: 3.5.4-0-k8s
@@ -51,6 +55,7 @@ controlPlane:  # Must match nodeClasses' fields except "name" and must contain "
   resourceRatio: 8  # Ratio between node resources and apiserver resource requests.
   customNodeLabels: []  # Labels in key=value format.
   # - label1=v1
+  # diskSizeGB:
 
 network:
   podsCidrBlocks:
@@ -82,7 +87,7 @@ nodeClasses: {}  # Class definitions for worker node pools. The "name" of the cl
   #   sizingPolicy: ""
   #   placementPolicy: ""
   #   storageProfile: ""
-  #   diskSize: ""
+  #   diskSizeGB:
   #   customNodeTaints: []
   #   # - key: "key"
   #   #   value: "value"
@@ -94,6 +99,10 @@ nodePools: {}
   # worker:
   #   class: default  # Node classes name (defined above)
   #   replicas: 2
+
+ntp:  # ntp pools and servers chrony config
+  servers: []
+  pools: []
 
 sshTrustedUserCAKeys:
   # Taken from https://vault.operations.giantswarm.io/v1/ssh/public_key
