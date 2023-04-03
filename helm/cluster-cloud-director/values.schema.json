@@ -152,8 +152,8 @@
         "cloudProvider": {
             "properties": {
                 "enableVirtualServiceSharedIP": {
-                    "description": "TODO.",
-                    "title": "TODO",
+                    "description": "If enabled, multiple virtual services can share the same virtual IP address.",
+                    "title": "Enable sharing of IPs in virtual services",
                     "type": "boolean"
                 },
                 "oneArm": {
