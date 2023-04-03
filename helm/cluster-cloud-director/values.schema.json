@@ -450,17 +450,26 @@
                     "type": "object"
                 },
                 "ntp": {
+                    "description": "Servers/pools to synchronize this cluster's clocks with.",
                     "pools": {
                         "items": {
+                            "examples": [
+                                "ntp.ubuntu.com"
+                            ],
+                            "title": "Pool",
                             "type": "string"
-                        }
+                        },
+                        "title": "Pools"
                     },
                     "servers": {
                         "items": {
+                            "title": "Server",
                             "type": "string"
-                        }
+                        },
+                        "title": "Servers"
                     },
-                    "type": "array"
+                    "title": "Time synchronization (NTP)",
+                    "type": "object"
                 },
                 "podsCidrBlocks": {
                     "description": "IPv4 address range for pods, in CIDR notation.",
