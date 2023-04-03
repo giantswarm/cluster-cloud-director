@@ -451,21 +451,15 @@
                 },
                 "ntp": {
                     "pools": {
-                        "title": "Pools",
                         "items": {
-                            "title": "TODO",
                             "type": "string"
                         }
                     },
                     "servers": {
-                        "title": "Servers",
                         "items": {
-                            "title": "TODO",
                             "type": "string"
                         }
                     },
-                    "title": "Clock synchronization (NTP)",
-                    "description": "TODO",
                     "type": "array"
                 },
                 "podsCidrBlocks": {
