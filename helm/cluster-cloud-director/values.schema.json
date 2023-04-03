@@ -406,17 +406,18 @@
                     "type": "object"
                 },
                 "extraOvdcNetworks": {
+                    "description": "OVDC networks to attach VMs to, additionally.",
                     "items": {
                         "type": "string"
                     },
-                    "title": "OVDC networks to attach VMs to, additionally.",
+                    "title": "Extra OVDC networks",
                     "type": "array"
                 },
                 "loadBalancer": {
                     "properties": {
                         "vipSubnet": {
                             "description": "Virtual IP CIDR for the external network.",
-                            "title": "",
+                            "title": "Virtual IP subnet",
                             "type": "string"
                         }
                     },
@@ -424,28 +425,35 @@
                     "type": "object"
                 },
                 "podsCidrBlocks": {
+                    "description": "IPv4 address range for pods, in CIDR notation.",
                     "items": {
                         "type": "string"
                     },
+                    "title": "Pod subnet",
                     "type": "array"
                 },
                 "servicesCidrBlocks": {
+                    "description": "IPv4 address range for services, in CIDR notation.",
                     "items": {
                         "type": "string"
                     },
+                    "title": "Service subnet",
                     "type": "array"
                 },
                 "staticRoutes": {
                     "items": {
                         "properties": {
                             "destination": {
+                                "description": "IPv4 address range in CIDR notation.",
                                 "examples": [
                                     "10.128.0.0/16"
                                 ],
+                                "title": "Destination",
                                 "type": "string"
                             },
                             "via": {
                                 "format": "ipv4",
+                                "title": "Via",
                                 "type": "string"
                             }
                         },
@@ -455,6 +463,7 @@
                         ],
                         "type": "object"
                     },
+                    "title": "Static routes",
                     "type": "array"
                 }
             },
