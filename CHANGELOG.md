@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Bump `cloud-provider-cloud-director` to `0.2.6` to support Kubernetes 1.24.
 - Edit examples.
 
 ### Added
