@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - :boom: **Breaking:** Install CoreDNS (`coredns-app`) using `HelmRelease` CR and stop deploying it with `cluster-shared` resource set.
 
+### Removed
+
+- Remove `cluster-shared` dependency.
+
 ## [0.8.1] - 2023-03-23
 
 ### Added
