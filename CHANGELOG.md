@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Bump infrastructureApiVersion from v1beta1 to v1beta2.
   
+### Fixed
+
+- Fix values schema for `.network.ntp` object.
+
 ## [0.8.1] - 2023-03-23
 
 ### Added
