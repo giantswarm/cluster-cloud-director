@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add `default-test` HelmRepository (catalog) for debugging.
+
 ### Fixed
 
 - Fix values schema for `.network.ntp` object.
