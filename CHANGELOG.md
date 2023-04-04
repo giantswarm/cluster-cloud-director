@@ -9,11 +9,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Edit examples.
 - :boom: **Breaking:** Install CoreDNS (`coredns-app`) using `HelmRelease` CR and stop deploying it with `cluster-shared` resource set.
+
+### Added
+
+- Add `default-test` HelmRepository (catalog) for debugging.
 
 ### Removed
 
 - Remove `cluster-shared` dependency.
+
+### Fixed
+
+- Fix values schema for `.network.ntp` object.
 
 ## [0.8.1] - 2023-03-23
 
