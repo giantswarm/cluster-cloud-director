@@ -9,8 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Edit examples.
 - Bump infrastructureApiVersion from v1beta1 to v1beta2.
-  
+
+### Added
+
+- Add `default-test` HelmRepository (catalog) for debugging.
+
 ### Fixed
 
 - Fix values schema for `.network.ntp` object.
