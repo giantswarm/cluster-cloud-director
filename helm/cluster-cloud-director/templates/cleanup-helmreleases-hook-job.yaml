@@ -49,6 +49,7 @@ rules:
     resources: ["helmreleases"]
     resourceNames:
       - "{{ include "resource.default.name" $ }}-cilium"
+      - "{{ include "resource.default.name" $ }}-coredns"
       - "{{ include "resource.default.name" $ }}-cloud-provider-cloud-director"
     verbs: ["patch"]
 ---
