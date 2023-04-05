@@ -469,7 +469,8 @@
                                 "title": "Server",
                                 "type": "string"
                             },
-                            "title": "Servers"
+                            "title": "Servers",
+                            "type": "array"
                         }
                     },
                     "title": "Time synchronization (NTP)",
