@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add `default-test` HelmRepository (catalog) for debugging.
+- Added annotations (title, description, examples) to the values schema.
+
 ### Changed
 
 - Bump `cloud-provider-cloud-director` to `0.2.6` to support Kubernetes 1.24.
@@ -14,10 +19,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - :boom: **Breaking:** Install CoreDNS (`coredns-app`) using `HelmRelease` CR and stop deploying it with `cluster-shared` resource set.
 - Bump infrastructureApiVersion from v1beta1 to v1beta2.
 - Bump coredns-app to 1.15.1 to support Kubernetes 1.24.
-
-### Added
-
-- Add `default-test` HelmRepository (catalog) for debugging.
 
 ### Removed
 
