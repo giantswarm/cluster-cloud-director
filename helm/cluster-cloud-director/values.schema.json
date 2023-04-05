@@ -82,7 +82,7 @@
             "type": "string"
         }
     },
-    "$schema": "http://json-schema.org/schema#",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "properties": {
         "apiServer": {
             "properties": {
