@@ -125,8 +125,8 @@
                     "type": "string"
                 },
                 "ovdc": {
-                    "description": "TODO.",
-                    "title": "Organization virtual datacenter (OvDC)",
+                    "description": "Name of the organization virtual datacenter (OvDC) to create this cluster in.",
+                    "title": "OvDC name",
                     "type": "string"
                 },
                 "ovdcNetwork": {
@@ -157,21 +157,21 @@
                     "type": "boolean"
                 },
                 "oneArm": {
-                    "description": "TODO.",
+                    "description": "If enabled, use an internal IP for the virtual service with a NAT rule to expose the external IP. Otherwise the virtual service will be exposed directly with the external IP.",
                     "properties": {
                         "enabled": {
                             "title": "Enable",
                             "type": "boolean"
                         }
                     },
-                    "title": "TODO"
+                    "title": "One-arm"
                 }
             },
             "required": [
                 "enableVirtualServiceSharedIP",
                 "oneArm"
             ],
-            "title": "TODO",
+            "title": "Cloud provider interface (CPI)",
             "type": "object"
         },
         "cluster": {
@@ -182,7 +182,7 @@
                     "type": "string"
                 },
                 "rdeId": {
-                    "description": "TODO",
+                    "description": "This cluster's entity ID in the VCD API.",
                     "title": "RDE ID",
                     "type": "string"
                 },
@@ -649,7 +649,8 @@
                     "type": "boolean"
                 },
                 "secretName": {
-                    "title": "TODO",
+                    "title": "Secret name",
+                    "description": "Name of a secret resource used by containerd to obtain the HTTP_PROXY, HTTPS_PROXY, and NO_PROXY environment variables.",
                     "type": "string"
                 }
             },
