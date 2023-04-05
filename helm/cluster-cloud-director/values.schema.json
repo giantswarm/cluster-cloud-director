@@ -475,21 +475,21 @@
                 },
                 "podsCidrBlocks": {
                     "description": "IPv4 address range for pods, in CIDR notation.",
-                    "minItems": 1,
-                    "maxItems": 1,
                     "items": {
                         "type": "string"
                     },
+                    "maxItems": 1,
+                    "minItems": 1,
                     "title": "Pod subnet",
                     "type": "array"
                 },
                 "servicesCidrBlocks": {
                     "description": "IPv4 address range for services, in CIDR notation.",
-                    "minItems": 1,
-                    "maxItems": 1,
                     "items": {
                         "type": "string"
                     },
+                    "maxItems": 1,
+                    "minItems": 1,
                     "title": "Service subnet",
                     "type": "array"
                 },
@@ -653,8 +653,8 @@
                     "type": "boolean"
                 },
                 "secretName": {
-                    "title": "Secret name",
                     "description": "Name of a secret resource used by containerd to obtain the HTTP_PROXY, HTTPS_PROXY, and NO_PROXY environment variables.",
+                    "title": "Secret name",
                     "type": "string"
                 }
             },
