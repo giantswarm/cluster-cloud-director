@@ -475,6 +475,8 @@
                 },
                 "podsCidrBlocks": {
                     "description": "IPv4 address range for pods, in CIDR notation.",
+                    "minItems": 1,
+                    "maxItems": 1,
                     "items": {
                         "type": "string"
                     },
@@ -483,6 +485,8 @@
                 },
                 "servicesCidrBlocks": {
                     "description": "IPv4 address range for services, in CIDR notation.",
+                    "minItems": 1,
+                    "maxItems": 1,
                     "items": {
                         "type": "string"
                     },

@@ -73,14 +73,15 @@ spec:
       # TODO we need cluster-api-app@1.8.0 to be able to use skipPhases
       # Right now we do a hackery to workaround this limitation. To revert
       # this:
-      #     - remove files/var/run/kubeadm/update-kubeadm-yaml-skip-kube-proxy.sh
+      #     - remove files/var/run/kubeadm/update-kubeadm-yaml-skip-phases.sh
       #       from the chart directory
-      #     - remove files/var/run/kubeadm/update-kubeadm-yaml-skip-kube-proxy.sh
+      #     - remove files/var/run/kubeadm/update-kubeadm-yaml-skip-phases.sh
       #       references in _kubeadm.tpl
       #     - remove _kubeadm.tpl file from the chart directory
       #     - uncomment lines below
       #skipPhases:
-      #- addon/kube-proxy
+      #  - addon/coredns
+      #  - addon/kube-proxy
       patches:
         directory: "/tmp/kubeadm/patches"
       nodeRegistration:
@@ -123,7 +124,7 @@ spec:
       {{- end }}
     preKubeadmCommands:
       - bash /tmp/kubeadm/patches/kube-apiserver-patch.sh {{ .Values.controlPlane.resourceRatio }}
-      - bash /run/kubeadm/gs-update-kubeadm-yaml-skip-kube-proxy.sh
+      - bash /run/kubeadm/gs-update-kubeadm-yaml-skip-phases.sh
       {{- if $.Values.proxy.enabled }}
       - systemctl daemon-reload
       - systemctl restart containerd

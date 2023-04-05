@@ -14,9 +14,8 @@ fi
 
 # This will add the configuration below to "InitConfiguration":
 #
-#     skipPhases:
-#       - addon/kube-proxy
+#     skipPhases: ["addon/coredns", "addon/kube-proxy"]
 #
 set -x
-sed -i 's/nodeRegistration:/skipPhases:\n  - addon\/kube-proxy\nnodeRegistration:/' "${dir}/kubeadm.yaml"
+sed -i 's/nodeRegistration:/skipPhases: ["addon\/coredns", "addon\/kube-proxy"]\nnodeRegistration:/' "${dir}/kubeadm.yaml"
 { set +x; } 2>/dev/null
