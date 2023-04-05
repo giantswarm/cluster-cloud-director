@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `default-test` HelmRepository (catalog) for debugging.
 - Added annotations (title, description, examples) to the values schema.
 - Values schema: Added type definition for properties where they were missing.
+- Values schema: Add default values
 
 ### Changed
 
