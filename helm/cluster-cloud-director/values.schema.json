@@ -461,7 +461,8 @@
                                 "title": "Pool",
                                 "type": "string"
                             },
-                            "title": "Pools"
+                            "title": "Pools",
+                            "type": "array"
                         },
                         "servers": {
                             "items": {
