@@ -75,6 +75,9 @@ network:
   extraOvdcNetworks: []  # Ovdc networks to attach VMs in addition to .cloudDirector.ovdcNetwork
 # - network-1
 # - network-2
+  ntp:  # ntp pools and servers chrony config
+    servers: []
+    pools: []
 
 proxy:  # (Optional) Defines HTTP proxy environment variables.
   secretName: ""
@@ -99,10 +102,6 @@ nodePools: {}
   # worker:
   #   class: default  # Node classes name (defined above)
   #   replicas: 2
-
-ntp:  # ntp pools and servers chrony config
-  servers: []
-  pools: []
 
 sshTrustedUserCAKeys:
   # Taken from https://vault.operations.giantswarm.io/v1/ssh/public_key
