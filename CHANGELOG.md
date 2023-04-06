@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- `values.yaml` now gets generated via `helm-values-gen` based on the schema.
+
 ## [0.9.0] - 2023-04-05
 
 ### Added
