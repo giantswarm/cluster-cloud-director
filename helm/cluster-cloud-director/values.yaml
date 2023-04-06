@@ -1,138 +1,82 @@
 apiServer:
-  enableAdmissionPlugins: "NamespaceLifecycle,LimitRanger,ServiceAccount,ResourceQuota,PersistentVolumeClaimResize,DefaultStorageClass,Priority,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook"
-  featureGates: "TTLAfterFinished=true"
   certSANs: []
-
-controllerManager:
-  featureGates: "ExpandPersistentVolumes=true,TTLAfterFinished=true"
-
+  enableAdmissionPlugins: NamespaceLifecycle,LimitRanger,ServiceAccount,ResourceQuota,PersistentVolumeClaimResize,DefaultStorageClass,Priority,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook
+  featureGates: TTLAfterFinished=true
 baseDomain: k8s.test
-clusterDescription: ""  # Cluster description used in metadata.
-kubernetesVersion: ""
-organization: ""  # The organization which owns this cluster.
-servicePriority: "highest"
-clusterLabels: {}
-
 cloudDirector:
-  site: ""  # VCD endpoint with the format https://VCD_HOST. No trailing '/'.
-  org: ""  # VCD organization name.
-  ovdc: ""  # VCD virtual datacenter.
-  ovdcNetwork: ""  # VCD network to connect VMs.
-
+  org: ""
+  ovdc: ""
+  ovdcNetwork: ""
+  site: ""
 cloudProvider:
-  enableVirtualServiceSharedIP: true  # Multiple VS can share an IP if true.
+  enableVirtualServiceSharedIP: true
   oneArm:
-    enabled: false  # Creates a NAT rule instead of direct LB IP if true.
-
+    enabled: false
 cluster:
-  rdeId: ""  # (Optional) If empty, CAPVCD will create one.
-  parentUid: ""  # (Optional) Create the CAPVCD cluster from a specific management cluster associated with this UID.
-  useAsManagementCluster: false  # (Optional) Displays as management cluster in the UI (cosmetic).
-
-oidc:
-  issuerUrl: ""
-  caFile: ""
-  clientId: ""
-  usernameClaim: ""
-  groupsClaim: ""
-  usernamePrefix: ""
-
-controlPlane:  # Must match nodeClasses' fields except "name" and must contain "replicas".
-  replicas: 0  # Number of control plane instances to create (odd number).
-  catalog: ""  # VCD catalog where the template is stored.
-  template: ""  # template used to create (or) upgrade control plane nodes.
-  sizingPolicy: ""  # Sizing policy for the control plane VMs. "" for no sizing policy.
-  placementPolicy: ""  # Placement policy for control plane VMs. "" for no placement Policy.
-  storageProfile: ""  # Storage profile for the control plane VMs. "" for no Storage profile.
-  etcd:
-    imageRepository: "giantswarm"
-    imageTag: 3.5.4-0-k8s
+  parentUid: ""
+  rdeId: ""
+  useAsManagementCluster: false
+clusterDescription: ""
+clusterLabels: {}
+connectivity:
+  containerRegistries: {}
+controlPlane:
+  catalog: ""
+  customNodeLabels: []
   dns:
     imageRepository: projects.registry.vmware.com/tkg
     imageTag: v1.7.0_vmware.12
+  etcd:
+    imageRepository: giantswarm
+    imageTag: 3.5.4-0-k8s
   image:
     repository: projects.registry.vmware.com/tkg
-  resourceRatio: 8  # Ratio between node resources and apiserver resource requests.
-  customNodeLabels: []  # Labels in key=value format.
-  # - label1=v1
-  # diskSizeGB:
-
+  placementPolicy: ""
+  resourceRatio: 8
+  sizingPolicy: ""
+  storageProfile: ""
+  template: ""
+controllerManager:
+  featureGates: ExpandPersistentVolumes=true,TTLAfterFinished=true
+kubectlImage:
+  name: giantswarm/kubectl
+  registry: quay.io
+  tag: 1.23.5
+kubernetesVersion: ""
 network:
-  podsCidrBlocks:
-  - "100.96.0.0/11"
-  servicesCidrBlocks:
-  - "100.64.0.0/13"
   controlPlaneEndpoint:
-    host: ""  # [string] Manually select an IP for kube API. "" for auto selection from pool.
-    port: ""  # [int] Port to use. "" defaults to 6443.
+    host: ""
+    port: ""
+  extraOvdcNetworks: []
   loadBalancer:
-    vipSubnet: ""  # Virtual IP CIDR for the external network.
+    vipSubnet: ""
+  ntp:
+    pools: []
+    servers: []
+  podsCidrBlocks:
+    - 100.96.0.0/11
+  servicesCidrBlocks:
+    - 100.64.0.0/13
   staticRoutes: []
-#  - destination: "10.128.0.0/16"
-#    via: "192.168.52.254"
-#  - destination: "10.254.0.0/16"
-#    via: "192.168.52.254"
-  extraOvdcNetworks: []  # Ovdc networks to attach VMs in addition to .cloudDirector.ovdcNetwork
-# - network-1
-# - network-2
-
-proxy:  # (Optional) Defines HTTP proxy environment variables.
-  secretName: ""
-  enabled: false
-
-nodeClasses: {}  # Class definitions for worker node pools. The "name" of the class is the key of the object. Example:
-  # default:  # Name of the class to use in nodePool and machinetemplate name.
-  #   catalog: ""
-  #   template: ""
-  #   sizingPolicy: ""
-  #   placementPolicy: ""
-  #   storageProfile: ""
-  #   diskSizeGB:
-  #   customNodeTaints: []
-  #   # - key: "key"
-  #   #   value: "value"
-  #   #   effect: "NoSchedule"  # Valid effects are NoSchedule, PreferNoSchedule and NoExecute.
-  #   customNodeLabels: []
-  #   # - label1=val1  # Labels in key=value format
-
+nodeClasses: {}
 nodePools: {}
-  # worker:
-  #   class: default  # Node classes name (defined above)
-  #   replicas: 2
-
-ntp:  # ntp pools and servers chrony config
-  servers: []
-  pools: []
-
-sshTrustedUserCAKeys:
-  # Taken from https://vault.operations.giantswarm.io/v1/ssh/public_key
-  - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM4cvZ01fLmO9cJbWUj7sfF+NhECgy+Cl0bazSrZX7sU vault-ca@vault.operations.giantswarm.io
-
+oidc:
+  caFile: ""
+  clientId: ""
+  groupsClaim: ""
+  issuerUrl: ""
+  usernameClaim: ""
+  usernamePrefix: ""
+organization: ""
 osUsers:
-- name: "giantswarm"
-  sudo: "ALL=(ALL) NOPASSWD:ALL"
-# sshAuthorizedKeys:
-# - "ssh public key"
-
+  - name: giantswarm
+    sudo: ALL=(ALL) NOPASSWD:ALL
+proxy:
+  enabled: false
+  secretName: ""
+servicePriority: highest
+sshTrustedUserCAKeys:
+  - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM4cvZ01fLmO9cJbWUj7sfF+NhECgy+Cl0bazSrZX7sU vault-ca@vault.operations.giantswarm.io
 userContext:
   secretRef:
-    secretName: ""  # Name of the pre-existing secret containing the credentials of the VCD user.
-
-kubectlImage:
-  registry: quay.io
-  name: giantswarm/kubectl
-  tag: 1.23.5
-
-connectivity:
-  containerRegistries: {}
-#   docker.io:
-#   - endpoint: "registry-1.docker.io"
-#     credentials:
-#       username: ""
-#       password: ""
-#   - endpoint: "my-mirror-registry.mydomain.io"
-#     credentials:
-#       auth: ""
-#       identitytoken: ""
-
-# vmNamingTemplate: ""  # Go template to generate VM names based on machine and vcdMachine CRs.
+    secretName: ""
