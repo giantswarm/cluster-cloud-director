@@ -360,8 +360,8 @@
                     "title": "VM placement policy"
                 },
                 "replicas": {
+                    "default": 0,
                     "description": "Number of control plane instances to create. Must be an odd number.",
-                    "replicas": 0,
                     "title": "Number of nodes",
                     "type": "integer"
                 },
