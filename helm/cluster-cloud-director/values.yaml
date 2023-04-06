@@ -58,16 +58,45 @@ network:
   servicesCidrBlocks:
     - 100.64.0.0/13
   staticRoutes: []
-nodeClasses: {}
+#  - destination: "10.128.0.0/16"
+#    via: "192.168.52.254"
+#  - destination: "10.254.0.0/16"
+#    via: "192.168.52.254"
+  extraOvdcNetworks: []  # Ovdc networks to attach VMs in addition to .cloudDirector.ovdcNetwork
+# - network-1
+# - network-2
+  ntp:  # ntp pools and servers chrony config
+    servers: []
+    pools: []
+
+proxy:  # (Optional) Defines HTTP proxy environment variables.
+  secretName: ""
+  enabled: false
+
+nodeClasses: {}  # Class definitions for worker node pools. The "name" of the class is the key of the object. Example:
+  # default:  # Name of the class to use in nodePool and machinetemplate name.
+  #   catalog: ""
+  #   template: ""
+  #   sizingPolicy: ""
+  #   placementPolicy: ""
+  #   storageProfile: ""
+  #   diskSizeGB:
+  #   customNodeTaints: []
+  #   # - key: "key"
+  #   #   value: "value"
+  #   #   effect: "NoSchedule"  # Valid effects are NoSchedule, PreferNoSchedule and NoExecute.
+  #   customNodeLabels: []
+  #   # - label1=val1  # Labels in key=value format
+
 nodePools: {}
-oidc:
-  caFile: ""
-  clientId: ""
-  groupsClaim: ""
-  issuerUrl: ""
-  usernameClaim: ""
-  usernamePrefix: ""
-organization: ""
+  # worker:
+  #   class: default  # Node classes name (defined above)
+  #   replicas: 2
+
+sshTrustedUserCAKeys:
+  # Taken from https://vault.operations.giantswarm.io/v1/ssh/public_key
+  - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM4cvZ01fLmO9cJbWUj7sfF+NhECgy+Cl0bazSrZX7sU vault-ca@vault.operations.giantswarm.io
+
 osUsers:
   - name: giantswarm
     sudo: ALL=(ALL) NOPASSWD:ALL

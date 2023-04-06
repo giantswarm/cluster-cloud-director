@@ -1,17 +1,17 @@
 # The helper functions here can be called in templates and _helpers.tpl
-# This file should be self-sufficient. Don't call any functions from _helpers.tpl
+# This file should be self-sufficient. Don't call any functions from _helpers.tpl
 
 
 {{- define "ntpFiles" -}}
-{{- if or $.Values.ntp.pools $.Values.ntp.servers -}}
+{{- if or $.Values.network.ntp.pools $.Values.network.ntp.servers -}}
 - path: /etc/chrony/chrony.conf
   permissions: "0644"
   content: |
-    {{- range $.Values.ntp.pools}}
+    {{- range $.Values.network.ntp.pools}}
     pool {{.}} iburst
     {{- end }}
 
-    {{- range $.Values.ntp.servers}}
+    {{- range $.Values.network.ntp.servers}}
     server {{.}} iburst
     {{- end }}
 
@@ -30,7 +30,7 @@
 {{- end }}
 
 {{- define "ntpPostKubeadmCommands" -}}
-{{- if or $.Values.ntp.pools $.Values.ntp.servers }}
+{{- if or $.Values.network.ntp.pools $.Values.network.ntp.servers }}
 - systemctl daemon-reload
 - systemctl restart chrony
 {{- end -}}
