@@ -7,9 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+**Info on breaking changes:** This release makes incompatible changes to the values schema. See details for info on how to migrate.
+
+<details>
+<summary>How to migrate from 0.9.0</summary>
+
+To migrate values from cluster-cloud-director 0.9.0, we provide below [yq](https://mikefarah.gitbook.io/yq/) script, which assumes your values (not a ConfigMap!) are available in the file `values.yaml`. Note that the file will be overwritten.
+
+```bash
+yq eval --inplace '
+  with(select(.ntp != null); .network.ntp = .ntp) |
+  del(.ntp)
+' ./values.yaml
+```
+
+</details>
+
 ### Fixed
 
-- Fix `values.yaml` to set NTP settings in `.network.ntp` and adapt template.
+- :boom: **Breaking:** Adapt `values.yaml` to align with `values.schema.json` and set NTP settings in `.network.ntp` and adapt template.
 
 ## [0.9.0] - 2023-04-05
 
