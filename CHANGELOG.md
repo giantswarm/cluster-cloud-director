@@ -23,6 +23,10 @@ yq eval --inplace '
 
 </details>
 
+### Added
+
+- Set `/var/lib/kubelet` permissions to `0750` to fix `node-exporter` issue.
+
 ### Fixed
 
 - :boom: **Breaking:** Adapt `values.yaml` to align with `values.schema.json` and set NTP settings in `.network.ntp` and adapt template.
