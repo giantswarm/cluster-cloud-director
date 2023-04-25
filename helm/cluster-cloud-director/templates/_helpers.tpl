@@ -135,16 +135,6 @@ files:
 {{- include "staticRoutes" . | nindent 2}}
 {{- end }}
 
-preKubeadmCommands:
-{{- if $.Values.proxy.enabled }}
-- systemctl daemon-reload
-- systemctl restart containerd
-{{- end }}
-{{- if $.Values.network.staticRoutes }}
-- systemctl daemon-reload
-- systemctl enable --now static-routes.service
-{{- end }}
-
 postKubeadmCommands:
 {{ include "sshPostKubeadmCommands" . }}
 {{- include "ntpPostKubeadmCommands" . }}
