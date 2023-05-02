@@ -27,6 +27,10 @@ yq eval --inplace '
 
 - Set `/var/lib/kubelet` permissions to `0750` to fix `node-exporter` issue.
 
+### Changed
+
+- Bump `cloud-provider-cloud-director` to `0.2.7` to inject ClusterID to NamedDisks.
+
 ### Fixed
 
 - :boom: **Breaking:** Adapt `values.yaml` to align with `values.schema.json` and set NTP settings in `.network.ntp` and adapt template.
