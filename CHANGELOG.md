@@ -30,6 +30,7 @@ yq eval --inplace '
 ### Changed
 
 - Bump `cloud-provider-cloud-director` to `0.2.7` to inject ClusterID to NamedDisks.
+- :boom: **Breaking:** Stop deploying default network policies with the `cilium-app`. This means the cluster will be more locked down and all network traffic is blocked by default.
 
 ### Fixed
 
