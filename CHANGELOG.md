@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add audilog configuration.
+
 ## [0.10.0] - 2023-05-15
 
 **Info on breaking changes:** This release makes incompatible changes to the values schema. See details for info on how to migrate.

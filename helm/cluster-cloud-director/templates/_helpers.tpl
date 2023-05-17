@@ -280,3 +280,10 @@ To enforce upgrades, a version suffix is appended to secret name.
 {{- $secretSuffix := include "registrySecretContent" . | b64enc | quote | sha1sum | trunc 8 }}
 {{- include "resource.default.name" $ }}-registry-configuration-{{$secretSuffix}}
 {{- end -}}
+
+{{- define "auditLogFiles" -}}
+- path: /etc/kubernetes/policies/audit-policy.yaml
+  permissions: "0600"
+  encoding: base64
+  content: {{ $.Files.Get "files/etc/kubernetes/policies/audit-policy.yaml" | b64enc }}
+{{- end -}}

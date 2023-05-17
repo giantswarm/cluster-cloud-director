@@ -19,6 +19,11 @@ spec:
         {{- end }}
         {{- end }}
         extraArgs:
+          audit-log-maxage: "30"
+          audit-log-maxbackup: "30"
+          audit-log-maxsize: "100"
+          audit-log-path: /var/log/apiserver/audit.log
+          audit-policy-file: /etc/kubernetes/policies/audit-policy.yaml
           cloud-provider: external
           enable-admission-plugins: {{ .Values.apiServer.enableAdmissionPlugins }}
           encryption-provider-config: /etc/kubernetes/encryption/config.yaml
@@ -44,6 +49,14 @@ spec:
           runtime-config: "api/all=true"
           tls-cipher-suites: "TLS_AES_128_GCM_SHA256,TLS_AES_256_GCM_SHA384,TLS_CHACHA20_POLY1305_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256,TLS_RSA_WITH_AES_128_CBC_SHA,TLS_RSA_WITH_AES_128_GCM_SHA256,TLS_RSA_WITH_AES_256_CBC_SHA,TLS_RSA_WITH_AES_256_GCM_SHA384"
         extraVolumes:
+          - name: auditlog
+            hostPath: /var/log/apiserver
+            mountPath: /var/log/apiserver
+            pathType: DirectoryOrCreate
+          - name: policies
+            hostPath: /etc/kubernetes/policies
+            mountPath: /etc/kubernetes/policies
+            pathType: DirectoryOrCreate
           - name: encryption
             hostPath: /etc/kubernetes/encryption
             mountPath: /etc/kubernetes/encryption
@@ -101,6 +114,7 @@ spec:
           node-labels: "{{- join "," . }}"
           {{- end }}
     files:
+      {{- include "auditLogFiles" . | nindent 6 }}
       {{- include "sshFiles" . | nindent 6 }}
       {{- include "ntpFiles" . | nindent 6 }}
       {{- if $.Values.proxy.enabled }}
