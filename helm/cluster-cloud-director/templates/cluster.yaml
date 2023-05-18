@@ -16,12 +16,12 @@ spec:
   clusterNetwork:
     pods:
       cidrBlocks:
-      {{- range .Values.network.podsCidrBlocks }}
+      {{- range .Values.connectivity.network.pods.cidrBlocks }}
       - {{ . }}
       {{- end }}
     services:
       cidrBlocks:
-      {{- range .Values.network.servicesCidrBlocks }}
+      {{- range .Values.connectivity.network.services.cidrBlocks }}
       - {{ . }}
       {{- end }}
   controlPlaneRef:

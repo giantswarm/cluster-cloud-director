@@ -57,28 +57,6 @@ controlPlane:  # Must match nodeClasses' fields except "name" and must contain "
   # - label1=v1
   # diskSizeGB:
 
-network:
-  podsCidrBlocks:
-  - "100.96.0.0/11"
-  servicesCidrBlocks:
-  - "100.64.0.0/13"
-  controlPlaneEndpoint:
-    host: ""  # [string] Manually select an IP for kube API. "" for auto selection from pool.
-    port: ""  # [int] Port to use. "" defaults to 6443.
-  loadBalancer:
-    vipSubnet: ""  # Virtual IP CIDR for the external network.
-  staticRoutes: []
-#  - destination: "10.128.0.0/16"
-#    via: "192.168.52.254"
-#  - destination: "10.254.0.0/16"
-#    via: "192.168.52.254"
-  extraOvdcNetworks: []  # Ovdc networks to attach VMs in addition to .cloudDirector.ovdcNetwork
-# - network-1
-# - network-2
-  ntp:  # ntp pools and servers chrony config
-    servers: []
-    pools: []
-
 proxy:  # (Optional) Defines HTTP proxy environment variables.
   secretName: ""
   enabled: false
@@ -123,6 +101,30 @@ kubectlImage:
   tag: 1.23.5
 
 connectivity:
+  network:
+    controlPlaneEndpoint: {}
+    # host: ""  # [string] Manually select an IP for kube API. "" for auto selection from pool.
+    # port: null  # [int] Port to use. "" defaults to 6443.
+    pods:
+      cidrBlocks:
+      - "10.244.0.0/16"
+    services:
+      cidrBlocks:
+      - "172.31.0.0/16"
+    loadBalancers:
+      cidrBlocks: []  # Virtual IP CIDR for the external network.
+    staticRoutes: []
+  #  - destination: "10.128.0.0/16"
+  #    via: "192.168.52.254"
+  #  - destination: "10.254.0.0/16"
+  #    via: "192.168.52.254"
+    extraOvdcNetworks: []  # Ovdc networks to attach VMs in addition to .cloudDirector.ovdcNetwork
+  # - network-1
+  # - network-2
+    ntp:  # ntp pools and servers chrony config
+      servers: []
+      pools: []
+
   containerRegistries: {}
 #   docker.io:
 #   - endpoint: "registry-1.docker.io"

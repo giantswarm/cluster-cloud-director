@@ -29,14 +29,16 @@ data:
       sizingPolicy: m1.medium
       template: ubuntu-2004-kube-v1.22.9
 
-    network:
-      loadBalancer:
-        vipSubnet: 178.170.32.1/24
-      extraOvdcNetworks:
-      - network-test-2
-      staticRoutes:
-      - destination: 300.300.300.300/16
-        via: 172.32.150.1
+    connectivity:
+      network:
+        loadBalancers:
+          cidrBlocks:
+          - 178.170.32.1/24
+        extraOvdcNetworks:
+        - network-test-2
+        staticRoutes:
+        - destination: 300.300.300.300/16
+          via: 172.32.150.1
 
     nodeClasses:
       default:

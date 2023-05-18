@@ -33,9 +33,11 @@ data:
       sizingPolicy: m1.medium
       template: ubuntu-2004-kube-v1.22.9
 
-    network:
-      loadBalancer:
-        vipSubnet: 178.170.32.1/24
+    connectivity:
+      network:
+        loadBalancers:
+          cidrBlocks:
+          - 178.170.32.1/24
 
     nodeClasses:
       default:

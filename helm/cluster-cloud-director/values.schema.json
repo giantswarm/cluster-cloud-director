@@ -8,6 +8,18 @@
             "title": "Catalog",
             "type": "string"
         },
+        "cidrBlocks": {
+            "items": {
+                "description": "IPv4 address range, in CIDR notation.",
+                 "examples": [
+                     "10.244.0.0/16"
+                 ],
+                 "type": "string"
+            },
+            "minItems": 1,
+            "maxItems": 1,
+            "type": "array"
+        },
         "diskSizeGB": {
             "description": "Change size of the nodes OS disk.",
             "examples": [
@@ -271,10 +283,145 @@
                     "description": "Endpoints and credentials configuration for container registries.",
                     "title": "Container registries",
                     "type": "object"
+                },
+                "network": {
+                    "properties": {
+                        "controlPlaneEndpoint": {
+                            "description": "Kubernetes API endpoint.",
+                            "properties": {
+                                "host": {
+                                    "default": "",
+                                    "title": "Host",
+                                    "type": "string"
+                                },
+                                "port": {
+                                    "default": "",
+                                    "title": "Port number",
+                                    "type": "integer"
+                                }
+                            },
+                            "title": "Control plane endpoint",
+                            "type": "object"
+                        },
+                        "extraOvdcNetworks": {
+                            "default": [],
+                            "description": "OVDC networks to attach VMs to, additionally.",
+                            "items": {
+                                "type": "string"
+                            },
+                            "title": "Extra OVDC networks",
+                            "type": "array"
+                        },
+                        "loadBalancers": {
+                            "properties": {
+                                "cidrBlocks": {
+                                    "$ref": "#/$defs/cidrBlocks",
+                                    "description": "Virtual IP CIDR for the external network.",
+                                    "title": "Load Balancer subnets"
+                                }
+                            },
+                            "required": [
+                                "cidrBlocks"
+                            ],
+                            "title": "Load Balancers",
+                            "type": "object"
+                        },
+                        "ntp": {
+                            "description": "Servers/pools to synchronize this cluster's clocks with.",
+                            "properties": {
+                                "pools": {
+                                    "default": [],
+                                    "items": {
+                                        "examples": [
+                                            "ntp.ubuntu.com"
+                                        ],
+                                        "title": "Pool",
+                                        "type": "string"
+                                    },
+                                    "title": "Pools",
+                                    "type": "array"
+                                },
+                                "servers": {
+                                    "default": [],
+                                    "items": {
+                                        "title": "Server",
+                                        "type": "string"
+                                    },
+                                    "title": "Servers",
+                                    "type": "array"
+                                }
+                            },
+                            "title": "Time synchronization (NTP)",
+                            "type": "object"
+                        },
+                        "pods": {
+                            "properties": {
+                                "cidrBlocks": {
+                                    "$ref": "#/$defs/cidrBlocks",
+                                    "default": "10.244.0.0/16",
+                                    "title": "Pod subnets"
+                                }
+                            },
+                            "required": [
+                                "cidrBlocks"
+                            ],
+                            "title": "Pods",
+                            "type": "object"
+                        },
+                        "services": {
+                            "properties": {
+                                "cidrBlocks": {
+                                    "$ref": "#/$defs/cidrBlocks",
+                                    "default": "172.31.0.0/16",
+                                    "title": "Service subnets"
+                                }
+                            },
+                            "required": [
+                                "cidrBlocks"
+                            ],
+                            "title": "Services",
+                            "type": "object"
+                        },
+                        "staticRoutes": {
+                            "default": [],
+                            "items": {
+                                "properties": {
+                                    "destination": {
+                                        "description": "IPv4 address range in CIDR notation.",
+                                        "examples": [
+                                            "10.128.0.0/16"
+                                        ],
+                                        "title": "Destination",
+                                        "type": "string"
+                                    },
+                                    "via": {
+                                        "format": "ipv4",
+                                        "title": "Via",
+                                        "type": "string"
+                                    }
+                                },
+                                "required": [
+                                    "destination",
+                                    "via"
+                                ],
+                                "type": "object"
+                            },
+                            "title": "Static routes",
+                            "type": "array"
+                        }
+                    },
+                    "required": [
+                        "loadBalancers",
+                        "pods",
+                        "services"
+                    ],
+                    "title": "Network",
+                    "type": "object"
                 }
             },
             "required": [
-                "containerRegistries"
+                "containerRegistries",
+                "network"
             ],
             "title": "Connectivity",
             "type": "object"
@@ -447,136 +594,6 @@
             "default": "",
             "title": "Kubernetes version",
             "type": "string"
-        },
-        "network": {
-            "properties": {
-                "controlPlaneEndpoint": {
-                    "description": "Kubernetes API endpoint.",
-                    "properties": {
-                        "host": {
-                            "default": "",
-                            "title": "Host",
-                            "type": "string"
-                        },
-                        "port": {
-                            "default": "",
-                            "title": "Port number",
-                            "type": "string"
-                        }
-                    },
-                    "title": "Endpoint",
-                    "type": "object"
-                },
-                "extraOvdcNetworks": {
-                    "default": [],
-                    "description": "OVDC networks to attach VMs to, additionally.",
-                    "items": {
-                        "type": "string"
-                    },
-                    "title": "Extra OVDC networks",
-                    "type": "array"
-                },
-                "loadBalancer": {
-                    "properties": {
-                        "vipSubnet": {
-                            "default": "",
-                            "description": "Virtual IP CIDR for the external network.",
-                            "title": "Virtual IP subnet",
-                            "type": "string"
-                        }
-                    },
-                    "title": "Load balancer",
-                    "type": "object"
-                },
-                "ntp": {
-                    "description": "Servers/pools to synchronize this cluster's clocks with.",
-                    "properties": {
-                        "pools": {
-                            "default": [],
-                            "items": {
-                                "examples": [
-                                    "ntp.ubuntu.com"
-                                ],
-                                "title": "Pool",
-                                "type": "string"
-                            },
-                            "title": "Pools",
-                            "type": "array"
-                        },
-                        "servers": {
-                            "default": [],
-                            "items": {
-                                "title": "Server",
-                                "type": "string"
-                            },
-                            "title": "Servers",
-                            "type": "array"
-                        }
-                    },
-                    "title": "Time synchronization (NTP)",
-                    "type": "object"
-                },
-                "podsCidrBlocks": {
-                    "default": [
-                        "100.96.0.0/11"
-                    ],
-                    "description": "IPv4 address range for pods, in CIDR notation.",
-                    "items": {
-                        "type": "string"
-                    },
-                    "maxItems": 1,
-                    "minItems": 1,
-                    "title": "Pod subnet",
-                    "type": "array"
-                },
-                "servicesCidrBlocks": {
-                    "default": [
-                        "100.64.0.0/13"
-                    ],
-                    "description": "IPv4 address range for services, in CIDR notation.",
-                    "items": {
-                        "type": "string"
-                    },
-                    "maxItems": 1,
-                    "minItems": 1,
-                    "title": "Service subnet",
-                    "type": "array"
-                },
-                "staticRoutes": {
-                    "default": [],
-                    "items": {
-                        "properties": {
-                            "destination": {
-                                "description": "IPv4 address range in CIDR notation.",
-                                "examples": [
-                                    "10.128.0.0/16"
-                                ],
-                                "title": "Destination",
-                                "type": "string"
-                            },
-                            "via": {
-                                "format": "ipv4",
-                                "title": "Via",
-                                "type": "string"
-                            }
-                        },
-                        "required": [
-                            "destination",
-                            "via"
-                        ],
-                        "type": "object"
-                    },
-                    "title": "Static routes",
-                    "type": "array"
-                }
-            },
-            "required": [
-                "loadBalancer",
-                "podsCidrBlocks",
-                "servicesCidrBlocks"
-            ],
-            "title": "Network",
-            "type": "object"
         },
         "nodeClasses": {
             "additionalProperties": {
@@ -783,7 +800,7 @@
         "controllerManager",
         "cloudDirector",
         "controlPlane",
-        "network",
+        "connectivity",
         "nodeClasses",
         "nodePools",
         "organization",

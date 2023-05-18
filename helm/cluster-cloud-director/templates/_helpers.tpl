@@ -90,7 +90,7 @@ use the cluster-apps-operator created secret <clusterName>-cluster-values as def
     [Service]
     Type=oneshot
     RemainAfterExit=yes
-    {{- range $.Values.network.staticRoutes}}
+    {{- range $.Values.connectivity.network.staticRoutes}}
     ExecStart=/bin/bash -c "ip route add {{ .destination }} via {{ .via }}"
     {{- end -}}
 {{- end }}
@@ -120,7 +120,7 @@ files:
 {{- if $.Values.proxy.enabled }}
 {{- include "containerdProxyConfig" . | nindent 2}}
 {{- end }}
-{{- if $.Values.network.staticRoutes }}
+{{- if $.Values.connectivity.network.staticRoutes }}
 {{- include "staticRoutes" . | nindent 2}}
 {{- end }}
 
@@ -130,7 +130,7 @@ preKubeadmCommands:
 - systemctl daemon-reload
 - systemctl restart containerd
 {{- end }}
-{{- if $.Values.network.staticRoutes }}
+{{- if $.Values.connectivity.network.staticRoutes }}
 - systemctl daemon-reload
 - systemctl enable --now static-routes.service
 {{- end }}
@@ -162,9 +162,9 @@ placementPolicy: {{ .currentClass.placementPolicy }}
 storageProfile: {{ .currentClass.storageProfile }}
 diskSize: {{ mul .currentClass.diskSizeGB 1024 1024 1024}}
 vmNamingTemplate: {{ $.vmNamingTemplate }}
-{{- if $.network.extraOvdcNetworks }}
+{{- if $.connectivity.network.extraOvdcNetworks }}
 extraOvdcNetworks:
-  {{- range $.network.extraOvdcNetworks }}
+  {{- range $.connectivity.network.extraOvdcNetworks }}
   - {{ . }}
   {{- end }}
 {{- end -}}
