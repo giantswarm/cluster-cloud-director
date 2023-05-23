@@ -133,7 +133,7 @@ spec:
           secret:
             name: {{ include "resource.default.name" $ }}-encryption-provider-config
             key: encryption
-      {{- if $.Values.network.staticRoutes }}
+      {{- if $.Values.connectivity.network.staticRoutes }}
       {{- include "staticRoutes" . | nindent 6}}
       {{- end }}
     preKubeadmCommands:
@@ -144,7 +144,7 @@ spec:
       - systemctl daemon-reload
       - systemctl restart containerd
       {{- end }}
-      {{- if $.Values.network.staticRoutes }}
+      {{- if $.Values.connectivity.network.staticRoutes }}
       - systemctl daemon-reload
       - systemctl enable --now static-routes.service
       {{- end }}

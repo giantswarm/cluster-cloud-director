@@ -23,7 +23,7 @@ spec:
 
   # One arm was the old implementation with dnat rule + one arm LB
   loadBalancerConfigSpec:
-    vipSubnet: {{ .loadBalancer.vipSubnet }}
+    vipSubnet: {{ .Values.connectivity.network.loadBalancers.vipSubnet }}
   {{- end }}
 
   # Not tested - not sure how

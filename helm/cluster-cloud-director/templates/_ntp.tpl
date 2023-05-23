@@ -3,15 +3,15 @@
 
 
 {{- define "ntpFiles" -}}
-{{- if or $.Values.network.ntp.pools $.Values.network.ntp.servers -}}
+{{- if or $.Values.connectivity.network.ntp.pools $.Values.connectivity.network.ntp.servers -}}
 - path: /etc/chrony/chrony.conf
   permissions: "0644"
   content: |
-    {{- range $.Values.network.ntp.pools}}
+    {{- range $.Values.connectivity.network.ntp.pools}}
     pool {{.}} iburst
     {{- end }}
 
-    {{- range $.Values.network.ntp.servers}}
+    {{- range $.Values.connectivity.network.ntp.servers}}
     server {{.}} iburst
     {{- end }}
 
@@ -30,7 +30,7 @@
 {{- end }}
 
 {{- define "ntpPostKubeadmCommands" -}}
-{{- if or $.Values.network.ntp.pools $.Values.network.ntp.servers }}
+{{- if or $.Values.connectivity.network.ntp.pools $.Values.connectivity.network.ntp.servers }}
 - systemctl daemon-reload
 - systemctl restart chrony
 {{- end -}}
