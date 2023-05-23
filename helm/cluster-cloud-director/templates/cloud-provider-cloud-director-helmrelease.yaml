@@ -49,7 +49,7 @@ spec:
         ovdcNetwork: {{ .Values.cloudDirector.ovdcNetwork | quote }}
         site: {{ .Values.cloudDirector.site | quote }}
         vAppName: {{ include "resource.default.name" $  | quote }}
-        vipSubnet: {{ index .Values.connectivity.network.loadBalancers.cidrBlocks 0 | quote }}
+        vipSubnet: {{ .Values.connectivity.network.loadBalancers.vipSubnet }}
         enableVirtualServiceSharedIP: {{ .Values.cloudProvider.enableVirtualServiceSharedIP }}
         oneArm:
           enabled: {{ .Values.cloudProvider.oneArm.enabled }}

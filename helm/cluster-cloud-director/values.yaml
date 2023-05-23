@@ -112,7 +112,7 @@ connectivity:
       cidrBlocks:
       - "172.31.0.0/16"
     loadBalancers:
-      cidrBlocks: []  # Virtual IP CIDR for the external network.
+      vipSubnet: ""  # Virtual IP CIDR for the external network.
     staticRoutes: []
   #  - destination: "10.128.0.0/16"
   #    via: "192.168.52.254"

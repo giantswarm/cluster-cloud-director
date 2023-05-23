@@ -314,14 +314,15 @@
                         },
                         "loadBalancers": {
                             "properties": {
-                                "cidrBlocks": {
-                                    "$ref": "#/$defs/cidrBlocks",
+                                "vipSubnet": {
+                                    "default": "",
                                     "description": "Virtual IP CIDR for the external network.",
-                                    "title": "Load Balancer subnets"
+                                    "title": "Virtual IP subnet",
+                                    "type": "string"
                                 }
                             },
                             "required": [
-                                "cidrBlocks"
+                                "vipSubnet"
                             ],
                             "title": "Load Balancers",
                             "type": "object"
