@@ -21,9 +21,8 @@ spec:
     port: {{ .controlPlaneEndpoint.port }}
   {{- end }}
 
-  # One arm was the old implementation with dnat rule + one arm LB
   loadBalancerConfigSpec:
-    vipSubnet: {{ .Values.connectivity.network.loadBalancers.vipSubnet }}
+    vipSubnet: {{ .loadBalancers.vipSubnet }}
   {{- end }}
 
   # Not tested - not sure how
