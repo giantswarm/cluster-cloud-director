@@ -30,9 +30,9 @@ spec:
   values:
     cluster:
       calico:
-        CIDR: {{ index .Values.network.podsCidrBlocks 0 | quote }}
+        CIDR: {{ index .Values.connectivity.network.pods.cidrBlocks 0 | quote }}
       kubernetes:
         API:
-          clusterIPRange: {{ index .Values.network.servicesCidrBlocks 0 | quote }}
+          clusterIPRange: {{ index .Values.connectivity.network.services.cidrBlocks 0 | quote }}
         DNS:
           IP: {{ include "clusterDNS" $ | quote }}

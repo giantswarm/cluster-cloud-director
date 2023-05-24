@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.11.0] - 2023-05-23
+
+### Added
+
+- Add audilog configuration.
+- :boom: **Breaking:** Refactor api for network parameters to apply the standard interface for all providers.
+
+## [0.10.0] - 2023-05-15
+
 **Info on breaking changes:** This release makes incompatible changes to the values schema. See details for info on how to migrate.
 
 <details>
@@ -264,7 +273,9 @@ Bump cloud provider to v0.2.5 (fix).
 - Added VCDCluster parameters to match CRD.
 - Nodepool and nodeclass support.
 
-[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.9.0...HEAD
+[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.11.0...HEAD
+[0.11.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.10.0...v0.11.0
+[0.10.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.9.0...v0.10.0
 [0.9.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.8.1...v0.9.0
 [0.8.1]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.8.0...v0.8.1
 [0.8.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.7.4...v0.8.0
