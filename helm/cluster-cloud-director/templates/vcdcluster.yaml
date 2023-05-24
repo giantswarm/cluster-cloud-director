@@ -13,7 +13,7 @@ spec:
   ovdcNetwork: {{ .ovdcNetwork }}
   {{- end }}
 
-  {{- with .Values.network }}
+  {{- with .Values.connectivity.network }}
   # Picks an IP automatically if unset
   {{- if and .controlPlaneEndpoint.host .controlPlaneEndpoint.port }}
   controlPlaneEndpoint:
