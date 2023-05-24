@@ -286,6 +286,11 @@
                 },
                 "network": {
                     "properties": {
+                        "allowAllEgress": {
+                            "default": false,
+                            "title": "Allow all egress",
+                            "type": "boolean"
+                        },
                         "controlPlaneEndpoint": {
                             "description": "Kubernetes API endpoint.",
                             "properties": {

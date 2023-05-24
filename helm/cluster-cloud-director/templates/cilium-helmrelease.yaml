@@ -36,3 +36,14 @@ spec:
     hubble:
       relay:
         enabled: true
+{{- if .Values.connectivity.network.allowAllEgress }}
+    defaultPolicies:
+      enabled: true
+      tolerations:
+        - effect: NoSchedule
+          operator: Exists
+        - effect: NoExecute
+          operator: Exists
+        - key: CriticalAddonsOnly
+          operator: Exists
+{{- end }}
