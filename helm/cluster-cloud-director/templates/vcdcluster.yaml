@@ -13,7 +13,7 @@ spec:
   ovdcNetwork: {{ .ovdcNetwork }}
   {{- end }}
 
-  {{- with .Values.network }}
+  {{- with .Values.connectivity.network }}
   # Picks an IP automatically if unset
   {{- if and .controlPlaneEndpoint.host .controlPlaneEndpoint.port }}
   controlPlaneEndpoint:
@@ -21,9 +21,8 @@ spec:
     port: {{ .controlPlaneEndpoint.port }}
   {{- end }}
 
-  # One arm was the old implementation with dnat rule + one arm LB
   loadBalancerConfigSpec:
-    vipSubnet: {{ .Values.connectivity.network.loadBalancers.vipSubnet }}
+    vipSubnet: {{ .loadBalancers.vipSubnet }}
   {{- end }}
 
   # Not tested - not sure how
