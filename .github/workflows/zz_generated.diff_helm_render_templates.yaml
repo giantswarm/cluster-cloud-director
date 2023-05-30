@@ -1,0 +1,138 @@
+# DO NOT EDIT. Generated with:
+#
+#    devctl@6.1.1
+#
+name: Compare Helm Rendering
+
+on:
+  pull_request:
+  push:
+    branches: [HEAD_BRANCH, main]
+
+env:
+  dyff_ver: "1.5.4"
+  helm_ver: "3.11.1"
+  yq_ver: "4.31.1"
+
+jobs:
+  # This job is for checking for the `/no_diffs_printing` comment in the PR. When it is found,
+  # the `get-rendering-values` job is skipped, what makes `cmp-helm-rendering` skipped as well.
+  check-cmp-state:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Find suspend comment
+        uses: peter-evans/find-comment@v2
+        continue-on-error: true
+        id: fc
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body-includes: /no_diffs_printing
+    outputs:
+      suspendcmp: ${{ steps.fc.outputs.comment-id }}
+  get-rendering-values:
+    needs: check-cmp-state
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && needs.check-cmp-state.outputs.suspendcmp == 0
+    steps:
+      - uses: actions/checkout@v3
+      - name: list rendering values
+        id: get-rendering-values
+        run: |
+          echo "values=[\"$(ls -m helm/${{ github.event.repository.name }}/ci/test-*-values.yaml | tr -d ' \n' | sed 's/,/\", \"/g')\"]"
+          echo
+          echo "values=[\"$(ls -m helm/${{ github.event.repository.name }}/ci/test-*-values.yaml | tr -d ' \n' | sed 's/,/\", \"/g')\"]" >> $GITHUB_OUTPUT
+    outputs:
+      values: ${{ steps.get-rendering-values.outputs.values }}
+  cmp-helm-rendering:
+    needs: get-rendering-values
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        values: ${{ fromJson(needs.get-rendering-values.outputs.values) }}
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: install helm
+        uses: azure/setup-helm@v3
+        with:
+           version: ${{ env.helm_ver }}
+      - run: which helm
+      - name: install yq
+        uses: giantswarm/install-binary-action@v1
+        with:
+          binary: yq
+          download_url: "https://github.com/mikefarah/yq/releases/download/v${version}/yq_linux_amd64.tar.gz"
+          smoke_test: "${binary} --version"
+          tarball_binary_path: "*/yq_linux_amd64"
+          version: ${{ env.yq_ver }}
+      - run: which yq
+      - name: install dyff
+        uses: giantswarm/install-binary-action@v1
+        with:
+          binary: dyff
+          download_url: "https://github.com/homeport/dyff/releases/download/v${version}/dyff_${version}_linux_amd64.tar.gz"
+          smoke_test: "${binary} version"
+          tarball_binary_path: "${binary}"
+          version: ${{ env.dyff_ver }}
+      - run: which dyff
+      - run: ls -la /opt/hostedtoolcache
+      - uses: actions/checkout@v3
+      - name: render helm with current code
+        run: |
+          mkdir -p /tmp/${{ matrix.values }}
+          # TODO split files by "API"_"KIND"_"NAMESPACE|clusterwide"_"NAME"
+          helm repo add cluster-catalog https://giantswarm.github.io/cluster-catalog/
+          helm dependency build helm/${{ github.event.repository.name }}
+          helm template -n org-giantswarm -f "helm/${{ github.event.repository.name }}/ci/ci-values.yaml" -f "${{ matrix.values }}" "helm/${{ github.event.repository.name }}" > /tmp/${{ matrix.values }}/render-new.yaml
+      - uses: actions/checkout@v3
+        with:
+          ref: "${{ github.event.repository.default_branch }}"
+          path: 'old'
+      - name: render helm with main branch code
+        run: |
+          # TODO split files by "API"_"KIND"_"NAMESPACE|clusterwide"_"NAME"
+          helm dependency build old/helm/${{ github.event.repository.name }}
+          helm template -n org-giantswarm -f "helm/${{ github.event.repository.name }}/ci/ci-values.yaml" -f "${{ matrix.values }}" "old/helm/${{ github.event.repository.name }}" > /tmp/${{ matrix.values }}/render-old.yaml
+      - name: get the diffs
+        uses: mathiasvr/command-output@v1
+        id: diff
+        with:
+          run: |
+            dyff between -s -i -b -g /tmp/${{ matrix.values }}/render-old.yaml /tmp/${{ matrix.values }}/render-new.yaml && echo "No diff detected" || if [[ $? -eq 255 ]]; then echo "Diff error"; fi;
+      - name: Find diff comment
+        uses: peter-evans/find-comment@v2
+        continue-on-error: true
+        id: fc
+        if: ${{ !contains(steps.diff.outputs.stdout,'No diff detected') }}
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: (${{ matrix.values }}) rendered manifest diff
+      - name: Delete old comment
+        uses: jungwinter/comment@v1
+        continue-on-error: true
+        if: ${{ !contains(steps.diff.outputs.stdout,'No diff detected') }}
+        with:
+          type: delete
+          comment_id: ${{ steps.fc.outputs.comment-id }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create or update validation comment
+        uses: peter-evans/create-or-update-comment@v3
+        if: ${{ !contains(steps.diff.outputs.stdout,'No diff detected') }}
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            <details>
+            <summary> (${{ matrix.values }}) rendered manifest diff </summary>
+            <!-- mandatory empty line -->
+
+            ```diff
+            ${{ steps.diff.outputs.stdout }}
+            ```
+            </details>
+            <!-- mandatory empty line -->
+  diff-rendering-completed:
+    needs: cmp-helm-rendering
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "All diff jobs completed"
