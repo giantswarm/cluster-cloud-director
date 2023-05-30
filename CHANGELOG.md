@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Fix connectivity key in vcdcluster template.
+- Values schema: remove invalid property from .controlPlane.replicas object
 
 ## [0.11.0] - 2023-05-23
 
