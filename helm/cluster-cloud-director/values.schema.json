@@ -533,8 +533,7 @@
                 "replicas": {
                     "type": "integer",
                     "title": "Number of nodes",
-                    "description": "Number of control plane instances to create. Must be an odd number.",
-                    "replicas": 0
+                    "description": "Number of control plane instances to create. Must be an odd number."
                 },
                 "resourceRatio": {
                     "type": "integer",
