@@ -324,8 +324,7 @@
                                 },
                                 "port": {
                                     "type": "integer",
-                                    "title": "Port number",
-                                    "default": ""
+                                    "title": "Port number"
                                 }
                             }
                         },
