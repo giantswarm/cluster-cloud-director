@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Add default value to schema for `.controlPlane.replicas`.
+- Added value `.metadata.servicePriority` to the schema to set the cluster's relative priority.
 
 ### Changed
 
@@ -18,7 +19,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Values schema: remove invalid key `replicas` from `.controlPlane.replicas`
-
 
 ## [0.11.1] - 2023-05-25
 
