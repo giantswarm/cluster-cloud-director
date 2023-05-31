@@ -25,7 +25,6 @@ connectivity:
   network:
     controlPlaneEndpoint:
       host: ""
-      port: ""
     extraOvdcNetworks: []
     loadBalancers:
       vipSubnet: ""
@@ -33,9 +32,11 @@ connectivity:
       pools: []
       servers: []
     pods:
-      cidrBlocks: 10.244.0.0/16
+      cidrBlocks:
+        - 10.244.0.0/16
     services:
-      cidrBlocks: 172.31.0.0/16
+      cidrBlocks:
+        - 172.31.0.0/16
     staticRoutes: []
 controlPlane:
   catalog: ""
