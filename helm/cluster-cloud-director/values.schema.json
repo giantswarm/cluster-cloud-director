@@ -326,7 +326,8 @@
                                     "type": "integer",
                                     "title": "Port number"
                                 }
-                            }
+                            },
+                            "default": {}
                         },
                         "extraOvdcNetworks": {
                             "type": "array",

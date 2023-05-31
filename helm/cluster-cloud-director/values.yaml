@@ -23,8 +23,7 @@ clusterLabels: {}
 connectivity:
   containerRegistries: {}
   network:
-    controlPlaneEndpoint:
-      host: ""
+    controlPlaneEndpoint: {}
     extraOvdcNetworks: []
     loadBalancers:
       vipSubnet: ""
