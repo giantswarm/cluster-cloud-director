@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add default value to schema for `.controlPlane.replicas`.
+
+### Changed
+
+- Normalize values schema according to `schemalint` v2.
+
+### Fixed
+
+- Values schema: remove invalid key `replicas` from `.controlPlane.replicas`
+
+
 ## [0.11.1] - 2023-05-25
 
 ### Fixed
