@@ -62,8 +62,6 @@ metadata:
   namespace: org-multi-project
 data:
   values: |
-    metadata:
-      name: test-proxy
     managementCluster: guppy
     organization: multi-project
 ---
