@@ -6,10 +6,10 @@ metadata:
 data:
   values: |
     baseDomain: test.gigantic.io
-    clusterDescription: test cluster configured with custom node names.
     kubernetesVersion: v1.22.9+vmware.1
     organization: multi-project
     metadata:
+      description: test cluster configured with custom node names.
       servicePriority: highest
 
     cloudDirector:

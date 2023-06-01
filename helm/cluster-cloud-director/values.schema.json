@@ -233,12 +233,6 @@
                 }
             }
         },
-        "clusterDescription": {
-            "type": "string",
-            "title": "Cluster description",
-            "description": "User-friendly description of the cluster's purpose.",
-            "default": ""
-        },
         "clusterLabels": {
             "type": "object",
             "title": "Cluster labels",
@@ -617,6 +611,11 @@
             "type": "object",
             "title": "Metadata",
             "properties": {
+                "description": {
+                    "type": "string",
+                    "title": "Cluster description",
+                    "description": "User-friendly description of the cluster's purpose."
+                },
                 "servicePriority": {
                     "type": "string",
                     "title": "Service priority",
