@@ -48,6 +48,13 @@ controlPlane:
     imageTag: 3.5.4-0-k8s
   image:
     repository: projects.registry.vmware.com/tkg
+  oidc:
+    caFile: ""
+    clientId: ""
+    groupsClaim: ""
+    issuerUrl: ""
+    usernameClaim: ""
+    usernamePrefix: ""
   placementPolicy: ""
   replicas: 0
   resourceRatio: 8
@@ -65,13 +72,6 @@ metadata:
   servicePriority: highest
 nodeClasses: {}
 nodePools: {}
-oidc:
-  caFile: ""
-  clientId: ""
-  groupsClaim: ""
-  issuerUrl: ""
-  usernameClaim: ""
-  usernamePrefix: ""
 organization: ""
 osUsers:
   - name: giantswarm
