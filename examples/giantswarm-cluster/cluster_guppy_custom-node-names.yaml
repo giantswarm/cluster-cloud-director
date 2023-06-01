@@ -60,8 +60,6 @@ metadata:
   namespace: org-multi-project
 data:
   values: |
-    metadata:
-      name: test-customname
     managementCluster: guppy
     organization: multi-project
 ---
