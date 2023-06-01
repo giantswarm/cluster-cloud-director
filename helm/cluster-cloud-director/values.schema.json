@@ -324,10 +324,10 @@
                                 },
                                 "port": {
                                     "type": "integer",
-                                    "title": "Port number",
-                                    "default": ""
+                                    "title": "Port number"
                                 }
-                            }
+                            },
+                            "default": {}
                         },
                         "extraOvdcNetworks": {
                             "type": "array",
@@ -391,7 +391,9 @@
                                 "cidrBlocks": {
                                     "$ref": "#/$defs/cidrBlocks",
                                     "title": "Pod subnets",
-                                    "default": "10.244.0.0/16"
+                                    "default": [
+                                        "10.244.0.0/16"
+                                    ]
                                 }
                             }
                         },
@@ -405,7 +407,9 @@
                                 "cidrBlocks": {
                                     "$ref": "#/$defs/cidrBlocks",
                                     "title": "Service subnets",
-                                    "default": "172.31.0.0/16"
+                                    "default": [
+                                        "172.31.0.0/16"
+                                    ]
                                 }
                             }
                         },
