@@ -795,17 +795,6 @@
                 }
             }
         },
-        "servicePriority": {
-            "type": "string",
-            "title": "Service priority",
-            "description": "The relative importance of this cluster.",
-            "enum": [
-                "lowest",
-                "medium",
-                "highest"
-            ],
-            "default": "highest"
-        },
         "sshTrustedUserCAKeys": {
             "type": "array",
             "title": "Trusted SSH cert issuers",
