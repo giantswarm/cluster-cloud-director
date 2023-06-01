@@ -617,20 +617,6 @@
             "type": "object",
             "title": "Metadata",
             "properties": {
-                "description": {
-                    "type": "string",
-                    "title": "Cluster description",
-                    "description": "User-friendly description of the cluster's purpose."
-                },
-                "name": {
-                    "type": "string",
-                    "title": "Cluster name",
-                    "description": "Unique identifier, cannot be changed after creation."
-                },
-                "organization": {
-                    "type": "string",
-                    "title": "Organization"
-                },
                 "servicePriority": {
                     "type": "string",
                     "title": "Service priority",
