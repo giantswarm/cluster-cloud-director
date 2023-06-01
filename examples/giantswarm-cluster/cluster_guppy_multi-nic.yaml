@@ -63,7 +63,8 @@ metadata:
   namespace: org-multi-project
 data:
   values: |
-    clusterName: test-multinic
+    metadata:
+      name: test-multinic
     managementCluster: guppy
     organization: multi-project
 ---

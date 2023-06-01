@@ -617,6 +617,11 @@
             "type": "object",
             "title": "Metadata",
             "properties": {
+                "name": {
+                    "type": "string",
+                    "title": "Cluster name",
+                    "description": "Unique identifier, cannot be changed after creation."
+                },
                 "servicePriority": {
                     "type": "string",
                     "title": "Service priority",

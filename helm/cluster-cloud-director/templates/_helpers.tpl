@@ -61,7 +61,7 @@ Create a prefix for all resource names.
 {{- end -}}
 
 {{/*
-use the cluster-apps-operator created secret <clusterName>-cluster-values as default
+use the cluster-apps-operator created secret <metadata.name>-cluster-values as default
 */}}
 {{- define "containerdProxySecret" -}}
 {{- $defaultContainerdProxySecret := printf "%s-systemd-proxy" (include "resource.default.name" . ) -}}
