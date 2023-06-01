@@ -9,7 +9,8 @@ data:
     clusterDescription: test cluster configured with http proxy.
     kubernetesVersion: v1.22.9+vmware.1
     organization: multi-project
-    servicePriority: highest
+    metadata:
+      servicePriority: highest
 
     cloudDirector:
       org: giantswarm

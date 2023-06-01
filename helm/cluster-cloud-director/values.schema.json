@@ -613,6 +613,38 @@
             "title": "Kubernetes version",
             "default": ""
         },
+        "metadata": {
+            "type": "object",
+            "title": "Metadata",
+            "properties": {
+                "description": {
+                    "type": "string",
+                    "title": "Cluster description",
+                    "description": "User-friendly description of the cluster's purpose."
+                },
+                "name": {
+                    "type": "string",
+                    "title": "Cluster name",
+                    "description": "Unique identifier, cannot be changed after creation."
+                },
+                "organization": {
+                    "type": "string",
+                    "title": "Organization"
+                },
+                "servicePriority": {
+                    "type": "string",
+                    "title": "Service priority",
+                    "description": "The relative importance of this cluster.",
+                    "$comment": "Defined in https://github.com/giantswarm/rfc/tree/main/classify-cluster-priority",
+                    "enum": [
+                        "highest",
+                        "medium",
+                        "lowest"
+                    ],
+                    "default": "highest"
+                }
+            }
+        },
         "nodeClasses": {
             "type": "object",
             "title": "Node classes",
