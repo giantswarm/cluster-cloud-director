@@ -613,6 +613,24 @@
             "title": "Kubernetes version",
             "default": ""
         },
+        "metadata": {
+            "type": "object",
+            "title": "Metadata",
+            "properties": {
+                "servicePriority": {
+                    "type": "string",
+                    "title": "Service priority",
+                    "description": "The relative importance of this cluster.",
+                    "$comment": "Defined in https://github.com/giantswarm/rfc/tree/main/classify-cluster-priority",
+                    "enum": [
+                        "highest",
+                        "medium",
+                        "lowest"
+                    ],
+                    "default": "highest"
+                }
+            }
+        },
         "nodeClasses": {
             "type": "object",
             "title": "Node classes",
@@ -762,17 +780,6 @@
                     "default": ""
                 }
             }
-        },
-        "servicePriority": {
-            "type": "string",
-            "title": "Service priority",
-            "description": "The relative importance of this cluster.",
-            "enum": [
-                "lowest",
-                "medium",
-                "highest"
-            ],
-            "default": "highest"
         },
         "sshTrustedUserCAKeys": {
             "type": "array",

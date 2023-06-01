@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+<details>
+<summary>How to migrate from 0.11.x</summary>
+
+To migrate values from cluster-cloud-director 0.11.x, we provide below [yq](https://mikefarah.gitbook.io/yq/) script, which assumes your values (not a ConfigMap!) are available in the file `values.yaml`. Note that the file will be overwritten.
+
+```bash
+yq eval --inplace '
+  with(select(.servicePriority != null); .metadata.servicePriority = .servicePriority) |
+  del(.servicePriority)
+' ./values.yaml
+```
+
+</details>
+
 ### Added
 
 - Add default value to schema for `.controlPlane.replicas`.
@@ -14,6 +28,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Normalize values schema according to `schemalint` v2.
+- :boom: Breaking schema changes:
+  - `.servicePriority` moved to `.metadata.servicePriority`
 
 ### Fixed
 

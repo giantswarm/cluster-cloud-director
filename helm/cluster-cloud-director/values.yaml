@@ -61,6 +61,8 @@ kubectlImage:
   registry: quay.io
   tag: 1.23.5
 kubernetesVersion: ""
+metadata:
+  servicePriority: highest
 nodeClasses: {}
 nodePools: {}
 oidc:
@@ -77,7 +79,6 @@ osUsers:
 proxy:
   enabled: false
   secretName: ""
-servicePriority: highest
 sshTrustedUserCAKeys:
   - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM4cvZ01fLmO9cJbWUj7sfF+NhECgy+Cl0bazSrZX7sU vault-ca@vault.operations.giantswarm.io
 userContext:
