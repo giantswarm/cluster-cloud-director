@@ -12,7 +12,7 @@ data:
       organization: multi-project
       servicePriority: highest
 
-    cloudDirector:
+    providerSpecific:
       org: giantswarm
       ovdc: vDC 73640
       site: https://vmware.ikoula.com
