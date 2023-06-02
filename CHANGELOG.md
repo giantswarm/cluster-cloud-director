@@ -14,10 +14,14 @@ To migrate values from cluster-cloud-director 0.11.x, we provide below [yq](http
 
 ```bash
 yq eval --inplace '
+  with(select(.cloudDirector != null); .providerSpecific = .cloudDirector) |
   with(select(.oidc != null); .controlPlane.oidc = .oidc) |
+  with(select(.organization != null); .metadata.organization = .organization) |
   with(select(.servicePriority != null); .metadata.servicePriority = .servicePriority) |
+  del(.cloudDirector) |
   del(.includeClusterResourceSet) |
   del(.oidc) |
+  del(.organization) |
   del(.servicePriority)
 ' ./values.yaml
 ```
@@ -32,8 +36,10 @@ yq eval --inplace '
 
 - Normalize values schema according to `schemalint` v2.
 - :boom: Breaking schema changes:
+  - `.cloudDirector` moved to `.providerSpecific`
   - `.servicePriority` moved to `.metadata.servicePriority`
   - `.oidc` moved to `.controlPlane.oidc`
+  - `.organization` moved to `.metadata.organization`
   - Removed `.includeClusterResourceSet`
 
 ### Fixed

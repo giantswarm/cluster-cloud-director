@@ -5,11 +5,6 @@ apiServer:
   enableAdmissionPlugins: NamespaceLifecycle,LimitRanger,ServiceAccount,ResourceQuota,PersistentVolumeClaimResize,DefaultStorageClass,Priority,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook
   featureGates: TTLAfterFinished=true
 baseDomain: k8s.test
-cloudDirector:
-  org: ""
-  ovdc: ""
-  ovdcNetwork: ""
-  site: ""
 cloudProvider:
   enableVirtualServiceSharedIP: true
   oneArm:
@@ -72,10 +67,10 @@ metadata:
   servicePriority: highest
 nodeClasses: {}
 nodePools: {}
-organization: ""
 osUsers:
   - name: giantswarm
     sudo: ALL=(ALL) NOPASSWD:ALL
+providerSpecific: {}
 proxy:
   enabled: false
   secretName: ""

@@ -100,12 +100,10 @@
         "apiServer",
         "baseDomain",
         "controllerManager",
-        "cloudDirector",
         "controlPlane",
         "connectivity",
         "nodeClasses",
         "nodePools",
-        "organization",
         "userContext"
     ],
     "properties": {
@@ -145,42 +143,6 @@
             "type": "string",
             "title": "Base DNS domain",
             "default": "k8s.test"
-        },
-        "cloudDirector": {
-            "type": "object",
-            "title": "Cloud Director",
-            "required": [
-                "org",
-                "ovdc",
-                "ovdcNetwork",
-                "site"
-            ],
-            "properties": {
-                "org": {
-                    "type": "string",
-                    "title": "Organization",
-                    "description": "VCD organization name.",
-                    "default": ""
-                },
-                "ovdc": {
-                    "type": "string",
-                    "title": "OvDC name",
-                    "description": "Name of the organization virtual datacenter (OvDC) to create this cluster in.",
-                    "default": ""
-                },
-                "ovdcNetwork": {
-                    "type": "string",
-                    "title": "OvDC network",
-                    "description": "VCD network to connect VMs.",
-                    "default": ""
-                },
-                "site": {
-                    "type": "string",
-                    "title": "Endpoint",
-                    "description": "VCD endpoint URL in the format https://VCD_HOST, without trailing slash.",
-                    "default": ""
-                }
-            }
         },
         "cloudProvider": {
             "type": "object",
@@ -661,6 +623,10 @@
             "type": "object",
             "title": "Metadata",
             "properties": {
+                "organization": {
+                    "type": "string",
+                    "title": "Organization"
+                },
                 "servicePriority": {
                     "type": "string",
                     "title": "Service priority",
@@ -729,11 +695,6 @@
             },
             "default": {}
         },
-        "organization": {
-            "type": "string",
-            "title": "Organization",
-            "default": ""
-        },
         "osUsers": {
             "type": "array",
             "title": "OS Users",
@@ -758,6 +719,38 @@
                     "sudo": "ALL=(ALL) NOPASSWD:ALL"
                 }
             ]
+        },
+        "providerSpecific": {
+            "type": "object",
+            "title": "VMware Cloud Director (VCD) settings",
+            "required": [
+                "org",
+                "ovdc",
+                "ovdcNetwork",
+                "site"
+            ],
+            "properties": {
+                "org": {
+                    "type": "string",
+                    "title": "Organization",
+                    "description": "VCD organization name."
+                },
+                "ovdc": {
+                    "type": "string",
+                    "title": "OvDC name",
+                    "description": "Name of the organization virtual datacenter (OvDC) to create this cluster in."
+                },
+                "ovdcNetwork": {
+                    "type": "string",
+                    "title": "OvDC network",
+                    "description": "VCD network to connect VMs."
+                },
+                "site": {
+                    "type": "string",
+                    "title": "Endpoint",
+                    "description": "VCD endpoint URL in the format https://VCD_HOST, without trailing slash."
+                }
+            }
         },
         "proxy": {
             "type": "object",
