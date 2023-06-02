@@ -49,7 +49,8 @@ Example of a values.yaml file for Cloud provider Ikoula with minimum input (maki
 baseDomain: "cluster.local"
 clusterDescription: "glados test cluster"
 kubernetesVersion: "v1.22.5+vmware.1"
-organization: "giantswarm"
+metadata:
+  organization: "giantswarm"
 
 cloudDirector:
   site: "https://vmware.ikoula.com"
