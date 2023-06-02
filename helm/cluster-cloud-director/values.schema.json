@@ -239,12 +239,6 @@
             "description": "User-friendly description of the cluster's purpose.",
             "default": ""
         },
-        "clusterLabels": {
-            "type": "object",
-            "title": "Cluster labels",
-            "description": "Used for adding configurable labels to the cluster resource.",
-            "default": {}
-        },
         "connectivity": {
             "type": "object",
             "title": "Connectivity",
@@ -665,6 +659,20 @@
             "type": "object",
             "title": "Metadata",
             "properties": {
+                "labels": {
+                    "type": "object",
+                    "title": "Labels",
+                    "description": "These labels are added to the Kubernetes resourses defining this cluster.",
+                    "patternProperties": {
+                        "^[_-a-zA-Z0-9\\.]$": {
+                            "type": "string",
+                            "title": "Label",
+                            "maxLength": 63,
+                            "minLength": 0,
+                            "pattern": "^[_-a-zA-Z0-9\\.]$"
+                        }
+                    }
+                },
                 "servicePriority": {
                     "type": "string",
                     "title": "Service priority",
