@@ -15,8 +15,10 @@ To migrate values from cluster-cloud-director 0.11.x, we provide below [yq](http
 ```bash
 yq eval --inplace '
   with(select(.clusterDescription != null); .metadata.description = .clusterDescription) |
+  with(select(.oidc != null); .controlPlane.oidc = .oidc) |
   with(select(.servicePriority != null); .metadata.servicePriority = .servicePriority) |
   del(.clusterDescription) |
+  del(.oidc) |
   del(.servicePriority)
 ' ./values.yaml
 ```
@@ -33,6 +35,7 @@ yq eval --inplace '
 - :boom: Breaking schema changes:
   - `.clusterDescription` moved to `.metadata.description`
   - `.servicePriority` moved to `.metadata.servicePriority`
+  - `.oidc` moved to `.controlPlane.oidc`
 
 ### Fixed
 

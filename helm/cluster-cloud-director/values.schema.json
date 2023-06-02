@@ -523,6 +523,54 @@
                         }
                     }
                 },
+                "oidc": {
+                    "type": "object",
+                    "title": "OIDC authentication",
+                    "required": [
+                        "clientId",
+                        "groupsClaim",
+                        "issuerUrl",
+                        "usernameClaim"
+                    ],
+                    "properties": {
+                        "caFile": {
+                            "type": "string",
+                            "title": "Certificate authority file",
+                            "description": "Path to identity provider's CA certificate in PEM format.",
+                            "default": ""
+                        },
+                        "clientId": {
+                            "type": "string",
+                            "title": "Client ID",
+                            "description": "OIDC client identifier to identify with.",
+                            "default": ""
+                        },
+                        "groupsClaim": {
+                            "type": "string",
+                            "title": "Groups claim",
+                            "description": "Name of the identity token claim bearing the user's group memberships.",
+                            "default": ""
+                        },
+                        "issuerUrl": {
+                            "type": "string",
+                            "title": "Issuer URL",
+                            "description": "URL of the provider which allows the API server to discover public signing keys, not including any path. Discovery URL without the '/.well-known/openid-configuration' part.",
+                            "default": ""
+                        },
+                        "usernameClaim": {
+                            "type": "string",
+                            "title": "Username claim",
+                            "description": "Name of the identity token claim bearing the unique user identifier.",
+                            "default": ""
+                        },
+                        "usernamePrefix": {
+                            "type": "string",
+                            "title": "Username prefix",
+                            "description": "Prefix prepended to username values to prevent clashes with existing names.",
+                            "default": ""
+                        }
+                    }
+                },
                 "placementPolicy": {
                     "$ref": "#/$defs/placementPolicy",
                     "title": "VM placement policy",
@@ -683,54 +731,6 @@
                 }
             },
             "default": {}
-        },
-        "oidc": {
-            "type": "object",
-            "title": "OIDC authentication",
-            "required": [
-                "clientId",
-                "groupsClaim",
-                "issuerUrl",
-                "usernameClaim"
-            ],
-            "properties": {
-                "caFile": {
-                    "type": "string",
-                    "title": "Certificate authority file",
-                    "description": "Path to identity provider's CA certificate in PEM format.",
-                    "default": ""
-                },
-                "clientId": {
-                    "type": "string",
-                    "title": "Client ID",
-                    "description": "OIDC client identifier to identify with.",
-                    "default": ""
-                },
-                "groupsClaim": {
-                    "type": "string",
-                    "title": "Groups claim",
-                    "description": "Name of the identity token claim bearing the user's group memberships.",
-                    "default": ""
-                },
-                "issuerUrl": {
-                    "type": "string",
-                    "title": "Issuer URL",
-                    "description": "URL of the provider which allows the API server to discover public signing keys, not including any path. Discovery URL without the '/.well-known/openid-configuration' part.",
-                    "default": ""
-                },
-                "usernameClaim": {
-                    "type": "string",
-                    "title": "Username claim",
-                    "description": "Name of the identity token claim bearing the unique user identifier.",
-                    "default": ""
-                },
-                "usernamePrefix": {
-                    "type": "string",
-                    "title": "Username prefix",
-                    "description": "Prefix prepended to username values to prevent clashes with existing names.",
-                    "default": ""
-                }
-            }
         },
         "organization": {
             "type": "string",
