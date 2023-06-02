@@ -19,6 +19,7 @@ yq eval --inplace '
   with(select(.organization != null); .metadata.organization = .organization) |
   with(select(.servicePriority != null); .metadata.servicePriority = .servicePriority) |
   del(.cloudDirector) |
+  del(.includeClusterResourceSet) |
   del(.oidc) |
   del(.organization) |
   del(.servicePriority)
@@ -39,6 +40,7 @@ yq eval --inplace '
   - `.servicePriority` moved to `.metadata.servicePriority`
   - `.oidc` moved to `.controlPlane.oidc`
   - `.organization` moved to `.metadata.organization`
+  - Removed `.includeClusterResourceSet`
 
 ### Fixed
 

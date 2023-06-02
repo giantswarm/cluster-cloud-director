@@ -592,10 +592,6 @@
                 }
             }
         },
-        "includeClusterResourceSet": {
-            "type": "string",
-            "title": "Include ClusterResourceSet"
-        },
         "kubectlImage": {
             "type": "object",
             "title": "Kubectl image",
