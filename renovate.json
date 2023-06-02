@@ -1,7 +1,6 @@
 {
   "extends": [
-    "config:base",
-    ":reviewer(team:team-rocket)"
+    "config:base"
   ],
   "labels": ["dependencies", "renovate"],
   "dependencyDashboard": true,
