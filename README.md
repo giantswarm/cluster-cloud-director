@@ -51,7 +51,7 @@ clusterDescription: "glados test cluster"
 kubernetesVersion: "v1.22.5+vmware.1"
 organization: "giantswarm"
 
-cloudDirector:
+providerSpecific:
   site: "https://vmware.ikoula.com"
   org: "xxx"
   ovdc: "xxx"
