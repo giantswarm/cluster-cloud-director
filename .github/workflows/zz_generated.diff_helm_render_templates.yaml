@@ -1,6 +1,6 @@
 # DO NOT EDIT. Generated with:
 #
-#    devctl@6.1.1
+#    devctl@6.3.1
 #
 name: Compare Helm Rendering
 
@@ -92,7 +92,7 @@ jobs:
         run: |
           # TODO split files by "API"_"KIND"_"NAMESPACE|clusterwide"_"NAME"
           helm dependency build old/helm/${{ github.event.repository.name }}
-          helm template -n org-giantswarm -f "helm/${{ github.event.repository.name }}/ci/ci-values.yaml" -f "${{ matrix.values }}" "old/helm/${{ github.event.repository.name }}" > /tmp/${{ matrix.values }}/render-old.yaml
+          helm template -n org-giantswarm -f "old/helm/${{ github.event.repository.name }}/ci/ci-values.yaml" -f "${{ matrix.values }}" "old/helm/${{ github.event.repository.name }}" > /tmp/${{ matrix.values }}/render-old.yaml
       - name: get the diffs
         uses: mathiasvr/command-output@v1
         id: diff
