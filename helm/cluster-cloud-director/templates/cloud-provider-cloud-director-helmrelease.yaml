@@ -9,9 +9,11 @@ metadata:
     cluster-apps-operator.giantswarm.io/watching: ""
     giantswarm.io/service-priority: {{ .Values.metadata.servicePriority | quote }}
     {{- include "labels.common" . | nindent 4 }}
+    {{- if .Values.metadata.labels }}
     {{- range $key, $val := .Values.metadata.labels }}
     {{ $key }}: {{ $val | quote }}
-    {{- end}}
+    {{- end }}
+    {{- end }}
 spec:
   suspend: true # It will be unsuspended by the post-install/post-upgrade hook in update-values-hook-job.yaml.
   releaseName: cloud-provider-cloud-director
