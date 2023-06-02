@@ -105,7 +105,6 @@
         "connectivity",
         "nodeClasses",
         "nodePools",
-        "organization",
         "userContext"
     ],
     "properties": {
