@@ -665,6 +665,10 @@
             "type": "object",
             "title": "Metadata",
             "properties": {
+                "organization": {
+                    "type": "string",
+                    "title": "Organization"
+                },
                 "servicePriority": {
                     "type": "string",
                     "title": "Service priority",
@@ -732,11 +736,6 @@
                 }
             },
             "default": {}
-        },
-        "organization": {
-            "type": "string",
-            "title": "Organization",
-            "default": ""
         },
         "osUsers": {
             "type": "array",
