@@ -72,7 +72,6 @@ metadata:
   servicePriority: highest
 nodeClasses: {}
 nodePools: {}
-organization: ""
 osUsers:
   - name: giantswarm
     sudo: ALL=(ALL) NOPASSWD:ALL

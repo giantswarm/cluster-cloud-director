@@ -8,8 +8,8 @@ data:
     baseDomain: test.gigantic.io
     clusterDescription: test cluster with 2 nics and static route.
     kubernetesVersion: v1.22.9+vmware.1
-    organization: multi-project
     metadata:
+      organization: multi-project
       servicePriority: highest
 
     cloudDirector:
@@ -65,7 +65,8 @@ data:
   values: |
     clusterName: test-multinic
     managementCluster: guppy
-    organization: multi-project
+    metadata:
+      organization: multi-project
 ---
 apiVersion: application.giantswarm.io/v1alpha1
 kind: App

@@ -1,7 +1,8 @@
 baseDomain: k8s.test
 clusterDescription: "test cluster Xavier"
 kubernetesVersion: "v1.22.5+vmware.1"
-organization: "giantswarm"
+metadata:
+  organization: "giantswarm"
 
 cloudDirector:
   site: "https://vmware.ikoula.com"

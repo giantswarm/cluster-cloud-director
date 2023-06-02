@@ -8,8 +8,8 @@ data:
     baseDomain: test.gigantic.io
     clusterDescription: test cluster configured with custom node names.
     kubernetesVersion: v1.22.9+vmware.1
-    organization: multi-project
     metadata:
+      organization: multi-project
       servicePriority: highest
 
     cloudDirector:
@@ -62,7 +62,8 @@ data:
   values: |
     clusterName: test-customname
     managementCluster: guppy
-    organization: multi-project
+    metadata:
+      organization: multi-project
 ---
 apiVersion: application.giantswarm.io/v1alpha1
 kind: App
