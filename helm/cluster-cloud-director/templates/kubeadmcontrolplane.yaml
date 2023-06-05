@@ -30,8 +30,8 @@ spec:
           {{- end }}
           encryption-provider-config: /etc/kubernetes/encryption/config.yaml
           {{- if .Values.controlPlane.apiServer.featureGates }}
-          feature-gates: {{ range $index, $element := .featureGates -}}
-            {{ if $index }},{{ end }}{{ $element.name }}={{- $element.enabled }}
+          feature-gates: {{ range $index, $element := .Values.controlPlane.apiServer.featureGates -}}
+            {{ if $index }},{{ end }}{{ $element.name }}={{ $element.enabled }}
           {{- end }}
           {{- end }}
           kubelet-preferred-address-types: "InternalIP"
