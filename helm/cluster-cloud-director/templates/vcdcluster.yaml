@@ -6,7 +6,7 @@ metadata:
   labels:
     {{- include "labels.common" . | nindent 4 }}
 spec:
-  {{- with .Values.cloudDirector }}
+  {{- with .Values.providerSpecific }}
   site: {{ .site }}
   org: {{ .org }}
   ovdc: {{ .ovdc }}
