@@ -401,8 +401,7 @@
                             "items": {
                                 "type": "string",
                                 "title": "SAN"
-                            },
-                            "default": []
+                            }
                         },
                         "enableAdmissionPlugins": {
                             "type": "array",
