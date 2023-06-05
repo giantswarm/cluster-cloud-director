@@ -623,6 +623,11 @@
             "type": "object",
             "title": "Metadata",
             "properties": {
+                "description": {
+                    "type": "string",
+                    "title": "Cluster description",
+                    "description": "User-friendly description of the cluster's purpose."
+                },
                 "labels": {
                     "type": "object",
                     "title": "Labels",
@@ -636,11 +641,6 @@
                             "pattern": "^[_-a-zA-Z0-9\\.]$"
                         }
                     }
-                }
-                "description": {
-                    "type": "string",
-                    "title": "Cluster description",
-                    "description": "User-friendly description of the cluster's purpose."
                 },
                 "organization": {
                     "type": "string",
