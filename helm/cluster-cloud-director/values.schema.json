@@ -201,6 +201,12 @@
             "description": "User-friendly description of the cluster's purpose.",
             "default": ""
         },
+        "clusterLabels": {
+            "type": "object",
+            "title": "Cluster labels",
+            "description": "Used for adding configurable labels to the cluster resource.",
+            "default": {}
+        },
         "connectivity": {
             "type": "object",
             "title": "Connectivity",
@@ -630,6 +636,12 @@
                             "pattern": "^[_-a-zA-Z0-9\\.]$"
                         }
                     }
+                }
+                "description": {
+                    "type": "string",
+                    "title": "Cluster description",
+                    "description": "User-friendly description of the cluster's purpose."
+                },
                 "organization": {
                     "type": "string",
                     "title": "Organization"

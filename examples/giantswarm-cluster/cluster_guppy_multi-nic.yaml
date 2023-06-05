@@ -6,9 +6,9 @@ metadata:
 data:
   values: |
     baseDomain: test.gigantic.io
-    clusterDescription: test cluster with 2 nics and static route.
     kubernetesVersion: v1.22.9+vmware.1
     metadata:
+      description: test cluster with 2 nics and static route.
       organization: multi-project
       servicePriority: highest
 
