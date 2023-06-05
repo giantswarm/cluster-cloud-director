@@ -46,10 +46,10 @@ spec:
         create: true
       vcdConfig:
         clusterid: "" # It will be set by the post-install/post-upgrade hook in post-install-rdeid-job.yaml.
-        org: {{ .Values.cloudDirector.org | quote }}
-        ovdc: {{ .Values.cloudDirector.ovdc | quote }}
-        ovdcNetwork: {{ .Values.cloudDirector.ovdcNetwork | quote }}
-        site: {{ .Values.cloudDirector.site | quote }}
+        org: {{ .Values.providerSpecific.org | quote }}
+        ovdc: {{ .Values.providerSpecific.ovdc | quote }}
+        ovdcNetwork: {{ .Values.providerSpecific.ovdcNetwork | quote }}
+        site: {{ .Values.providerSpecific.site | quote }}
         vAppName: {{ include "resource.default.name" $  | quote }}
         vipSubnet: {{ .Values.connectivity.network.loadBalancers.vipSubnet }}
         enableVirtualServiceSharedIP: {{ .Values.cloudProvider.enableVirtualServiceSharedIP }}

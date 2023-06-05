@@ -8,11 +8,11 @@ data:
     baseDomain: test.gigantic.io
     clusterDescription: test cluster configured with http proxy.
     kubernetesVersion: v1.22.9+vmware.1
-    organization: multi-project
     metadata:
+      organization: multi-project
       servicePriority: highest
 
-    cloudDirector:
+    providerSpecific:
       org: giantswarm
       ovdc: vDC 73640
       site: https://vmware.ikoula.com
@@ -64,7 +64,8 @@ data:
   values: |
     clusterName: test-proxy
     managementCluster: guppy
-    organization: multi-project
+    metadata:
+      organization: multi-project
 ---
 apiVersion: application.giantswarm.io/v1alpha1
 kind: App
