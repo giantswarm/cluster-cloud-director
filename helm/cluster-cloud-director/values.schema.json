@@ -389,10 +389,6 @@
                     "type": "object",
                     "title": "API server",
                     "description": "Kubernetes API server configuration.",
-                    "required": [
-                        "enableAdmissionPlugins",
-                        "featureGates"
-                    ],
                     "properties": {
                         "certSANs": {
                             "type": "array",
