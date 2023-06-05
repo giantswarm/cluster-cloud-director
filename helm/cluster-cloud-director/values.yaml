@@ -30,7 +30,6 @@ connectivity:
     staticRoutes: []
 controlPlane:
   apiServer:
-    certSANs: []
     enableAdmissionPlugins:
       - DefaultStorageClass
       - DefaultTolerationSeconds
