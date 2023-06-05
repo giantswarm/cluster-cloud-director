@@ -26,6 +26,8 @@ yq eval --inplace '
 ' ./values.yaml
 ```
 
+TODO: Warn when `.apiServer.enableAdmissionPlugins` or `.apiServer.featureGates` is set.
+
 </details>
 
 ### Added
@@ -36,6 +38,9 @@ yq eval --inplace '
 
 - Normalize values schema according to `schemalint` v2.
 - :boom: Breaking schema changes:
+  - `.apiServer` moved into `.controlPlane.apiServer`
+  - Former `.apiServer.enableAdmissionPlugins`, now `.controlPlane.apiServer.enableAdmissionPlugins`,  changed to array of strings
+  - Former `.apiServer.featureGates`, now `.controlPlane.apiServer.featureGates`, changed to array of objects
   - `.cloudDirector` moved to `.providerSpecific`
   - `.servicePriority` moved to `.metadata.servicePriority`
   - `.oidc` moved to `.controlPlane.oidc`

@@ -25,9 +25,15 @@ spec:
           audit-log-path: /var/log/apiserver/audit.log
           audit-policy-file: /etc/kubernetes/policies/audit-policy.yaml
           cloud-provider: external
-          enable-admission-plugins: {{ .Values.apiServer.enableAdmissionPlugins }}
+          {{- if .Values.controlPlane.apiServer.enableAdmissionPlugins }}
+          enable-admission-plugins: {{ .Values.controlPlane.apiServer.enableAdmissionPlugins | join "," | quote }}
+          {{- end }}
           encryption-provider-config: /etc/kubernetes/encryption/config.yaml
-          feature-gates: {{ .Values.apiServer.featureGates }}
+          {{- if .Values.controlPlane.apiServer.featureGates }}
+          feature-gates: {{ range $index, $element := .featureGates -}}
+            {{ if $index }},{{ end }}{{ $element.name }}={{- $element.enabled }}
+          {{- end }}
+          {{- end }}
           kubelet-preferred-address-types: "InternalIP"
           logtostderr: "true"
           {{- if .Values.controlPlane.oidc.issuerUrl }}

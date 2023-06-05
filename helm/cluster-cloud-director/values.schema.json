@@ -97,7 +97,6 @@
     },
     "type": "object",
     "required": [
-        "apiServer",
         "baseDomain",
         "controllerManager",
         "controlPlane",
@@ -107,38 +106,6 @@
         "userContext"
     ],
     "properties": {
-        "apiServer": {
-            "type": "object",
-            "title": "Kubernetes API server",
-            "required": [
-                "enableAdmissionPlugins",
-                "featureGates"
-            ],
-            "properties": {
-                "certSANs": {
-                    "type": "array",
-                    "title": "Subject alternative names (SAN)",
-                    "description": "Alternative names to encode in the API server's certificate.",
-                    "items": {
-                        "type": "string",
-                        "title": "SAN"
-                    },
-                    "default": []
-                },
-                "enableAdmissionPlugins": {
-                    "type": "string",
-                    "title": "Admission plugins",
-                    "description": "Comma-separated list of admission plugins to enable.",
-                    "default": "NamespaceLifecycle,LimitRanger,ServiceAccount,ResourceQuota,PersistentVolumeClaimResize,DefaultStorageClass,Priority,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook"
-                },
-                "featureGates": {
-                    "type": "string",
-                    "title": "Feature gates",
-                    "description": "Enabled feature gates, as a comma-separated list.",
-                    "default": "TTLAfterFinished=true"
-                }
-            }
-        },
         "baseDomain": {
             "type": "string",
             "title": "Base DNS domain",
@@ -418,6 +385,85 @@
                 "resourceRatio"
             ],
             "properties": {
+                "apiServer": {
+                    "type": "object",
+                    "title": "API server",
+                    "description": "Kubernetes API server configuration.",
+                    "required": [
+                        "enableAdmissionPlugins",
+                        "featureGates"
+                    ],
+                    "properties": {
+                        "certSANs": {
+                            "type": "array",
+                            "title": "Subject alternative names (SAN)",
+                            "description": "Alternative names to encode in the API server's certificate.",
+                            "items": {
+                                "type": "string",
+                                "title": "SAN"
+                            },
+                            "default": []
+                        },
+                        "enableAdmissionPlugins": {
+                            "type": "array",
+                            "title": "Admission plugins",
+                            "description": "List of admission plugins to be passed to the API server via the --enable-admission-plugins flag.",
+                            "items": {
+                                "type": "string",
+                                "title": "name",
+                                "examples": [
+                                    "DefaultStorageClass",
+                                    "Priority"
+                                ],
+                                "pattern": "^[A-Za-z0-9]+$"
+                            },
+                            "default": [
+                                "DefaultStorageClass",
+                                "DefaultTolerationSeconds",
+                                "LimitRanger",
+                                "MutatingAdmissionWebhook",
+                                "NamespaceLifecycle",
+                                "PersistentVolumeClaimResize",
+                                "Priority",
+                                "ResourceQuota",
+                                "ServiceAccount",
+                                "ValidatingAdmissionWebhook"
+                            ]
+                        },
+                        "featureGates": {
+                            "type": "array",
+                            "title": "Feature gates",
+                            "description": "API server feature gate activation/deactivation.",
+                            "items": {
+                                "type": "object",
+                                "required": [
+                                    "name",
+                                    "enabled"
+                                ],
+                                "properties": {
+                                    "enabled": {
+                                        "type": "boolean",
+                                        "title": "Enabled"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "title": "Name",
+                                        "examples": [
+                                            "UserNamespacesStatelessPodsSupport"
+                                        ],
+                                        "pattern": "^[A-Za-z0-9]+$"
+                                    }
+                                }
+                            },
+                            "default": [
+                                {
+                                    "enabled": true,
+                                    "name": "TTLAfterFinished"
+                                }
+                            ]
+                        }
+                    }
+                },
                 "catalog": {
                     "$ref": "#/$defs/catalog",
                     "title": "Catalog",
