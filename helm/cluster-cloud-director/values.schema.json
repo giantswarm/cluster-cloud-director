@@ -405,7 +405,7 @@
                             "description": "List of admission plugins to be passed to the API server via the --enable-admission-plugins flag.",
                             "items": {
                                 "type": "string",
-                                "title": "name",
+                                "title": "Plugin",
                                 "examples": [
                                     "DefaultStorageClass",
                                     "Priority"
@@ -431,10 +431,7 @@
                             "description": "API server feature gate activation/deactivation.",
                             "items": {
                                 "type": "object",
-                                "required": [
-                                    "name",
-                                    "enabled"
-                                ],
+                                "title": "Feature gate",
                                 "properties": {
                                     "enabled": {
                                         "type": "boolean",
