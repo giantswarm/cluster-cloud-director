@@ -195,12 +195,6 @@
                 }
             }
         },
-        "clusterDescription": {
-            "type": "string",
-            "title": "Cluster description",
-            "description": "User-friendly description of the cluster's purpose.",
-            "default": ""
-        },
         "clusterLabels": {
             "type": "object",
             "title": "Cluster labels",
