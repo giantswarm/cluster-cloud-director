@@ -1,8 +1,7 @@
 baseDomain: k8s.test
-metadata:
-  description: "test cluster Xavier"
 kubernetesVersion: "v1.22.5+vmware.1"
 metadata:
+  description: "test cluster Xavier"
   organization: "giantswarm"
 
 providerSpecific:
