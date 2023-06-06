@@ -26,8 +26,8 @@ spec:
   {{- end }}
 
   # Not tested - not sure how
-  {{- with .internal.rdeId }}
-  rdeId: {{ . | quote }}
+  {{- if and .internal .internal.rdeId }}
+  rdeId: {{ .internal.rdeId | quote }}
   {{- end }}
   {{- with .Values.cluster }}
   parentUid: {{ .parentUid }}
