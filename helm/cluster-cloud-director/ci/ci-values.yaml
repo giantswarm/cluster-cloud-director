@@ -3,6 +3,8 @@ kubernetesVersion: "v1.22.5+vmware.1"
 metadata:
   description: "test cluster Xavier"
   organization: "giantswarm"
+  labels:
+    mydomain.tls/some-label-key: some-label_value
 
 providerSpecific:
   site: "https://vmware.ikoula.com"
