@@ -6,9 +6,9 @@ metadata:
 data:
   values: |
     baseDomain: test.gigantic.io
-    clusterDescription: test cluster configured with http proxy.
     kubernetesVersion: v1.22.9+vmware.1
     metadata:
+      description: test cluster configured with http proxy.
       organization: multi-project
       servicePriority: highest
 

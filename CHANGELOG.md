@@ -14,10 +14,14 @@ To migrate values from cluster-cloud-director 0.11.x, we provide below [yq](http
 
 ```bash
 yq eval --inplace '
+  with(select(.clusterLabels != null); .metadata.labels = .clusterLabels) |
+  with(select(.clusterDescription != null); .metadata.description = .clusterDescription) |
   with(select(.cloudDirector != null); .providerSpecific = .cloudDirector) |
   with(select(.oidc != null); .controlPlane.oidc = .oidc) |
   with(select(.organization != null); .metadata.organization = .organization) |
   with(select(.servicePriority != null); .metadata.servicePriority = .servicePriority) |
+  del(.clusterLabels) |
+  del(.clusterDescription) |
   del(.cloudDirector) |
   del(.includeClusterResourceSet) |
   del(.oidc) |
@@ -41,6 +45,8 @@ TODO: Warn when `.apiServer.enableAdmissionPlugins` or `.apiServer.featureGates`
   - `.apiServer` moved into `.controlPlane.apiServer`
   - Former `.apiServer.enableAdmissionPlugins`, now `.controlPlane.apiServer.enableAdmissionPlugins`,  changed to array of strings
   - Former `.apiServer.featureGates`, now `.controlPlane.apiServer.featureGates`, changed to array of objects
+  - `.clusterLabels` moved to `.metadata.labels`
+  - `.clusterDescription` moved to `.metadata.description`
   - `.cloudDirector` moved to `.providerSpecific`
   - `.servicePriority` moved to `.metadata.servicePriority`
   - `.oidc` moved to `.controlPlane.oidc`

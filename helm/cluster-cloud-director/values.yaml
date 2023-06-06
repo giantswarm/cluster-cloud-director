@@ -9,7 +9,6 @@ cluster:
   parentUid: ""
   rdeId: ""
   useAsManagementCluster: false
-clusterDescription: ""
 clusterLabels: {}
 connectivity:
   containerRegistries: {}
