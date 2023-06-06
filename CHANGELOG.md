@@ -14,12 +14,14 @@ To migrate values from cluster-cloud-director 0.11.x, we provide below [yq](http
 
 ```bash
 yq eval --inplace '
+  with(select(.cloudProvider != null); .providerSpecific.cloudProviderInterface = .cloudProvider) |
   with(select(.clusterLabels != null); .metadata.labels = .clusterLabels) |
   with(select(.clusterDescription != null); .metadata.description = .clusterDescription) |
   with(select(.cloudDirector != null); .providerSpecific = .cloudDirector) |
   with(select(.oidc != null); .controlPlane.oidc = .oidc) |
   with(select(.organization != null); .metadata.organization = .organization) |
   with(select(.servicePriority != null); .metadata.servicePriority = .servicePriority) |
+  del(.cloudProvider) |
   del(.clusterLabels) |
   del(.clusterDescription) |
   del(.cloudDirector) |
@@ -46,6 +48,7 @@ yq eval --inplace '
   - `.servicePriority` moved to `.metadata.servicePriority`
   - `.oidc` moved to `.controlPlane.oidc`
   - `.organization` moved to `.metadata.organization`
+  - `.cloudProvider` moved to `.providerSpecific.cloudProviderInterface`
   - Removed `.includeClusterResourceSet`
 
 ### Fixed
