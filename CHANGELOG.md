@@ -19,6 +19,7 @@ yq eval --inplace '
   with(select(.cloudDirector != null); .providerSpecific = .cloudDirector) |
   with(select(.oidc != null); .controlPlane.oidc = .oidc) |
   with(select(.organization != null); .metadata.organization = .organization) |
+  with(select(.rdeId != null); .internal.rdeId = .rdeId) |
   with(select(.servicePriority != null); .metadata.servicePriority = .servicePriority) |
   del(.clusterLabels) |
   del(.clusterDescription) |
@@ -26,6 +27,7 @@ yq eval --inplace '
   del(.includeClusterResourceSet) |
   del(.oidc) |
   del(.organization) |
+  del(.rdeId) |
   del(.servicePriority)
 ' ./values.yaml
 ```
@@ -46,6 +48,7 @@ yq eval --inplace '
   - `.servicePriority` moved to `.metadata.servicePriority`
   - `.oidc` moved to `.controlPlane.oidc`
   - `.organization` moved to `.metadata.organization`
+  - `.rdeId` moved to `.internal.rdeId`
   - Removed `.includeClusterResourceSet`
 
 ### Fixed
