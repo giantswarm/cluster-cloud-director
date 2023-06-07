@@ -29,10 +29,14 @@ spec:
   {{- if and .internal .internal.rdeId }}
   rdeId: {{ .internal.rdeId | quote }}
   {{- end }}
-  {{- with .Values.cluster }}
-  parentUid: {{ .parentUid }}
-  useAsManagementCluster: {{ .useAsManagementCluster }}
-  skipRDE: {{ .skipRDE }}
+  {{- if .Values.internal.parentUid }}
+  parentUid: {{ .Values.internal.parentUid | quote }}
+  {{- end }}
+  {{- if .Values.internal.useAsManagementCluster }}
+  useAsManagementCluster: {{ .Values.internal.useAsManagementCluster }}
+  {{- end }}
+  {{- if .Values.cluster.skipRDE }}
+  skipRDE: {{ .Values.cluster.skipRDE }}
   {{- end }}
 
   # Authentication  
