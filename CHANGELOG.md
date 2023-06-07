@@ -14,18 +14,22 @@ To migrate values from cluster-cloud-director 0.11.x, we provide below [yq](http
 
 ```bash
 yq eval --inplace '
+  with(select(.cloudProvider != null); .providerSpecific.cloudProviderInterface = .cloudProvider) |
   with(select(.clusterLabels != null); .metadata.labels = .clusterLabels) |
   with(select(.clusterDescription != null); .metadata.description = .clusterDescription) |
   with(select(.cloudDirector != null); .providerSpecific = .cloudDirector) |
   with(select(.oidc != null); .controlPlane.oidc = .oidc) |
   with(select(.organization != null); .metadata.organization = .organization) |
+  with(select(.rdeId != null); .internal.rdeId = .rdeId) |
   with(select(.servicePriority != null); .metadata.servicePriority = .servicePriority) |
+  del(.cloudProvider) |
   del(.clusterLabels) |
   del(.clusterDescription) |
   del(.cloudDirector) |
   del(.includeClusterResourceSet) |
   del(.oidc) |
   del(.organization) |
+  del(.rdeId) |
   del(.servicePriority)
 ' ./values.yaml
 ```
@@ -51,6 +55,8 @@ TODO: Warn when `.apiServer.enableAdmissionPlugins` or `.apiServer.featureGates`
   - `.servicePriority` moved to `.metadata.servicePriority`
   - `.oidc` moved to `.controlPlane.oidc`
   - `.organization` moved to `.metadata.organization`
+  - `.cloudProvider` moved to `.providerSpecific.cloudProviderInterface`
+  - `.rdeId` moved to `.internal.rdeId`
   - Removed `.includeClusterResourceSet`
 
 ### Fixed

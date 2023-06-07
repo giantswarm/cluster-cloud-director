@@ -111,34 +111,6 @@
             "title": "Base DNS domain",
             "default": "k8s.test"
         },
-        "cloudProvider": {
-            "type": "object",
-            "title": "Cloud provider interface (CPI)",
-            "required": [
-                "enableVirtualServiceSharedIP",
-                "oneArm"
-            ],
-            "properties": {
-                "enableVirtualServiceSharedIP": {
-                    "type": "boolean",
-                    "title": "Enable sharing of IPs in virtual services",
-                    "description": "If enabled, multiple virtual services can share the same virtual IP address.",
-                    "default": true
-                },
-                "oneArm": {
-                    "type": "object",
-                    "title": "One-arm",
-                    "description": "If enabled, use an internal IP for the virtual service with a NAT rule to expose the external IP. Otherwise the virtual service will be exposed directly with the external IP.",
-                    "properties": {
-                        "enabled": {
-                            "type": "boolean",
-                            "title": "Enable",
-                            "default": false
-                        }
-                    }
-                }
-            }
-        },
         "cluster": {
             "type": "object",
             "title": "Cluster",
@@ -147,12 +119,6 @@
                     "type": "string",
                     "title": "Management cluster UID",
                     "description": "If set, create the cluster from a specific management cluster associated with this UID.",
-                    "default": ""
-                },
-                "rdeId": {
-                    "type": "string",
-                    "title": "RDE ID",
-                    "description": "This cluster's entity ID in the VCD API.",
                     "default": ""
                 },
                 "useAsManagementCluster": {
@@ -624,6 +590,16 @@
                 }
             }
         },
+        "internal": {
+            "type": "object",
+            "properties": {
+                "rdeId": {
+                    "type": "string",
+                    "title": "Runtime defined entity (RDE) identifier",
+                    "description": "This cluster's RDE ID in the VCD API."
+                }
+            }
+        },
         "kubectlImage": {
             "type": "object",
             "title": "Kubectl image",
@@ -665,12 +641,12 @@
                     "title": "Labels",
                     "description": "These labels are added to the Kubernetes resourses defining this cluster.",
                     "patternProperties": {
-                        "^[_-a-zA-Z0-9\\.]$": {
+                        "^[a-zA-Z0-9\\._-]+$": {
                             "type": "string",
                             "title": "Label",
                             "maxLength": 63,
                             "minLength": 0,
-                            "pattern": "^[_-a-zA-Z0-9\\.]$"
+                            "pattern": "^[a-zA-Z0-9\\._-]+$"
                         }
                     }
                 },
@@ -781,6 +757,34 @@
                 "site"
             ],
             "properties": {
+                "cloudProviderInterface": {
+                    "type": "object",
+                    "title": "Cloud provider interface (CPI)",
+                    "required": [
+                        "enableVirtualServiceSharedIP",
+                        "oneArm"
+                    ],
+                    "properties": {
+                        "enableVirtualServiceSharedIP": {
+                            "type": "boolean",
+                            "title": "Share IPs in virtual services",
+                            "description": "If enabled, multiple virtual services can share the same virtual IP address.",
+                            "default": true
+                        },
+                        "oneArm": {
+                            "type": "object",
+                            "title": "One-arm",
+                            "description": "If enabled, use an internal IP for the virtual service with a NAT rule to expose the external IP. Otherwise the virtual service will be exposed directly with the external IP.",
+                            "properties": {
+                                "enabled": {
+                                    "type": "boolean",
+                                    "title": "Enable",
+                                    "default": false
+                                }
+                            }
+                        }
+                    }
+                },
                 "org": {
                     "type": "string",
                     "title": "Organization",

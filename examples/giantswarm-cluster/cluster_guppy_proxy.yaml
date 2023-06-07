@@ -18,11 +18,11 @@ data:
       site: https://vmware.ikoula.com
       ovdcNetwork: network-test-2
 
-    ##### Not needed in VCD 10.4+
-    cloudProvider:
-      enableVirtualServiceSharedIP: false
-      oneArm:
-        enabled: true
+      ##### Not needed in VCD 10.4+
+      cloudProviderInterface:
+        enableVirtualServiceSharedIP: false
+        oneArm:
+          enabled: true
 
     proxy:
       enabled: true
