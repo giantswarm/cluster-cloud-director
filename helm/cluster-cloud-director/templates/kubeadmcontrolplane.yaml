@@ -13,8 +13,8 @@ spec:
         - localhost
         - 127.0.0.1
         - "api.{{ include "resource.default.name" $ }}.{{ .Values.baseDomain }}"
-        {{- if .Values.controlPlane.apiServer.certSANs }}
-        {{- range .Values.controlPlane.apiServer.certSANs}}
+        {{- if .Values.controlPlane.certSANs }}
+        {{- range .Values.controlPlane.certSANs}}
         - {{ . }}
         {{- end }}
         {{- end }}
@@ -25,12 +25,12 @@ spec:
           audit-log-path: /var/log/apiserver/audit.log
           audit-policy-file: /etc/kubernetes/policies/audit-policy.yaml
           cloud-provider: external
-          {{- if .Values.controlPlane.apiServer.enableAdmissionPlugins }}
-          enable-admission-plugins: {{ .Values.controlPlane.apiServer.enableAdmissionPlugins | join "," | quote }}
+          {{- if .Values.internal.apiServer.enableAdmissionPlugins }}
+          enable-admission-plugins: {{ .Values.internal.apiServer.enableAdmissionPlugins | join "," | quote }}
           {{- end }}
           encryption-provider-config: /etc/kubernetes/encryption/config.yaml
-          {{- if .Values.controlPlane.apiServer.featureGates }}
-          feature-gates: {{ range $index, $element := .Values.controlPlane.apiServer.featureGates -}}
+          {{- if .Values.internal.apiServer.featureGates }}
+          feature-gates: {{ range $index, $element := .Values.internal.apiServer.featureGates -}}
             {{ if $index }},{{ end }}{{ $element.name }}={{ $element.enabled }}
           {{- end }}
           {{- end }}

@@ -46,9 +46,9 @@ TODO: Warn when `.apiServer.enableAdmissionPlugins` or `.apiServer.featureGates`
 
 - Normalize values schema according to `schemalint` v2.
 - :boom: Breaking schema changes:
-  - `.apiServer` moved into `.controlPlane.apiServer`
-  - Former `.apiServer.enableAdmissionPlugins`, now `.controlPlane.apiServer.enableAdmissionPlugins`,  changed to array of strings
-  - Former `.apiServer.featureGates`, now `.controlPlane.apiServer.featureGates`, changed to array of objects
+  - `.apiServer.certSANs` moved to `.controlPlane.certSANs`
+  - Former `.apiServer.enableAdmissionPlugins`, now `.internal.apiServer.enableAdmissionPlugins`,  changed to array of strings
+  - Former `.apiServer.featureGates`, now `.internal.apiServer.featureGates`, changed to array of objects
   - `.clusterLabels` moved to `.metadata.labels`
   - `.clusterDescription` moved to `.metadata.description`
   - `.cloudDirector` moved to `.providerSpecific`

@@ -345,82 +345,20 @@
                 "resourceRatio"
             ],
             "properties": {
-                "apiServer": {
-                    "type": "object",
-                    "title": "API server",
-                    "description": "Kubernetes API server configuration.",
-                    "properties": {
-                        "certSANs": {
-                            "type": "array",
-                            "title": "Subject alternative names (SAN)",
-                            "description": "Alternative names to encode in the API server's certificate.",
-                            "items": {
-                                "type": "string",
-                                "title": "SAN"
-                            }
-                        },
-                        "enableAdmissionPlugins": {
-                            "type": "array",
-                            "title": "Admission plugins",
-                            "description": "List of admission plugins to be passed to the API server via the --enable-admission-plugins flag.",
-                            "items": {
-                                "type": "string",
-                                "title": "Plugin",
-                                "examples": [
-                                    "DefaultStorageClass",
-                                    "Priority"
-                                ],
-                                "pattern": "^[A-Za-z0-9]+$"
-                            },
-                            "default": [
-                                "DefaultStorageClass",
-                                "DefaultTolerationSeconds",
-                                "LimitRanger",
-                                "MutatingAdmissionWebhook",
-                                "NamespaceLifecycle",
-                                "PersistentVolumeClaimResize",
-                                "Priority",
-                                "ResourceQuota",
-                                "ServiceAccount",
-                                "ValidatingAdmissionWebhook"
-                            ]
-                        },
-                        "featureGates": {
-                            "type": "array",
-                            "title": "Feature gates",
-                            "description": "API server feature gate activation/deactivation.",
-                            "items": {
-                                "type": "object",
-                                "title": "Feature gate",
-                                "properties": {
-                                    "enabled": {
-                                        "type": "boolean",
-                                        "title": "Enabled"
-                                    },
-                                    "name": {
-                                        "type": "string",
-                                        "title": "Name",
-                                        "examples": [
-                                            "UserNamespacesStatelessPodsSupport"
-                                        ],
-                                        "pattern": "^[A-Za-z0-9]+$"
-                                    }
-                                }
-                            },
-                            "default": [
-                                {
-                                    "enabled": true,
-                                    "name": "TTLAfterFinished"
-                                }
-                            ]
-                        }
-                    }
-                },
                 "catalog": {
                     "$ref": "#/$defs/catalog",
                     "title": "Catalog",
                     "description": "VCD catalog where the VM template is stored.",
                     "default": ""
+                },
+                "certSANs": {
+                    "type": "array",
+                    "title": "Subject alternative names (SAN)",
+                    "description": "Alternative names to encode in the API server's certificate.",
+                    "items": {
+                        "type": "string",
+                        "title": "SAN"
+                    }
                 },
                 "customNodeLabels": {
                     "$ref": "#/$defs/nodeLabels",
@@ -593,6 +531,66 @@
         "internal": {
             "type": "object",
             "properties": {
+                "apiServer": {
+                    "type": "object",
+                    "properties": {
+                        "enableAdmissionPlugins": {
+                            "type": "array",
+                            "title": "Admission plugins",
+                            "description": "List of admission plugins to be passed to the API server via the --enable-admission-plugins flag.",
+                            "items": {
+                                "type": "string",
+                                "title": "Plugin",
+                                "examples": [
+                                    "DefaultStorageClass",
+                                    "Priority"
+                                ],
+                                "pattern": "^[A-Za-z0-9]+$"
+                            },
+                            "default": [
+                                "DefaultStorageClass",
+                                "DefaultTolerationSeconds",
+                                "LimitRanger",
+                                "MutatingAdmissionWebhook",
+                                "NamespaceLifecycle",
+                                "PersistentVolumeClaimResize",
+                                "Priority",
+                                "ResourceQuota",
+                                "ServiceAccount",
+                                "ValidatingAdmissionWebhook"
+                            ]
+                        },
+                        "featureGates": {
+                            "type": "array",
+                            "title": "Feature gates",
+                            "description": "API server feature gate activation/deactivation.",
+                            "items": {
+                                "type": "object",
+                                "title": "Feature gate",
+                                "properties": {
+                                    "enabled": {
+                                        "type": "boolean",
+                                        "title": "Enabled"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "title": "Name",
+                                        "examples": [
+                                            "UserNamespacesStatelessPodsSupport"
+                                        ],
+                                        "pattern": "^[A-Za-z0-9]+$"
+                                    }
+                                }
+                            },
+                            "default": [
+                                {
+                                    "enabled": true,
+                                    "name": "TTLAfterFinished"
+                                }
+                            ]
+                        }
+                    }
+                },
                 "rdeId": {
                     "type": "string",
                     "title": "Runtime defined entity (RDE) identifier",

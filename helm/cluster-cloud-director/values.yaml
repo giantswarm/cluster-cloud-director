@@ -23,21 +23,6 @@ connectivity:
         - 172.31.0.0/16
     staticRoutes: []
 controlPlane:
-  apiServer:
-    enableAdmissionPlugins:
-      - DefaultStorageClass
-      - DefaultTolerationSeconds
-      - LimitRanger
-      - MutatingAdmissionWebhook
-      - NamespaceLifecycle
-      - PersistentVolumeClaimResize
-      - Priority
-      - ResourceQuota
-      - ServiceAccount
-      - ValidatingAdmissionWebhook
-    featureGates:
-      - enabled: true
-        name: TTLAfterFinished
   catalog: ""
   customNodeLabels: []
   dns:
@@ -63,7 +48,22 @@ controlPlane:
   template: ""
 controllerManager:
   featureGates: ExpandPersistentVolumes=true,TTLAfterFinished=true
-internal: {}
+internal:
+  apiServer:
+    enableAdmissionPlugins:
+      - DefaultStorageClass
+      - DefaultTolerationSeconds
+      - LimitRanger
+      - MutatingAdmissionWebhook
+      - NamespaceLifecycle
+      - PersistentVolumeClaimResize
+      - Priority
+      - ResourceQuota
+      - ServiceAccount
+      - ValidatingAdmissionWebhook
+    featureGates:
+      - enabled: true
+        name: TTLAfterFinished
 kubectlImage:
   name: giantswarm/kubectl
   registry: quay.io
