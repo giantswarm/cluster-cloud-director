@@ -61,7 +61,6 @@ internal:
     featureGates:
       - enabled: true
         name: TTLAfterFinished
-  parentUid: ""
   useAsManagementCluster: false
 kubectlImage:
   name: giantswarm/kubectl

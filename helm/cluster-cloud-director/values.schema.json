@@ -577,8 +577,7 @@
                 "parentUid": {
                     "type": "string",
                     "title": "Management cluster UID",
-                    "description": "If set, create the cluster from a specific management cluster associated with this UID.",
-                    "default": ""
+                    "description": "If set, create the cluster from a specific management cluster associated with this UID."
                 },
                 "rdeId": {
                     "type": "string",
