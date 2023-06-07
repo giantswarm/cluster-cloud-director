@@ -34,6 +34,8 @@ yq eval --inplace '
 ' ./values.yaml
 ```
 
+TODO: Warn when `.apiServer.enableAdmissionPlugins` or `.apiServer.featureGates` is set.
+
 </details>
 
 ### Added
@@ -44,6 +46,9 @@ yq eval --inplace '
 
 - Normalize values schema according to `schemalint` v2.
 - :boom: Breaking schema changes:
+  - `.apiServer.certSANs` moved to `.controlPlane.certSANs`
+  - Former `.apiServer.enableAdmissionPlugins`, now `.internal.apiServer.enableAdmissionPlugins`,  changed to array of strings
+  - Former `.apiServer.featureGates`, now `.internal.apiServer.featureGates`, changed to array of objects
   - `.clusterLabels` moved to `.metadata.labels`
   - `.clusterDescription` moved to `.metadata.description`
   - `.cloudDirector` moved to `.providerSpecific`
