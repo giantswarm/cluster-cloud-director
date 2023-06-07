@@ -182,12 +182,6 @@
                     "description": "If set, create the cluster from a specific management cluster associated with this UID.",
                     "default": ""
                 },
-                "rdeId": {
-                    "type": "string",
-                    "title": "RDE ID",
-                    "description": "This cluster's entity ID in the VCD API.",
-                    "default": ""
-                },
                 "useAsManagementCluster": {
                     "type": "boolean",
                     "title": "Display as management cluster",
@@ -583,6 +577,16 @@
                         "ExpandPersistentVolumes=true,TTLAfterFinished=true"
                     ],
                     "default": "ExpandPersistentVolumes=true,TTLAfterFinished=true"
+                }
+            }
+        },
+        "internal": {
+            "type": "object",
+            "properties": {
+                "rdeId": {
+                    "type": "string",
+                    "title": "Runtime defined entity (RDE) identifier",
+                    "description": "This cluster's RDE ID in the VCD API."
                 }
             }
         },
