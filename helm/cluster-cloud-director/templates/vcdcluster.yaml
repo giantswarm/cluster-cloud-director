@@ -35,7 +35,7 @@ spec:
   {{- if .Values.internal.useAsManagementCluster }}
   useAsManagementCluster: {{ .Values.internal.useAsManagementCluster }}
   {{- end }}
-  {{- if .Values.cluster.skipRDE }}
+  {{- if and .Values.cluster .Values.cluster.skipRDE }}
   skipRDE: {{ .Values.cluster.skipRDE }}
   {{- end }}
 
