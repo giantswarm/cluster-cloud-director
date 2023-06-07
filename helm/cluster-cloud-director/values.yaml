@@ -7,7 +7,6 @@ apiServer:
 baseDomain: k8s.test
 cluster:
   parentUid: ""
-  rdeId: ""
   useAsManagementCluster: false
 clusterLabels: {}
 connectivity:
@@ -53,6 +52,7 @@ controlPlane:
   template: ""
 controllerManager:
   featureGates: ExpandPersistentVolumes=true,TTLAfterFinished=true
+internal: {}
 kubectlImage:
   name: giantswarm/kubectl
   registry: quay.io

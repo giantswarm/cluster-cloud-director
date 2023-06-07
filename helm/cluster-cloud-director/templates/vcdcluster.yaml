@@ -26,8 +26,10 @@ spec:
   {{- end }}
 
   # Not tested - not sure how
+  {{- if and .internal .internal.rdeId }}
+  rdeId: {{ .internal.rdeId | quote }}
+  {{- end }}
   {{- with .Values.cluster }}
-  rdeId: {{ .rdeId }}
   parentUid: {{ .parentUid }}
   useAsManagementCluster: {{ .useAsManagementCluster }}
   skipRDE: {{ .skipRDE }}
