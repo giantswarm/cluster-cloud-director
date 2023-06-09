@@ -59,12 +59,12 @@ internal:
     featureGates:
       - enabled: true
         name: TTLAfterFinished
+  kubernetesVersion: ""
   useAsManagementCluster: false
 kubectlImage:
   name: giantswarm/kubectl
   registry: quay.io
   tag: 1.23.5
-kubernetesVersion: ""
 metadata:
   servicePriority: highest
 nodeClasses: {}
