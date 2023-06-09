@@ -679,7 +679,7 @@
                     "class": {
                         "type": "string",
                         "title": "Node class",
-                        "description": "A valid node class name.",
+                        "description": "A valid node class name, as specified in VMware Cloud Director (VCD) settings > Node classes.",
                         "pattern": "^[a-z0-9-]+$"
                     },
                     "replicas": {
