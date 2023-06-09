@@ -16,6 +16,7 @@ To migrate values from cluster-cloud-director 0.11.x, we provide below [yq](http
 yq eval --inplace '
   with(select(.cloudProvider != null); .providerSpecific.cloudProviderInterface = .cloudProvider) |
   with(select(.cluster.parentUid != null); .internal.parentUid = .cluster.parentUid) |
+  with(select(.cluster.skipRDE != null); .internal.skipRde = .cluster.skipRDE) |
   with(select(.cluster.useAsManagementCluster != null); .internal.useAsManagementCluster = .cluster.useAsManagementCluster) |
   with(select(.clusterLabels != null); .metadata.labels = .clusterLabels) |
   with(select(.clusterDescription != null); .metadata.description = .clusterDescription) |
@@ -23,6 +24,7 @@ yq eval --inplace '
   with(select(.oidc != null); .controlPlane.oidc = .oidc) |
   with(select(.organization != null); .metadata.organization = .organization) |
   with(select(.rdeId != null); .internal.rdeId = .rdeId) |
+  with(select(.servicePriority != null); .metadata.servicePriority = .servicePriority) |
   with(select(.servicePriority != null); .metadata.servicePriority = .servicePriority) |
   del(.cloudProvider) |
   del(.cluster) |
@@ -53,6 +55,7 @@ TODO: Warn when `.apiServer.enableAdmissionPlugins` or `.apiServer.featureGates`
   - Former `.apiServer.enableAdmissionPlugins`, now `.internal.apiServer.enableAdmissionPlugins`,  changed to array of strings
   - Former `.apiServer.featureGates`, now `.internal.apiServer.featureGates`, changed to array of objects
   - `.cluster.parentUid` moved to `.internal.parentUid`
+  - `.cluster.skipRDE` moved to `.internal.skipRde`
   - `.cluster.useAsManagementCluster` moved to `.internal.useAsManagementCluster`
   - `.clusterLabels` moved to `.metadata.labels`
   - `.clusterDescription` moved to `.metadata.description`
