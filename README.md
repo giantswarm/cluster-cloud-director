@@ -47,7 +47,6 @@ Example of a values.yaml file for Cloud provider Ikoula with minimum input (maki
 
 ```yaml
 baseDomain: "cluster.local"
-kubernetesVersion: "v1.22.5+vmware.1"
 metadata:
   description: "glados test cluster"
   organization: "giantswarm"
@@ -92,6 +91,9 @@ userContext:
   secretRef:
     useSecretRef: true
     secretName: vcd-credentials
+
+internal:
+  kubernetesVersion: "v1.22.5+vmware.1"
 ```
 
 ## Limitations

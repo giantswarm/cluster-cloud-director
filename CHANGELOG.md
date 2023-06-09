@@ -21,6 +21,7 @@ yq eval --inplace '
   with(select(.clusterDescription != null); .metadata.description = .clusterDescription) |
   with(select(.cloudDirector != null); .providerSpecific = .cloudDirector) |
   with(select(.connectivity.network.ntp != null); .connectivity.ntp = .connectivity.network.ntp) |
+  with(select(.kubernetesVersion != null); .internal.kubernetesVersion = .kubernetesVersion) |
   with(select(.oidc != null); .controlPlane.oidc = .oidc) |
   with(select(.organization != null); .metadata.organization = .organization) |
   with(select(.proxy != null); .connectivity.proxy = .proxy) |
@@ -33,6 +34,7 @@ yq eval --inplace '
   del(.cloudDirector) |
   del(.connectivity.network.ntp) |
   del(.includeClusterResourceSet) |
+  del(.kubernetesVersion) |
   del(.oidc) |
   del(.organization) |
   del(.proxy) |
@@ -62,6 +64,7 @@ TODO: Warn when `.apiServer.enableAdmissionPlugins` or `.apiServer.featureGates`
   - `.clusterDescription` moved to `.metadata.description`
   - `.cloudDirector` moved to `.providerSpecific`
   - `.connectivity.network.ntp` moved to `.connectivity.ntp`
+  - `.kubernetesVersion` moved to `.internal.kubernetesVersion`
   - `.servicePriority` moved to `.metadata.servicePriority`
   - `.oidc` moved to `.controlPlane.oidc`
   - `.organization` moved to `.metadata.organization`
