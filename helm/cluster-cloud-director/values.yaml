@@ -17,6 +17,7 @@ connectivity:
         - 172.31.0.0/16
     staticRoutes: []
   ntp: {}
+  proxy: {}
 controlPlane:
   catalog: ""
   customNodeLabels: []
@@ -77,9 +78,6 @@ providerSpecific:
     enableVirtualServiceSharedIP: true
     oneArm:
       enabled: false
-proxy:
-  enabled: false
-  secretName: ""
 sshTrustedUserCAKeys:
   - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM4cvZ01fLmO9cJbWUj7sfF+NhECgy+Cl0bazSrZX7sU vault-ca@vault.operations.giantswarm.io
 userContext:

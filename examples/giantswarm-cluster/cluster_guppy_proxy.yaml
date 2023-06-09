@@ -24,10 +24,6 @@ data:
         oneArm:
           enabled: true
 
-    proxy:
-      enabled: true
-      secretName: ""
-
     controlPlane:
       catalog: giantswarm
       replicas: 3
@@ -38,6 +34,8 @@ data:
       network:
         loadBalancers:
           vipSubnet: "178.170.32.1/24"
+      proxy:
+        enabled: true
 
     nodeClasses:
       default:
