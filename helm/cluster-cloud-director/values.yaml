@@ -35,12 +35,8 @@ controlPlane:
     issuerUrl: ""
     usernameClaim: ""
     usernamePrefix: ""
-  placementPolicy: ""
   replicas: 0
   resourceRatio: 8
-  sizingPolicy: ""
-  storageProfile: ""
-  template: ""
 controllerManager:
   featureGates: ExpandPersistentVolumes=true,TTLAfterFinished=true
 internal:

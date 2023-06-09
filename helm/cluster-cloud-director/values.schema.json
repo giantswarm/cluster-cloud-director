@@ -23,11 +23,11 @@
         },
         "diskSizeGB": {
             "type": "integer",
-            "title": "Node disk size in GB",
-            "description": "Change size of the nodes OS disk.",
+            "title": "Disk size",
             "examples": [
                 30
-            ]
+            ],
+            "exclusiveMinimum": 0
         },
         "nodeLabels": {
             "type": "array",
@@ -73,23 +73,26 @@
         },
         "placementPolicy": {
             "type": "string",
-            "title": "Placement policy"
+            "title": "VM placement policy",
+            "description": "Name of the VCD VM placement policy to use."
         },
         "sizingPolicy": {
             "type": "string",
             "title": "Sizing policy",
+            "description": "Name of the VCD sizing policy to use.",
             "examples": [
                 "m1.medium"
             ]
         },
         "storageProfile": {
             "type": "string",
-            "title": "Storage profile"
+            "title": "Storage profile",
+            "description": "Name of the VCD storage profile to use."
         },
         "template": {
             "type": "string",
             "title": "Template",
-            "description": "Template used to create the node VM.",
+            "description": "Name of the template used to create the node VMs.",
             "examples": [
                 "ubuntu-2004-kube-v1.22.5"
             ]
@@ -348,7 +351,8 @@
                 },
                 "diskSizeGB": {
                     "$ref": "#/$defs/diskSizeGB",
-                    "title": "Disk size (GB)"
+                    "title": "Disk size",
+                    "description": "Control plane node root volume size, in GB."
                 },
                 "dns": {
                     "type": "object",
@@ -457,9 +461,7 @@
                     }
                 },
                 "placementPolicy": {
-                    "$ref": "#/$defs/placementPolicy",
-                    "title": "VM placement policy",
-                    "default": ""
+                    "$ref": "#/$defs/placementPolicy"
                 },
                 "replicas": {
                     "type": "integer",
@@ -475,19 +477,14 @@
                     "minimum": 2
                 },
                 "sizingPolicy": {
-                    "$ref": "#/$defs/sizingPolicy",
-                    "title": "Sizing policy",
-                    "default": ""
+                    "$ref": "#/$defs/sizingPolicy"
                 },
                 "storageProfile": {
-                    "$ref": "#/$defs/storageProfile",
-                    "title": "Storage profile",
-                    "default": ""
+                    "$ref": "#/$defs/storageProfile"
                 },
                 "template": {
                     "$ref": "#/$defs/template",
-                    "title": "VM template",
-                    "default": ""
+                    "title": "VM template"
                 }
             }
         },
@@ -674,7 +671,9 @@
                         "$ref": "#/$defs/nodeTaints"
                     },
                     "diskSizeGB": {
-                        "$ref": "#/$defs/diskSizeGB"
+                        "$ref": "#/$defs/diskSizeGB",
+                        "description": "Node root volume size, in GB.",
+                        "default": 100
                     },
                     "placementPolicy": {
                         "$ref": "#/$defs/placementPolicy"
