@@ -30,5 +30,5 @@ spec:
         kind: VCDMachineTemplate
         name: {{ include "resource.default.name" $ }}-{{ $value.class }}-{{ include "mtRevisionByClass" (merge (dict "currentValues" $.Values) $value) }}
         namespace: {{ $.Release.Namespace }}
-      version: {{ $.Values.kubernetesVersion }}
+      version: {{ $.Values.internal.kubernetesVersion }}
 {{- end }}

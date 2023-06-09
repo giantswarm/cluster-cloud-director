@@ -572,6 +572,11 @@
                         }
                     }
                 },
+                "kubernetesVersion": {
+                    "type": "string",
+                    "title": "Kubernetes version",
+                    "default": ""
+                },
                 "parentUid": {
                     "type": "string",
                     "title": "Management cluster UID",
@@ -610,11 +615,6 @@
                     "default": "1.23.5"
                 }
             }
-        },
-        "kubernetesVersion": {
-            "type": "string",
-            "title": "Kubernetes version",
-            "default": ""
         },
         "metadata": {
             "type": "object",
