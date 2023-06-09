@@ -20,6 +20,7 @@ yq eval --inplace '
   with(select(.clusterLabels != null); .metadata.labels = .clusterLabels) |
   with(select(.clusterDescription != null); .metadata.description = .clusterDescription) |
   with(select(.cloudDirector != null); .providerSpecific = .cloudDirector) |
+  with(select(.connectivity.network.ntp != null); .connectivity.ntp = .connectivity.network.ntp) |
   with(select(.oidc != null); .controlPlane.oidc = .oidc) |
   with(select(.organization != null); .metadata.organization = .organization) |
   with(select(.rdeId != null); .internal.rdeId = .rdeId) |
@@ -29,6 +30,7 @@ yq eval --inplace '
   del(.clusterLabels) |
   del(.clusterDescription) |
   del(.cloudDirector) |
+  del(.connectivity.network.ntp) |
   del(.includeClusterResourceSet) |
   del(.oidc) |
   del(.organization) |
@@ -57,6 +59,7 @@ TODO: Warn when `.apiServer.enableAdmissionPlugins` or `.apiServer.featureGates`
   - `.clusterLabels` moved to `.metadata.labels`
   - `.clusterDescription` moved to `.metadata.description`
   - `.cloudDirector` moved to `.providerSpecific`
+  - `.connectivity.network.ntp` moved to `.connectivity.ntp`
   - `.servicePriority` moved to `.metadata.servicePriority`
   - `.oidc` moved to `.controlPlane.oidc`
   - `.organization` moved to `.metadata.organization`
