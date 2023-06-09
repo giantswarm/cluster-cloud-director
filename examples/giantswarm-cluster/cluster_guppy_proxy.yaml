@@ -6,7 +6,8 @@ metadata:
 data:
   values: |
     baseDomain: test.gigantic.io
-    kubernetesVersion: v1.22.9+vmware.1
+    internal:
+      kubernetesVersion: v1.22.9+vmware.1
     metadata:
       description: test cluster configured with http proxy.
       organization: multi-project
@@ -29,10 +30,6 @@ data:
         oneArm:
           enabled: true
 
-    proxy:
-      enabled: true
-      secretName: ""
-
     controlPlane:
       catalog: giantswarm
       replicas: 3
@@ -43,6 +40,8 @@ data:
       network:
         loadBalancers:
           vipSubnet: "178.170.32.1/24"
+      proxy:
+        enabled: true
 
     nodePools:
       worker:

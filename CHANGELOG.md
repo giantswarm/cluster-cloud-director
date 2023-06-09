@@ -16,15 +16,19 @@ To migrate values from cluster-cloud-director 0.11.x, we provide below [yq](http
 yq eval --inplace '
   with(select(.cloudProvider != null); .providerSpecific.cloudProviderInterface = .cloudProvider) |
   with(select(.cluster.parentUid != null); .internal.parentUid = .cluster.parentUid) |
+  with(select(.cluster.skipRDE != null); .internal.skipRde = .cluster.skipRDE) |
   with(select(.cluster.useAsManagementCluster != null); .internal.useAsManagementCluster = .cluster.useAsManagementCluster) |
   with(select(.clusterLabels != null); .metadata.labels = .clusterLabels) |
   with(select(.clusterDescription != null); .metadata.description = .clusterDescription) |
   with(select(.cloudDirector != null); .providerSpecific = .cloudDirector) |
   with(select(.connectivity.network.ntp != null); .connectivity.ntp = .connectivity.network.ntp) |
+  with(select(.kubernetesVersion != null); .internal.kubernetesVersion = .kubernetesVersion) |
   with(select(.nodeClasses != null); .providerSpecific.nodeClasses = .nodeClasses) |
   with(select(.oidc != null); .controlPlane.oidc = .oidc) |
   with(select(.organization != null); .metadata.organization = .organization) |
+  with(select(.proxy != null); .connectivity.proxy = .proxy) |
   with(select(.rdeId != null); .internal.rdeId = .rdeId) |
+  with(select(.servicePriority != null); .metadata.servicePriority = .servicePriority) |
   with(select(.servicePriority != null); .metadata.servicePriority = .servicePriority) |
   del(.cloudProvider) |
   del(.cluster) |
@@ -33,9 +37,11 @@ yq eval --inplace '
   del(.cloudDirector) |
   del(.connectivity.network.ntp) |
   del(.includeClusterResourceSet) |
+  del(.kubernetesVersion) |
   del(.nodeClasses) |
   del(.oidc) |
   del(.organization) |
+  del(.proxy) |
   del(.rdeId) |
   del(.servicePriority)
 ' ./values.yaml
@@ -57,15 +63,18 @@ TODO: Warn when `.apiServer.enableAdmissionPlugins` or `.apiServer.featureGates`
   - Former `.apiServer.enableAdmissionPlugins`, now `.internal.apiServer.enableAdmissionPlugins`,  changed to array of strings
   - Former `.apiServer.featureGates`, now `.internal.apiServer.featureGates`, changed to array of objects
   - `.cluster.parentUid` moved to `.internal.parentUid`
+  - `.cluster.skipRDE` moved to `.internal.skipRde`
   - `.cluster.useAsManagementCluster` moved to `.internal.useAsManagementCluster`
   - `.clusterLabels` moved to `.metadata.labels`
   - `.clusterDescription` moved to `.metadata.description`
   - `.cloudDirector` moved to `.providerSpecific`
   - `.connectivity.network.ntp` moved to `.connectivity.ntp`
+  - `.kubernetesVersion` moved to `.internal.kubernetesVersion`
   - `.nodeClasses` moved to `.providerSpecific.nodeClasses`
   - `.servicePriority` moved to `.metadata.servicePriority`
   - `.oidc` moved to `.controlPlane.oidc`
   - `.organization` moved to `.metadata.organization`
+  - `.proxy` moved to `.connectivity.proxy`
   - `.cloudProvider` moved to `.providerSpecific.cloudProviderInterface`
   - `.rdeId` moved to `.internal.rdeId`
   - Removed `.includeClusterResourceSet`

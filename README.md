@@ -47,7 +47,6 @@ Example of a values.yaml file for Cloud provider Ikoula with minimum input (maki
 
 ```yaml
 baseDomain: "cluster.local"
-kubernetesVersion: "v1.22.5+vmware.1"
 metadata:
   description: "glados test cluster"
   organization: "giantswarm"
@@ -69,14 +68,12 @@ controlPlane:
   template: "ubuntu-2004-kube-v1.22.5"
   sizingPolicy: "m1.large"
 
-network:
-  loadBalancer:
-    vipSubnet: "178.170.32.1/24"
-
-proxy:
-    httpProxy: "http://user:pwd@192.168.52.220:3128"
-    httpsProxy: "http://user:pwd@192.168.52.220:3128"
-    noProxy: "100.64.0.0/13,100.96.0.0/11,192.168.52.0/24,178.170.32.0/24"
+connectivity:
+  network:
+    loadBalancer:
+      vipSubnet: "178.170.32.1/24"
+  proxy:
+    enabled: true
 
 nodePools:
   worker:
@@ -93,6 +90,9 @@ userContext:
   secretRef:
     useSecretRef: true
     secretName: vcd-credentials
+
+internal:
+  kubernetesVersion: "v1.22.5+vmware.1"
 ```
 
 ## Limitations
