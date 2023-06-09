@@ -26,13 +26,17 @@ spec:
   {{- end }}
 
   # Not tested - not sure how
-  {{- if and .internal .internal.rdeId }}
-  rdeId: {{ .internal.rdeId | quote }}
+  {{- if .Values.internal.rdeId }}
+  rdeId: {{ .Values.internal.rdeId | quote }}
   {{- end }}
-  {{- with .Values.cluster }}
-  parentUid: {{ .parentUid }}
-  useAsManagementCluster: {{ .useAsManagementCluster }}
-  skipRDE: {{ .skipRDE }}
+  {{- if .Values.internal.parentUid }}
+  parentUid: {{ .Values.internal.parentUid | quote }}
+  {{- end }}
+  {{- if .Values.internal.useAsManagementCluster }}
+  useAsManagementCluster: {{ .Values.internal.useAsManagementCluster }}
+  {{- end }}
+  {{- if and .Values.cluster .Values.cluster.skipRDE }}
+  skipRDE: {{ .Values.cluster.skipRDE }}
   {{- end }}
 
   # Authentication  

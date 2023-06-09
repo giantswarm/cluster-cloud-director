@@ -15,6 +15,8 @@ To migrate values from cluster-cloud-director 0.11.x, we provide below [yq](http
 ```bash
 yq eval --inplace '
   with(select(.cloudProvider != null); .providerSpecific.cloudProviderInterface = .cloudProvider) |
+  with(select(.cluster.parentUid != null); .internal.parentUid = .cluster.parentUid) |
+  with(select(.cluster.useAsManagementCluster != null); .internal.useAsManagementCluster = .cluster.useAsManagementCluster) |
   with(select(.clusterLabels != null); .metadata.labels = .clusterLabels) |
   with(select(.clusterDescription != null); .metadata.description = .clusterDescription) |
   with(select(.cloudDirector != null); .providerSpecific = .cloudDirector) |
@@ -23,6 +25,7 @@ yq eval --inplace '
   with(select(.rdeId != null); .internal.rdeId = .rdeId) |
   with(select(.servicePriority != null); .metadata.servicePriority = .servicePriority) |
   del(.cloudProvider) |
+  del(.cluster) |
   del(.clusterLabels) |
   del(.clusterDescription) |
   del(.cloudDirector) |
@@ -49,6 +52,8 @@ TODO: Warn when `.apiServer.enableAdmissionPlugins` or `.apiServer.featureGates`
   - `.apiServer.certSANs` moved to `.controlPlane.certSANs`
   - Former `.apiServer.enableAdmissionPlugins`, now `.internal.apiServer.enableAdmissionPlugins`,  changed to array of strings
   - Former `.apiServer.featureGates`, now `.internal.apiServer.featureGates`, changed to array of objects
+  - `.cluster.parentUid` moved to `.internal.parentUid`
+  - `.cluster.useAsManagementCluster` moved to `.internal.useAsManagementCluster`
   - `.clusterLabels` moved to `.metadata.labels`
   - `.clusterDescription` moved to `.metadata.description`
   - `.cloudDirector` moved to `.providerSpecific`
