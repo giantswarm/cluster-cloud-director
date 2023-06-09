@@ -192,7 +192,7 @@ taints:
 
 {{- define "mtRevisionByClass" -}}
 {{- $outerScope := . }}
-{{- range $name, $value := .currentValues.nodeClasses }}
+{{- range $name, $value := .currentValues.providerSpecific.nodeClasses }}
 {{- if eq $name $outerScope.class }}
 {{- include "mtRevision" (merge (dict "currentClass" $value) $outerScope.currentValues) }}
 {{- end }}
