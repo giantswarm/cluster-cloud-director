@@ -201,7 +201,7 @@ taints:
 
 {{- define "taintsByClass" -}}
 {{- $outerScope := . }}
-{{- range $name, $value := .Values.nodeClasses }}
+{{- range $name, $value := .Values.providerSpecific.nodeClasses }}
 {{- if eq $name $outerScope.pool.class }}
 {{- include "taints" $value.customNodeTaints }}
 {{- end }}
@@ -210,7 +210,7 @@ taints:
 
 {{- define "labelsByClass" -}}
 {{- $outerScope := . }}
-{{- range $name, $value := .Values.nodeClasses }}
+{{- range $name, $value := .Values.providerSpecific.nodeClasses }}
 {{- if eq $name $outerScope.pool.class }}
 {{- join "," $value.customNodeLabels -}}
 {{- end }}

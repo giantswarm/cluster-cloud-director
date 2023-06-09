@@ -104,7 +104,6 @@
         "controllerManager",
         "controlPlane",
         "connectivity",
-        "nodeClasses",
         "nodePools",
         "userContext"
     ],
@@ -352,7 +351,8 @@
                 "diskSizeGB": {
                     "$ref": "#/$defs/diskSizeGB",
                     "title": "Disk size",
-                    "description": "Control plane node root volume size, in GB."
+                    "description": "Control plane node root volume size, in GB.",
+                    "default": 30
                 },
                 "dns": {
                     "type": "object",
@@ -654,43 +654,6 @@
                 }
             }
         },
-        "nodeClasses": {
-            "type": "object",
-            "title": "Node classes",
-            "description": "Re-usable node configuration.",
-            "additionalProperties": {
-                "type": "object",
-                "properties": {
-                    "catalog": {
-                        "$ref": "#/$defs/catalog"
-                    },
-                    "customNodeLabels": {
-                        "$ref": "#/$defs/nodeLabels"
-                    },
-                    "customNodeTaints": {
-                        "$ref": "#/$defs/nodeTaints"
-                    },
-                    "diskSizeGB": {
-                        "$ref": "#/$defs/diskSizeGB",
-                        "description": "Node root volume size, in GB.",
-                        "default": 100
-                    },
-                    "placementPolicy": {
-                        "$ref": "#/$defs/placementPolicy"
-                    },
-                    "sizingPolicy": {
-                        "$ref": "#/$defs/sizingPolicy"
-                    },
-                    "storageProfile": {
-                        "$ref": "#/$defs/storageProfile"
-                    },
-                    "template": {
-                        "$ref": "#/$defs/template"
-                    }
-                }
-            },
-            "default": {}
-        },
         "nodePools": {
             "type": "object",
             "title": "Node pools",
@@ -700,7 +663,9 @@
                 "properties": {
                     "class": {
                         "type": "string",
-                        "title": "Node class"
+                        "title": "Node class",
+                        "description": "A valid node class name.",
+                        "pattern": "^[a-z0-9-]+$"
                     },
                     "replicas": {
                         "type": "integer",
@@ -768,6 +733,44 @@
                                     "type": "boolean",
                                     "title": "Enable",
                                     "default": false
+                                }
+                            }
+                        }
+                    }
+                },
+                "nodeClasses": {
+                    "type": "object",
+                    "title": "Node classes",
+                    "description": "Re-usable node configuration.",
+                    "patternProperties": {
+                        "^[a-z0-9-]+$": {
+                            "type": "object",
+                            "properties": {
+                                "catalog": {
+                                    "$ref": "#/$defs/catalog"
+                                },
+                                "customNodeLabels": {
+                                    "$ref": "#/$defs/nodeLabels"
+                                },
+                                "customNodeTaints": {
+                                    "$ref": "#/$defs/nodeTaints"
+                                },
+                                "diskSizeGB": {
+                                    "$ref": "#/$defs/diskSizeGB",
+                                    "description": "Node root volume size, in GB.",
+                                    "default": 30
+                                },
+                                "placementPolicy": {
+                                    "$ref": "#/$defs/placementPolicy"
+                                },
+                                "sizingPolicy": {
+                                    "$ref": "#/$defs/sizingPolicy"
+                                },
+                                "storageProfile": {
+                                    "$ref": "#/$defs/storageProfile"
+                                },
+                                "template": {
+                                    "$ref": "#/$defs/template"
                                 }
                             }
                         }
