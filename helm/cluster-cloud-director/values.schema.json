@@ -4,7 +4,7 @@
         "catalog": {
             "type": "string",
             "title": "Catalog",
-            "description": "VCD catalog in which the template is stored.",
+            "description": "Name of the VCD catalog in which the VM template is stored.",
             "examples": [
                 "giantswarm"
             ]
@@ -31,6 +31,7 @@
         },
         "nodeLabels": {
             "type": "array",
+            "title": "Node labels",
             "items": {
                 "type": "string",
                 "title": "Custom node label",
@@ -42,6 +43,7 @@
         },
         "nodeTaints": {
             "type": "array",
+            "title": "Node taints",
             "items": {
                 "type": "object",
                 "title": "Custom node taint",
