@@ -59,7 +59,6 @@ internal:
     featureGates:
       - enabled: true
         name: TTLAfterFinished
-  kubernetesVersion: ""
   useAsManagementCluster: false
 kubectlImage:
   name: giantswarm/kubectl

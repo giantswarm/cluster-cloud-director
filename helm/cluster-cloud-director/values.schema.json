@@ -574,8 +574,7 @@
                 },
                 "kubernetesVersion": {
                     "type": "string",
-                    "title": "Kubernetes version",
-                    "default": ""
+                    "title": "Kubernetes version"
                 },
                 "parentUid": {
                     "type": "string",
