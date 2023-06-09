@@ -9,9 +9,6 @@ connectivity:
     extraOvdcNetworks: []
     loadBalancers:
       vipSubnet: ""
-    ntp:
-      pools: []
-      servers: []
     pods:
       cidrBlocks:
         - 10.244.0.0/16
@@ -19,6 +16,7 @@ connectivity:
       cidrBlocks:
         - 172.31.0.0/16
     staticRoutes: []
+  ntp: {}
 controlPlane:
   catalog: ""
   customNodeLabels: []

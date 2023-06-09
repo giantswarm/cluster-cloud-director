@@ -225,34 +225,6 @@
                                 }
                             }
                         },
-                        "ntp": {
-                            "type": "object",
-                            "title": "Time synchronization (NTP)",
-                            "description": "Servers/pools to synchronize this cluster's clocks with.",
-                            "properties": {
-                                "pools": {
-                                    "type": "array",
-                                    "title": "Pools",
-                                    "items": {
-                                        "type": "string",
-                                        "title": "Pool",
-                                        "examples": [
-                                            "ntp.ubuntu.com"
-                                        ]
-                                    },
-                                    "default": []
-                                },
-                                "servers": {
-                                    "type": "array",
-                                    "title": "Servers",
-                                    "items": {
-                                        "type": "string",
-                                        "title": "Server"
-                                    },
-                                    "default": []
-                                }
-                            }
-                        },
                         "pods": {
                             "type": "object",
                             "title": "Pods",
@@ -311,6 +283,32 @@
                                 }
                             },
                             "default": []
+                        }
+                    }
+                },
+                "ntp": {
+                    "type": "object",
+                    "title": "Time synchronization (NTP)",
+                    "description": "Servers/pools to synchronize this cluster's clocks with.",
+                    "properties": {
+                        "pools": {
+                            "type": "array",
+                            "title": "Pools",
+                            "items": {
+                                "type": "string",
+                                "title": "Pool",
+                                "examples": [
+                                    "ntp.ubuntu.com"
+                                ]
+                            }
+                        },
+                        "servers": {
+                            "type": "array",
+                            "title": "Servers",
+                            "items": {
+                                "type": "string",
+                                "title": "Server"
+                            }
                         }
                     }
                 }
