@@ -23,6 +23,7 @@ yq eval --inplace '
   with(select(.connectivity.network.ntp != null); .connectivity.ntp = .connectivity.network.ntp) |
   with(select(.oidc != null); .controlPlane.oidc = .oidc) |
   with(select(.organization != null); .metadata.organization = .organization) |
+  with(select(.proxy != null); .connectivity.proxy = .proxy) |
   with(select(.rdeId != null); .internal.rdeId = .rdeId) |
   with(select(.servicePriority != null); .metadata.servicePriority = .servicePriority) |
   del(.cloudProvider) |
@@ -34,6 +35,7 @@ yq eval --inplace '
   del(.includeClusterResourceSet) |
   del(.oidc) |
   del(.organization) |
+  del(.proxy) |
   del(.rdeId) |
   del(.servicePriority)
 ' ./values.yaml
@@ -63,6 +65,7 @@ TODO: Warn when `.apiServer.enableAdmissionPlugins` or `.apiServer.featureGates`
   - `.servicePriority` moved to `.metadata.servicePriority`
   - `.oidc` moved to `.controlPlane.oidc`
   - `.organization` moved to `.metadata.organization`
+  - `.proxy` moved to `.connectivity.proxy`
   - `.cloudProvider` moved to `.providerSpecific.cloudProviderInterface`
   - `.rdeId` moved to `.internal.rdeId`
   - Removed `.includeClusterResourceSet`

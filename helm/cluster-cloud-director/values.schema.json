@@ -311,6 +311,23 @@
                             }
                         }
                     }
+                },
+                "proxy": {
+                    "type": "object",
+                    "title": "Proxy",
+                    "description": "Whether/how outgoing traffic is routed through proxy servers.",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean",
+                            "title": "Enable"
+                        },
+                        "secretName": {
+                            "type": "string",
+                            "title": "Secret name",
+                            "description": "Name of a secret resource used by containerd to obtain the HTTP_PROXY, HTTPS_PROXY, and NO_PROXY environment variables.",
+                            "pattern": "^[a-z0-9-]{1,63}$"
+                        }
+                    }
                 }
             }
         },
@@ -793,24 +810,6 @@
                     "type": "string",
                     "title": "Endpoint",
                     "description": "VCD endpoint URL in the format https://VCD_HOST, without trailing slash."
-                }
-            }
-        },
-        "proxy": {
-            "type": "object",
-            "title": "Proxy",
-            "description": "Whether/how outgoing traffic is routed through proxy servers.",
-            "properties": {
-                "enabled": {
-                    "type": "boolean",
-                    "title": "Enable",
-                    "default": false
-                },
-                "secretName": {
-                    "type": "string",
-                    "title": "Secret name",
-                    "description": "Name of a secret resource used by containerd to obtain the HTTP_PROXY, HTTPS_PROXY, and NO_PROXY environment variables.",
-                    "default": ""
                 }
             }
         },
