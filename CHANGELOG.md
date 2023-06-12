@@ -28,6 +28,7 @@ yq eval --inplace '
   with(select(.proxy != null); .connectivity.proxy = .proxy) |
   with(select(.rdeId != null); .internal.rdeId = .rdeId) |
   with(select(.servicePriority != null); .metadata.servicePriority = .servicePriority) |
+  del(.clusterName) |
   with(select(.servicePriority != null); .metadata.servicePriority = .servicePriority) |
   del(.cloudProvider) |
   del(.cluster) |
@@ -75,6 +76,8 @@ TODO: Warn when `.apiServer.enableAdmissionPlugins` or `.apiServer.featureGates`
   - `.cloudProvider` moved to `.providerSpecific.cloudProviderInterface`
   - `.rdeId` moved to `.internal.rdeId`
   - Removed `.includeClusterResourceSet`
+- Non-breaking schema changes and clean-ups
+  - Remove unused `.clusterName` value
 
 ### Fixed
 
