@@ -18,6 +18,11 @@ data:
       ovdc: vDC 73640
       site: https://vmware.ikoula.com
       ovdcNetwork: network-test-2
+      nodeClasses:
+        default:
+          catalog: giantswarm
+          sizingPolicy: m1.medium
+          template: ubuntu-2004-kube-v1.22.9
 
       ##### Not needed in VCD 10.4+
       cloudProviderInterface:
@@ -37,12 +42,6 @@ data:
           vipSubnet: "178.170.32.1/24"
       proxy:
         enabled: true
-
-    nodeClasses:
-      default:
-        catalog: giantswarm
-        sizingPolicy: m1.medium
-        template: ubuntu-2004-kube-v1.22.9
 
     nodePools:
       worker:

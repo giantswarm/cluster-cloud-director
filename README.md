@@ -56,6 +56,11 @@ providerSpecific:
   org: "xxx"
   ovdc: "xxx"
   ovdcNetwork: "xxx"
+  nodeClasses:
+    default:
+      catalog: "giantswarm"
+      template: "ubuntu-2004-kube-v1.22.5"
+      sizingPolicy: "m1.large"
 
 controlPlane:
   replicas: 3
@@ -69,12 +74,6 @@ connectivity:
       vipSubnet: "178.170.32.1/24"
   proxy:
     enabled: true
-
-nodeClasses:
-  default:
-    catalog: "giantswarm"
-    template: "ubuntu-2004-kube-v1.22.5"
-    sizingPolicy: "m1.large"
 
 nodePools:
   worker:

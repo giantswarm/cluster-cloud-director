@@ -20,6 +20,7 @@ connectivity:
 controlPlane:
   catalog: ""
   customNodeLabels: []
+  diskSizeGB: 30
   dns:
     imageRepository: projects.registry.vmware.com/tkg
     imageTag: v1.7.0_vmware.12
@@ -35,12 +36,8 @@ controlPlane:
     issuerUrl: ""
     usernameClaim: ""
     usernamePrefix: ""
-  placementPolicy: ""
   replicas: 0
   resourceRatio: 8
-  sizingPolicy: ""
-  storageProfile: ""
-  template: ""
 controllerManager:
   featureGates: ExpandPersistentVolumes=true,TTLAfterFinished=true
 internal:
@@ -66,7 +63,6 @@ kubectlImage:
   tag: 1.23.5
 metadata:
   servicePriority: highest
-nodeClasses: {}
 nodePools: {}
 osUsers:
   - name: giantswarm

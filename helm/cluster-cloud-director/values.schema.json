@@ -4,7 +4,7 @@
         "catalog": {
             "type": "string",
             "title": "Catalog",
-            "description": "VCD catalog in which the template is stored.",
+            "description": "Name of the VCD catalog in which the VM template is stored.",
             "examples": [
                 "giantswarm"
             ]
@@ -23,14 +23,15 @@
         },
         "diskSizeGB": {
             "type": "integer",
-            "title": "Node disk size in GB",
-            "description": "Change size of the nodes OS disk.",
+            "title": "Disk size",
             "examples": [
                 30
-            ]
+            ],
+            "exclusiveMinimum": 0
         },
         "nodeLabels": {
             "type": "array",
+            "title": "Node labels",
             "items": {
                 "type": "string",
                 "title": "Custom node label",
@@ -42,6 +43,7 @@
         },
         "nodeTaints": {
             "type": "array",
+            "title": "Node taints",
             "items": {
                 "type": "object",
                 "title": "Custom node taint",
@@ -73,23 +75,26 @@
         },
         "placementPolicy": {
             "type": "string",
-            "title": "Placement policy"
+            "title": "VM placement policy",
+            "description": "Name of the VCD VM placement policy to use."
         },
         "sizingPolicy": {
             "type": "string",
             "title": "Sizing policy",
+            "description": "Name of the VCD sizing policy to use.",
             "examples": [
                 "m1.medium"
             ]
         },
         "storageProfile": {
             "type": "string",
-            "title": "Storage profile"
+            "title": "Storage profile",
+            "description": "Name of the VCD storage profile to use."
         },
         "template": {
             "type": "string",
             "title": "Template",
-            "description": "Template used to create the node VM.",
+            "description": "Name of the template used to create the node VMs.",
             "examples": [
                 "ubuntu-2004-kube-v1.22.5"
             ]
@@ -101,7 +106,6 @@
         "controllerManager",
         "controlPlane",
         "connectivity",
-        "nodeClasses",
         "nodePools",
         "userContext"
     ],
@@ -359,7 +363,9 @@
                 },
                 "diskSizeGB": {
                     "$ref": "#/$defs/diskSizeGB",
-                    "title": "Disk size (GB)"
+                    "title": "Disk size",
+                    "description": "Control plane node root volume size, in GB.",
+                    "default": 30
                 },
                 "dns": {
                     "type": "object",
@@ -468,9 +474,7 @@
                     }
                 },
                 "placementPolicy": {
-                    "$ref": "#/$defs/placementPolicy",
-                    "title": "VM placement policy",
-                    "default": ""
+                    "$ref": "#/$defs/placementPolicy"
                 },
                 "replicas": {
                     "type": "integer",
@@ -486,19 +490,14 @@
                     "minimum": 2
                 },
                 "sizingPolicy": {
-                    "$ref": "#/$defs/sizingPolicy",
-                    "title": "Sizing policy",
-                    "default": ""
+                    "$ref": "#/$defs/sizingPolicy"
                 },
                 "storageProfile": {
-                    "$ref": "#/$defs/storageProfile",
-                    "title": "Storage profile",
-                    "default": ""
+                    "$ref": "#/$defs/storageProfile"
                 },
                 "template": {
                     "$ref": "#/$defs/template",
-                    "title": "VM template",
-                    "default": ""
+                    "title": "VM template"
                 }
             }
         },
@@ -672,41 +671,6 @@
                 }
             }
         },
-        "nodeClasses": {
-            "type": "object",
-            "title": "Node classes",
-            "description": "Re-usable node configuration.",
-            "additionalProperties": {
-                "type": "object",
-                "properties": {
-                    "catalog": {
-                        "$ref": "#/$defs/catalog"
-                    },
-                    "customNodeLabels": {
-                        "$ref": "#/$defs/nodeLabels"
-                    },
-                    "customNodeTaints": {
-                        "$ref": "#/$defs/nodeTaints"
-                    },
-                    "diskSizeGB": {
-                        "$ref": "#/$defs/diskSizeGB"
-                    },
-                    "placementPolicy": {
-                        "$ref": "#/$defs/placementPolicy"
-                    },
-                    "sizingPolicy": {
-                        "$ref": "#/$defs/sizingPolicy"
-                    },
-                    "storageProfile": {
-                        "$ref": "#/$defs/storageProfile"
-                    },
-                    "template": {
-                        "$ref": "#/$defs/template"
-                    }
-                }
-            },
-            "default": {}
-        },
         "nodePools": {
             "type": "object",
             "title": "Node pools",
@@ -716,7 +680,9 @@
                 "properties": {
                     "class": {
                         "type": "string",
-                        "title": "Node class"
+                        "title": "Node class",
+                        "description": "A valid node class name, as specified in VMware Cloud Director (VCD) settings > Node classes.",
+                        "pattern": "^[a-z0-9-]+$"
                     },
                     "replicas": {
                         "type": "integer",
@@ -784,6 +750,44 @@
                                     "type": "boolean",
                                     "title": "Enable",
                                     "default": false
+                                }
+                            }
+                        }
+                    }
+                },
+                "nodeClasses": {
+                    "type": "object",
+                    "title": "Node classes",
+                    "description": "Re-usable node configuration.",
+                    "patternProperties": {
+                        "^[a-z0-9-]+$": {
+                            "type": "object",
+                            "properties": {
+                                "catalog": {
+                                    "$ref": "#/$defs/catalog"
+                                },
+                                "customNodeLabels": {
+                                    "$ref": "#/$defs/nodeLabels"
+                                },
+                                "customNodeTaints": {
+                                    "$ref": "#/$defs/nodeTaints"
+                                },
+                                "diskSizeGB": {
+                                    "$ref": "#/$defs/diskSizeGB",
+                                    "description": "Node root volume size, in GB.",
+                                    "default": 30
+                                },
+                                "placementPolicy": {
+                                    "$ref": "#/$defs/placementPolicy"
+                                },
+                                "sizingPolicy": {
+                                    "$ref": "#/$defs/sizingPolicy"
+                                },
+                                "storageProfile": {
+                                    "$ref": "#/$defs/storageProfile"
+                                },
+                                "template": {
+                                    "$ref": "#/$defs/template"
                                 }
                             }
                         }
