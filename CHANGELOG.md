@@ -23,11 +23,14 @@ yq eval --inplace '
   with(select(.cloudDirector != null); .providerSpecific = .cloudDirector) |
   with(select(.connectivity.network.ntp != null); .connectivity.ntp = .connectivity.network.ntp) |
   with(select(.kubernetesVersion != null); .internal.kubernetesVersion = .kubernetesVersion) |
+  with(select(.nodeClasses != null); .providerSpecific.nodeClasses = .nodeClasses) |
   with(select(.oidc != null); .controlPlane.oidc = .oidc) |
   with(select(.organization != null); .metadata.organization = .organization) |
+  with(select(.osUsers != null); .connectivity.shell.osUsers = .osUsers) |
   with(select(.proxy != null); .connectivity.proxy = .proxy) |
   with(select(.rdeId != null); .internal.rdeId = .rdeId) |
   with(select(.servicePriority != null); .metadata.servicePriority = .servicePriority) |
+  with(select(.sshTrustedUserCAKeys != null); .connectivity.shell.sshTrustedUserCAKeys = .sshTrustedUserCAKeys) |
   with(select(.userContext != null); .providerSpecific.userContext = .userContext) |
   del(.clusterName) |
   del(.cloudProvider) |
@@ -38,11 +41,14 @@ yq eval --inplace '
   del(.connectivity.network.ntp) |
   del(.includeClusterResourceSet) |
   del(.kubernetesVersion) |
+  del(.nodeClasses) |
   del(.oidc) |
+  del(.osUsers) |
   del(.organization) |
   del(.proxy) |
   del(.rdeId) |
   del(.servicePriority) |
+  del(.sshTrustedUserCAKeys) |
   del(.userContext)
 ' ./values.yaml
 ```
@@ -70,12 +76,15 @@ TODO: Warn when `.apiServer.enableAdmissionPlugins` or `.apiServer.featureGates`
   - `.cloudDirector` moved to `.providerSpecific`
   - `.connectivity.network.ntp` moved to `.connectivity.ntp`
   - `.kubernetesVersion` moved to `.internal.kubernetesVersion`
+  - `.nodeClasses` moved to `.providerSpecific.nodeClasses`
   - `.servicePriority` moved to `.metadata.servicePriority`
   - `.oidc` moved to `.controlPlane.oidc`
+  - `.osUsers` moved to `.connectivity.osUsers`
   - `.organization` moved to `.metadata.organization`
   - `.proxy` moved to `.connectivity.proxy`
   - `.cloudProvider` moved to `.providerSpecific.cloudProviderInterface`
   - `.rdeId` moved to `.internal.rdeId`
+  - `.sshTrustedUserCAKeys` moved to `.connectivity.shell.sshTrustedUserCAKeys`
   - `.userContext` moved to `.providerSpecific`
   - Removed `.includeClusterResourceSet`
 - Non-breaking schema changes and clean-ups

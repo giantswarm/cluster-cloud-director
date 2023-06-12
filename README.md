@@ -61,6 +61,12 @@ providerSpecific:
       useSecretRef: true
       secretName: vcd-credentials
 
+  nodeClasses:
+    default:
+      catalog: "giantswarm"
+      template: "ubuntu-2004-kube-v1.22.5"
+      sizingPolicy: "m1.large"
+
 controlPlane:
   replicas: 3
   catalog: "giantswarm"
@@ -73,12 +79,6 @@ connectivity:
       vipSubnet: "178.170.32.1/24"
   proxy:
     enabled: true
-
-nodeClasses:
-  default:
-    catalog: "giantswarm"
-    template: "ubuntu-2004-kube-v1.22.5"
-    sizingPolicy: "m1.large"
 
 nodePools:
   worker:

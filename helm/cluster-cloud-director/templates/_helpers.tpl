@@ -192,7 +192,7 @@ taints:
 
 {{- define "mtRevisionByClass" -}}
 {{- $outerScope := . }}
-{{- range $name, $value := .currentValues.nodeClasses }}
+{{- range $name, $value := .currentValues.providerSpecific.nodeClasses }}
 {{- if eq $name $outerScope.class }}
 {{- include "mtRevision" (merge (dict "currentClass" $value) $outerScope.currentValues) }}
 {{- end }}
@@ -201,7 +201,7 @@ taints:
 
 {{- define "taintsByClass" -}}
 {{- $outerScope := . }}
-{{- range $name, $value := .Values.nodeClasses }}
+{{- range $name, $value := .Values.providerSpecific.nodeClasses }}
 {{- if eq $name $outerScope.pool.class }}
 {{- include "taints" $value.customNodeTaints }}
 {{- end }}
@@ -210,7 +210,7 @@ taints:
 
 {{- define "labelsByClass" -}}
 {{- $outerScope := . }}
-{{- range $name, $value := .Values.nodeClasses }}
+{{- range $name, $value := .Values.providerSpecific.nodeClasses }}
 {{- if eq $name $outerScope.pool.class }}
 {{- join "," $value.customNodeLabels -}}
 {{- end }}

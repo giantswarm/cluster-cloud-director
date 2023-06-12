@@ -15,6 +15,11 @@ providerSpecific:
   userContext:
     secretRef:
       secretName: "xxx"
+  nodeClasses:
+    default:
+      catalog: "giantswarm"
+      template: "ubuntu-2004-kube-v1.22.5"
+      sizingPolicy: "m1.medium"
 
 controlPlane:
   replicas: 1
@@ -26,12 +31,6 @@ connectivity:
   network:
     loadBalancers:
       vipSubnet: "178.170.32.1/24"
-
-nodeClasses:
-  default:
-    catalog: "giantswarm"
-    template: "ubuntu-2004-kube-v1.22.5"
-    sizingPolicy: "m1.medium"
 
 nodePools:
   worker:

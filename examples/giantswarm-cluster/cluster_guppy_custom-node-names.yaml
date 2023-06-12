@@ -22,6 +22,11 @@ data:
         secretRef:
           secretName: vcd-credentials
           useSecretRef: true
+      nodeClasses:
+        default:
+          catalog: giantswarm
+          sizingPolicy: m1.medium
+          template: ubuntu-2004-kube-v1.22.9
 
       ##### Not needed in VCD 10.4+
       cloudProviderInterface:
@@ -39,12 +44,6 @@ data:
       network:
         loadBalancers:
           vipSubnet: "178.170.32.1/24"
-
-    nodeClasses:
-      default:
-        catalog: giantswarm
-        sizingPolicy: m1.medium
-        template: ubuntu-2004-kube-v1.22.9
 
     nodePools:
       worker:
