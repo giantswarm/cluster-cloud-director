@@ -75,6 +75,5 @@ providerSpecific:
     enableVirtualServiceSharedIP: true
     oneArm:
       enabled: false
-userContext:
-  secretRef:
-    secretName: ""
+  userContext:
+    secretRef: {}

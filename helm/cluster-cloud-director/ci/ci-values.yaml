@@ -12,6 +12,9 @@ providerSpecific:
   org: "xxx"
   ovdc: "xxx"
   ovdcNetwork: "xxx"
+  userContext:
+    secretRef:
+      secretName: "xxx"
   nodeClasses:
     default:
       catalog: "giantswarm"
@@ -39,7 +42,3 @@ ssh:
     - name: "root"
       authorizedKeys:
         - "xxx"
-
-userContext:
-  secretRef:
-    secretName: "xxx"

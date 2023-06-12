@@ -31,8 +31,8 @@ yq eval --inplace '
   with(select(.rdeId != null); .internal.rdeId = .rdeId) |
   with(select(.servicePriority != null); .metadata.servicePriority = .servicePriority) |
   with(select(.sshTrustedUserCAKeys != null); .connectivity.shell.sshTrustedUserCAKeys = .sshTrustedUserCAKeys) |
+  with(select(.userContext != null); .providerSpecific.userContext = .userContext) |
   del(.clusterName) |
-  with(select(.servicePriority != null); .metadata.servicePriority = .servicePriority) |
   del(.cloudProvider) |
   del(.cluster) |
   del(.clusterLabels) |
@@ -48,7 +48,8 @@ yq eval --inplace '
   del(.proxy) |
   del(.rdeId) |
   del(.servicePriority) |
-  del(.sshTrustedUserCAKeys)
+  del(.sshTrustedUserCAKeys) |
+  del(.userContext)
 ' ./values.yaml
 ```
 
@@ -84,6 +85,7 @@ TODO: Warn when `.apiServer.enableAdmissionPlugins` or `.apiServer.featureGates`
   - `.cloudProvider` moved to `.providerSpecific.cloudProviderInterface`
   - `.rdeId` moved to `.internal.rdeId`
   - `.sshTrustedUserCAKeys` moved to `.connectivity.shell.sshTrustedUserCAKeys`
+  - `.userContext` moved to `.providerSpecific`
   - Removed `.includeClusterResourceSet`
 - Non-breaking schema changes and clean-ups
   - Remove unused `.clusterName` value
