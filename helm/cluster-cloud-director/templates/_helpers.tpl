@@ -28,7 +28,9 @@ app: {{ include "name" . | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
 cluster.x-k8s.io/cluster-name: {{ include "resource.default.name" . | quote }}
 giantswarm.io/cluster: {{ include "resource.default.name" . | quote }}
-giantswarm.io/organization: {{ .Values.organization | quote }}
+{{- if .Values.metadata.organization }}
+giantswarm.io/organization: {{ .Values.metadata.organization | quote }}
+{{- end }}
 application.giantswarm.io/team: {{ index .Chart.Annotations "application.giantswarm.io/team" | quote }}
 {{- end -}}
 
@@ -65,7 +67,7 @@ use the cluster-apps-operator created secret <clusterName>-cluster-values as def
 */}}
 {{- define "containerdProxySecret" -}}
 {{- $defaultContainerdProxySecret := printf "%s-systemd-proxy" (include "resource.default.name" . ) -}}
-{{ .Values.proxy.secretName | default $defaultContainerdProxySecret }}
+{{ .Values.connectivity.proxy.secretName | default $defaultContainerdProxySecret }}
 {{- end -}}
 
 {{- define "containerdProxyConfig" -}}
@@ -117,7 +119,7 @@ files:
 {{- include "ntpFiles" . | nindent 2}}
 {{- include "sshFiles" . | nindent 2}}
 {{- include "registryFiles" . | nindent 2 }}
-{{- if $.Values.proxy.enabled }}
+{{- if $.Values.connectivity.proxy.enabled }}
 {{- include "containerdProxyConfig" . | nindent 2}}
 {{- end }}
 {{- if $.Values.connectivity.network.staticRoutes }}
@@ -126,7 +128,7 @@ files:
 
 preKubeadmCommands:
 - /bin/test ! -d /var/lib/kubelet && (/bin/mkdir -p /var/lib/kubelet && /bin/chmod 0750 /var/lib/kubelet)
-{{- if $.Values.proxy.enabled }}
+{{- if $.Values.connectivity.proxy.enabled }}
 - systemctl daemon-reload
 - systemctl restart containerd
 {{- end }}

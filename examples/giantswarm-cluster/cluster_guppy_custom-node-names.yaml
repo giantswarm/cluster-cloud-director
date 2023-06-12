@@ -6,23 +6,24 @@ metadata:
 data:
   values: |
     baseDomain: test.gigantic.io
-    clusterDescription: test cluster configured with custom node names.
-    kubernetesVersion: v1.22.9+vmware.1
-    organization: multi-project
+    internal:
+      kubernetesVersion: v1.22.9+vmware.1
     metadata:
+      description: test cluster configured with custom node names.
+      organization: multi-project
       servicePriority: highest
 
-    cloudDirector:
+    providerSpecific:
       org: giantswarm
       ovdc: vDC 73640
       site: https://vmware.ikoula.com
       ovdcNetwork: capvcd-192.168.52.0
 
-    ##### Not needed in VCD 10.4+
-    cloudProvider:
-      enableVirtualServiceSharedIP: false
-      oneArm:
-        enabled: true
+      ##### Not needed in VCD 10.4+
+      cloudProviderInterface:
+        enableVirtualServiceSharedIP: false
+        oneArm:
+          enabled: true
 
     controlPlane:
       catalog: giantswarm
@@ -62,7 +63,8 @@ data:
   values: |
     clusterName: test-customname
     managementCluster: guppy
-    organization: multi-project
+    metadata:
+      organization: multi-project
 ---
 apiVersion: application.giantswarm.io/v1alpha1
 kind: App
