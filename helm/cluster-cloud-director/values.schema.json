@@ -838,7 +838,7 @@
                 },
                 "userContext": {
                     "type": "object",
-                    "title": "VCD API credentials",
+                    "title": "VCD API access token",
                     "properties": {
                         "secretRef": {
                             "type": "object",
