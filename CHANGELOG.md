@@ -25,6 +25,7 @@ yq eval --inplace '
   with(select(.kubernetesVersion != null); .internal.kubernetesVersion = .kubernetesVersion) |
   with(select(.oidc != null); .controlPlane.oidc = .oidc) |
   with(select(.organization != null); .metadata.organization = .organization) |
+  with(select(.osUsers != null); .connectivity.osUsers = .osUsers) |
   with(select(.proxy != null); .connectivity.proxy = .proxy) |
   with(select(.rdeId != null); .internal.rdeId = .rdeId) |
   with(select(.servicePriority != null); .metadata.servicePriority = .servicePriority) |
@@ -71,6 +72,7 @@ TODO: Warn when `.apiServer.enableAdmissionPlugins` or `.apiServer.featureGates`
   - `.kubernetesVersion` moved to `.internal.kubernetesVersion`
   - `.servicePriority` moved to `.metadata.servicePriority`
   - `.oidc` moved to `.controlPlane.oidc`
+  - `.osUsers` moved to `.connectivity.osUsers`
   - `.organization` moved to `.metadata.organization`
   - `.proxy` moved to `.connectivity.proxy`
   - `.cloudProvider` moved to `.providerSpecific.cloudProviderInterface`

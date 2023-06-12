@@ -322,6 +322,44 @@
                             "pattern": "^[a-z0-9-]{1,63}$"
                         }
                     }
+                },
+                "shell": {
+                    "type": "object",
+                    "title": "Shell access",
+                    "properties": {
+                        "osUsers": {
+                            "type": "array",
+                            "title": "OS Users",
+                            "description": "Configuration for OS users in cluster nodes.",
+                            "items": {
+                                "type": "object",
+                                "title": "User",
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "title": "Name",
+                                        "description": "Username of the user.",
+                                        "minLength": 2,
+                                        "pattern": "^[a-z][-a-z0-9]+$"
+                                    },
+                                    "sudo": {
+                                        "type": "string",
+                                        "title": "Sudoers configuration",
+                                        "description": "Permissions string to add to /etc/sudoers for this user."
+                                    }
+                                }
+                            },
+                            "default": [
+                                {
+                                    "name": "giantswarm",
+                                    "sudo": "ALL=(ALL) NOPASSWD:ALL"
+                                }
+                            ]
+                        }
+                    }
                 }
             }
         },
@@ -725,31 +763,6 @@
                 }
             },
             "default": {}
-        },
-        "osUsers": {
-            "type": "array",
-            "title": "OS Users",
-            "description": "Configuration for OS users in cluster nodes.",
-            "items": {
-                "type": "object",
-                "title": "User",
-                "required": [
-                    "name"
-                ],
-                "properties": {
-                    "name": {
-                        "type": "string",
-                        "title": "Name",
-                        "description": "Username of the user."
-                    }
-                }
-            },
-            "default": [
-                {
-                    "name": "giantswarm",
-                    "sudo": "ALL=(ALL) NOPASSWD:ALL"
-                }
-            ]
         },
         "providerSpecific": {
             "type": "object",

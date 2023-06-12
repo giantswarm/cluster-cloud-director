@@ -1,5 +1,5 @@
 # The helper functions here can be called in templates and _helpers.tpl
-# This file should be self-sufficient. Don't call any functions from _helpers.tpl
+# This file should be self-sufficient. Don't call any functions from _helpers.tpl
 
 
 {{- define "sshFiles" -}}
@@ -22,8 +22,8 @@
 {{- end -}}
 
 {{- define "sshUsers" -}}
-{{- if $.Values.osUsers -}}
+{{- if $.Values.connectivity.shell.osUsers -}}
 users:
-  {{- $.Values.osUsers | toYaml | nindent 2}}
+  {{- $.Values.connectivity.shell.osUsers | toYaml | nindent 2 }}
 {{- end }}
 {{- end -}}

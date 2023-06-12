@@ -17,6 +17,10 @@ connectivity:
     staticRoutes: []
   ntp: {}
   proxy: {}
+  shell:
+    osUsers:
+      - name: giantswarm
+        sudo: ALL=(ALL) NOPASSWD:ALL
 controlPlane:
   catalog: ""
   customNodeLabels: []
@@ -68,9 +72,6 @@ metadata:
   servicePriority: highest
 nodeClasses: {}
 nodePools: {}
-osUsers:
-  - name: giantswarm
-    sudo: ALL=(ALL) NOPASSWD:ALL
 providerSpecific:
   cloudProviderInterface:
     enableVirtualServiceSharedIP: true
