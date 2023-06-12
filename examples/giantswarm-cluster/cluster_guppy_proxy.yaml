@@ -18,6 +18,10 @@ data:
       ovdc: vDC 73640
       site: https://vmware.ikoula.com
       ovdcNetwork: network-test-2
+      userContext:
+        secretRef:
+          secretName: vcd-credentials
+          useSecretRef: true
 
       ##### Not needed in VCD 10.4+
       cloudProviderInterface:
@@ -48,11 +52,6 @@ data:
       worker:
         class: default
         replicas: 2
-
-    userContext:
-      secretRef:
-        secretName: vcd-credentials
-        useSecretRef: true
 ---
 apiVersion: v1
 kind: ConfigMap

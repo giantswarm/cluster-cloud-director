@@ -39,7 +39,7 @@ Or
 
 ## Create a cluster
 
-Edit the values file (at least the fields that aren't identified as optional), reference the secret containing the user's VCD credentials by name under `userContext > secretRef > secretName` and install the chart in the same namespace.
+Edit the values file (at least the fields that aren't identified as optional), reference the secret containing the user's VCD credentials by name under `providerSpecific > userContext > secretRef > secretName` and install the chart in the same namespace.
 
 In the UI `vipSubnet` is the field in `Networking > Edge Gateway > IP Management > IP Allocations > Allocated IPs > IP Block`. For instance in Ikoula `178.170.32.1/24`
 
@@ -56,6 +56,10 @@ providerSpecific:
   org: "xxx"
   ovdc: "xxx"
   ovdcNetwork: "xxx"
+  userContext:
+    secretRef:
+      useSecretRef: true
+      secretName: vcd-credentials
 
 controlPlane:
   replicas: 3
@@ -86,11 +90,6 @@ ssh:
     - name: "root"
       authorizedKeys:
         - "ssh-rsa AAAAB3NzaC1yc2...NOOcv5HZOXWjE="
-
-userContext:
-  secretRef:
-    useSecretRef: true
-    secretName: vcd-credentials
 
 internal:
   kubernetesVersion: "v1.22.5+vmware.1"

@@ -18,6 +18,10 @@ data:
       ovdc: vDC 73640
       site: https://vmware.ikoula.com
       ovdcNetwork: capvcd-192.168.52.0
+      userContext:
+        secretRef:
+          secretName: vcd-credentials
+          useSecretRef: true
 
       ##### Not needed in VCD 10.4+
       cloudProviderInterface:
@@ -46,11 +50,6 @@ data:
       worker:
         class: default
         replicas: 2
-
-    userContext:
-      secretRef:
-        secretName: vcd-credentials
-        useSecretRef: true
 
     vmNamingTemplate: giantswarm-{{.machine.Name | sha256sum | trunc 5}}
 ---
