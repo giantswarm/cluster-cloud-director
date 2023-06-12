@@ -29,6 +29,24 @@
             ],
             "exclusiveMinimum": 0
         },
+        "featureGate": {
+            "type": "object",
+            "title": "Feature gate",
+            "properties": {
+                "enabled": {
+                    "type": "boolean",
+                    "title": "Enabled"
+                },
+                "name": {
+                    "type": "string",
+                    "title": "Name",
+                    "examples": [
+                        "UserNamespacesStatelessPodsSupport"
+                    ],
+                    "pattern": "^[A-Za-z0-9]+$"
+                }
+            }
+        },
         "nodeLabels": {
             "type": "array",
             "title": "Node labels",
@@ -103,7 +121,6 @@
     "type": "object",
     "required": [
         "baseDomain",
-        "controllerManager",
         "controlPlane",
         "connectivity",
         "nodePools",
@@ -550,24 +567,6 @@
                 }
             }
         },
-        "controllerManager": {
-            "type": "object",
-            "title": "Controller manager",
-            "required": [
-                "featureGates"
-            ],
-            "properties": {
-                "featureGates": {
-                    "type": "string",
-                    "title": "Feature gates",
-                    "description": "Comma-separated list of feature gates.",
-                    "examples": [
-                        "ExpandPersistentVolumes=true,TTLAfterFinished=true"
-                    ],
-                    "default": "ExpandPersistentVolumes=true,TTLAfterFinished=true"
-                }
-            }
-        },
         "internal": {
             "type": "object",
             "properties": {
@@ -605,24 +604,33 @@
                             "title": "Feature gates",
                             "description": "API server feature gate activation/deactivation.",
                             "items": {
-                                "type": "object",
-                                "title": "Feature gate",
-                                "properties": {
-                                    "enabled": {
-                                        "type": "boolean",
-                                        "title": "Enabled"
-                                    },
-                                    "name": {
-                                        "type": "string",
-                                        "title": "Name",
-                                        "examples": [
-                                            "UserNamespacesStatelessPodsSupport"
-                                        ],
-                                        "pattern": "^[A-Za-z0-9]+$"
-                                    }
-                                }
+                                "$ref": "#/$defs/featureGate"
                             },
                             "default": [
+                                {
+                                    "enabled": true,
+                                    "name": "TTLAfterFinished"
+                                }
+                            ]
+                        }
+                    }
+                },
+                "controllerManager": {
+                    "type": "object",
+                    "title": "Controller manager",
+                    "properties": {
+                        "featureGates": {
+                            "type": "array",
+                            "title": "Feature gates",
+                            "description": "Controller manager feature gate activation/deactivation.",
+                            "items": {
+                                "$ref": "#/$defs/featureGate"
+                            },
+                            "default": [
+                                {
+                                    "enabled": true,
+                                    "name": "ExpandPersistentVolumes"
+                                },
                                 {
                                     "enabled": true,
                                     "name": "TTLAfterFinished"
