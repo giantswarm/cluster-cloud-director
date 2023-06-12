@@ -326,6 +326,55 @@
                             "pattern": "^[a-z0-9-]{1,63}$"
                         }
                     }
+                },
+                "shell": {
+                    "type": "object",
+                    "title": "Shell access",
+                    "properties": {
+                        "osUsers": {
+                            "type": "array",
+                            "title": "OS Users",
+                            "description": "Configuration for OS users in cluster nodes.",
+                            "items": {
+                                "type": "object",
+                                "title": "User",
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "title": "Name",
+                                        "description": "Username of the user.",
+                                        "minLength": 2,
+                                        "pattern": "^[a-z][-a-z0-9]+$"
+                                    },
+                                    "sudo": {
+                                        "type": "string",
+                                        "title": "Sudoers configuration",
+                                        "description": "Permissions string to add to /etc/sudoers for this user."
+                                    }
+                                }
+                            },
+                            "default": [
+                                {
+                                    "name": "giantswarm",
+                                    "sudo": "ALL=(ALL) NOPASSWD:ALL"
+                                }
+                            ]
+                        },
+                        "sshTrustedUserCAKeys": {
+                            "type": "array",
+                            "title": "Trusted SSH cert issuers",
+                            "description": "CA certificates of issuers that are trusted to sign SSH user certificates.",
+                            "items": {
+                                "type": "string"
+                            },
+                            "default": [
+                                "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM4cvZ01fLmO9cJbWUj7sfF+NhECgy+Cl0bazSrZX7sU vault-ca@vault.operations.giantswarm.io"
+                            ]
+                        }
+                    }
                 }
             }
         },
@@ -692,31 +741,6 @@
             },
             "default": {}
         },
-        "osUsers": {
-            "type": "array",
-            "title": "OS Users",
-            "description": "Configuration for OS users in cluster nodes.",
-            "items": {
-                "type": "object",
-                "title": "User",
-                "required": [
-                    "name"
-                ],
-                "properties": {
-                    "name": {
-                        "type": "string",
-                        "title": "Name",
-                        "description": "Username of the user."
-                    }
-                }
-            },
-            "default": [
-                {
-                    "name": "giantswarm",
-                    "sudo": "ALL=(ALL) NOPASSWD:ALL"
-                }
-            ]
-        },
         "providerSpecific": {
             "type": "object",
             "title": "VMware Cloud Director (VCD) settings",
@@ -822,17 +846,6 @@
                     ]
                 }
             }
-        },
-        "sshTrustedUserCAKeys": {
-            "type": "array",
-            "title": "Trusted SSH cert issuers",
-            "description": "CA certificates of issuers that are trusted to sign SSH user certificates.",
-            "items": {
-                "type": "string"
-            },
-            "default": [
-                "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM4cvZ01fLmO9cJbWUj7sfF+NhECgy+Cl0bazSrZX7sU vault-ca@vault.operations.giantswarm.io"
-            ]
         },
         "userContext": {
             "type": "object",
