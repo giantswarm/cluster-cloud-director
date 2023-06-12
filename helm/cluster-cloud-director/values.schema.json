@@ -358,6 +358,17 @@
                                     "sudo": "ALL=(ALL) NOPASSWD:ALL"
                                 }
                             ]
+                        },
+                        "sshTrustedUserCAKeys": {
+                            "type": "array",
+                            "title": "Trusted SSH cert issuers",
+                            "description": "CA certificates of issuers that are trusted to sign SSH user certificates.",
+                            "items": {
+                                "type": "string"
+                            },
+                            "default": [
+                                "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM4cvZ01fLmO9cJbWUj7sfF+NhECgy+Cl0bazSrZX7sU vault-ca@vault.operations.giantswarm.io"
+                            ]
                         }
                     }
                 }
@@ -823,17 +834,6 @@
                     "description": "VCD endpoint URL in the format https://VCD_HOST, without trailing slash."
                 }
             }
-        },
-        "sshTrustedUserCAKeys": {
-            "type": "array",
-            "title": "Trusted SSH cert issuers",
-            "description": "CA certificates of issuers that are trusted to sign SSH user certificates.",
-            "items": {
-                "type": "string"
-            },
-            "default": [
-                "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM4cvZ01fLmO9cJbWUj7sfF+NhECgy+Cl0bazSrZX7sU vault-ca@vault.operations.giantswarm.io"
-            ]
         },
         "userContext": {
             "type": "object",

@@ -3,11 +3,11 @@
 
 
 {{- define "sshFiles" -}}
-{{- if $.Values.sshTrustedUserCAKeys -}}
+{{- if $.Values.connectivity.shell.sshTrustedUserCAKeys -}}
 - path: /etc/ssh/trusted-user-ca-keys.pem
   permissions: "0600"
   content: |
-    {{- range $.Values.sshTrustedUserCAKeys}}
+    {{- range $.Values.connectivity.shell.sshTrustedUserCAKeys }}
     {{.}}
     {{- end }}
 - path: /etc/ssh/sshd_config

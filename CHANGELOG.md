@@ -25,10 +25,11 @@ yq eval --inplace '
   with(select(.kubernetesVersion != null); .internal.kubernetesVersion = .kubernetesVersion) |
   with(select(.oidc != null); .controlPlane.oidc = .oidc) |
   with(select(.organization != null); .metadata.organization = .organization) |
-  with(select(.osUsers != null); .connectivity.osUsers = .osUsers) |
+  with(select(.osUsers != null); .connectivity.shell.osUsers = .osUsers) |
   with(select(.proxy != null); .connectivity.proxy = .proxy) |
   with(select(.rdeId != null); .internal.rdeId = .rdeId) |
   with(select(.servicePriority != null); .metadata.servicePriority = .servicePriority) |
+  with(select(.sshTrustedUserCAKeys != null); .connectivity.shell.sshTrustedUserCAKeys = .sshTrustedUserCAKeys) |
   del(.clusterName) |
   with(select(.servicePriority != null); .metadata.servicePriority = .servicePriority) |
   del(.cloudProvider) |
@@ -40,10 +41,12 @@ yq eval --inplace '
   del(.includeClusterResourceSet) |
   del(.kubernetesVersion) |
   del(.oidc) |
+  del(.osUsers) |
   del(.organization) |
   del(.proxy) |
   del(.rdeId) |
-  del(.servicePriority)
+  del(.servicePriority) |
+  del(.sshTrustedUserCAKeys)
 ' ./values.yaml
 ```
 
@@ -77,6 +80,7 @@ TODO: Warn when `.apiServer.enableAdmissionPlugins` or `.apiServer.featureGates`
   - `.proxy` moved to `.connectivity.proxy`
   - `.cloudProvider` moved to `.providerSpecific.cloudProviderInterface`
   - `.rdeId` moved to `.internal.rdeId`
+  - `.sshTrustedUserCAKeys` moved to `.connectivity.shell.sshTrustedUserCAKeys`
   - Removed `.includeClusterResourceSet`
 - Non-breaking schema changes and clean-ups
   - Remove unused `.clusterName` value
