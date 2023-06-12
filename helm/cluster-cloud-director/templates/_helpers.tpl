@@ -162,8 +162,8 @@ template: {{ .currentClass.template }}
 sizingPolicy: {{ .currentClass.sizingPolicy }}
 placementPolicy: {{ .currentClass.placementPolicy }}
 storageProfile: {{ .currentClass.storageProfile }}
-diskSize: {{ mul .currentClass.diskSizeGB 1024 1024 1024}}
-vmNamingTemplate: {{ $.vmNamingTemplate }}
+diskSize: {{ mul .currentClass.diskSizeGB 1024 1024 1024 }}
+vmNamingTemplate: {{ $.providerSpecific.vmNamingTemplate }}
 {{- if $.connectivity.network.extraOvdcNetworks }}
 extraOvdcNetworks:
   {{- range $.connectivity.network.extraOvdcNetworks }}

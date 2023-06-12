@@ -29,8 +29,8 @@ yq eval --inplace '
   with(select(.proxy != null); .connectivity.proxy = .proxy) |
   with(select(.rdeId != null); .internal.rdeId = .rdeId) |
   with(select(.servicePriority != null); .metadata.servicePriority = .servicePriority) |
+  with(select(.vmNamingTemplate != null); .providerSpecific.vmNamingTemplate = .vmNamingTemplate) |
   del(.clusterName) |
-  with(select(.servicePriority != null); .metadata.servicePriority = .servicePriority) |
   del(.cloudProvider) |
   del(.cluster) |
   del(.clusterLabels) |
@@ -44,7 +44,8 @@ yq eval --inplace '
   del(.organization) |
   del(.proxy) |
   del(.rdeId) |
-  del(.servicePriority)
+  del(.servicePriority) |
+  del(.vmNamingTemplate)
 ' ./values.yaml
 ```
 
@@ -78,6 +79,7 @@ TODO: Warn when `.apiServer.enableAdmissionPlugins` or `.apiServer.featureGates`
   - `.proxy` moved to `.connectivity.proxy`
   - `.cloudProvider` moved to `.providerSpecific.cloudProviderInterface`
   - `.rdeId` moved to `.internal.rdeId`
+  - `.vmNamingTemplate` moved to `.providerSpecific`
   - Removed `.includeClusterResourceSet`
 - Non-breaking schema changes and clean-ups
   - Remove unused `.clusterName` value

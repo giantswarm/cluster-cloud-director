@@ -812,6 +812,14 @@
                     "type": "string",
                     "title": "Endpoint",
                     "description": "VCD endpoint URL in the format https://VCD_HOST, without trailing slash."
+                },
+                "vmNamingTemplate": {
+                    "type": "string",
+                    "title": "VM naming template",
+                    "description": "Go template to specify the VM naming convention.",
+                    "examples": [
+                        "mytenant-{{ .machine.Name | sha256sum | trunc 7 }}"
+                    ]
                 }
             }
         },
@@ -843,14 +851,6 @@
                     }
                 }
             }
-        },
-        "vmNamingTemplate": {
-            "type": "string",
-            "title": "VM naming template",
-            "description": "Go template to generate VM names based on machine and vcdMachine CRs.",
-            "examples": [
-                "mytenant-{{.machine.Name |sha256sum | trunc 7}}"
-            ]
         }
     }
 }

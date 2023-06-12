@@ -18,6 +18,7 @@ data:
       ovdc: vDC 73640
       site: https://vmware.ikoula.com
       ovdcNetwork: capvcd-192.168.52.0
+      vmNamingTemplate: giantswarm-{{.machine.Name | sha256sum | trunc 5}}
       nodeClasses:
         default:
           catalog: giantswarm
@@ -50,8 +51,6 @@ data:
       secretRef:
         secretName: vcd-credentials
         useSecretRef: true
-
-    vmNamingTemplate: giantswarm-{{.machine.Name | sha256sum | trunc 5}}
 ---
 apiVersion: v1
 kind: ConfigMap
