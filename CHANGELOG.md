@@ -22,6 +22,7 @@ yq eval --inplace '
   with(select(.clusterDescription != null); .metadata.description = .clusterDescription) |
   with(select(.cloudDirector != null); .providerSpecific = .cloudDirector) |
   with(select(.connectivity.network.ntp != null); .connectivity.ntp = .connectivity.network.ntp) |
+  with(select(.controllerManager != null); .internal.controllerManager = .controllerManager) |
   with(select(.kubernetesVersion != null); .internal.kubernetesVersion = .kubernetesVersion) |
   with(select(.nodeClasses != null); .providerSpecific.nodeClasses = .nodeClasses) |
   with(select(.oidc != null); .controlPlane.oidc = .oidc) |
@@ -31,6 +32,7 @@ yq eval --inplace '
   with(select(.rdeId != null); .internal.rdeId = .rdeId) |
   with(select(.servicePriority != null); .metadata.servicePriority = .servicePriority) |
   with(select(.sshTrustedUserCAKeys != null); .connectivity.shell.sshTrustedUserCAKeys = .sshTrustedUserCAKeys) |
+  with(select(.userContext != null); .providerSpecific.userContext = .userContext) |
   with(select(.vmNamingTemplate != null); .providerSpecific.vmNamingTemplate = .vmNamingTemplate) |
   del(.clusterName) |
   del(.cloudProvider) |
@@ -39,6 +41,7 @@ yq eval --inplace '
   del(.clusterDescription) |
   del(.cloudDirector) |
   del(.connectivity.network.ntp) |
+  del(.controllerManager) |
   del(.includeClusterResourceSet) |
   del(.kubernetesVersion) |
   del(.nodeClasses) |
@@ -49,11 +52,12 @@ yq eval --inplace '
   del(.rdeId) |
   del(.servicePriority) |
   del(.sshTrustedUserCAKeys) |
+  del(.userContext) |
   del(.vmNamingTemplate)
 ' ./values.yaml
 ```
 
-TODO: Warn when `.apiServer.enableAdmissionPlugins` or `.apiServer.featureGates` is set.
+TODO: Warn when `.apiServer.enableAdmissionPlugins`, `.apiServer.featureGates`, or `.controllerManager.featureGates` is set.
 
 </details>
 
@@ -68,6 +72,7 @@ TODO: Warn when `.apiServer.enableAdmissionPlugins` or `.apiServer.featureGates`
   - `.apiServer.certSANs` moved to `.controlPlane.certSANs`
   - Former `.apiServer.enableAdmissionPlugins`, now `.internal.apiServer.enableAdmissionPlugins`,  changed to array of strings
   - Former `.apiServer.featureGates`, now `.internal.apiServer.featureGates`, changed to array of objects
+  - Former `.controllerManager.featureGates`, now `.internal.controllerManager.featureGates`, changed to array of objects
   - `.cluster.parentUid` moved to `.internal.parentUid`
   - `.cluster.skipRDE` moved to `.internal.skipRde`
   - `.cluster.useAsManagementCluster` moved to `.internal.useAsManagementCluster`
@@ -75,6 +80,7 @@ TODO: Warn when `.apiServer.enableAdmissionPlugins` or `.apiServer.featureGates`
   - `.clusterDescription` moved to `.metadata.description`
   - `.cloudDirector` moved to `.providerSpecific`
   - `.connectivity.network.ntp` moved to `.connectivity.ntp`
+  - `.controllerManager` moved to `.internal.controllerManager`
   - `.kubernetesVersion` moved to `.internal.kubernetesVersion`
   - `.nodeClasses` moved to `.providerSpecific.nodeClasses`
   - `.servicePriority` moved to `.metadata.servicePriority`
@@ -85,6 +91,7 @@ TODO: Warn when `.apiServer.enableAdmissionPlugins` or `.apiServer.featureGates`
   - `.cloudProvider` moved to `.providerSpecific.cloudProviderInterface`
   - `.rdeId` moved to `.internal.rdeId`
   - `.sshTrustedUserCAKeys` moved to `.connectivity.shell.sshTrustedUserCAKeys`
+  - `.userContext` moved to `.providerSpecific`
   - `.vmNamingTemplate` moved to `.providerSpecific`
   - Removed `.includeClusterResourceSet`
 - Non-breaking schema changes and clean-ups

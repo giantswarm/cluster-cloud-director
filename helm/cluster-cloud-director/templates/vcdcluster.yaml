@@ -42,5 +42,5 @@ spec:
   # Authentication  
   userContext:
     secretRef:
-      name: {{ .Values.userContext.secretRef.secretName }}
+      name: {{ .Values.providerSpecific.userContext.secretRef.secretName }}
       namespace: {{ .Release.Namespace }}

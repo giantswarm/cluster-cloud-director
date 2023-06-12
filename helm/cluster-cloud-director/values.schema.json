@@ -29,6 +29,24 @@
             ],
             "exclusiveMinimum": 0
         },
+        "featureGate": {
+            "type": "object",
+            "title": "Feature gate",
+            "properties": {
+                "enabled": {
+                    "type": "boolean",
+                    "title": "Enabled"
+                },
+                "name": {
+                    "type": "string",
+                    "title": "Name",
+                    "examples": [
+                        "UserNamespacesStatelessPodsSupport"
+                    ],
+                    "pattern": "^[A-Za-z0-9]+$"
+                }
+            }
+        },
         "nodeLabels": {
             "type": "array",
             "title": "Node labels",
@@ -103,11 +121,9 @@
     "type": "object",
     "required": [
         "baseDomain",
-        "controllerManager",
         "controlPlane",
         "connectivity",
-        "nodePools",
-        "userContext"
+        "nodePools"
     ],
     "properties": {
         "baseDomain": {
@@ -550,24 +566,6 @@
                 }
             }
         },
-        "controllerManager": {
-            "type": "object",
-            "title": "Controller manager",
-            "required": [
-                "featureGates"
-            ],
-            "properties": {
-                "featureGates": {
-                    "type": "string",
-                    "title": "Feature gates",
-                    "description": "Comma-separated list of feature gates.",
-                    "examples": [
-                        "ExpandPersistentVolumes=true,TTLAfterFinished=true"
-                    ],
-                    "default": "ExpandPersistentVolumes=true,TTLAfterFinished=true"
-                }
-            }
-        },
         "internal": {
             "type": "object",
             "properties": {
@@ -605,24 +603,33 @@
                             "title": "Feature gates",
                             "description": "API server feature gate activation/deactivation.",
                             "items": {
-                                "type": "object",
-                                "title": "Feature gate",
-                                "properties": {
-                                    "enabled": {
-                                        "type": "boolean",
-                                        "title": "Enabled"
-                                    },
-                                    "name": {
-                                        "type": "string",
-                                        "title": "Name",
-                                        "examples": [
-                                            "UserNamespacesStatelessPodsSupport"
-                                        ],
-                                        "pattern": "^[A-Za-z0-9]+$"
-                                    }
-                                }
+                                "$ref": "#/$defs/featureGate"
                             },
                             "default": [
+                                {
+                                    "enabled": true,
+                                    "name": "TTLAfterFinished"
+                                }
+                            ]
+                        }
+                    }
+                },
+                "controllerManager": {
+                    "type": "object",
+                    "title": "Controller manager",
+                    "properties": {
+                        "featureGates": {
+                            "type": "array",
+                            "title": "Feature gates",
+                            "description": "Controller manager feature gate activation/deactivation.",
+                            "items": {
+                                "$ref": "#/$defs/featureGate"
+                            },
+                            "default": [
+                                {
+                                    "enabled": true,
+                                    "name": "ExpandPersistentVolumes"
+                                },
                                 {
                                     "enabled": true,
                                     "name": "TTLAfterFinished"
@@ -837,6 +844,23 @@
                     "title": "Endpoint",
                     "description": "VCD endpoint URL in the format https://VCD_HOST, without trailing slash."
                 },
+                "userContext": {
+                    "type": "object",
+                    "title": "VCD API access token",
+                    "properties": {
+                        "secretRef": {
+                            "type": "object",
+                            "title": "Secret reference",
+                            "properties": {
+                                "secretName": {
+                                    "type": "string",
+                                    "title": "Name",
+                                    "description": "Name of the secret containing the VCD API token."
+                                }
+                            }
+                        }
+                    }
+                },
                 "vmNamingTemplate": {
                     "type": "string",
                     "title": "VM naming template",
@@ -844,24 +868,6 @@
                     "examples": [
                         "mytenant-{{ .machine.Name | sha256sum | trunc 7 }}"
                     ]
-                }
-            }
-        },
-        "userContext": {
-            "type": "object",
-            "title": "User context",
-            "properties": {
-                "secretRef": {
-                    "type": "object",
-                    "title": "Secret",
-                    "properties": {
-                        "secretName": {
-                            "type": "string",
-                            "title": "Name",
-                            "description": "Name of the pre-existing secret containing the credentials of the VCD user.",
-                            "default": ""
-                        }
-                    }
                 }
             }
         }

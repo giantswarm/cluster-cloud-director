@@ -19,6 +19,10 @@ data:
       site: https://vmware.ikoula.com
       ovdcNetwork: capvcd-192.168.52.0
       vmNamingTemplate: giantswarm-{{.machine.Name | sha256sum | trunc 5}}
+      userContext:
+        secretRef:
+          secretName: vcd-credentials
+          useSecretRef: true
       nodeClasses:
         default:
           catalog: giantswarm
@@ -46,11 +50,6 @@ data:
       worker:
         class: default
         replicas: 2
-
-    userContext:
-      secretRef:
-        secretName: vcd-credentials
-        useSecretRef: true
 ---
 apiVersion: v1
 kind: ConfigMap

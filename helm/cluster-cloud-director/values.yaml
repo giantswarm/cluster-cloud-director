@@ -44,8 +44,6 @@ controlPlane:
     usernamePrefix: ""
   replicas: 0
   resourceRatio: 8
-controllerManager:
-  featureGates: ExpandPersistentVolumes=true,TTLAfterFinished=true
 internal:
   apiServer:
     enableAdmissionPlugins:
@@ -62,6 +60,12 @@ internal:
     featureGates:
       - enabled: true
         name: TTLAfterFinished
+  controllerManager:
+    featureGates:
+      - enabled: true
+        name: ExpandPersistentVolumes
+      - enabled: true
+        name: TTLAfterFinished
   useAsManagementCluster: false
 kubectlImage:
   name: giantswarm/kubectl
@@ -75,6 +79,5 @@ providerSpecific:
     enableVirtualServiceSharedIP: true
     oneArm:
       enabled: false
-userContext:
-  secretRef:
-    secretName: ""
+  userContext:
+    secretRef: {}
