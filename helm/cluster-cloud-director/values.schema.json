@@ -136,7 +136,6 @@
             "title": "Connectivity",
             "description": "Configurations related to cluster connectivity such as container registries.",
             "required": [
-                "containerRegistries",
                 "network"
             ],
             "properties": {
