@@ -531,7 +531,7 @@
                     "type": "integer",
                     "title": "Number of nodes",
                     "description": "Number of control plane instances to create. Must be an odd number.",
-                    "default": 0
+                    "default": 1
                 },
                 "resourceRatio": {
                     "type": "integer",
