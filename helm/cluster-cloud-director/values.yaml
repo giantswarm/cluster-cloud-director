@@ -2,19 +2,15 @@
 
 baseDomain: k8s.test
 connectivity:
-  containerRegistries: {}
   network:
     controlPlaneEndpoint: {}
-    extraOvdcNetworks: []
-    loadBalancers:
-      vipSubnet: ""
+    loadBalancers: {}
     pods:
       cidrBlocks:
         - 10.244.0.0/16
     services:
       cidrBlocks:
         - 172.31.0.0/16
-    staticRoutes: []
   ntp: {}
   proxy: {}
   shell:
@@ -24,8 +20,6 @@ connectivity:
     sshTrustedUserCAKeys:
       - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM4cvZ01fLmO9cJbWUj7sfF+NhECgy+Cl0bazSrZX7sU vault-ca@vault.operations.giantswarm.io
 controlPlane:
-  catalog: ""
-  customNodeLabels: []
   diskSizeGB: 30
   dns:
     imageRepository: projects.registry.vmware.com/tkg
@@ -35,14 +29,8 @@ controlPlane:
     imageTag: 3.5.4-0-k8s
   image:
     repository: projects.registry.vmware.com/tkg
-  oidc:
-    caFile: ""
-    clientId: ""
-    groupsClaim: ""
-    issuerUrl: ""
-    usernameClaim: ""
-    usernamePrefix: ""
-  replicas: 0
+  oidc: {}
+  replicas: 1
   resourceRatio: 8
 internal:
   apiServer:
@@ -73,7 +61,6 @@ kubectlImage:
   tag: 1.23.5
 metadata:
   servicePriority: highest
-nodePools: {}
 providerSpecific:
   cloudProviderInterface:
     enableVirtualServiceSharedIP: true
