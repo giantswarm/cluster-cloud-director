@@ -727,6 +727,8 @@
                     },
                     "replicas": {
                         "type": "integer",
+                        "title": "Number of nodes",
+                        "default": 1,
                         "minimum": 1
                     }
                 }
