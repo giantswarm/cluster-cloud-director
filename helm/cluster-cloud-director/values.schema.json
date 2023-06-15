@@ -734,7 +734,6 @@
                     "type": "object",
                     "title": "Labels",
                     "description": "These labels are added to the Kubernetes resourses defining this cluster.",
-                    "additionalProperties": false,
                     "patternProperties": {
                         "^[a-zA-Z0-9\\._-]+$": {
                             "type": "string",
@@ -834,7 +833,6 @@
                     "type": "object",
                     "title": "Node classes",
                     "description": "Re-usable node configuration.",
-                    "additionalProperties": false,
                     "patternProperties": {
                         "^[a-z0-9-]+$": {
                             "type": "object",
