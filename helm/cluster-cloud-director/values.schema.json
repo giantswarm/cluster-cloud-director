@@ -32,6 +32,7 @@
         "featureGate": {
             "type": "object",
             "title": "Feature gate",
+            "additionalProperties": false,
             "properties": {
                 "enabled": {
                     "type": "boolean",
@@ -69,6 +70,7 @@
                     "key",
                     "effect"
                 ],
+                "additionalProperties": false,
                 "properties": {
                     "effect": {
                         "type": "string",
@@ -125,6 +127,7 @@
         "connectivity",
         "nodePools"
     ],
+    "additionalProperties": false,
     "properties": {
         "baseDomain": {
             "type": "string",
@@ -139,6 +142,7 @@
                 "containerRegistries",
                 "network"
             ],
+            "additionalProperties": false,
             "properties": {
                 "containerRegistries": {
                     "type": "object",
@@ -151,11 +155,13 @@
                             "required": [
                                 "endpoint"
                             ],
+                            "additionalProperties": false,
                             "properties": {
                                 "credentials": {
                                     "type": "object",
                                     "title": "Credentials",
                                     "description": "Credentials for the endpoint.",
+                                    "additionalProperties": false,
                                     "properties": {
                                         "auth": {
                                             "type": "string",
@@ -197,11 +203,13 @@
                         "pods",
                         "services"
                     ],
+                    "additionalProperties": false,
                     "properties": {
                         "controlPlaneEndpoint": {
                             "type": "object",
                             "title": "Control plane endpoint",
                             "description": "Kubernetes API endpoint.",
+                            "additionalProperties": false,
                             "properties": {
                                 "host": {
                                     "type": "string",
@@ -230,6 +238,7 @@
                             "required": [
                                 "vipSubnet"
                             ],
+                            "additionalProperties": false,
                             "properties": {
                                 "vipSubnet": {
                                     "type": "string",
@@ -245,6 +254,7 @@
                             "required": [
                                 "cidrBlocks"
                             ],
+                            "additionalProperties": false,
                             "properties": {
                                 "cidrBlocks": {
                                     "$ref": "#/$defs/cidrBlocks",
@@ -261,6 +271,7 @@
                             "required": [
                                 "cidrBlocks"
                             ],
+                            "additionalProperties": false,
                             "properties": {
                                 "cidrBlocks": {
                                     "$ref": "#/$defs/cidrBlocks",
@@ -280,6 +291,7 @@
                                     "destination",
                                     "via"
                                 ],
+                                "additionalProperties": false,
                                 "properties": {
                                     "destination": {
                                         "type": "string",
@@ -304,6 +316,7 @@
                     "type": "object",
                     "title": "Time synchronization (NTP)",
                     "description": "Servers/pools to synchronize this cluster's clocks with.",
+                    "additionalProperties": false,
                     "properties": {
                         "pools": {
                             "type": "array",
@@ -330,6 +343,7 @@
                     "type": "object",
                     "title": "Proxy",
                     "description": "Whether/how outgoing traffic is routed through proxy servers.",
+                    "additionalProperties": false,
                     "properties": {
                         "enabled": {
                             "type": "boolean",
@@ -346,6 +360,7 @@
                 "shell": {
                     "type": "object",
                     "title": "Shell access",
+                    "additionalProperties": false,
                     "properties": {
                         "osUsers": {
                             "type": "array",
@@ -357,6 +372,7 @@
                                 "required": [
                                     "name"
                                 ],
+                                "additionalProperties": false,
                                 "properties": {
                                     "name": {
                                         "type": "string",
@@ -405,6 +421,7 @@
                 "etcd",
                 "resourceRatio"
             ],
+            "additionalProperties": false,
             "properties": {
                 "catalog": {
                     "$ref": "#/$defs/catalog",
@@ -435,6 +452,7 @@
                 "dns": {
                     "type": "object",
                     "title": "DNS container image",
+                    "additionalProperties": false,
                     "properties": {
                         "imageRepository": {
                             "type": "string",
@@ -457,6 +475,7 @@
                 "etcd": {
                     "type": "object",
                     "title": "Etcd container image",
+                    "additionalProperties": false,
                     "properties": {
                         "imageRepository": {
                             "type": "string",
@@ -479,6 +498,7 @@
                 "image": {
                     "type": "object",
                     "title": "Node container image",
+                    "additionalProperties": false,
                     "properties": {
                         "repository": {
                             "type": "string",
@@ -499,6 +519,7 @@
                         "issuerUrl",
                         "usernameClaim"
                     ],
+                    "additionalProperties": false,
                     "properties": {
                         "caFile": {
                             "type": "string",
@@ -568,9 +589,11 @@
         },
         "internal": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
                 "apiServer": {
                     "type": "object",
+                    "additionalProperties": false,
                     "properties": {
                         "enableAdmissionPlugins": {
                             "type": "array",
@@ -617,6 +640,7 @@
                 "controllerManager": {
                     "type": "object",
                     "title": "Controller manager",
+                    "additionalProperties": false,
                     "properties": {
                         "featureGates": {
                             "type": "array",
@@ -668,6 +692,7 @@
             "type": "object",
             "title": "Kubectl image",
             "description": "Used by cluster-shared library chart to configure coredns in-cluster.",
+            "additionalProperties": false,
             "properties": {
                 "name": {
                     "type": "string",
@@ -689,6 +714,7 @@
         "metadata": {
             "type": "object",
             "title": "Metadata",
+            "additionalProperties": false,
             "properties": {
                 "description": {
                     "type": "string",
@@ -699,6 +725,7 @@
                     "type": "object",
                     "title": "Labels",
                     "description": "These labels are added to the Kubernetes resourses defining this cluster.",
+                    "additionalProperties": false,
                     "patternProperties": {
                         "^[a-zA-Z0-9\\._-]+$": {
                             "type": "string",
@@ -733,6 +760,7 @@
             "description": "Groups of worker nodes with identical configuration.",
             "additionalProperties": {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                     "class": {
                         "type": "string",
@@ -757,6 +785,7 @@
                 "ovdcNetwork",
                 "site"
             ],
+            "additionalProperties": false,
             "properties": {
                 "cloudProviderInterface": {
                     "type": "object",
@@ -765,6 +794,7 @@
                         "enableVirtualServiceSharedIP",
                         "oneArm"
                     ],
+                    "additionalProperties": false,
                     "properties": {
                         "enableVirtualServiceSharedIP": {
                             "type": "boolean",
@@ -776,6 +806,7 @@
                             "type": "object",
                             "title": "One-arm",
                             "description": "If enabled, use an internal IP for the virtual service with a NAT rule to expose the external IP. Otherwise the virtual service will be exposed directly with the external IP.",
+                            "additionalProperties": false,
                             "properties": {
                                 "enabled": {
                                     "type": "boolean",
@@ -790,9 +821,11 @@
                     "type": "object",
                     "title": "Node classes",
                     "description": "Re-usable node configuration.",
+                    "additionalProperties": false,
                     "patternProperties": {
                         "^[a-z0-9-]+$": {
                             "type": "object",
+                            "additionalProperties": false,
                             "properties": {
                                 "catalog": {
                                     "$ref": "#/$defs/catalog"
@@ -847,10 +880,12 @@
                 "userContext": {
                     "type": "object",
                     "title": "VCD API access token",
+                    "additionalProperties": false,
                     "properties": {
                         "secretRef": {
                             "type": "object",
                             "title": "Secret reference",
+                            "additionalProperties": false,
                             "properties": {
                                 "secretName": {
                                     "type": "string",
