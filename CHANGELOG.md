@@ -94,6 +94,7 @@ TODO: Warn when `.apiServer.enableAdmissionPlugins`, `.apiServer.featureGates`, 
   - `.userContext` moved to `.providerSpecific`
   - `.vmNamingTemplate` moved to `.providerSpecific`
   - Removed `.includeClusterResourceSet`
+  - Set `additionalProperties` to false on all objects that don't make use of them.
 - Non-breaking schema changes and clean-ups
   - Remove unused `.clusterName` value
 
