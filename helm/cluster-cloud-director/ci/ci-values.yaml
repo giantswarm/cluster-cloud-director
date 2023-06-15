@@ -36,9 +36,3 @@ nodePools:
   worker:
     class: "default"
     replicas: 3
-
-ssh:
-  users:
-    - name: "root"
-      authorizedKeys:
-        - "xxx"
