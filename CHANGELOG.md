@@ -97,6 +97,7 @@ TODO: Warn when `.apiServer.enableAdmissionPlugins`, `.apiServer.featureGates`, 
   - Set `additionalProperties` to false on all objects that don't make use of them.
 - Non-breaking schema changes and clean-ups
   - Remove unused `.clusterName` value
+  - Added properties `.cluster-shared`, `.managementCluster`, and `.provider`, which are injected into values from different sources and have to be permitted explicitlxy since `additionalProperties` is false now.
 
 ### Fixed
 

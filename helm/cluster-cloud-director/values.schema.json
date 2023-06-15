@@ -134,6 +134,10 @@
             "title": "Base DNS domain",
             "default": "k8s.test"
         },
+        "cluster-shared": {
+            "type": "object",
+            "title": "Library chart"
+        },
         "connectivity": {
             "type": "object",
             "title": "Connectivity",
@@ -711,6 +715,11 @@
                 }
             }
         },
+        "managementCluster": {
+            "type": "string",
+            "title": "Management cluster name",
+            "description": "The Cluster API management cluster that manages this cluster."
+        },
         "metadata": {
             "type": "object",
             "title": "Metadata",
@@ -775,6 +784,10 @@
                 }
             },
             "default": {}
+        },
+        "provider": {
+            "type": "string",
+            "title": "Cluster API provider name"
         },
         "providerSpecific": {
             "type": "object",
