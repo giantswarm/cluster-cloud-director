@@ -136,7 +136,6 @@
             "title": "Connectivity",
             "description": "Configurations related to cluster connectivity such as container registries.",
             "required": [
-                "containerRegistries",
                 "network"
             ],
             "properties": {
@@ -186,8 +185,7 @@
                                 }
                             }
                         }
-                    },
-                    "default": {}
+                    }
                 },
                 "network": {
                     "type": "object",
@@ -205,15 +203,13 @@
                             "properties": {
                                 "host": {
                                     "type": "string",
-                                    "title": "Host",
-                                    "default": ""
+                                    "title": "Host"
                                 },
                                 "port": {
                                     "type": "integer",
                                     "title": "Port number"
                                 }
-                            },
-                            "default": {}
+                            }
                         },
                         "extraOvdcNetworks": {
                             "type": "array",
@@ -221,8 +217,7 @@
                             "description": "OVDC networks to attach VMs to, additionally.",
                             "items": {
                                 "type": "string"
-                            },
-                            "default": []
+                            }
                         },
                         "loadBalancers": {
                             "type": "object",
@@ -234,8 +229,7 @@
                                 "vipSubnet": {
                                     "type": "string",
                                     "title": "Virtual IP subnet",
-                                    "description": "Virtual IP CIDR for the external network.",
-                                    "default": ""
+                                    "description": "Virtual IP CIDR for the external network."
                                 }
                             }
                         },
@@ -295,8 +289,7 @@
                                         "format": "ipv4"
                                     }
                                 }
-                            },
-                            "default": []
+                            }
                         }
                     }
                 },
@@ -409,8 +402,7 @@
                 "catalog": {
                     "$ref": "#/$defs/catalog",
                     "title": "Catalog",
-                    "description": "VCD catalog where the VM template is stored.",
-                    "default": ""
+                    "description": "VCD catalog where the VM template is stored."
                 },
                 "certSANs": {
                     "type": "array",
@@ -423,8 +415,7 @@
                 },
                 "customNodeLabels": {
                     "$ref": "#/$defs/nodeLabels",
-                    "title": "Custom node labels",
-                    "default": []
+                    "title": "Custom node labels"
                 },
                 "diskSizeGB": {
                     "$ref": "#/$defs/diskSizeGB",
@@ -503,38 +494,32 @@
                         "caFile": {
                             "type": "string",
                             "title": "Certificate authority file",
-                            "description": "Path to identity provider's CA certificate in PEM format.",
-                            "default": ""
+                            "description": "Path to identity provider's CA certificate in PEM format."
                         },
                         "clientId": {
                             "type": "string",
                             "title": "Client ID",
-                            "description": "OIDC client identifier to identify with.",
-                            "default": ""
+                            "description": "OIDC client identifier to identify with."
                         },
                         "groupsClaim": {
                             "type": "string",
                             "title": "Groups claim",
-                            "description": "Name of the identity token claim bearing the user's group memberships.",
-                            "default": ""
+                            "description": "Name of the identity token claim bearing the user's group memberships."
                         },
                         "issuerUrl": {
                             "type": "string",
                             "title": "Issuer URL",
-                            "description": "URL of the provider which allows the API server to discover public signing keys, not including any path. Discovery URL without the '/.well-known/openid-configuration' part.",
-                            "default": ""
+                            "description": "URL of the provider which allows the API server to discover public signing keys, not including any path. Discovery URL without the '/.well-known/openid-configuration' part."
                         },
                         "usernameClaim": {
                             "type": "string",
                             "title": "Username claim",
-                            "description": "Name of the identity token claim bearing the unique user identifier.",
-                            "default": ""
+                            "description": "Name of the identity token claim bearing the unique user identifier."
                         },
                         "usernamePrefix": {
                             "type": "string",
                             "title": "Username prefix",
-                            "description": "Prefix prepended to username values to prevent clashes with existing names.",
-                            "default": ""
+                            "description": "Prefix prepended to username values to prevent clashes with existing names."
                         }
                     }
                 },
@@ -545,7 +530,7 @@
                     "type": "integer",
                     "title": "Number of nodes",
                     "description": "Number of control plane instances to create. Must be an odd number.",
-                    "default": 0
+                    "default": 1
                 },
                 "resourceRatio": {
                     "type": "integer",
@@ -742,11 +727,12 @@
                     },
                     "replicas": {
                         "type": "integer",
+                        "title": "Number of nodes",
+                        "default": 1,
                         "minimum": 1
                     }
                 }
-            },
-            "default": {}
+            }
         },
         "providerSpecific": {
             "type": "object",

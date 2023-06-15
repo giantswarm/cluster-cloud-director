@@ -26,6 +26,11 @@ controlPlane:
   catalog: "giantswarm"
   template: "ubuntu-2004-kube-v1.22.5"
   sizingPolicy: "m1.medium"
+  oidc:
+    clientId: fake-client-id
+    groupsClaim: groups
+    issuerUrl: https://idp.example.com/
+    usernameClaim: username
 
 connectivity:
   network:
