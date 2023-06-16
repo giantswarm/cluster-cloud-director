@@ -94,8 +94,10 @@ TODO: Warn when `.apiServer.enableAdmissionPlugins`, `.apiServer.featureGates`, 
   - `.userContext` moved to `.providerSpecific`
   - `.vmNamingTemplate` moved to `.providerSpecific`
   - Removed `.includeClusterResourceSet`
+  - Set `additionalProperties` to false on all objects that don't make use of them.
 - Non-breaking schema changes and clean-ups
   - Remove unused `.clusterName` value
+  - Added properties `.cluster-shared`, `.managementCluster`, and `.provider`, which are injected into values from different sources and have to be permitted explicitlxy since `additionalProperties` is false now.
   - Change the `.controlPlane.replicas` default to 1
   - Add a default value of 1 to `.nodePools.*.replicas`
   - Mark `.connectivity.containerRegistries` as optional (not required)
