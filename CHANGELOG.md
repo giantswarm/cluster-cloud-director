@@ -7,9 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add default value to schema for `.controlPlane.replicas`.
+
 ### Changed
 
 - :boom: **Breaking:** Stop deploying default network policies with the `cilium-app`. This means the cluster will be more locked down and all network traffic is blocked by default. Can be disabled with `network.allowAllEgress` setting.
+- Normalize values schema according to `schemalint` v2.
+- Update cilium to 0.10.0.
+
+### Fixed
+
+- Values schema: remove invalid key `replicas` from `.controlPlane.replicas`
 
 ## [0.11.1] - 2023-05-25
 

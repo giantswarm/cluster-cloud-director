@@ -1,0 +1,44 @@
+# DO NOT EDIT. Generated with:
+#
+#    devctl@6.3.1
+#
+
+# This workflow validates the JSON schema of the cluster-app, which is located in
+# `helm/*/values.schema.json`, using schemalint. It also ensures that the `values.yaml`
+# file located in `helm/*/values.yaml` is generated with helm-values-gen, using the
+# defaults defined in the JSON schema.
+
+name: JSON schema validation
+on:
+  pull_request:
+    branches:
+      - master
+      - main
+    paths:
+      - 'helm/**/values.yaml'
+      - 'helm/**/values.schema.json'
+
+  push: {}
+
+jobs:
+  validate:
+    name: Verify values.schema.json with schemalint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Run schemalint
+        id: run-schemalint
+        uses: giantswarm/schemalint/actions/verify-helm-schema@v2
+        with:
+          rule-set: 'cluster-app'
+  generate:
+    name: Check that values.yaml is generated from values.schema.json with helm-values-gen
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Run helm-values-gen
+        id: run-helm-values-gen
+        uses: giantswarm/helm-values-gen/actions/ensure-generated@v1
