@@ -67,6 +67,7 @@ TODO: Warn when `.apiServer.enableAdmissionPlugins`, `.apiServer.featureGates`, 
 
 ### Changed
 
+- Update cilium to 0.10.0.
 - Normalize values schema according to `schemalint` v2.
 - :boom: Breaking schema changes:
   - `.apiServer.certSANs` moved to `.controlPlane.certSANs`
