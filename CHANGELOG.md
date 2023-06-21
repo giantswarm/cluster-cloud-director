@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Normalize values schema according to `schemalint` v2.
 - Update cilium to 0.10.0.
+- Update `cloud-provider-cloud-director` to `0.2.8`.
 
 ### Fixed
 
