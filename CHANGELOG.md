@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 To migrate values from cluster-cloud-director 0.11.x, we provide below [yq](https://mikefarah.gitbook.io/yq/) script, which assumes your values (not a ConfigMap!) are available in the file `values.yaml`. The file's content will be overwritten.
 
-**Note: For the following three proprties, the structure has changes and you will have to modify your values manually.
+**Note:** For the following three proprties, the structure has changes and you will have to modify your values manually.
 
 - `.apiServer.enableAdmissionPlugins` was a string property with comma-separated values. This gets replaced by `.internal.apiServer.enableAdmissionPlugins`, which is an array property where each admission plugin name should be a separate array item.
 - `.apiServer.featureGates` was an array property, where each item had the form `FeatureGateName=<true|false>`. This gets replaced by `.internal.apiServer.featureGates`, which is an object. Here the feature gate name is supposed to be the key and the value is the according boolean.
