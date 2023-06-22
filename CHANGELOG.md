@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Add default value to schema for `.controlPlane.replicas`.
+- Add depnedencies for HelmRelease CRs (so `coredns` and CPI wait for `cilium` to be installed first).
 
 ### Changed
 
