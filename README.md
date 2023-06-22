@@ -85,12 +85,6 @@ nodePools:
     class: "default"
     replicas: 2
 
-ssh:
-  users:
-    - name: "root"
-      authorizedKeys:
-        - "ssh-rsa AAAAB3NzaC1yc2...NOOcv5HZOXWjE="
-
 internal:
   kubernetesVersion: "v1.22.5+vmware.1"
 ```
