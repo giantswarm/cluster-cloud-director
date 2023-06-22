@@ -34,20 +34,21 @@ yq eval --inplace '
   with(select(.sshTrustedUserCAKeys != null); .connectivity.shell.sshTrustedUserCAKeys = .sshTrustedUserCAKeys) |
   with(select(.userContext != null); .providerSpecific.userContext = .userContext) |
   with(select(.vmNamingTemplate != null); .providerSpecific.vmNamingTemplate = .vmNamingTemplate) |
-  del(.clusterName) |
+  del(.cloudDirector) |
   del(.cloudProvider) |
   del(.cluster) |
-  del(.clusterLabels) |
   del(.clusterDescription) |
-  del(.cloudDirector) |
+  del(.clusterLabels) |
+  del(.clusterName) |
   del(.connectivity.network.ntp) |
   del(.controllerManager) |
   del(.includeClusterResourceSet) |
   del(.kubernetesVersion) |
   del(.nodeClasses) |
   del(.oidc) |
-  del(.osUsers) |
   del(.organization) |
+  del(.osUsers) |
+  del(.providerSpecific.userContext.secretRef.useSecretRef) |
   del(.proxy) |
   del(.rdeId) |
   del(.servicePriority) |
