@@ -14,13 +14,13 @@ To migrate values from cluster-cloud-director 0.11.x, we provide below [yq](http
 
 ```bash
 yq eval --inplace '
+  with(select(.cloudDirector != null); .providerSpecific = .cloudDirector) |
   with(select(.cloudProvider != null); .providerSpecific.cloudProviderInterface = .cloudProvider) |
   with(select(.cluster.parentUid != null); .internal.parentUid = .cluster.parentUid) |
   with(select(.cluster.skipRDE != null); .internal.skipRde = .cluster.skipRDE) |
   with(select(.cluster.useAsManagementCluster != null); .internal.useAsManagementCluster = .cluster.useAsManagementCluster) |
-  with(select(.clusterLabels != null); .metadata.labels = .clusterLabels) |
   with(select(.clusterDescription != null); .metadata.description = .clusterDescription) |
-  with(select(.cloudDirector != null); .providerSpecific = .cloudDirector) |
+  with(select(.clusterLabels != null); .metadata.labels = .clusterLabels) |
   with(select(.connectivity.network.ntp != null); .connectivity.ntp = .connectivity.network.ntp) |
   with(select(.controllerManager != null); .internal.controllerManager = .controllerManager) |
   with(select(.kubernetesVersion != null); .internal.kubernetesVersion = .kubernetesVersion) |
