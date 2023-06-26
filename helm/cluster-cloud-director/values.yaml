@@ -3,7 +3,8 @@
 baseDomain: k8s.test
 connectivity:
   network:
-    controlPlaneEndpoint: {}
+    controlPlaneEndpoint:
+      port: 6443
     loadBalancers: {}
     pods:
       cidrBlocks:

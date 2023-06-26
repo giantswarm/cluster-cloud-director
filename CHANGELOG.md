@@ -66,6 +66,10 @@ yq eval --inplace '
 
 </details>
 
+### Added
+
+- Default controlplane endpoint port to 6443.
+
 ### Changed
 
 - Normalize values schema according to `schemalint` v2.
