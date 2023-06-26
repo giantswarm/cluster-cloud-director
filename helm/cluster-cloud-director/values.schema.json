@@ -219,7 +219,8 @@
                                 },
                                 "port": {
                                     "type": "integer",
-                                    "title": "Port number"
+                                    "title": "Port number",
+                                    "default": 6443
                                 }
                             }
                         },
