@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Normalize values schema according to `schemalint` v2.
-- Update cilium to 0.10.0.
+- Update cilium to 0.10.0 (and add tolerations to hubble relay and UI).
 
 ### Fixed
 
