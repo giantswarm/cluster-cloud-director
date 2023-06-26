@@ -19,8 +19,8 @@ spec:
         kind: HelmRepository
         name: {{ include "resource.default.name" $ }}-default
   dependsOn:
-    name: {{ include "resource.default.name" $ }}-cilium
-    namespace: {{ $.Release.Namespace }}
+    - name: {{ include "resource.default.name" $ }}-cilium
+      namespace: {{ $.Release.Namespace }}
   kubeConfig:
     secretRef:
       name: {{ include "resource.default.name" $ }}-kubeconfig
