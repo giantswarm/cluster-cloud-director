@@ -66,13 +66,8 @@ yq eval --inplace '
 
 </details>
 
-### Added
-
-- Add default value to schema for `.controlPlane.replicas`.
-
 ### Changed
 
-- Update cilium to 0.10.0.
 - Normalize values schema according to `schemalint` v2.
 - :boom: Breaking schema changes:
   - `.apiServer.certSANs` moved to `.controlPlane.certSANs`
@@ -107,6 +102,18 @@ yq eval --inplace '
   - Change the `.controlPlane.replicas` default to 1
   - Add a default value of 1 to `.nodePools.*.replicas`
   - Mark `.connectivity.containerRegistries` as optional (not required)
+
+## [0.11.2] - 2023-06-26
+
+### Added
+
+- Add default value to schema for `.controlPlane.replicas`.
+
+### Changed
+
+- Normalize values schema according to `schemalint` v2.
+- Update cilium to 0.10.0 (and add tolerations to hubble relay and UI).
+- Update `cloud-provider-cloud-director` to `0.2.8`.
 
 ### Fixed
 
@@ -383,7 +390,8 @@ Bump cloud provider to v0.2.5 (fix).
 - Added VCDCluster parameters to match CRD.
 - Nodepool and nodeclass support.
 
-[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.11.1...HEAD
+[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.11.2...HEAD
+[0.11.2]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.11.1...v0.11.2
 [0.11.1]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.11.0...v0.11.1
 [0.11.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.10.0...v0.11.0
 [0.10.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.9.0...v0.10.0
