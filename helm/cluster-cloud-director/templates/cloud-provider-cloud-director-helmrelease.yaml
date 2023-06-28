@@ -4,14 +4,16 @@ metadata:
   name: {{ include "resource.default.name" $ }}-cloud-provider-cloud-director
   namespace: {{ $.Release.Namespace }}
   annotations:
-    cluster.giantswarm.io/description: "{{ .Values.clusterDescription }}"
+    cluster.giantswarm.io/description: {{ .Values.metadata.description | quote }}
   labels:
     cluster-apps-operator.giantswarm.io/watching: ""
-    giantswarm.io/service-priority: "{{ .Values.servicePriority }}"
+    giantswarm.io/service-priority: {{ .Values.metadata.servicePriority | quote }}
     {{- include "labels.common" . | nindent 4 }}
-    {{- range $key, $val := .Values.clusterLabels }}
+    {{- if .Values.metadata.labels }}
+    {{- range $key, $val := .Values.metadata.labels }}
     {{ $key }}: {{ $val | quote }}
-    {{- end}}
+    {{- end }}
+    {{- end }}
 spec:
   suspend: true # It will be unsuspended by the post-install/post-upgrade hook in update-values-hook-job.yaml.
   releaseName: cloud-provider-cloud-director
@@ -35,7 +37,7 @@ spec:
   # https://github.com/giantswarm/cloud-provider-cloud-director-app/blob/main/helm/cloud-provider-cloud-director/values.yaml
   valuesFrom:
     - kind: Secret
-      name: {{ .Values.userContext.secretRef.secretName | quote }}
+      name: {{ .Values.providerSpecific.userContext.secretRef.secretName | quote }}
       valuesKey: "refreshToken"
       targetPath: "global.basicAuthSecret.refreshToken"
   values:
@@ -44,12 +46,12 @@ spec:
         create: true
       vcdConfig:
         clusterid: "" # It will be set by the post-install/post-upgrade hook in post-install-rdeid-job.yaml.
-        org: {{ .Values.cloudDirector.org | quote }}
-        ovdc: {{ .Values.cloudDirector.ovdc | quote }}
-        ovdcNetwork: {{ .Values.cloudDirector.ovdcNetwork | quote }}
-        site: {{ .Values.cloudDirector.site | quote }}
+        org: {{ .Values.providerSpecific.org | quote }}
+        ovdc: {{ .Values.providerSpecific.ovdc | quote }}
+        ovdcNetwork: {{ .Values.providerSpecific.ovdcNetwork | quote }}
+        site: {{ .Values.providerSpecific.site | quote }}
         vAppName: {{ include "resource.default.name" $  | quote }}
         vipSubnet: {{ .Values.connectivity.network.loadBalancers.vipSubnet }}
-        enableVirtualServiceSharedIP: {{ .Values.cloudProvider.enableVirtualServiceSharedIP }}
+        enableVirtualServiceSharedIP: {{ .Values.providerSpecific.cloudProviderInterface.enableVirtualServiceSharedIP }}
         oneArm:
-          enabled: {{ .Values.cloudProvider.oneArm.enabled }}
+          enabled: {{ .Values.providerSpecific.cloudProviderInterface.oneArm.enabled }}

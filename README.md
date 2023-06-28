@@ -39,7 +39,7 @@ Or
 
 ## Create a cluster
 
-Edit the values file (at least the fields that aren't identified as optional), reference the secret containing the user's VCD credentials by name under `userContext > secretRef > secretName` and install the chart in the same namespace.
+Edit the values file (at least the fields that aren't identified as optional), reference the secret containing the user's VCD credentials by name under `providerSpecific > userContext > secretRef > secretName` and install the chart in the same namespace.
 
 In the UI `vipSubnet` is the field in `Networking > Edge Gateway > IP Management > IP Allocations > Allocated IPs > IP Block`. For instance in Ikoula `178.170.32.1/24`
 
@@ -47,15 +47,25 @@ Example of a values.yaml file for Cloud provider Ikoula with minimum input (maki
 
 ```yaml
 baseDomain: "cluster.local"
-clusterDescription: "glados test cluster"
-kubernetesVersion: "v1.22.5+vmware.1"
-organization: "giantswarm"
+metadata:
+  description: "glados test cluster"
+  organization: "giantswarm"
 
-cloudDirector:
+providerSpecific:
   site: "https://vmware.ikoula.com"
   org: "xxx"
   ovdc: "xxx"
   ovdcNetwork: "xxx"
+  userContext:
+    secretRef:
+      useSecretRef: true
+      secretName: vcd-credentials
+
+  nodeClasses:
+    default:
+      catalog: "giantswarm"
+      template: "ubuntu-2004-kube-v1.22.5"
+      sizingPolicy: "m1.large"
 
 controlPlane:
   replicas: 3
@@ -63,36 +73,20 @@ controlPlane:
   template: "ubuntu-2004-kube-v1.22.5"
   sizingPolicy: "m1.large"
 
-network:
-  loadBalancer:
-    vipSubnet: "178.170.32.1/24"
-
-proxy:
-    httpProxy: "http://user:pwd@192.168.52.220:3128"
-    httpsProxy: "http://user:pwd@192.168.52.220:3128"
-    noProxy: "100.64.0.0/13,100.96.0.0/11,192.168.52.0/24,178.170.32.0/24"
-
-nodeClasses:
-  default:
-    catalog: "giantswarm"
-    template: "ubuntu-2004-kube-v1.22.5"
-    sizingPolicy: "m1.large"
+connectivity:
+  network:
+    loadBalancer:
+      vipSubnet: "178.170.32.1/24"
+  proxy:
+    enabled: true
 
 nodePools:
   worker:
     class: "default"
     replicas: 2
 
-ssh:
-  users:
-    - name: "root"
-      authorizedKeys:
-        - "ssh-rsa AAAAB3NzaC1yc2...NOOcv5HZOXWjE="
-
-userContext:
-  secretRef:
-    useSecretRef: true
-    secretName: vcd-credentials
+internal:
+  kubernetesVersion: "v1.22.5+vmware.1"
 ```
 
 ## Limitations

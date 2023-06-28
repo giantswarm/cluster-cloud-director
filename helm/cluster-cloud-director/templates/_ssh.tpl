@@ -1,13 +1,13 @@
 # The helper functions here can be called in templates and _helpers.tpl
-# This file should be self-sufficient. Don't call any functions from _helpers.tpl
+# This file should be self-sufficient. Don't call any functions from _helpers.tpl
 
 
 {{- define "sshFiles" -}}
-{{- if $.Values.sshTrustedUserCAKeys -}}
+{{- if $.Values.connectivity.shell.sshTrustedUserCAKeys -}}
 - path: /etc/ssh/trusted-user-ca-keys.pem
   permissions: "0600"
   content: |
-    {{- range $.Values.sshTrustedUserCAKeys}}
+    {{- range $.Values.connectivity.shell.sshTrustedUserCAKeys }}
     {{.}}
     {{- end }}
 - path: /etc/ssh/sshd_config
@@ -22,8 +22,8 @@
 {{- end -}}
 
 {{- define "sshUsers" -}}
-{{- if $.Values.osUsers -}}
+{{- if $.Values.connectivity.shell.osUsers -}}
 users:
-  {{- $.Values.osUsers | toYaml | nindent 2}}
+  {{- $.Values.connectivity.shell.osUsers | toYaml | nindent 2 }}
 {{- end }}
 {{- end -}}

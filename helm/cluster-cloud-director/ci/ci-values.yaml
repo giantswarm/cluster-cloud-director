@@ -1,42 +1,43 @@
 baseDomain: k8s.test
-clusterDescription: "test cluster Xavier"
-kubernetesVersion: "v1.22.5+vmware.1"
-organization: "giantswarm"
+internal:
+  kubernetesVersion: "v1.22.5+vmware.1"
+metadata:
+  description: "test cluster Xavier"
+  organization: "giantswarm"
+  labels:
+    mydomain.tls/some-label-key: some-label_value
 
-cloudDirector:
+providerSpecific:
   site: "https://vmware.ikoula.com"
   org: "xxx"
   ovdc: "xxx"
   ovdcNetwork: "xxx"
+  userContext:
+    secretRef:
+      secretName: "xxx"
+  nodeClasses:
+    default:
+      catalog: "giantswarm"
+      template: "ubuntu-2004-kube-v1.22.5"
+      sizingPolicy: "m1.medium"
 
 controlPlane:
   replicas: 1
   catalog: "giantswarm"
   template: "ubuntu-2004-kube-v1.22.5"
   sizingPolicy: "m1.medium"
+  oidc:
+    clientId: fake-client-id
+    groupsClaim: groups
+    issuerUrl: https://idp.example.com/
+    usernameClaim: username
 
 connectivity:
   network:
     loadBalancers:
       vipSubnet: "178.170.32.1/24"
 
-nodeClasses:
-  default:
-    catalog: "giantswarm"
-    template: "ubuntu-2004-kube-v1.22.5"
-    sizingPolicy: "m1.medium"
-
 nodePools:
   worker:
     class: "default"
     replicas: 3
-
-ssh:
-  users:
-    - name: "root"
-      authorizedKeys:
-        - "xxx"
-
-userContext:
-  secretRef:
-    secretName: "xxx"
