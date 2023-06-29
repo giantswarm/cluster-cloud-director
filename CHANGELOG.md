@@ -114,6 +114,7 @@ yq eval --inplace '
 ### Added
 
 - Add default value to schema for `.controlPlane.replicas`.
+- Add dependencies for HelmRelease CRs (so `coredns` and CPI wait for `cilium` to be installed first).
 
 ### Changed
 
