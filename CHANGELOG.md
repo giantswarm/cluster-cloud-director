@@ -7,6 +7,110 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.12.0] - 2023-06-28
+
+<details>
+<summary>How to migrate from 0.11.x</summary>
+
+To migrate values from cluster-cloud-director 0.11.x, we provide below [yq](https://mikefarah.gitbook.io/yq/) script, which assumes your values (not a ConfigMap!) are available in the file `values.yaml`. The file's content will be overwritten.
+
+**Note:** For the following three proprties, the structure has changes and you will have to modify your values manually.
+
+- `.apiServer.enableAdmissionPlugins` was a string property with comma-separated values. This gets replaced by `.internal.apiServer.enableAdmissionPlugins`, which is an array property where each admission plugin name should be a separate array item.
+- `.apiServer.featureGates` was an array property, where each item had the form `FeatureGateName=<true|false>`. This gets replaced by `.internal.apiServer.featureGates`, which is an object. Here the feature gate name is supposed to be the key and the value is the according boolean.
+- `.controllerManager.featureGates` was an array property, where each item had the form `FeatureGateName=<true|false>`. This gets replaced by `.internal.controllerManager.featureGates`, which is an object. Here the feature gate name is supposed to be the key and the value is the according boolean.
+
+```bash
+yq eval --inplace '
+  with(select(.cloudDirector != null); .providerSpecific = .cloudDirector) |
+  with(select(.cloudProvider != null); .providerSpecific.cloudProviderInterface = .cloudProvider) |
+  with(select(.cluster.parentUid != null); .internal.parentUid = .cluster.parentUid) |
+  with(select(.cluster.skipRDE != null); .internal.skipRde = .cluster.skipRDE) |
+  with(select(.cluster.useAsManagementCluster != null); .internal.useAsManagementCluster = .cluster.useAsManagementCluster) |
+  with(select(.clusterDescription != null); .metadata.description = .clusterDescription) |
+  with(select(.clusterLabels != null); .metadata.labels = .clusterLabels) |
+  with(select(.connectivity.network.ntp != null); .connectivity.ntp = .connectivity.network.ntp) |
+  with(select(.controllerManager != null); .internal.controllerManager = .controllerManager) |
+  with(select(.kubernetesVersion != null); .internal.kubernetesVersion = .kubernetesVersion) |
+  with(select(.nodeClasses != null); .providerSpecific.nodeClasses = .nodeClasses) |
+  with(select(.oidc != null); .controlPlane.oidc = .oidc) |
+  with(select(.organization != null); .metadata.organization = .organization) |
+  with(select(.osUsers != null); .connectivity.shell.osUsers = .osUsers) |
+  with(select(.proxy != null); .connectivity.proxy = .proxy) |
+  with(select(.rdeId != null); .internal.rdeId = .rdeId) |
+  with(select(.servicePriority != null); .metadata.servicePriority = .servicePriority) |
+  with(select(.sshTrustedUserCAKeys != null); .connectivity.shell.sshTrustedUserCAKeys = .sshTrustedUserCAKeys) |
+  with(select(.userContext != null); .providerSpecific.userContext = .userContext) |
+  with(select(.vmNamingTemplate != null); .providerSpecific.vmNamingTemplate = .vmNamingTemplate) |
+  del(.cloudDirector) |
+  del(.cloudProvider) |
+  del(.cluster) |
+  del(.clusterDescription) |
+  del(.clusterLabels) |
+  del(.clusterName) |
+  del(.connectivity.network.ntp) |
+  del(.controllerManager) |
+  del(.includeClusterResourceSet) |
+  del(.kubernetesVersion) |
+  del(.nodeClasses) |
+  del(.oidc) |
+  del(.organization) |
+  del(.osUsers) |
+  del(.providerSpecific.userContext.secretRef.useSecretRef) |
+  del(.proxy) |
+  del(.rdeId) |
+  del(.servicePriority) |
+  del(.sshTrustedUserCAKeys) |
+  del(.userContext) |
+  del(.vmNamingTemplate)
+' ./values.yaml
+```
+
+</details>
+
+### Added
+
+- Default controlplane endpoint port to 6443.
+
+### Changed
+
+- Normalize values schema according to `schemalint` v2.
+- :boom: Breaking schema changes:
+  - `.apiServer.certSANs` moved to `.controlPlane.certSANs`
+  - Former `.apiServer.enableAdmissionPlugins`, now `.internal.apiServer.enableAdmissionPlugins`,  changed to array of strings
+  - Former `.apiServer.featureGates`, now `.internal.apiServer.featureGates`, changed to array of objects
+  - Former `.controllerManager.featureGates`, now `.internal.controllerManager.featureGates`, changed to array of objects
+  - `.cluster.parentUid` moved to `.internal.parentUid`
+  - `.cluster.skipRDE` moved to `.internal.skipRde`
+  - `.cluster.useAsManagementCluster` moved to `.internal.useAsManagementCluster`
+  - `.clusterLabels` moved to `.metadata.labels`
+  - `.clusterDescription` moved to `.metadata.description`
+  - `.cloudDirector` moved to `.providerSpecific`
+  - `.connectivity.network.ntp` moved to `.connectivity.ntp`
+  - `.controllerManager` moved to `.internal.controllerManager`
+  - `.kubernetesVersion` moved to `.internal.kubernetesVersion`
+  - `.nodeClasses` moved to `.providerSpecific.nodeClasses`
+  - `.servicePriority` moved to `.metadata.servicePriority`
+  - `.oidc` moved to `.controlPlane.oidc`
+  - `.osUsers` moved to `.connectivity.osUsers`
+  - `.organization` moved to `.metadata.organization`
+  - `.proxy` moved to `.connectivity.proxy`
+  - `.cloudProvider` moved to `.providerSpecific.cloudProviderInterface`
+  - `.rdeId` moved to `.internal.rdeId`
+  - `.sshTrustedUserCAKeys` moved to `.connectivity.shell.sshTrustedUserCAKeys`
+  - `.userContext` moved to `.providerSpecific`
+  - `.vmNamingTemplate` moved to `.providerSpecific`
+  - Removed `.includeClusterResourceSet`
+  - Set `additionalProperties` to false on all objects that don't make use of them.
+- Non-breaking schema changes and clean-ups
+  - Remove unused `.clusterName` value
+  - Added properties `.cluster-shared`, `.managementCluster`, and `.provider`, which are injected into values from different sources and have to be permitted explicitlxy since `additionalProperties` is false now.
+  - Change the `.controlPlane.replicas` default to 1
+  - Add a default value of 1 to `.nodePools.*.replicas`
+  - Mark `.connectivity.containerRegistries` as optional (not required)
+
+## [0.11.2] - 2023-06-26
+
 ### Added
 
 - Add default value to schema for `.controlPlane.replicas`.
@@ -15,7 +119,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Normalize values schema according to `schemalint` v2.
-- Update cilium to 0.10.0.
+- Update cilium to 0.10.0 (and add tolerations to hubble relay and UI).
+- Update `cloud-provider-cloud-director` to `0.2.8`.
 
 ### Fixed
 
@@ -292,7 +397,9 @@ Bump cloud provider to v0.2.5 (fix).
 - Added VCDCluster parameters to match CRD.
 - Nodepool and nodeclass support.
 
-[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.11.1...HEAD
+[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.12.0...HEAD
+[0.12.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.11.2...v0.12.0
+[0.11.2]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.11.1...v0.11.2
 [0.11.1]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.11.0...v0.11.1
 [0.11.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.10.0...v0.11.0
 [0.10.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.9.0...v0.10.0

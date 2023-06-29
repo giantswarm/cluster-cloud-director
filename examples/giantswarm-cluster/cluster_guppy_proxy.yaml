@@ -6,26 +6,33 @@ metadata:
 data:
   values: |
     baseDomain: test.gigantic.io
-    clusterDescription: test cluster configured with http proxy.
-    kubernetesVersion: v1.22.9+vmware.1
-    organization: multi-project
-    servicePriority: highest
+    internal:
+      kubernetesVersion: v1.22.9+vmware.1
+    metadata:
+      description: test cluster configured with http proxy.
+      organization: multi-project
+      servicePriority: highest
 
-    cloudDirector:
+    providerSpecific:
       org: giantswarm
       ovdc: vDC 73640
       site: https://vmware.ikoula.com
       ovdcNetwork: network-test-2
+      userContext:
+        secretRef:
+          secretName: vcd-credentials
+          useSecretRef: true
+      nodeClasses:
+        default:
+          catalog: giantswarm
+          sizingPolicy: m1.medium
+          template: ubuntu-2004-kube-v1.22.9
 
-    ##### Not needed in VCD 10.4+
-    cloudProvider:
-      enableVirtualServiceSharedIP: false
-      oneArm:
-        enabled: true
-
-    proxy:
-      enabled: true
-      secretName: ""
+      ##### Not needed in VCD 10.4+
+      cloudProviderInterface:
+        enableVirtualServiceSharedIP: false
+        oneArm:
+          enabled: true
 
     controlPlane:
       catalog: giantswarm
@@ -37,22 +44,13 @@ data:
       network:
         loadBalancers:
           vipSubnet: "178.170.32.1/24"
-
-    nodeClasses:
-      default:
-        catalog: giantswarm
-        sizingPolicy: m1.medium
-        template: ubuntu-2004-kube-v1.22.9
+      proxy:
+        enabled: true
 
     nodePools:
       worker:
         class: default
         replicas: 2
-
-    userContext:
-      secretRef:
-        secretName: vcd-credentials
-        useSecretRef: true
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -63,7 +61,8 @@ data:
   values: |
     clusterName: test-proxy
     managementCluster: guppy
-    organization: multi-project
+    metadata:
+      organization: multi-project
 ---
 apiVersion: application.giantswarm.io/v1alpha1
 kind: App

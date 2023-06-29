@@ -4,7 +4,7 @@ metadata:
   name: {{ include "resource.default.name" $ }}-cilium
   namespace: {{ $.Release.Namespace }}
   annotations:
-    cluster.giantswarm.io/description: "{{ .Values.clusterDescription }}"
+    cluster.giantswarm.io/description: {{ .Values.metadata.description | quote }}
   labels:
     {{- include "labels.common" . | nindent 4 }}
 spec:
@@ -36,6 +36,29 @@ spec:
     hubble:
       relay:
         enabled: true
+        tolerations:
+          - key: "node-role.kubernetes.io/master"
+            effect: "NoSchedule"
+            operator: "Exists"
+          - key: "node-role.kubernetes.io/control-plane"
+            effect: "NoSchedule"
+            operator: "Exists"
+          - key: "node.cloudprovider.kubernetes.io/uninitialized"
+            effect: "NoSchedule"
+            operator: "Equal"
+            value: "true"
+      ui:
+        tolerations:
+          - key: "node-role.kubernetes.io/master"
+            effect: "NoSchedule"
+            operator: "Exists"
+          - key: "node-role.kubernetes.io/control-plane"
+            effect: "NoSchedule"
+            operator: "Exists"
+          - key: "node.cloudprovider.kubernetes.io/uninitialized"
+            effect: "NoSchedule"
+            operator: "Equal"
+            value: "true"
     defaultPolicies:
       enabled: true
       tolerations:
