@@ -45,6 +45,9 @@ spec:
           {{- if .usernamePrefix }}
           oidc-username-prefix: {{ .usernamePrefix | quote }}
           {{- end }}
+          {{- if .groupsPrefix }}
+          oidc-groups-prefix: {{ .groupsPrefix | quote }}
+          {{- end }}
           {{- if .caFile }}
           oidc-ca-file: {{ .caFile }}
           {{- end }}

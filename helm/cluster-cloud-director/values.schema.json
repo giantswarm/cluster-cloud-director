@@ -546,6 +546,11 @@
                             "type": "string",
                             "title": "Username prefix",
                             "description": "Prefix prepended to username values to prevent clashes with existing names."
+                        },
+                        "groupsPrefix": {
+                            "type": "string",
+                            "title": "Groups prefix",
+                            "description": "Prefix prepended to groups values to prevent clashes with existing names."
                         }
                     }
                 },
