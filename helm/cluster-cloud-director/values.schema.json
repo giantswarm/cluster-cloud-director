@@ -532,6 +532,11 @@
                             "title": "Groups claim",
                             "description": "Name of the identity token claim bearing the user's group memberships."
                         },
+                        "groupsPrefix": {
+                            "type": "string",
+                            "title": "Groups prefix",
+                            "description": "Prefix prepended to groups values to prevent clashes with existing names."
+                        },
                         "issuerUrl": {
                             "type": "string",
                             "title": "Issuer URL",
