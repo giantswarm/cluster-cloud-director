@@ -48,6 +48,7 @@ yq eval --inplace '
   with(select(.sshTrustedUserCAKeys != null); .connectivity.shell.sshTrustedUserCAKeys = .sshTrustedUserCAKeys) |
   with(select(.userContext != null); .providerSpecific.userContext = .userContext) |
   with(select(.vmNamingTemplate != null); .providerSpecific.vmNamingTemplate = .vmNamingTemplate) |
+  with(select(.connectivity.network.loadBalancer != null); .connectivity.network.loadBalancers = .connectivity.network.loadBalancer) |
   del(.cloudDirector) |
   del(.cloudProvider) |
   del(.cluster) |
@@ -69,6 +70,7 @@ yq eval --inplace '
   del(.sshTrustedUserCAKeys) |
   del(.userContext) |
   del(.vmNamingTemplate)
+  del(.connectivity.network.loadBalancer)
 ' ./values.yaml
 ```
 
