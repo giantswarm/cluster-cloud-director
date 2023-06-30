@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Support for `--oidc-groups-prefix`.
+
 ## [0.12.0] - 2023-06-28
 
 <details>
@@ -114,6 +118,7 @@ yq eval --inplace '
 ### Added
 
 - Add default value to schema for `.controlPlane.replicas`.
+- Add dependencies for HelmRelease CRs (so `coredns` and CPI wait for `cilium` to be installed first).
 
 ### Changed
 
