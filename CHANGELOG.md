@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Bind `kube-scheduler` metrics to 0.0.0.0.
+
 ## [0.12.1] - 2023-06-30
 
 ### Added
