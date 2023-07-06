@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Set value for `controller-manager` `terminated-pod-gc-threshold` to `125` ( consistent with vintage ) 
+
 ## [0.12.2] - 2023-07-03
 
 ### Added
