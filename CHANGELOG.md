@@ -79,7 +79,7 @@ yq eval --inplace '
   del(.servicePriority) |
   del(.sshTrustedUserCAKeys) |
   del(.userContext) |
-  del(.vmNamingTemplate)
+  del(.vmNamingTemplate) |
   del(.connectivity.network.loadBalancer)
 ' ./values.yaml
 ```
