@@ -13,8 +13,8 @@ spec:
         - localhost
         - 127.0.0.1
         - "api.{{ include "resource.default.name" $ }}.{{ .Values.baseDomain }}"
-        {{- if .Values.apiServer.certSANs }}
-        {{- range .Values.apiServer.certSANs}}
+        {{- if .Values.controlPlane.certSANs }}
+        {{- range .Values.controlPlane.certSANs}}
         - {{ . }}
         {{- end }}
         {{- end }}
@@ -25,19 +25,28 @@ spec:
           audit-log-path: /var/log/apiserver/audit.log
           audit-policy-file: /etc/kubernetes/policies/audit-policy.yaml
           cloud-provider: external
-          enable-admission-plugins: {{ .Values.apiServer.enableAdmissionPlugins }}
+          {{- if .Values.internal.apiServer.enableAdmissionPlugins }}
+          enable-admission-plugins: {{ .Values.internal.apiServer.enableAdmissionPlugins | join "," | quote }}
+          {{- end }}
           encryption-provider-config: /etc/kubernetes/encryption/config.yaml
-          feature-gates: {{ .Values.apiServer.featureGates }}
+          {{- if .Values.internal.apiServer.featureGates }}
+          feature-gates: {{ range $index, $element := .Values.internal.apiServer.featureGates -}}
+            {{ if $index }},{{ end }}{{ $element.name }}={{ $element.enabled }}
+          {{- end }}
+          {{- end }}
           kubelet-preferred-address-types: "InternalIP"
           logtostderr: "true"
-          {{- if .Values.oidc.issuerUrl }}
-          {{- with .Values.oidc }}
+          {{- if .Values.controlPlane.oidc.issuerUrl }}
+          {{- with .Values.controlPlane.oidc }}
           oidc-issuer-url: {{ .issuerUrl }}
           oidc-client-id: {{ .clientId }}
           oidc-username-claim: {{ .usernameClaim }}
           oidc-groups-claim: {{ .groupsClaim }}
           {{- if .usernamePrefix }}
           oidc-username-prefix: {{ .usernamePrefix | quote }}
+          {{- end }}
+          {{- if .groupsPrefix }}
+          oidc-groups-prefix: {{ .groupsPrefix | quote }}
           {{- end }}
           {{- if .caFile }}
           oidc-ca-file: {{ .caFile }}
@@ -68,9 +77,18 @@ spec:
           bind-address: "0.0.0.0"
           cloud-provider: external
           enable-hostpath-provisioner: "true"          
-          feature-gates: {{ .Values.controllerManager.featureGates }}
+          terminated-pod-gc-threshold: "125"
+          {{- if .Values.internal.controllerManager.featureGates }}
+          feature-gates: {{ range $index, $element := .Values.internal.controllerManager.featureGates -}}
+            {{ if $index }},{{ end }}{{ $element.name }}={{ $element.enabled }}
+          {{- end }}
+          {{- end }}
           logtostderr: "true"
           profiling: "false"
+      scheduler:
+        extraArgs:
+          authorization-always-allow-paths: "/healthz,/readyz,/livez,/metrics"
+          bind-address: "0.0.0.0"
       dns:
         imageRepository: {{ .Values.controlPlane.dns.imageRepository }}
         imageTag: {{ .Values.controlPlane.dns.imageTag }}
@@ -117,7 +135,7 @@ spec:
       {{- include "auditLogFiles" . | nindent 6 }}
       {{- include "sshFiles" . | nindent 6 }}
       {{- include "ntpFiles" . | nindent 6 }}
-      {{- if $.Values.proxy.enabled }}
+      {{- if $.Values.connectivity.proxy.enabled }}
       {{- include "containerdProxyConfig" . | nindent 6 }}
       {{- end }}
       {{- include "kubeadmFiles" . | nindent 6 }}
@@ -140,7 +158,7 @@ spec:
       - bash /tmp/kubeadm/patches/kube-apiserver-patch.sh {{ .Values.controlPlane.resourceRatio }}
       - bash /run/kubeadm/gs-update-kubeadm-yaml-skip-phases.sh
       - /bin/test ! -d /var/lib/kubelet && (/bin/mkdir -p /var/lib/kubelet && /bin/chmod 0750 /var/lib/kubelet)
-      {{- if $.Values.proxy.enabled }}
+      {{- if $.Values.connectivity.proxy.enabled }}
       - systemctl daemon-reload
       - systemctl restart containerd
       {{- end }}
@@ -160,4 +178,4 @@ spec:
       name: {{ include "resource.default.name" . }}-control-plane-{{ include "mtRevisionByControlPlane" $ }}
       namespace: {{ .Release.Namespace }}
   replicas: {{ .Values.controlPlane.replicas }}
-  version: {{ .Values.kubernetesVersion }}
+  version: {{ .Values.internal.kubernetesVersion }}

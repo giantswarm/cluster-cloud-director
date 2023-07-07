@@ -6,7 +6,7 @@ metadata:
   labels:
     {{- include "labels.common" . | nindent 4 }}
 spec:
-  {{- with .Values.cloudDirector }}
+  {{- with .Values.providerSpecific }}
   site: {{ .site }}
   org: {{ .org }}
   ovdc: {{ .ovdc }}
@@ -26,15 +26,21 @@ spec:
   {{- end }}
 
   # Not tested - not sure how
-  {{- with .Values.cluster }}
-  rdeId: {{ .rdeId }}
-  parentUid: {{ .parentUid }}
-  useAsManagementCluster: {{ .useAsManagementCluster }}
-  skipRDE: {{ .skipRDE }}
+  {{- if .Values.internal.rdeId }}
+  rdeId: {{ .Values.internal.rdeId | quote }}
+  {{- end }}
+  {{- if .Values.internal.parentUid }}
+  parentUid: {{ .Values.internal.parentUid | quote }}
+  {{- end }}
+  {{- if .Values.internal.useAsManagementCluster }}
+  useAsManagementCluster: {{ .Values.internal.useAsManagementCluster }}
+  {{- end }}
+  {{- if .Values.internal.skipRde }}
+  skipRDE: {{ .Values.internal.skipRde }}
   {{- end }}
 
   # Authentication  
   userContext:
     secretRef:
-      name: {{ .Values.userContext.secretRef.secretName }}
+      name: {{ .Values.providerSpecific.userContext.secretRef.secretName }}
       namespace: {{ .Release.Namespace }}
