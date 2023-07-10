@@ -211,7 +211,7 @@
                             "type": "boolean",
                             "title": "Allow all egress",
                             "default": false,
-			    "description": "When set to true default permisive CiliumNetworkPolicy CRs are installed. See https://github.com/giantswarm/cilium-app/blob/v0.10.0/helm/cilium/values.yaml#L2453"
+			    "description": "When set to true default permisive CiliumNetworkPolicy CRs are installed. See https://github.com/giantswarm/cilium-app/blob/v0.10.0/helm/cilium/values.yaml#L2453."
                         },
                         "controlPlaneEndpoint": {
                             "type": "object",
