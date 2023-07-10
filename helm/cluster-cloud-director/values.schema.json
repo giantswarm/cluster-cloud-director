@@ -350,8 +350,8 @@
                         "secretName": {
                             "type": "string",
                             "title": "Secret name",
-                            "description": "Name of a secret resource used by containerd to obtain the HTTP_PROXY, HTTPS_PROXY, and NO_PROXY environment variables.",
-                            "pattern": "^[a-z0-9-]{1,63}$"
+                            "description": "Name of a secret resource used by containerd to obtain the HTTP_PROXY, HTTPS_PROXY, and NO_PROXY environment variables. If empty the value will be defaulted to <clusterName>-cluster-values.",
+                            "pattern": "^[a-z0-9-]{0,63}$"
                         }
                     }
                 },
