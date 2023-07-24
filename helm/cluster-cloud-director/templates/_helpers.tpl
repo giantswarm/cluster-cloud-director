@@ -227,7 +227,7 @@ Generate a stanza for KubeAdmConfig and KubeAdmControlPlane in order to
 mount containerd configuration.
 */}}
 {{- define "containerdConfig" -}}
-- path: /etc/containerd/conf.d/registry-config.toml
+- path: /etc/containerd/config.toml
   permissions: "0600"
   contentFrom:
     secret:
