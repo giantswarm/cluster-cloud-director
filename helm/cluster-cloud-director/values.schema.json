@@ -195,7 +195,8 @@
                                 }
                             }
                         }
-                    }
+                    },
+                    "default": {}
                 },
                 "network": {
                     "type": "object",
@@ -670,6 +671,27 @@
                     "type": "string",
                     "title": "Runtime defined entity (RDE) identifier",
                     "description": "This cluster's RDE ID in the VCD API."
+                },
+                "sandboxContainerImage": {
+                    "type": "object",
+                    "title": "Sandbox Container image",
+                    "properties": {
+                        "name": {
+                            "type": "string",
+                            "title": "Repository",
+                            "default": "tkg/pause"
+                        },
+                        "registry": {
+                            "type": "string",
+                            "title": "Registry",
+                            "default": "projects.registry.vmware.com/"
+                        },
+                        "tag": {
+                            "type": "string",
+                            "title": "Tag",
+                            "default": "3.7"
+                        }
+                    }
                 },
                 "skipRde": {
                     "type": "boolean",

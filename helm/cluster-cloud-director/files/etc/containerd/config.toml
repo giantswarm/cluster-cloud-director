@@ -1,0 +1,50 @@
+version = 2
+
+# recommended defaults from https://github.com/containerd/containerd/blob/main/docs/ops.md#base-configuration
+# set containerd as a subreaper on linux when it is not running as PID 1
+subreaper = true
+# set containerd's OOM score
+oom_score = -999
+disabled_plugins = []
+[plugins."containerd.runtime.v1.linux"]
+# shim binary name/path
+shim = "containerd-shim"
+# runtime binary name/path
+runtime = "runc"
+# do not use a shim when starting containers, saves on memory but
+# live restore is not supported
+no_shim = false
+
+[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
+# setting runc.options unsets parent settings
+runtime_type = "io.containerd.runc.v2"
+[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
+SystemdCgroup = true
+[plugins."io.containerd.grpc.v1.cri"]
+sandbox_image = "{{ .Values.internal.sandboxContainerImage.registry }}/{{ .Values.internal.sandboxContainerImage.name }}:{{ .Values.internal.sandboxContainerImage.tag }}"
+
+[plugins."io.containerd.grpc.v1.cri".registry]
+  [plugins."io.containerd.grpc.v1.cri".registry.mirrors]
+  {{- range $host, $config := .Values.connectivity.containerRegistries }}
+    [plugins."io.containerd.grpc.v1.cri".registry.mirrors."{{$host}}"]
+      endpoint = [
+        {{- range $value := $config -}}
+        "https://{{$value.endpoint}}",
+        {{- end -}}
+    ]
+  {{- end }}
+[plugins."io.containerd.grpc.v1.cri".registry.configs]
+  {{ range $host, $config := .Values.connectivity.containerRegistries -}}
+    {{ range $value := $config -}}
+      {{ with $value.credentials -}}
+      [plugins."io.containerd.grpc.v1.cri".registry.configs."{{$value.endpoint}}".auth]
+      {{ if and .username .password -}}
+      auth = {{ printf "%s:%s" .username .password | b64enc | quote }}
+      {{- else if .auth -}}
+      auth = {{ .auth | quote }}
+      {{ else if .identitytoken -}}
+      identitytoken = {{ .identitytoken  | quote }}
+      {{- end }}
+    {{- end }}
+  {{- end }}
+{{- end }}

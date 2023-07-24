@@ -2,6 +2,7 @@
 
 baseDomain: k8s.test
 connectivity:
+  containerRegistries: {}
   network:
     controlPlaneEndpoint:
       port: 6443
@@ -55,6 +56,10 @@ internal:
         name: ExpandPersistentVolumes
       - enabled: true
         name: TTLAfterFinished
+  sandboxContainerImage:
+    name: tkg/pause
+    registry: projects.registry.vmware.com/
+    tag: "3.7"
   useAsManagementCluster: false
 kubectlImage:
   name: giantswarm/kubectl
