@@ -231,7 +231,7 @@ mount containerd configuration.
   permissions: "0600"
   contentFrom:
     secret:
-      name: {{ include "registrySecretName" $ }}
+      name: {{ include "containerdConfigSecretName" $ }}
       key: registry-config.toml
 {{- end -}}
 
@@ -240,7 +240,7 @@ Generate name of the k8s secret that contains containerd configuration for regis
 When there is a change in the secret, it is not recognized by CAPI controllers.
 To enforce upgrades, a version suffix is appended to secret name.
 */}}
-{{- define "registrySecretName" -}}
+{{- define "containerdConfigSecretName" -}}
 {{- $secretSuffix := tpl ($.Files.Get "files/etc/containerd/config.toml") $ | b64enc | quote | sha1sum | trunc 8 }}
 {{- include "resource.default.name" $ }}-registry-configuration-{{$secretSuffix}}
 {{- end -}}
