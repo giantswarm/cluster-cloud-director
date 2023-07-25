@@ -15,6 +15,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Set value for `controller-manager` `terminated-pod-gc-threshold` to `125` ( consistent with vintage ) 
 
+### Changed
+
+- :boom: **Breaking:** Stop deploying default network policies with the `cilium-app`. This means the cluster will be more locked down and all network traffic is blocked by default. Can be disabled with `network.allowAllEgress` setting.
+
 ## [0.12.2] - 2023-07-03
 
 ### Added
@@ -140,7 +144,6 @@ yq eval --inplace '
 
 ### Changed
 
-- :boom: **Breaking:** Stop deploying default network policies with the `cilium-app`. This means the cluster will be more locked down and all network traffic is blocked by default. Can be disabled with `network.allowAllEgress` setting.
 - Normalize values schema according to `schemalint` v2.
 - Update cilium to 0.10.0 (and add tolerations to hubble relay and UI).
 - Update `cloud-provider-cloud-director` to `0.2.8`.
