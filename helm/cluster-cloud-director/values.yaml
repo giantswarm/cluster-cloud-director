@@ -57,9 +57,9 @@ internal:
       - enabled: true
         name: TTLAfterFinished
   sandboxContainerImage:
-    name: tkg/pause
-    registry: projects.registry.vmware.com/
-    tag: "3.7"
+    name: giantswarm/pause
+    registry: quay.io
+    tag: "3.9"
   useAsManagementCluster: false
 kubectlImage:
   name: giantswarm/kubectl
