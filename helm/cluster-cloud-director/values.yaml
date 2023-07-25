@@ -3,6 +3,7 @@
 baseDomain: k8s.test
 connectivity:
   network:
+    allowAllEgress: false
     controlPlaneEndpoint:
       port: 6443
     loadBalancers: {}
