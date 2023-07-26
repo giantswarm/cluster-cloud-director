@@ -59,6 +59,7 @@ spec:
             effect: "NoSchedule"
             operator: "Equal"
             value: "true"
+{{- if .Values.connectivity.network.allowAllEgress }}
     defaultPolicies:
       enabled: true
       tolerations:
@@ -68,3 +69,4 @@ spec:
           operator: Exists
         - key: CriticalAddonsOnly
           operator: Exists
+{{- end }}
