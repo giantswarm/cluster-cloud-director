@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Set value for `controller-manager` `terminated-pod-gc-threshold` to `125` ( consistent with vintage ) 
 
 ### Changed
-- Consolidate containerd `config.toml` into single file to address [#1737](https://github.com/giantswarm/roadmap/issues/1737)
+- Consolidate containerd `config.toml` into a single file to address [#1737](https://github.com/giantswarm/roadmap/issues/1737)
 
 ## [0.12.2] - 2023-07-03
 
