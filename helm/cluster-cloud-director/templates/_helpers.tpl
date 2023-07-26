@@ -118,7 +118,7 @@ joinConfiguration:
 files:
 {{- include "ntpFiles" . | nindent 2}}
 {{- include "sshFiles" . | nindent 2}}
-{{- include "registryFiles" . | nindent 2 }}
+{{- include "containerdConfig" . | nindent 2 }}
 {{- if $.Values.connectivity.proxy.enabled }}
 {{- include "containerdProxyConfig" . | nindent 2}}
 {{- end }}
@@ -224,53 +224,15 @@ taints:
 
 {{/*
 Generate a stanza for KubeAdmConfig and KubeAdmControlPlane in order to 
-mount containerd configuration for registry configuration in nodes.
+mount containerd configuration.
 */}}
-{{- define "registryFiles" -}}
-{{- if and .Values.connectivity .Values.connectivity.containerRegistries -}}
-- path: /etc/containerd/conf.d/registry-config.toml
+{{- define "containerdConfig" -}}
+- path: /etc/containerd/config.toml
   permissions: "0600"
   contentFrom:
     secret:
-      name: {{ include "registrySecretName" $ }}
+      name: {{ include "containerdConfigSecretName" $ }}
       key: registry-config.toml
-{{- end -}}
-{{- end -}}
-
-{{/*
-Generate the content of /etc/containerd/conf.d/registry-config.toml in nodes
-for registry configuration
-*/}}
-{{- define "registrySecretContent" -}}
-version = 2
-
-[plugins."io.containerd.grpc.v1.cri".registry]
-
-[plugins."io.containerd.grpc.v1.cri".registry.mirrors]
-{{- range $registry, $mirrors := .Values.connectivity.containerRegistries}}
-
-[plugins."io.containerd.grpc.v1.cri".registry.mirrors."{{$registry}}"]
-{{- $endpoints := list -}}
-{{- range $mirrors }}{{- $endpoints = append $endpoints .endpoint }}{{- end }}
-endpoint = [ "{{join "\" , \"" $endpoints}}" ]
-
-{{- end }}
-
-[plugins."io.containerd.grpc.v1.cri".registry.configs]
-
-{{- range $registry, $mirrors := .Values.connectivity.containerRegistries}}
-{{- range $mirrors }}
-
-{{- if .credentials }}
-[plugins."io.containerd.grpc.v1.cri".registry.configs."{{.endpoint}}".auth]
-{{- range $key, $value := .credentials }}
-{{ $key}}={{$value |quote}}
-{{- end }}
-{{ end }}
-
-{{- end }}
-{{- end }}
-
 {{- end -}}
 
 {{/*
@@ -278,8 +240,8 @@ Generate name of the k8s secret that contains containerd configuration for regis
 When there is a change in the secret, it is not recognized by CAPI controllers.
 To enforce upgrades, a version suffix is appended to secret name.
 */}}
-{{- define "registrySecretName" -}}
-{{- $secretSuffix := include "registrySecretContent" . | b64enc | quote | sha1sum | trunc 8 }}
+{{- define "containerdConfigSecretName" -}}
+{{- $secretSuffix := tpl ($.Files.Get "files/etc/containerd/config.toml") $ | b64enc | quote | sha1sum | trunc 8 }}
 {{- include "resource.default.name" $ }}-registry-configuration-{{$secretSuffix}}
 {{- end -}}
 

@@ -195,7 +195,8 @@
                                 }
                             }
                         }
-                    }
+                    },
+                    "default": {}
                 },
                 "network": {
                     "type": "object",
@@ -676,6 +677,27 @@
                     "type": "string",
                     "title": "Runtime defined entity (RDE) identifier",
                     "description": "This cluster's RDE ID in the VCD API."
+                },
+                "sandboxContainerImage": {
+                    "type": "object",
+                    "title": "Sandbox Container image (pause container)",
+                    "properties": {
+                        "name": {
+                            "type": "string",
+                            "title": "Repository",
+                            "default": "giantswarm/pause"
+                        },
+                        "registry": {
+                            "type": "string",
+                            "title": "Registry",
+                            "default": "quay.io"
+                        },
+                        "tag": {
+                            "type": "string",
+                            "title": "Tag",
+                            "default": "3.9"
+                        }
+                    }
                 },
                 "skipRde": {
                     "type": "boolean",

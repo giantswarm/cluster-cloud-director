@@ -2,6 +2,7 @@
 
 baseDomain: k8s.test
 connectivity:
+  containerRegistries: {}
   network:
     allowAllEgress: false
     controlPlaneEndpoint:
@@ -56,6 +57,10 @@ internal:
         name: ExpandPersistentVolumes
       - enabled: true
         name: TTLAfterFinished
+  sandboxContainerImage:
+    name: giantswarm/pause
+    registry: quay.io
+    tag: "3.9"
   useAsManagementCluster: false
 kubectlImage:
   name: giantswarm/kubectl
