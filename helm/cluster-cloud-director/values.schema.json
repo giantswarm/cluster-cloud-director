@@ -674,7 +674,7 @@
                 },
                 "sandboxContainerImage": {
                     "type": "object",
-                    "title": "Sandbox Container image",
+                    "title": "Sandbox Container image (pause container)",
                     "properties": {
                         "name": {
                             "type": "string",
