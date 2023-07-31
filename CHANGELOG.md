@@ -19,7 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- :boom: **Breaking:** Stop deploying default network policies with the `cilium-app`. This means the cluster will be more locked down and all network traffic is blocked by default. Can be disabled with `network.allowAllEgress` setting.
+- :boom: **Breaking:** Stop deploying default network policies with the `cilium-app`. This means the cluster will be more locked down and all network traffic is blocked by default. Can be disabled with `network.allowAllEgress` setting. Required `default-apps-cloud-director` version `v0.5.4` or later.
 - Consolidate containerd `config.toml` into a single file to address [#1737](https://github.com/giantswarm/roadmap/issues/1737)
 - Add host OS user `nobody` to `root` group to enable node-exporter's `filesystem` collector to access the host filesystem.
 
