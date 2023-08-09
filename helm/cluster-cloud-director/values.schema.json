@@ -786,21 +786,24 @@
             "type": "object",
             "title": "Node pools",
             "description": "Groups of worker nodes with identical configuration.",
-            "additionalProperties": {
-                "type": "object",
-                "additionalProperties": false,
-                "properties": {
-                    "class": {
-                        "type": "string",
-                        "title": "Node class",
-                        "description": "A valid node class name, as specified in VMware Cloud Director (VCD) settings > Node classes.",
-                        "pattern": "^[a-z0-9-]+$"
-                    },
-                    "replicas": {
-                        "type": "integer",
-                        "title": "Number of nodes",
-                        "default": 1,
-                        "minimum": 1
+            "additionalProperties": false,
+            "patternProperties": {
+                "^[a-z0-9-]{3,10}$": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "class": {
+                            "type": "string",
+                            "title": "Node class",
+                            "description": "A valid node class name, as specified in VMware Cloud Director (VCD) settings > Node classes.",
+                            "pattern": "^[a-z0-9-]+$"
+                        },
+                        "replicas": {
+                            "type": "integer",
+                            "title": "Number of nodes",
+                            "default": 1,
+                            "minimum": 1
+                        }
                     }
                 }
             }
