@@ -314,6 +314,29 @@
                                     }
                                 }
                             }
+                        },
+                        "hostEntries": {
+                            "type": "array",
+                            "title": "Host entries",
+                            "items": {
+                                "type": "object",
+                                "required": [
+                                    "ip",
+                                    "fqdn"
+                                ],
+                                "additionalProperties": false,
+                                "properties": {
+                                    "ip": {
+                                        "type": "string",
+                                        "title": "IP address",
+                                        "format": "ipv4"
+                                    },
+                                    "fqdn": {
+                                        "type": "string",
+                                        "title": "FQDN"
+                                    }
+                                }
+                            }
                         }
                     }
                 },
