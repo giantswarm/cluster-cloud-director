@@ -99,7 +99,7 @@ use the cluster-apps-operator created secret <clusterName>-cluster-values as def
 
 {{- define "hostEntries" -}}
 {{- range $.Values.connectivity.network.hostEntries}}
-- echo "{{ .ip }}  {{ .fqdn }}" > /etc/hosts
+- echo "{{ .ip }}  {{ .fqdn }}" >> /etc/hosts
 {{- end -}}
 {{- end }}
 
