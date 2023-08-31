@@ -136,6 +136,9 @@ preKubeadmCommands:
 - systemctl daemon-reload
 - systemctl enable --now static-routes.service
 {{- end }}
+{{- range $.Values.connectivity.network.hostEntries}}
+- echo "{{ .ip }}  {{ .fqdn }}" > /etc/hosts
+{{- end -}}
 
 postKubeadmCommands:
 {{ include "sshPostKubeadmCommands" . }}

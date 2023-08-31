@@ -9,7 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Add validation pattern for NodePool name
+- Add interface to add host entries in nodes.
+- Add validation pattern for NodePool name.
 
 ## [0.13.0] - 2023-07-26
 
