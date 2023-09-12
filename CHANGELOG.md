@@ -172,6 +172,8 @@ yq eval --inplace '
 
 - Add audilog configuration.
 - :boom: **Breaking:** Refactor api for network parameters to apply the standard interface for all providers.
+- :boom: **Breaking:** Default CIDR blocks for pods changed from `100.96.0.0/11` to `10.244.0.0/16`.
+- :boom: **Breaking:** Default CIDR blocks for services changed from `100.64.0.0/13` to `172.31.0.0/16`.
 
 ## [0.10.0] - 2023-05-15
 
