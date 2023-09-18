@@ -97,6 +97,12 @@ use the cluster-apps-operator created secret <clusterName>-cluster-values as def
     {{- end -}}
 {{- end }}
 
+{{- define "hostEntries" -}}
+{{- range $.Values.connectivity.network.hostEntries}}
+- echo "{{ .ip }}  {{ .fqdn }}" >> /etc/hosts
+{{- end -}}
+{{- end }}
+
 {{/*
 Updates in KubeadmConfigTemplate will not trigger any rollout for worker nodes.
 It is necessary to create a new template with a new name to trigger an upgrade.
@@ -136,6 +142,7 @@ preKubeadmCommands:
 - systemctl daemon-reload
 - systemctl enable --now static-routes.service
 {{- end }}
+{{- include "hostEntries" .}}
 
 postKubeadmCommands:
 {{ include "sshPostKubeadmCommands" . }}

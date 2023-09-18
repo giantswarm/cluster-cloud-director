@@ -13,7 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Add validation pattern for NodePool name
+- Add validation pattern for NodePool name.
+- Add configurable host entries.
 
 ## [0.13.0] - 2023-07-26
 
