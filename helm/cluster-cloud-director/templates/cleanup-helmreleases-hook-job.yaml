@@ -44,14 +44,10 @@ metadata:
 rules:
   - apiGroups: ["helm.toolkit.fluxcd.io"]
     resources: ["helmreleases"]
-    verbs: ["get", "list"]
-  - apiGroups: ["helm.toolkit.fluxcd.io"]
-    resources: ["helmreleases"]
-    resourceNames:
-      - "{{ include "resource.default.name" $ }}-cilium"
-      - "{{ include "resource.default.name" $ }}-coredns"
-      - "{{ include "resource.default.name" $ }}-cloud-provider-cloud-director"
-    verbs: ["patch"]
+    verbs: ["get", "list", "patch"]
+  - apiGroups: ["source.toolkit.fluxcd.io"]
+    resources: ["helmcharts"]
+    verbs: ["get", "list", "patch", "delete"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -105,8 +101,19 @@ spec:
             - "/bin/sh"
             - "-xc"
             - |
-              for r in $(kubectl get helmrelease -n {{ $.Release.Namespace }} -l "giantswarm.io/cluster={{ include "resource.default.name" . }}" -o name) ; do
-                  kubectl patch -n {{ $.Release.Namespace }} "${r}" --type=merge -p '{"metadata": {"finalizers": []}}'
+              NAMESPACE="{{ $.Release.Namespace }}"
+              CLUSTER_NAME="{{ include "resource.default.name" . }}"
+
+              for release in $(kubectl get HelmRelease -n ${NAMESPACE} -l "giantswarm.io/cluster=${CLUSTER_NAME}" -o json | jq -r '.items[].metadata.name'); do
+                echo "Patching helmrelease $release to remove finalizers"
+                kubectl patch -n ${NAMESPACE} helmrelease "${release}" --type=merge -p '{"metadata": {"finalizers": []}}'
+              done
+
+              for chart in $(kubectl get HelmChart -n ${NAMESPACE} -o json | jq -r ".items[] | select(.spec.sourceRef.name == \"${CLUSTER_NAME}-default\") | .metadata.name"); do
+                echo "Patching helmchart $chart to remove finalizers"
+                kubectl patch -n ${NAMESPACE} helmchart "${chart}" --type=merge -p '{"metadata": {"finalizers": []}}'
+                echo "Deleting helmchart $chart"
+                kubectl delete -n ${NAMESPACE} helmchart "${chart}" --ignore-not-found=true
               done
           securityContext:
             readOnlyRootFilesystem: true
