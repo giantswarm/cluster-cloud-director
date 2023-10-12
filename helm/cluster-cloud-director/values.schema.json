@@ -616,27 +616,6 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-		"teleport": {
-		    "type": "object",
-		    "title": "Teleport",
-		    "properties": {
-			"proxyAddr": {
-			    "type": "string",
-			    "title": "Teleport proxy address",
-			    "default": "test.teleport.giantswarm.io:443"
-			},
-			"version": {
-			    "type": "string",
-			    "title": "Teleport version",
-			    "default": "13.1.5"
-			},
-			"enabled": {
-			    "type": "boolean",
-			    "title": "Enable teleport",
-			    "default": false
-			}
-		    }
-		},
                 "apiServer": {
                     "type": "object",
                     "additionalProperties": false,
@@ -747,6 +726,27 @@
                     "type": "boolean",
                     "title": "Skip RDE",
                     "description": "Set to true if the API schema extension is installed in the correct version in VCD to create CAPVCD entities in the API. Set to false otherwise."
+                },
+                "teleport": {
+                    "type": "object",
+                    "title": "Teleport",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean",
+                            "title": "Enable teleport",
+                            "default": false
+                        },
+                        "proxyAddr": {
+                            "type": "string",
+                            "title": "Teleport proxy address",
+                            "default": "test.teleport.giantswarm.io:443"
+                        },
+                        "version": {
+                            "type": "string",
+                            "title": "Teleport version",
+                            "default": "13.1.5"
+                        }
+                    }
                 },
                 "useAsManagementCluster": {
                     "type": "boolean",
