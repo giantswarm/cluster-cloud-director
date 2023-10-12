@@ -79,6 +79,15 @@ use the cluster-apps-operator created secret <clusterName>-cluster-values as def
       key: containerdProxy   
 {{- end -}}
 
+{{- define "teleportProxyConfig" -}}
+- path: /etc/systemd/system/teleport.service.d/99-http-proxy.conf
+  permissions: "0600"
+  contentFrom:
+    secret:
+      name: {{ include "containerdProxySecret" $ }}
+      key: containerdProxy
+{{- end -}}
+
 {{- define "staticRoutes" -}}
 - path: /etc/systemd/system/static-routes.service
   permissions: "0644"
@@ -156,6 +165,7 @@ files:
 {{- include "containerdConfig" . | nindent 2 }}
 {{- if $.Values.connectivity.proxy.enabled }}
 {{- include "containerdProxyConfig" . | nindent 2}}
+{{- include "teleportProxyConfig" . | nindent 2}}
 {{- end }}
 {{- if $.Values.internal.teleport.enabled }}
 {{- include "teleportFiles" . | nindent 2}}
