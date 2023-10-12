@@ -36,6 +36,10 @@ controlPlane:
   replicas: 1
   resourceRatio: 8
 internal:
+  teleport:
+    proxyAddr: test.teleport.giantswarm.io:443
+    version: 13.1.5
+    enabled: false
   apiServer:
     enableAdmissionPlugins:
       - DefaultStorageClass

@@ -135,6 +135,9 @@ spec:
       {{- include "auditLogFiles" . | nindent 6 }}
       {{- include "sshFiles" . | nindent 6 }}
       {{- include "ntpFiles" . | nindent 6 }}
+      {{- if $.Values.internal.teleport.enabled }}
+      {{- include "teleportFiles" . | nindent 6 }}
+      {{- end }}
       {{- if $.Values.connectivity.proxy.enabled }}
       {{- include "containerdProxyConfig" . | nindent 6 }}
       {{- end }}
@@ -161,6 +164,9 @@ spec:
       {{- if $.Values.connectivity.proxy.enabled }}
       - systemctl daemon-reload
       - systemctl restart containerd
+      {{- end }}
+      {{- if $.Values.internal.teleport.enabled }}
+      - systemctl enable --now teleport
       {{- end }}
       {{- if $.Values.connectivity.network.staticRoutes }}
       - systemctl daemon-reload
