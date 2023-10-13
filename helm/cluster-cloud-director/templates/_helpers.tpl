@@ -108,6 +108,10 @@ and is used to join the node to the teleport cluster.
     secret:
       name: {{ include "resource.default.name" $ }}-teleport-join-token
       key: joinToken
+- path: /etc/teleport.yaml
+  permissions: "0644"
+  encoding: base64
+  content: {{ tpl ($.Files.Get "files/etc/teleport.yaml") . | b64enc }}
 {{- end -}}
 
 {{- define "hostEntries" -}}
