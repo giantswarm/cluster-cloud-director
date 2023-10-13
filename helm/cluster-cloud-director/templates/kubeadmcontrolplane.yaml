@@ -165,6 +165,11 @@ spec:
       {{- if $.Values.connectivity.proxy.enabled }}
       - systemctl daemon-reload
       - systemctl restart containerd
+      - systemctl restart teleport
+      {{- end }}
+      {{- if $.Values.internal.teleport.enabled }}
+      - systemctl daemon-reload
+      - systemctl enable --now teleport.service
       {{- end }}
       {{- if $.Values.connectivity.network.staticRoutes }}
       - systemctl daemon-reload
