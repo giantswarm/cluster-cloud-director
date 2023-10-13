@@ -112,6 +112,14 @@ and is used to join the node to the teleport cluster.
   permissions: "0644"
   encoding: base64
   content: {{ tpl ($.Files.Get "files/etc/teleport.yaml") . | b64enc }}
+- path: /opt/teleport-node-role.sh
+  permissions: "0755"
+  encoding: base64
+  content: {{ $.Files.Get "files/opt/teleport-node-role.sh" | b64enc }}
+- path: /opt/teleport-installer.sh
+  permissions: "0644"
+  encoding: base64
+  content: {{ $.Files.Get "files/opt/teleport-installer.sh" | b64enc }}
 {{- end -}}
 
 {{- define "hostEntries" -}}
