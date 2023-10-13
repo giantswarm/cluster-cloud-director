@@ -140,7 +140,6 @@ spec:
       {{- end }}
       {{- if $.Values.connectivity.proxy.enabled }}
       {{- include "containerdProxyConfig" . | nindent 6 }}
-      {{- include "teleportProxyConfig" . | nindent 6 }}
       {{- end }}
       {{- include "kubeadmFiles" . | nindent 6 }}
       {{- include "containerdConfig" . | nindent 6 }}
@@ -165,9 +164,6 @@ spec:
       {{- if $.Values.connectivity.proxy.enabled }}
       - systemctl daemon-reload
       - systemctl restart containerd
-      {{- end }}
-      {{- if $.Values.internal.teleport.enabled }}
-      - systemctl enable --now teleport
       {{- end }}
       {{- if $.Values.connectivity.network.staticRoutes }}
       - systemctl daemon-reload

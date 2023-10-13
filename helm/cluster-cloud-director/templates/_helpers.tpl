@@ -79,15 +79,6 @@ use the cluster-apps-operator created secret <clusterName>-cluster-values as def
       key: containerdProxy   
 {{- end -}}
 
-{{- define "teleportProxyConfig" -}}
-- path: /etc/systemd/system/teleport.service.d/99-http-proxy.conf
-  permissions: "0600"
-  contentFrom:
-    secret:
-      name: {{ include "containerdProxySecret" $ }}
-      key: containerdProxy
-{{- end -}}
-
 {{- define "staticRoutes" -}}
 - path: /etc/systemd/system/static-routes.service
   permissions: "0644"
@@ -117,22 +108,6 @@ and is used to join the node to the teleport cluster.
     secret:
       name: {{ include "resource.default.name" $ }}-teleport-join-token
       key: joinToken
-- path: /opt/teleport-node-role.sh
-  permissions: "0755"
-  encoding: base64
-  content: {{ $.Files.Get "files/opt/teleport-node-role.sh" | b64enc }}
-- path: /opt/teleport-installer.sh
-  permissions: "0644"
-  encoding: base64
-  content: {{ $.Files.Get "files/opt/teleport-installer.sh" | b64enc }}
-- path: /etc/teleport.yaml
-  permissions: "0644"
-  encoding: base64
-  content: {{ tpl ($.Files.Get "files/etc/teleport.yaml") . | b64enc }}
-- path: /etc/systemd/system/teleport.service
-  permissions: "0644"
-  encoding: base64
-  content: {{ tpl ($.Files.Get "files/systemd/teleport.service") . | b64enc }}
 {{- end -}}
 
 {{- define "hostEntries" -}}
@@ -165,7 +140,6 @@ files:
 {{- include "containerdConfig" . | nindent 2 }}
 {{- if $.Values.connectivity.proxy.enabled }}
 {{- include "containerdProxyConfig" . | nindent 2}}
-{{- include "teleportProxyConfig" . | nindent 2}}
 {{- end }}
 {{- if $.Values.internal.teleport.enabled }}
 {{- include "teleportFiles" . | nindent 2}}
@@ -179,9 +153,6 @@ preKubeadmCommands:
 {{- if $.Values.connectivity.proxy.enabled }}
 - systemctl daemon-reload
 - systemctl restart containerd
-{{- end }}
-{{- if $.Values.internal.teleport.enabled }}
-- systemctl enable --now teleport
 {{- end }}
 {{- if $.Values.connectivity.network.staticRoutes }}
 - systemctl daemon-reload
