@@ -170,6 +170,10 @@ spec:
       - systemctl daemon-reload
       - systemctl enable --now static-routes.service
       {{- end }}
+      {{- if $.Values.internal.teleport.enabled }}
+      - systemctl daemon-reload
+      - systemctl enable --now teleport.service
+      {{- end }}
       {{- include "hostEntries" . | nindent 6}}
     postKubeadmCommands:  
       {{- include "sshPostKubeadmCommands" . | nindent 6 }}

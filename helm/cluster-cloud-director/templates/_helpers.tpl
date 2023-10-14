@@ -178,6 +178,7 @@ files:
 
 preKubeadmCommands:
 - /bin/test ! -d /var/lib/kubelet && (/bin/mkdir -p /var/lib/kubelet && /bin/chmod 0750 /var/lib/kubelet)
+
 {{- if $.Values.connectivity.proxy.enabled }}
 - systemctl daemon-reload
 - systemctl restart containerd
@@ -185,6 +186,10 @@ preKubeadmCommands:
 {{- if $.Values.connectivity.network.staticRoutes }}
 - systemctl daemon-reload
 - systemctl enable --now static-routes.service
+{{- end }}
+{{- if $.Values.internal.teleport.enabled }}
+- systemctl daemon-reload
+- systemctl enable --now teleport.service
 {{- end }}
 {{- include "hostEntries" .}}
 
