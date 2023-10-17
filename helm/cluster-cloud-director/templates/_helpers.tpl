@@ -171,9 +171,6 @@ files:
 {{- end }}
 {{- if $.Values.internal.teleport.enabled }}
 {{- include "teleportFiles" . | nindent 2}}
-{{- if $.Values.connectivity.proxy.enabled }}
-{{- include "teleportProxyConfig" . | nindent 2}}
-{{- end }}
 {{- end }}
 {{- if $.Values.connectivity.network.staticRoutes }}
 {{- include "staticRoutes" . | nindent 2}}
