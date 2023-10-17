@@ -167,6 +167,8 @@ files:
 {{- include "containerdConfig" . | nindent 2 }}
 {{- if $.Values.connectivity.proxy.enabled }}
 {{- include "containerdProxyConfig" . | nindent 2}}
+{{- end }}
+{{- if and $.Values.internal.teleport.enabled $.Values.connectivity.proxy.enabled }}
 {{- include "teleportProxyConfig" . | nindent 2}}
 {{- end }}
 {{- if $.Values.internal.teleport.enabled }}

@@ -140,7 +140,9 @@ spec:
       {{- end }}
       {{- if $.Values.connectivity.proxy.enabled }}
       {{- include "containerdProxyConfig" . | nindent 6 }}
-      {{- include "teleportProxyConfig" . | nindent 6 }}
+      {{- end }}
+      {{- if and $.Values.internal.teleport.enabled $.Values.connectivity.proxy.enabled }}
+      {{- include "teleportProxyConfig" . | nindent 2}}
       {{- end }}
       {{- include "kubeadmFiles" . | nindent 6 }}
       {{- include "containerdConfig" . | nindent 6 }}
