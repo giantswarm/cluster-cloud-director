@@ -38,5 +38,3 @@ proxy_service:
   https_keypairs: []
   https_keypairs_reload_interval: 0s
   acme: {}
-
-

@@ -89,7 +89,6 @@ use the cluster-apps-operator created secret <clusterName>-cluster-values as def
       key: containerdProxy
 {{- end -}}
 
-
 {{- define "staticRoutes" -}}
 - path: /etc/systemd/system/static-routes.service
   permissions: "0644"
