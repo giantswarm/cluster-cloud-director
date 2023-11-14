@@ -51,6 +51,10 @@ Configurations related to cluster connectivity such as container registries.
 | `connectivity.network.controlPlaneEndpoint.port` | **Port number**|**Type:** `integer`<br/>**Default:** `6443`|
 | `connectivity.network.extraOvdcNetworks` | **Extra OVDC networks** - OVDC networks to attach VMs to, additionally.|**Type:** `array`<br/>|
 | `connectivity.network.extraOvdcNetworks[*]` |**None**|**Type:** `string`<br/>|
+| `connectivity.network.hostEntries` | **Host entries**|**Type:** `array`<br/>|
+| `connectivity.network.hostEntries[*]` |**None**|**Type:** `object`<br/>|
+| `connectivity.network.hostEntries[*].fqdn` | **FQDN**|**Type:** `string`<br/>|
+| `connectivity.network.hostEntries[*].ip` | **IP address**|**Type:** `string`<br/>|
 | `connectivity.network.loadBalancers` | **Load Balancers**|**Type:** `object`<br/>|
 | `connectivity.network.loadBalancers.vipSubnet` | **Virtual IP subnet** - Virtual IP CIDR for the external network.|**Type:** `string`<br/>|
 | `connectivity.network.pods` | **Pods**|**Type:** `object`<br/>|
@@ -129,7 +133,7 @@ Properties within the `.metadata` top-level object
 | **Property** | **Description** | **More Details** |
 | :----------- | :-------------- | :--------------- |
 | `metadata.description` | **Cluster description** - User-friendly description of the cluster's purpose.|**Type:** `string`<br/>|
-| `metadata.labels` | **Labels** - These labels are added to the Kubernetes resourses defining this cluster.|**Type:** `object`<br/>|
+| `metadata.labels` | **Labels** - These labels are added to the Kubernetes resources defining this cluster.|**Type:** `object`<br/>|
 | `metadata.labels.PATTERN` | **Label**|**Type:** `string`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-zA-Z0-9/\._-]+$`<br/>**Value pattern:** `^[a-zA-Z0-9\._-]+$`<br/>|
 | `metadata.organization` | **Organization**|**Type:** `string`<br/>|
 | `metadata.servicePriority` | **Service priority** - The relative importance of this cluster.|**Type:** `string`<br/>**Default:** `"highest"`|
