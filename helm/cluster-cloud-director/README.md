@@ -51,6 +51,10 @@ Configurations related to cluster connectivity such as container registries.
 | `connectivity.network.controlPlaneEndpoint.port` | **Port number**|**Type:** `integer`<br/>**Default:** `6443`|
 | `connectivity.network.extraOvdcNetworks` | **Extra OVDC networks** - OVDC networks to attach VMs to, additionally.|**Type:** `array`<br/>|
 | `connectivity.network.extraOvdcNetworks[*]` |**None**|**Type:** `string`<br/>|
+| `connectivity.network.hostEntries` | **Host entries**|**Type:** `array`<br/>|
+| `connectivity.network.hostEntries[*]` |**None**|**Type:** `object`<br/>|
+| `connectivity.network.hostEntries[*].fqdn` | **FQDN**|**Type:** `string`<br/>|
+| `connectivity.network.hostEntries[*].ip` | **IP address**|**Type:** `string`<br/>|
 | `connectivity.network.loadBalancers` | **Load Balancers**|**Type:** `object`<br/>|
 | `connectivity.network.loadBalancers.vipSubnet` | **Virtual IP subnet** - Virtual IP CIDR for the external network.|**Type:** `string`<br/>|
 | `connectivity.network.pods` | **Pods**|**Type:** `object`<br/>|
