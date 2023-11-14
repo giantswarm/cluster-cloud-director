@@ -1,0 +1,43 @@
+# DO NOT EDIT. Generated with:
+#
+#    devctl@6.17.0
+#
+
+# This workflow validates the documentation generated from the JSON schema of the cluster-app
+# which is located in `helm/*/values.schema.json`. Specifically, it checks whether the changes
+# from `make generate-docs` were committed.
+
+name: Documentation validation
+on:
+  pull_request:
+    branches:
+      - master
+      - main
+    paths:
+      - 'helm/**/values.yaml'
+      - 'helm/**/values.schema.json'
+      - '**/*.md'  # if someone manually edited a file that should contain the generated documentation
+
+  push: {}
+
+jobs:
+  validate:
+    name: Validate documentation
+    runs-on: ubuntu-latest
+    env:
+      GO_VERSION: 1.21.3
+    steps:
+      - name: Set up Go ${{ env.GO_VERSION }}
+        uses: actions/setup-go@v3.3.0
+        with:
+          go-version: ${{ env.GO_VERSION }}
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: "Run 'make generate-docs' and check for differences"
+        run: |
+          make generate-docs
+
+          if ! git diff --exit-code; then
+            echo "ERROR: You need to commit the changes made by \"make generate-docs\"."
+            exit 1
+          fi
