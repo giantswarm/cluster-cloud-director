@@ -1,6 +1,6 @@
 # DO NOT EDIT. Generated with:
 #
-#    devctl@6.9.0
+#    devctl@6.17.0
 #
 name: Compare Helm Rendering
 
@@ -35,7 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request' && needs.check-cmp-state.outputs.suspendcmp == 0
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: list rendering values
         id: get-rendering-values
         run: |
@@ -76,7 +76,7 @@ jobs:
           version: ${{ env.dyff_ver }}
       - run: which dyff
       - run: ls -la /opt/hostedtoolcache
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: render helm with current code
         run: |
           mkdir -p /tmp/${{ matrix.values }}
@@ -84,7 +84,7 @@ jobs:
           helm repo add cluster-catalog https://giantswarm.github.io/cluster-catalog/
           helm dependency build helm/${{ github.event.repository.name }}
           helm template -n org-giantswarm -f "helm/${{ github.event.repository.name }}/ci/ci-values.yaml" -f "${{ matrix.values }}" "helm/${{ github.event.repository.name }}" > /tmp/${{ matrix.values }}/render-new.yaml
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: "${{ github.event.repository.default_branch }}"
           path: 'old'
