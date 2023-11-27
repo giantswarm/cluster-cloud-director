@@ -1,7 +1,6 @@
 # The helper functions here can be called in templates and _helpers.tpl
 # This file should be self-sufficient. Don't call any functions from _helpers.tpl
 
-
 {{- define "sshFiles" -}}
 {{- if $.Values.connectivity.shell.sshTrustedUserCAKeys -}}
 - path: /etc/ssh/trusted-user-ca-keys.pem
@@ -17,7 +16,7 @@
 {{- end -}}
 {{- end }}
 
-{{- define "sshPostKubeadmCommands" -}}
+{{- define "sshPreKubeadmCommands" -}}
 - systemctl restart sshd
 {{- end -}}
 

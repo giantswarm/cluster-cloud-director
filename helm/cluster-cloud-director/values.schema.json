@@ -116,7 +116,7 @@
             "title": "Template",
             "description": "Name of the template used to create the node VMs.",
             "examples": [
-                "ubuntu-2004-kube-v1.22.5"
+                "flatcar-stable-3374.2.5-kube-v1.24.11"
             ]
         }
     },
@@ -873,7 +873,8 @@
                             "additionalProperties": false,
                             "properties": {
                                 "catalog": {
-                                    "$ref": "#/$defs/catalog"
+                                    "$ref": "#/$defs/catalog",
+                                    "default": "giantswarm"
                                 },
                                 "customNodeLabels": {
                                     "$ref": "#/$defs/nodeLabels"

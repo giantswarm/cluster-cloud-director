@@ -98,6 +98,7 @@ spec:
           imageTag: {{ .Values.controlPlane.etcd.imageTag }}
       imageRepository: {{ .Values.controlPlane.image.repository }}
     {{- include "sshUsers" . | nindent 4 }}
+    {{- include "ignitionSpec" . | nindent 4 }}
     initConfiguration:
       # TODO we need cluster-api-app@1.8.0 to be able to use skipPhases
       # Right now we do a hackery to workaround this limitation. To revert
@@ -112,7 +113,7 @@ spec:
       #  - addon/coredns
       #  - addon/kube-proxy
       patches:
-        directory: "/tmp/kubeadm/patches"
+        directory: "/etc/kubernetes/patches"
       nodeRegistration:
         criSocket: /run/containerd/containerd.sock
         {{- include "taints" .Values.controlPlane.customNodeTaints | nindent 8 }}
@@ -120,7 +121,7 @@ spec:
           {{- include "kubeletExtraArgs" . | nindent 10}}
     joinConfiguration:
       patches:
-        directory: "/tmp/kubeadm/patches"
+        directory: "/etc/kubernetes/patches"
       nodeRegistration:
         criSocket: /run/containerd/containerd.sock
         {{- include "taints" .Values.controlPlane.customNodeTaints | nindent 8 }}
@@ -138,8 +139,8 @@ spec:
       {{- end }}
       {{- include "kubeadmFiles" . | nindent 6 }}
       {{- include "containerdConfig" . | nindent 6 }}
-      {{- range $kubeadmPatch, $_ :=  .Files.Glob  "files/etc/patches/**" }}
-      - path: {{ (printf "/tmp/kubeadm/patches/%s" (base $kubeadmPatch)) }}
+      {{- range $kubeadmPatch, $_ :=  .Files.Glob  "files/etc/kubernetes/patches/**" }}
+      - path: {{ (printf "/etc/kubernetes/patches/%s" (base $kubeadmPatch)) }}
         content: |-
           {{- $.Files.Get $kubeadmPatch | nindent 10 }}
       {{- end }}
@@ -153,7 +154,7 @@ spec:
       {{- include "staticRoutes" . | nindent 6}}
       {{- end }}
     preKubeadmCommands:
-      - bash /tmp/kubeadm/patches/kube-apiserver-patch.sh {{ .Values.controlPlane.resourceRatio }}
+      - bash /etc/kubernetes/patches/kube-apiserver-patch.sh {{ .Values.controlPlane.resourceRatio }}
       - bash /run/kubeadm/gs-update-kubeadm-yaml-skip-phases.sh
       - /bin/test ! -d /var/lib/kubelet && (/bin/mkdir -p /var/lib/kubelet && /bin/chmod 0750 /var/lib/kubelet)
       {{- if $.Values.connectivity.proxy.enabled }}
@@ -165,8 +166,8 @@ spec:
       - systemctl enable --now static-routes.service
       {{- end }}
       {{- include "hostEntries" . | nindent 6}}
-    postKubeadmCommands:  
       {{- include "sshPostKubeadmCommands" . | nindent 6 }}
+    postKubeadmCommands:  
       {{- include "ntpPostKubeadmCommands" . | nindent 6 }}
   machineTemplate:
     metadata:
