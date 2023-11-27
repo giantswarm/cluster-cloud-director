@@ -147,7 +147,6 @@ preKubeadmCommands:
 {{- include "hostEntries" .}}
 
 postKubeadmCommands:
-{{- include "ntpPostKubeadmCommands" . }}
 - usermod -aG root nobody # required for node-exporter to access the host's filesystem
 
 {{- end }}
