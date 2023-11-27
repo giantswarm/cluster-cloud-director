@@ -1,5 +1,5 @@
 cloud-provider: external
-feature-gates: "ExpandPersistentVolumes=true"
+feature-gates: ""
 eviction-hard : "memory.available<200Mi"
 eviction-max-pod-grace-period: "60"
 eviction-soft: "memory.available<500Mi"

@@ -54,8 +54,6 @@ internal:
   controllerManager:
     featureGates:
       - enabled: true
-        name: ExpandPersistentVolumes
-      - enabled: true
         name: TTLAfterFinished
   sandboxContainerImage:
     name: giantswarm/pause

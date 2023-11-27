@@ -677,10 +677,6 @@
                             "default": [
                                 {
                                     "enabled": true,
-                                    "name": "ExpandPersistentVolumes"
-                                },
-                                {
-                                    "enabled": true,
                                     "name": "TTLAfterFinished"
                                 }
                             ]
