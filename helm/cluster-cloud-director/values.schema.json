@@ -653,12 +653,7 @@
                             "items": {
                                 "$ref": "#/$defs/featureGate"
                             },
-                            "default": [
-                                {
-                                    "enabled": true,
-                                    "name": "TTLAfterFinished"
-                                }
-                            ]
+                            "default": []
                         }
                     }
                 },
@@ -674,12 +669,7 @@
                             "items": {
                                 "$ref": "#/$defs/featureGate"
                             },
-                            "default": [
-                                {
-                                    "enabled": true,
-                                    "name": "TTLAfterFinished"
-                                }
-                            ]
+                            "default": []
                         }
                     }
                 },

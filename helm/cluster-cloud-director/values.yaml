@@ -48,13 +48,9 @@ internal:
       - ResourceQuota
       - ServiceAccount
       - ValidatingAdmissionWebhook
-    featureGates:
-      - enabled: true
-        name: TTLAfterFinished
+    featureGates: []
   controllerManager:
-    featureGates:
-      - enabled: true
-        name: TTLAfterFinished
+    featureGates: []
   sandboxContainerImage:
     name: giantswarm/pause
     registry: quay.io
