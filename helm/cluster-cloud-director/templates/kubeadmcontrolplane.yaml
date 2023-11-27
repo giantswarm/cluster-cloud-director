@@ -166,7 +166,7 @@ spec:
       - systemctl enable --now static-routes.service
       {{- end }}
       {{- include "hostEntries" . | nindent 6}}
-      {{- include "sshPostKubeadmCommands" . | nindent 6 }}
+      {{- include "sshPreKubeadmCommands" . | nindent 6 }}
     postKubeadmCommands:  
       {{- include "ntpPostKubeadmCommands" . | nindent 6 }}
   machineTemplate:
