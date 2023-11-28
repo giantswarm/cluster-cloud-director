@@ -110,7 +110,7 @@ See https://github.com/kubernetes-sigs/cluster-api/issues/4910
 See https://github.com/kubernetes-sigs/cluster-api/pull/5027/files
 */}}
 {{- define "kubeadmConfigTemplateSpec" -}}
-{{- include "ignitionSpec" . | nindent 4 }}
+{{ include "ignitionSpec" . | nindent 4 }}
 {{ include "sshUsers" . }}
 
 joinConfiguration:
