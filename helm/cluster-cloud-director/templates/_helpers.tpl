@@ -112,7 +112,7 @@ See https://github.com/kubernetes-sigs/cluster-api/pull/5027/files
 {{- define "kubeadmConfigTemplateSpec" -}}
 
 {{ include "sshUsers" . }}
-#{{ include "ignitionSpec" . }}
+# {{ include "ignitionSpec" . }}
 
 joinConfiguration:
   nodeRegistration:
