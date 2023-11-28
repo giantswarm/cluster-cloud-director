@@ -98,7 +98,7 @@ spec:
           imageTag: {{ .Values.controlPlane.etcd.imageTag }}
       imageRepository: {{ .Values.controlPlane.image.repository }}
     {{- include "sshUsers" . | nindent 4 }}
-    {{- include "ignitionSpec" . | nindent 4 }}
+    #{{- include "ignitionSpec" . | nindent 4 }}
     initConfiguration:
       # TODO we need cluster-api-app@1.8.0 to be able to use skipPhases
       # Right now we do a hackery to workaround this limitation. To revert
