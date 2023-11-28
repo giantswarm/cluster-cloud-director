@@ -127,7 +127,6 @@ spec:
       {{- if $.Values.connectivity.proxy.enabled }}
       {{- include "containerdProxyConfig" . | nindent 6 }}
       {{- end }}
-      {{- include "kubeadmFiles" . | nindent 6 }}
       {{- include "containerdConfig" . | nindent 6 }}
       {{- range $kubeadmPatch, $_ :=  .Files.Glob  "files/etc/patches/**" }}
       - path: {{ (printf "/tmp/kubeadm/patches/%s" (base $kubeadmPatch)) }}
