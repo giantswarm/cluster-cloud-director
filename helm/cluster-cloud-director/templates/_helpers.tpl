@@ -36,7 +36,7 @@ application.giantswarm.io/team: {{ index .Chart.Annotations "application.giantsw
 
 {{/*
 Common labels with kubernetes version
-https://github.com/giantswarm/giantswarm/issues/22441
+https://github.com/giantswarm/giantswarm/issues/22441 - kick off ci
 */}}
 {{- define "labels.common" -}}
 {{- include "labels.selector" . }}
