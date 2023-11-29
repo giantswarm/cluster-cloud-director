@@ -17,7 +17,7 @@
 {{- end -}}
 {{- end }}
 
-{{- define "sshPostKubeadmCommands" -}}
+{{- define "sshPreKubeadmCommands" -}}
 - systemctl restart sshd
 {{- end -}}
 

@@ -144,6 +144,7 @@ files:
 {{- end }}
 
 preKubeadmCommands:
+{{ include "sshPreKubeadmCommands" . }}
 - /bin/test ! -d /var/lib/kubelet && (/bin/mkdir -p /var/lib/kubelet && /bin/chmod 0750 /var/lib/kubelet)
 {{- if $.Values.connectivity.proxy.enabled }}
 - systemctl daemon-reload
@@ -156,7 +157,6 @@ preKubeadmCommands:
 {{- include "hostEntries" .}}
 
 postKubeadmCommands:
-{{ include "sshPostKubeadmCommands" . }}
 {{- include "ntpPostKubeadmCommands" . }}
 - usermod -aG root nobody # required for node-exporter to access the host's filesystem
 
