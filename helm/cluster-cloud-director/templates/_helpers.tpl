@@ -120,7 +120,7 @@ See https://github.com/kubernetes-sigs/cluster-api/pull/5027/files
 */}}
 {{- define "kubeadmConfigTemplateSpec" -}}
 
-{{- include "sshUsers" . }}
+{{ include "sshUsers" . }}
 
 joinConfiguration:
   nodeRegistration:
@@ -130,7 +130,7 @@ joinConfiguration:
       node-labels: "giantswarm.io/node-pool={{ .pool.name }},{{- include "labelsByClass" . -}}"
     {{- include "taintsByClass" . | nindent  4}}
 
-{{- include "ignitionSpec" . }}
+{{ include "ignitionSpec" . }}
 
 files:
 {{- include "ntpFiles" . | nindent 2}}
