@@ -104,7 +104,7 @@ spec:
         - addon/coredns
         - addon/kube-proxy
       patches:
-        directory: "/tmp/kubeadm/patches"
+        directory: "/etc/kubernetes/patches"
       nodeRegistration:
         criSocket: /run/containerd/containerd.sock
         {{- include "taints" .Values.controlPlane.customNodeTaints | nindent 8 }}
@@ -112,7 +112,7 @@ spec:
           {{- include "kubeletExtraArgs" . | nindent 10}}
     joinConfiguration:
       patches:
-        directory: "/tmp/kubeadm/patches"
+        directory: "/etc/kubernetes/patches"
       nodeRegistration:
         criSocket: /run/containerd/containerd.sock
         {{- include "taints" .Values.controlPlane.customNodeTaints | nindent 8 }}
@@ -129,8 +129,8 @@ spec:
       {{- include "containerdProxyConfig" . | nindent 6 }}
       {{- end }}
       {{- include "containerdConfig" . | nindent 6 }}
-      {{- range $kubeadmPatch, $_ :=  .Files.Glob  "files/etc/patches/**" }}
-      - path: {{ (printf "/tmp/kubeadm/patches/%s" (base $kubeadmPatch)) }}
+      {{- range $kubeadmPatch, $_ :=  .Files.Glob  "files/etc/kubernetes/**" }}
+      - path: {{ (printf "/etc/kubernetes/patches/%s" (base $kubeadmPatch)) }}
         content: |-
           {{- $.Files.Get $kubeadmPatch | nindent 10 }}
       {{- end }}
@@ -145,7 +145,7 @@ spec:
       {{- end }}
     preKubeadmCommands:
       {{- include "sshPreKubeadmCommands" . | nindent 6 }}
-      - bash /tmp/kubeadm/patches/kube-apiserver-patch.sh {{ .Values.controlPlane.resourceRatio }}
+      - bash /etc/kubernetes/patches/kube-apiserver-patch.sh {{ .Values.controlPlane.resourceRatio }}
       - /bin/test ! -d /var/lib/kubelet && (/bin/mkdir -p /var/lib/kubelet && /bin/chmod 0750 /var/lib/kubelet)
       {{- if $.Values.connectivity.proxy.enabled }}
       - systemctl daemon-reload
