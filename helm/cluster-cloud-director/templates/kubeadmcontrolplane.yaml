@@ -131,6 +131,7 @@ spec:
       {{- include "containerdConfig" . | nindent 6 }}
       {{- range $kubeadmPatch, $_ :=  .Files.Glob  "files/etc/kubernetes/**" }}
       - path: {{ (printf "/etc/kubernetes/patches/%s" (base $kubeadmPatch)) }}
+        permissions: "0600"
         content: |-
           {{- $.Files.Get $kubeadmPatch | nindent 10 }}
       {{- end }}
