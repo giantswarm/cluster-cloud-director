@@ -484,17 +484,17 @@
                             "type": "string",
                             "title": "Repository",
                             "examples": [
-                                "projects.registry.vmware.com/tkg"
+                                "giantswarm"
                             ],
-                            "default": "projects.registry.vmware.com/tkg"
+                            "default": "giantswarm"
                         },
                         "imageTag": {
                             "type": "string",
                             "title": "Tag",
                             "examples": [
-                                "v1.7.0_vmware.12"
+                                "v1.9.3"
                             ],
-                            "default": "v1.7.0_vmware.12"
+                            "default": "v1.9.3"
                         }
                     }
                 },
@@ -530,9 +530,9 @@
                             "type": "string",
                             "title": "Repository",
                             "examples": [
-                                "projects.registry.vmware.com/tkg"
+                                "giantswarm"
                             ],
-                            "default": "projects.registry.vmware.com/tkg"
+                            "default": "giantswarm"
                         }
                     }
                 },
