@@ -25,13 +25,13 @@ connectivity:
 controlPlane:
   diskSizeGB: 30
   dns:
-    imageRepository: projects.registry.vmware.com/tkg
+    imageRepository: giantswarm
     imageTag: v1.7.0_vmware.12
   etcd:
     imageRepository: giantswarm
     imageTag: 3.5.4-0-k8s
   image:
-    repository: projects.registry.vmware.com/tkg
+    repository: giantswarm
   oidc: {}
   replicas: 1
   resourceRatio: 8
