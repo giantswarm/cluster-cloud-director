@@ -26,7 +26,7 @@ controlPlane:
   diskSizeGB: 30
   dns:
     imageRepository: giantswarm
-    imageTag: v1.7.0_vmware.12
+    imageTag: v1.9.3
   etcd:
     imageRepository: giantswarm
     imageTag: 3.5.4-0-k8s
