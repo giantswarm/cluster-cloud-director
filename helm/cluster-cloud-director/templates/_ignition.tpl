@@ -32,7 +32,7 @@ ignition:
             RemainAfterExit=yes
             Environment=OUTPUT=/run/metadata/coreos
             ExecStart=/usr/bin/mkdir --parent /run/metadata
-            ExecStart=/usr/bin/bash -cv 'echo "COREOS_CUSTOM_HOSTNAME=testxa" > ${OUTPUT}'
+            ExecStart=/usr/bin/bash -cv 'echo "COREOS_CUSTOM_HOSTNAME=$(/usr/share/oem/bin/vmtoolsd --cmd "info-get guestinfo.vmname")" > ${OUTPUT}'
         - name: set-hostname.service
           enabled: true
           contents: |
