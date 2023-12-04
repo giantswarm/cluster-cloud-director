@@ -17,6 +17,14 @@ ignition:
               echo "::1         ipv6-localhost ipv6-loopback" >/etc/hosts
               echo "127.0.0.1   localhost" >>/etc/hosts
               echo "127.0.0.1   ${COREOS_CUSTOM_HOSTNAME}" >>/etc/hosts
+              echo "[Match]" > /etc/systemd/network/00-ens192.network
+              echo "Name=ens192" >> /etc/systemd/network/00-ens192.network
+              echo "[Network]" >> /etc/systemd/network/00-ens192.network
+              echo "Address=${COREOS_CUSTOM_IP}" >> /etc/systemd/network/00-ens192.network
+              echo "Gateway=${COREOS_CUSTOM_GW}" >> /etc/systemd/network/00-ens192.network
+              echo "DNS=${COREOS_CUSTOM_DNS1}" >> /etc/systemd/network/00-ens192.network
+              echo "DNS=${COREOS_CUSTOM_DNS2}" >> /etc/systemd/network/00-ens192.network
+              sudo systemctl restart systemd-networkd
       systemd:
         units:
         - name: coreos-metadata.service
@@ -33,6 +41,10 @@ ignition:
             Environment=OUTPUT=/run/metadata/coreos
             ExecStart=/usr/bin/mkdir --parent /run/metadata
             ExecStart=/usr/bin/bash -cv 'echo "COREOS_CUSTOM_HOSTNAME=$(/usr/share/oem/bin/vmtoolsd --cmd "info-get guestinfo.ignition.vmname")" > ${OUTPUT}'
+            ExecStart=/usr/bin/bash -cv 'echo "COREOS_CUSTOM_IP=$(/usr/share/oem/bin/vmtoolsd --cmd "info-get guestinfo.ignition.machineaddress")" >> ${OUTPUT}'
+            ExecStart=/usr/bin/bash -cv 'echo "COREOS_CUSTOM_GW=$(/usr/share/oem/bin/vmtoolsd --cmd "info-get guestinfo.ignition.gateway")" >> ${OUTPUT}'
+            ExecStart=/usr/bin/bash -cv 'echo "COREOS_CUSTOM_DNS1=$(/usr/share/oem/bin/vmtoolsd --cmd "info-get guestinfo.ignition.dns1")" >> ${OUTPUT}'
+            ExecStart=/usr/bin/bash -cv 'echo "COREOS_CUSTOM_DNS2=$(/usr/share/oem/bin/vmtoolsd --cmd "info-get guestinfo.ignition.dns2")" >> ${OUTPUT}'
         - name: set-hostname.service
           enabled: true
           contents: |
@@ -71,15 +83,4 @@ ignition:
               [Service]
               # Make metadata environment variables available for pre-kubeadm commands.
               EnvironmentFile=/run/metadata/*
-      networkd:
-        units:
-          - name: 00-ens192.network
-            contents: |
-              [Match]
-              Name=ens192
-              [Network]
-              Address=$(/usr/share/oem/bin/vmtoolsd --cmd "info-get guestinfo.ignition.machineaddress")
-              Gateway=$(/usr/share/oem/bin/vmtoolsd --cmd "info-get guestinfo.ignition.gateway")
-              DNS=$(/usr/share/oem/bin/vmtoolsd --cmd "info-get guestinfo.ignition.dns1")
-              DNS=$(/usr/share/oem/bin/vmtoolsd --cmd "info-get guestinfo.ignition.dns2")
 {{- end -}}
