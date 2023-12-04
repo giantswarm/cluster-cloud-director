@@ -145,7 +145,6 @@ spec:
       {{- include "staticRoutes" . | nindent 6}}
       {{- end }}
     preKubeadmCommands:
-      {{- include "sshPreKubeadmCommands" . | nindent 6 }}
       - bash /etc/kubernetes/patches/kube-apiserver-patch.sh {{ .Values.controlPlane.resourceRatio }}
       - /bin/test ! -d /var/lib/kubelet && (/bin/mkdir -p /var/lib/kubelet && /bin/chmod 0750 /var/lib/kubelet)
       {{- if $.Values.connectivity.proxy.enabled }}
@@ -157,7 +156,8 @@ spec:
       - systemctl enable --now static-routes.service
       {{- end }}
       {{- include "hostEntries" . | nindent 6}}
-    postKubeadmCommands:  
+    postKubeadmCommands:
+      {{- include "sshPostKubeadmCommands" . | nindent 6 }}
       {{- include "ntpPostKubeadmCommands" . | nindent 6 }}
   machineTemplate:
     metadata:
