@@ -71,4 +71,15 @@ ignition:
               [Service]
               # Make metadata environment variables available for pre-kubeadm commands.
               EnvironmentFile=/run/metadata/*
+      networkd:
+        units:
+          - name: 00-ens192.network
+            contents: |
+              [Match]
+              Name=ens192
+              [Network]
+              Address=$(/usr/share/oem/bin/vmtoolsd --cmd "info-get guestinfo.ignition.machineaddress")
+              Gateway=$(/usr/share/oem/bin/vmtoolsd --cmd "info-get guestinfo.ignition.gateway")
+              DNS=$(/usr/share/oem/bin/vmtoolsd --cmd "info-get guestinfo.ignition.dns1")
+              DNS=$(/usr/share/oem/bin/vmtoolsd --cmd "info-get guestinfo.ignition.dns2")
 {{- end -}}
