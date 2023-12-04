@@ -22,8 +22,8 @@ ignition:
               echo "[Network]" >> /etc/systemd/network/00-ens192.network
               echo "Address=${COREOS_CUSTOM_IP}" >> /etc/systemd/network/00-ens192.network
               echo "Gateway=${COREOS_CUSTOM_GW}" >> /etc/systemd/network/00-ens192.network
-              echo "DNS=${COREOS_CUSTOM_DNS1}" >> /etc/systemd/network/00-ens192.network
-              echo "DNS=${COREOS_CUSTOM_DNS2}" >> /etc/systemd/network/00-ens192.network
+              if [ ! -z "$COREOS_CUSTOM_DNS1"]; then echo "DNS=${COREOS_CUSTOM_DNS1}" >> /etc/systemd/network/00-ens192.network; fi
+              if [ ! -z "$COREOS_CUSTOM_DNS2"]; then echo "DNS=${COREOS_CUSTOM_DNS2}" >> /etc/systemd/network/00-ens192.network; fi
               sudo systemctl restart systemd-networkd
       systemd:
         units:
