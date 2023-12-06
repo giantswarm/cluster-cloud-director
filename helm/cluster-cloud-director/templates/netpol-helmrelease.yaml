@@ -1,0 +1,48 @@
+{{- if not .Values.connectivity.network.allowAllEgress }}
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: {{ include "resource.default.name" $ }}-network-policies
+  namespace: {{ $.Release.Namespace }}
+  annotations:
+    cluster.giantswarm.io/description: "{{ .Values.clusterDescription }}"
+  labels:
+    {{- include "labels.common" . | nindent 4 }}
+spec:
+  releaseName: network-policies
+  targetNamespace: kube-system
+  storageNamespace: kube-system
+  chart:
+    spec:
+      chart: network-policies
+      version: 0.0.3
+      sourceRef:
+        kind: HelmRepository
+        name: {{ include "resource.default.name" $ }}-cluster
+  dependsOn:
+    - name: {{ include "resource.default.name" $ }}-cilium
+      namespace: {{ $.Release.Namespace }}
+  kubeConfig:
+    secretRef:
+      name: {{ include "resource.default.name" $ }}-kubeconfig
+  interval: {{ ((.Values.helmReleases).coredns).interval | default "10m" }}
+  install:
+    remediation:
+      retries: 30
+  # Default values
+  # https://github.com/giantswarm/network-policies-app/blob/main/helm/network-policies-app/values.yaml
+  # values:
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: {{ include "resource.default.name" $ }}-cluster
+  namespace: {{ $.Release.Namespace }}
+  annotations:
+    cluster.giantswarm.io/description: "{{ .Values.clusterDescription }}"
+  labels:
+    {{- include "labels.common" . | nindent 4 }}
+spec:
+  interval: 10m
+  url: https://giantswarm.github.io/cluster-catalog
+{{- end }}
