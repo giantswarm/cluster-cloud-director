@@ -35,3 +35,22 @@
 - systemctl restart chrony
 {{- end -}}
 {{- end -}}
+
+{{- define "ntpIgnition" -}}
+{{- with $.Values.connectivity.ntp }}
+{{- if or .pools .servers -}}
+- path: /etc/systemd/timesyncd.conf
+  mode: 0644
+  contents:
+    inline: |
+      [Time]
+      {{- if and .pools .servers }}
+      NTP={{ join " " .pools }} {{ join " " .servers }}
+      {{- else if .pools }}
+      NTP={{ join " " .pools }}
+      {{- else }}
+      NTP={{ join " " .servers }}
+      {{- end }}
+{{- end -}}
+{{- end }}
+{{- end }}

@@ -5,6 +5,7 @@ ignition:
     additionalConfig: |-
       storage:
         files:
+        {{- include "ntpIgnition" . | nindent 8 }}
         - path: /opt/set-hostname
           filesystem: root
           mode: 0744
