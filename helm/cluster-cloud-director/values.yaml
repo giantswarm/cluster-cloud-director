@@ -68,7 +68,6 @@ metadata:
   preventDeletion: false
   servicePriority: highest
 providerSpecific:
-  vmBootstrapFormat: "cloud-init"
   cloudProviderInterface:
     enableVirtualServiceSharedIP: true
     oneArm:
@@ -84,3 +83,4 @@ providerSpecific:
         vcdStorageProfileName: ""
   userContext:
     secretRef: {}
+  vmBootstrapFormat: cloud-init
