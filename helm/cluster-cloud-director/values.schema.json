@@ -943,7 +943,7 @@
                 },
                 "vmBootstrapFormat": {
                     "type": "string",
-                    "title": "ignition or cloud-init for OS initialization",
+                    "title": "Ignition or cloud-init for OS initialization",
                     "description": "Select either 'ignition' for Flatcar or 'cloud-init' for other OSes (e.g. Ubuntu).",
                     "enum": [
                         "cloud-init",
