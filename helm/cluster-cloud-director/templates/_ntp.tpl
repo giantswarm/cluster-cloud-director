@@ -1,7 +1,6 @@
 # The helper functions here can be called in templates and _helpers.tpl
 # This file should be self-sufficient. Don't call any functions from _helpers.tpl
 
-
 {{- define "ntpFiles" -}}
 {{- if or $.Values.connectivity.ntp.pools $.Values.connectivity.ntp.servers -}}
 - path: /etc/chrony/chrony.conf

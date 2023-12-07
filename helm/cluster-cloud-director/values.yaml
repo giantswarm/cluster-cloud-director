@@ -68,6 +68,7 @@ metadata:
   preventDeletion: false
   servicePriority: highest
 providerSpecific:
+  vmBootstrapFormat: "cloud-init"
   cloudProviderInterface:
     enableVirtualServiceSharedIP: true
     oneArm:
