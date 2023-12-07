@@ -121,10 +121,14 @@ joinConfiguration:
       node-labels: "giantswarm.io/node-pool={{ .pool.name }},{{- include "labelsByClass" . -}}"
     {{- include "taintsByClass" . | nindent  4}}
 
+{{- if eq $.Values.providerSpecific.vmBootstrapFormat "ignition" }}
 {{ include "ignitionSpec" . }}
+{{- end }}
 
 files:
+{{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-init" }}
 {{- include "ntpFiles" . | nindent 2}}
+{{- end }}
 {{- include "sshFiles" . | nindent 2}}
 {{- include "containerdConfig" . | nindent 2 }}
 {{- if $.Values.connectivity.proxy.enabled }}
@@ -148,7 +152,9 @@ preKubeadmCommands:
 
 postKubeadmCommands:
 {{ include "sshPostKubeadmCommands" . }}
+{{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-init" }}
 {{- include "ntpPostKubeadmCommands" . }}
+{{- end }}
 - usermod -aG root nobody # required for node-exporter to access the host's filesystem
 
 {{- end }}

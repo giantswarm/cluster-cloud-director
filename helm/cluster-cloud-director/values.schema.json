@@ -862,6 +862,16 @@
                         }
                     }
                 },
+                "vmBootstrapFormat": {
+                    "type": "string",
+                    "title": "ignition or cloud-init for OS initialization",
+                    "description": "Select either 'ignition' for Flatcar or 'cloud-init' for other OSes (e.g. Ubuntu).",
+                    "default": "cloud-init",
+                    "enum": [
+                        "cloud-init",
+                        "ignition"
+                    ]
+                },
                 "nodeClasses": {
                     "type": "object",
                     "title": "Node classes",
