@@ -149,6 +149,9 @@ preKubeadmCommands:
 - systemctl enable --now static-routes.service
 {{- end }}
 {{- include "hostEntries" .}}
+{{- range $.Values.connectivity.network.staticRoutes}}
+- ip route add {{ .destination }} via {{ .via }}
+{{- end -}}
 
 postKubeadmCommands:
 {{ include "sshPostKubeadmCommands" . }}
