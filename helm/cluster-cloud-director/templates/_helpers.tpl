@@ -99,7 +99,7 @@ use the cluster-apps-operator created secret <clusterName>-cluster-values as def
 
 {{- define "staticRoutesCommands" -}}
 {{- range $.Values.connectivity.network.staticRoutes}}
-- ip route add {{ .destination }} via {{ .via }}
+- sudo ip route add {{ .destination }} via {{ .via }}
 {{- end -}}
 {{- end }}
 
