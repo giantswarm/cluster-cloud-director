@@ -63,10 +63,10 @@ kubectlImage:
 metadata:
   servicePriority: highest
 providerSpecific:
-  vmBootstrapFormat: "cloud-init"
   cloudProviderInterface:
     enableVirtualServiceSharedIP: true
     oneArm:
       enabled: false
   userContext:
     secretRef: {}
+  vmBootstrapFormat: cloud-init
