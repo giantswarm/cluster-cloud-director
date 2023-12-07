@@ -141,7 +141,9 @@ files:
 {{- include "containerdProxyConfig" . | nindent 2}}
 {{- end }}
 {{- if $.Values.connectivity.network.staticRoutes }}
+{{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-init" }}
 {{- include "staticRoutes" . | nindent 2}}
+{{- end }}
 {{- end }}
 
 preKubeadmCommands:
@@ -152,10 +154,16 @@ preKubeadmCommands:
 {{- end }}
 {{- if $.Values.connectivity.network.staticRoutes }}
 - systemctl daemon-reload
-- systemctl enable --now static-routes.service
 {{- end }}
 {{- include "hostEntries" .}}
-{{- include "staticRoutesCommands" .}}
+{{- if $.Values.connectivity.network.staticRoutes }}
+{{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-init" }}
+- systemctl daemon-reload
+- systemctl enable --now static-routes.service
+{{- else if eq $.Values.providerSpecific.vmBootstrapFormat "ignition" }}
+{{- include "staticRoutesCommands" . }}
+{{- end }}
+{{- end }}
 
 postKubeadmCommands:
 {{ include "sshPostKubeadmCommands" . }}
