@@ -160,9 +160,7 @@ spec:
       - systemctl enable --now static-routes.service
       {{- end }}
       {{- include "hostEntries" . | nindent 6}}
-      {{- range $.Values.connectivity.network.staticRoutes }}
-      - ip route add {{ .destination }} via {{ .via }}
-      {{- end -}}
+      {{- include "staticRoutesCommands" . | nindent 6}}
     postKubeadmCommands:
       {{- include "sshPostKubeadmCommands" . | nindent 6 }}
       {{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-init" }}

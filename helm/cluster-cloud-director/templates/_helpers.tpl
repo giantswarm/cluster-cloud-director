@@ -97,6 +97,12 @@ use the cluster-apps-operator created secret <clusterName>-cluster-values as def
     {{- end -}}
 {{- end }}
 
+{{- define "staticRoutesCommands" -}}
+{{- range $.Values.connectivity.network.staticRoutes}}
+- ip route add {{ .destination }} via {{ .via }}
+{{- end -}}
+{{- end }}
+
 {{- define "hostEntries" -}}
 {{- range $.Values.connectivity.network.hostEntries}}
 - echo "{{ .ip }}  {{ .fqdn }}" >> /etc/hosts
@@ -149,9 +155,7 @@ preKubeadmCommands:
 - systemctl enable --now static-routes.service
 {{- end }}
 {{- include "hostEntries" .}}
-{{- range $.Values.connectivity.network.staticRoutes }}
-- ip route add {{ .destination }} via {{ .via }}
-{{- end -}}
+{{- include "staticRoutesCommands" .}}
 
 postKubeadmCommands:
 {{ include "sshPostKubeadmCommands" . }}
