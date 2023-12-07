@@ -1,3 +1,9 @@
+{{- define "ignitionStaticRoutesCommands" -}}
+{{- range $.Values.connectivity.network.staticRoutes}}
+sudo ip route add {{ .destination }} via {{ .via }}
+{{- end -}}
+{{- end }}
+
 {{- define "ignitionSpec" -}}
 format: ignition
 ignition:
@@ -26,6 +32,7 @@ ignition:
               if [ ! -z "$COREOS_CUSTOM_DNS1" ]; then echo "DNS=${COREOS_CUSTOM_DNS1}" >> /etc/systemd/network/00-ens192.network; fi
               if [ ! -z "$COREOS_CUSTOM_DNS2" ]; then echo "DNS=${COREOS_CUSTOM_DNS2}" >> /etc/systemd/network/00-ens192.network; fi
               sudo systemctl restart systemd-networkd
+              {{- include "ignitionStaticRoutesCommands" . | nindent 14}}
       systemd:
         units:
         - name: coreos-metadata.service
