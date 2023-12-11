@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Expose Storage Class properties from the CSI.
+
 ### Changed
 
 - Remove `TTLAfterFinished` flag for Kubernetes 1.25 compatibility (enabled by default).

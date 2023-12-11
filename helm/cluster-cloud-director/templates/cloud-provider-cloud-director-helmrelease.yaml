@@ -58,3 +58,14 @@ spec:
         enableVirtualServiceSharedIP: {{ .Values.providerSpecific.cloudProviderInterface.enableVirtualServiceSharedIP }}
         oneArm:
           enabled: {{ .Values.providerSpecific.cloudProviderInterface.oneArm.enabled }}
+    cloud-director-named-disk-csi-driver:
+      storageClass:
+        {{- with .Values.providerSpecific.containerStorageInterface.storageClass }}
+        enabled: {{ .enabled }}
+        delete:
+          isDefault: {{ .delete.isDefault }}
+          vcdStorageProfileName: {{ .delete.vcdStorageProfileName }}
+        retain:
+          isDefault: {{ .retain.isDefault }}
+          vcdStorageProfileName: {{ .retain.vcdStorageProfileName }}
+        {{- end }}
