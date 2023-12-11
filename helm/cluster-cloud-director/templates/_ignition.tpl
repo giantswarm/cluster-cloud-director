@@ -1,4 +1,5 @@
 {{- define "ignitionStaticRoutesCommands" -}}
+sleep 5
 {{- range $.Values.connectivity.network.staticRoutes}}
 sudo ip route add {{ .destination }} via {{ .via }}
 {{- end -}}
