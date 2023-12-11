@@ -69,10 +69,10 @@ providerSpecific:
       enabled: false
   containerStorageInterface:
     storageClass:
-      enabled: true
       delete:
         isDefault: true
         vcdStorageProfileName: ""
+      enabled: false
       retain:
         isDefault: false
         vcdStorageProfileName: ""
