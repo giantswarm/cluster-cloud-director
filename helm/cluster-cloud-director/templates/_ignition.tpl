@@ -1,7 +1,17 @@
 {{- define "ignitionStaticRoutesCommands" -}}
-sleep 5
 {{- range $.Values.connectivity.network.staticRoutes}}
-sudo ip route add {{ .destination }} via {{ .via }}
+TIMEOUT=10
+while [[ ! $(ip r | grep {{ .destination }}) && $TIMEOUT -gt 0 ]]
+do
+  sleep 0.5
+  ((TIMEOUT-=1))
+  echo "Waiting for network with Gateway {{ .destination }} to come online."
+done
+if [[ $(ip r | grep {{ .destination }}) ]]
+  sudo ip route add {{ .destination }} via {{ .via }}
+else
+  echo "WARN - Timeout reached while waiting for network with Gateway {{ .destination }} to come online."
+fi
 {{- end -}}
 {{- end }}
 
