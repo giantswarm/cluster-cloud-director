@@ -876,11 +876,6 @@
                             "description": "Pre-create storage class for the VCD CSI.",
                             "additionalProperties": false,
                             "properties": {
-                                "enabled": {
-                                    "type": "boolean",
-                                    "title": "Enable",
-                                    "default": false
-                                },
                                 "delete": {
                                     "type": "object",
                                     "title": "Pre-create delete storage class",
@@ -896,6 +891,11 @@
                                             "default": ""
                                         }
                                     }
+                                },
+                                "enabled": {
+                                    "type": "boolean",
+                                    "title": "Enable",
+                                    "default": false
                                 },
                                 "retain": {
                                     "type": "object",
