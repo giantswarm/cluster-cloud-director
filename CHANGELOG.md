@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.13.2] - 2023-12-12
+
 ### Added
 
 - Expose Storage Class properties from the CSI.
@@ -455,7 +457,8 @@ Bump cloud provider to v0.2.5 (fix).
 - Added VCDCluster parameters to match CRD.
 - Nodepool and nodeclass support.
 
-[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.13.1...HEAD
+[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.13.2...HEAD
+[0.13.2]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.13.1...v0.13.2
 [0.13.1]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.13.0...v0.13.1
 [0.13.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.12.2...v0.13.0
 [0.12.2]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.12.1...v0.12.2
