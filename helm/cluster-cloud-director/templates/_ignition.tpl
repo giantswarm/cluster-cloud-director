@@ -12,6 +12,7 @@ do
 done
 # Print a warning if the route could not be added.
 if [[ ! $(ip r | grep {{ .destination }}) ]]
+then
   echo "WARN - Timeout reached while waiting for network with Gateway {{ .destination }} to come online."
 fi
 {{- end -}}
