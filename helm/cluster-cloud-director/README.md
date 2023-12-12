@@ -162,7 +162,7 @@ Properties within the `.providerSpecific` top-level object
 | `providerSpecific.containerStorageInterface.storageClass.delete` | **Pre-create delete storage class**|**Type:** `object`<br/>|
 | `providerSpecific.containerStorageInterface.storageClass.delete.isDefault` | **Default storage class**|**Type:** `boolean`<br/>**Default:** `true`|
 | `providerSpecific.containerStorageInterface.storageClass.delete.vcdStorageProfileName` | **Name of storage profile in VCD**|**Type:** `string`<br/>**Default:** `""`|
-| `providerSpecific.containerStorageInterface.storageClass.enabled` | **Enable**|**Type:** `boolean`<br/>**Default:** `false`|
+| `providerSpecific.containerStorageInterface.storageClass.enabled` | **Enable**|**Type:** `boolean`<br/>**Default:** `true`|
 | `providerSpecific.containerStorageInterface.storageClass.retain` | **Pre-create retain storage class**|**Type:** `object`<br/>|
 | `providerSpecific.containerStorageInterface.storageClass.retain.isDefault` | **Default storage class**|**Type:** `boolean`<br/>**Default:** `false`|
 | `providerSpecific.containerStorageInterface.storageClass.retain.vcdStorageProfileName` | **Name of storage profile in VCD**|**Type:** `string`<br/>**Default:** `""`|
