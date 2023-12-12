@@ -1,15 +1,17 @@
 {{- define "ignitionStaticRoutesCommands" -}}
 {{- range $.Values.connectivity.network.staticRoutes}}
+# Set a timeout of $TIMEOUT/2 seconds for each route.
 TIMEOUT=10
+# Trying to add the route with a 5sec timeout.
 while [[ ! $(ip r | grep {{ .destination }}) && $TIMEOUT -gt 0 ]]
 do
+  echo "Trying to add route to {{ .destination }}."
   sleep 0.5
-  ((TIMEOUT-=1))
-  echo "Waiting for network with Gateway {{ .destination }} to come online."
-done
-if [[ $(ip r | grep {{ .destination }}) ]]
   sudo ip route add {{ .destination }} via {{ .via }}
-else
+  ((TIMEOUT-=1))
+done
+# Print a warning if the route could not be added.
+if [[ ! $(ip r | grep {{ .destination }}) ]]
   echo "WARN - Timeout reached while waiting for network with Gateway {{ .destination }} to come online."
 fi
 {{- end -}}
