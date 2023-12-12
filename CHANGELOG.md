@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Remove `TTLAfterFinished` flag for Kubernetes 1.25 compatibility (enabled by default).
 - Remove `ExpandPersistentVolumes` flag for Kubernetes 1.27 compatibility (enabled by default).
 - Remove `logtostderr` for Kubernetes 1.27 compatibility (output is logged to stderr by default).
+- Bump CPI to `0.2.9`.
 
 ### Fixed
 
