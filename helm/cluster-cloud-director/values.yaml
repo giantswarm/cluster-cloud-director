@@ -72,7 +72,7 @@ providerSpecific:
       delete:
         isDefault: true
         vcdStorageProfileName: ""
-      enabled: false
+      enabled: true
       retain:
         isDefault: false
         vcdStorageProfileName: ""

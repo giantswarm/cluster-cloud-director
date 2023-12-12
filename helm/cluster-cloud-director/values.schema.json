@@ -895,7 +895,7 @@
                                 "enabled": {
                                     "type": "boolean",
                                     "title": "Enable",
-                                    "default": false
+                                    "default": true
                                 },
                                 "retain": {
                                     "type": "object",
