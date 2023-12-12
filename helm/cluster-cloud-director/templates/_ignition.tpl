@@ -70,7 +70,7 @@ ignition:
           enabled: true
           contents: |
             [Unit]
-            Description=Set the hostname for this machine
+            Description=Set the hostname and networking for this machine
             Requires=coreos-metadata.service
             After=coreos-metadata.service
             [Service]
