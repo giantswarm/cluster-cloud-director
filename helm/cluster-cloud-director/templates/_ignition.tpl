@@ -25,7 +25,7 @@ ignition:
       storage:
         files:
         {{- include "ntpIgnition" . | nindent 8 }}
-        - path: /opt/set-hostname
+        - path: /opt/set-host
           filesystem: root
           mode: 0744
           contents:
@@ -66,7 +66,7 @@ ignition:
             ExecStart=/usr/bin/bash -cv 'echo "COREOS_CUSTOM_GW=$(/usr/share/oem/bin/vmtoolsd --cmd "info-get guestinfo.ignition.gateway")" >> ${OUTPUT}'
             ExecStart=/usr/bin/bash -cv 'echo "COREOS_CUSTOM_DNS1=$(/usr/share/oem/bin/vmtoolsd --cmd "info-get guestinfo.ignition.dns1")" >> ${OUTPUT}'
             ExecStart=/usr/bin/bash -cv 'echo "COREOS_CUSTOM_DNS2=$(/usr/share/oem/bin/vmtoolsd --cmd "info-get guestinfo.ignition.dns2")" >> ${OUTPUT}'
-        - name: set-hostname.service
+        - name: set-host.service
           enabled: true
           contents: |
             [Unit]
@@ -77,7 +77,7 @@ ignition:
             Type=oneshot
             RemainAfterExit=yes
             EnvironmentFile=/run/metadata/coreos
-            ExecStart=/opt/set-hostname
+            ExecStart=/opt/set-host
             [Install]
             WantedBy=multi-user.target
         - name: ethtool-segmentation.service
