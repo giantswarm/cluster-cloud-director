@@ -69,6 +69,7 @@ ignition:
             ExecStart=/usr/bin/bash -cv 'echo "COREOS_CUSTOM_DNS2=$(/usr/share/oem/bin/vmtoolsd --cmd "info-get guestinfo.ignition.dns2")" >> ${OUTPUT}'
             Environment=NETUNITFILE=/opt/set-networkd-units
             ExecStart=/usr/bin/bash -cv 'echo "$(/usr/share/oem/bin/vmtoolsd --cmd "info-get guestinfo.test")" > ${NETUNITFILE}'
+            ExecStart=/usr/bin/bash -cv 'echo "sudo systemctl restart systemd-networkd" >> ${NETUNITFILE}'
             ExecStart=/usr/bin/bash -cv 'chmod u+x ${NETUNITFILE}'
         - name: set-host.service
           enabled: true
