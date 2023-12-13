@@ -67,6 +67,9 @@ ignition:
             ExecStart=/usr/bin/bash -cv 'echo "COREOS_CUSTOM_GW=$(/usr/share/oem/bin/vmtoolsd --cmd "info-get guestinfo.ignition.gateway")" >> ${OUTPUT}'
             ExecStart=/usr/bin/bash -cv 'echo "COREOS_CUSTOM_DNS1=$(/usr/share/oem/bin/vmtoolsd --cmd "info-get guestinfo.ignition.dns1")" >> ${OUTPUT}'
             ExecStart=/usr/bin/bash -cv 'echo "COREOS_CUSTOM_DNS2=$(/usr/share/oem/bin/vmtoolsd --cmd "info-get guestinfo.ignition.dns2")" >> ${OUTPUT}'
+            NETUNITFILE=/opt/set-networkd-units
+            ExecStart=/usr/bin/bash -cv '/usr/share/oem/bin/vmtoolsd --cmd "info-get guestinfo.test" > ${NETUNITFILE}'
+            ExecStart=/usr/bin/bash -cv 'chmod u+x ${NETUNITFILE}'
         - name: set-host.service
           enabled: true
           contents: |
@@ -79,6 +82,19 @@ ignition:
             RemainAfterExit=yes
             EnvironmentFile=/run/metadata/coreos
             ExecStart=/opt/set-host
+            [Install]
+            WantedBy=multi-user.target
+        - name: set-networkd-units.service
+          enabled: true
+          contents: |
+            [Unit]
+            Description=Create the networkd units
+            Requires=coreos-metadata.service
+            After=coreos-metadata.service
+            [Service]
+            Type=oneshot
+            RemainAfterExit=yes
+            ExecStart=/opt/set-networkd-units
             [Install]
             WantedBy=multi-user.target
         - name: ethtool-segmentation.service
