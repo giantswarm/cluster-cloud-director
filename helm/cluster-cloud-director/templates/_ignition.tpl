@@ -1,3 +1,23 @@
+{{- define "ignitionStaticRoutesCommands" -}}
+{{- range $.Values.connectivity.network.staticRoutes}}
+# Set a timeout of $TIMEOUT/2 seconds for each route.
+TIMEOUT=10
+# Trying to add the route with a 5sec timeout.
+while [[ ! $(ip r | grep {{ .destination }}) && $TIMEOUT -gt 0 ]]
+do
+  echo "Trying to add route to {{ .destination }}."
+  sleep 0.5
+  sudo ip route add {{ .destination }} via {{ .via }}
+  ((TIMEOUT-=1))
+done
+# Print a warning if the route could not be added.
+if [[ ! $(ip r | grep {{ .destination }}) ]]
+then
+  echo "WARN - Timeout reached while waiting for network with Gateway {{ .destination }} to come online."
+fi
+{{- end -}}
+{{- end }}
+
 {{- define "ignitionSpec" -}}
 format: ignition
 ignition:
@@ -6,7 +26,7 @@ ignition:
       storage:
         files:
         {{- include "ntpIgnition" . | nindent 8 }}
-        - path: /opt/set-hostname
+        - path: /opt/set-host
           filesystem: root
           mode: 0744
           contents:
@@ -26,6 +46,7 @@ ignition:
               if [ ! -z "$COREOS_CUSTOM_DNS1" ]; then echo "DNS=${COREOS_CUSTOM_DNS1}" >> /etc/systemd/network/00-ens192.network; fi
               if [ ! -z "$COREOS_CUSTOM_DNS2" ]; then echo "DNS=${COREOS_CUSTOM_DNS2}" >> /etc/systemd/network/00-ens192.network; fi
               sudo systemctl restart systemd-networkd
+              {{- include "ignitionStaticRoutesCommands" . | nindent 14}}
       systemd:
         units:
         - name: coreos-metadata.service
@@ -46,18 +67,18 @@ ignition:
             ExecStart=/usr/bin/bash -cv 'echo "COREOS_CUSTOM_GW=$(/usr/share/oem/bin/vmtoolsd --cmd "info-get guestinfo.ignition.gateway")" >> ${OUTPUT}'
             ExecStart=/usr/bin/bash -cv 'echo "COREOS_CUSTOM_DNS1=$(/usr/share/oem/bin/vmtoolsd --cmd "info-get guestinfo.ignition.dns1")" >> ${OUTPUT}'
             ExecStart=/usr/bin/bash -cv 'echo "COREOS_CUSTOM_DNS2=$(/usr/share/oem/bin/vmtoolsd --cmd "info-get guestinfo.ignition.dns2")" >> ${OUTPUT}'
-        - name: set-hostname.service
+        - name: set-host.service
           enabled: true
           contents: |
             [Unit]
-            Description=Set the hostname for this machine
+            Description=Set the hostname and networking for this machine
             Requires=coreos-metadata.service
             After=coreos-metadata.service
             [Service]
             Type=oneshot
             RemainAfterExit=yes
             EnvironmentFile=/run/metadata/coreos
-            ExecStart=/opt/set-hostname
+            ExecStart=/opt/set-host
             [Install]
             WantedBy=multi-user.target
         - name: ethtool-segmentation.service

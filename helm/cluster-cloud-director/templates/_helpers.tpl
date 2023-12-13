@@ -106,6 +106,12 @@ use the cluster-apps-operator created secret <clusterName>-cluster-values as def
     {{- end -}}
 {{- end }}
 
+{{- define "staticRoutesCommands" -}}
+{{- range $.Values.connectivity.network.staticRoutes}}
+- sudo ip route add {{ .destination }} via {{ .via }}
+{{- end -}}
+{{- end }}
+
 {{- define "hostEntries" -}}
 {{- range $.Values.connectivity.network.hostEntries}}
 - echo "{{ .ip }}  {{ .fqdn }}" >> /etc/hosts
@@ -144,7 +150,9 @@ files:
 {{- include "containerdProxyConfig" . | nindent 2}}
 {{- end }}
 {{- if $.Values.connectivity.network.staticRoutes }}
+{{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-init" }}
 {{- include "staticRoutes" . | nindent 2}}
+{{- end }}
 {{- end }}
 
 preKubeadmCommands:
@@ -155,9 +163,16 @@ preKubeadmCommands:
 {{- end }}
 {{- if $.Values.connectivity.network.staticRoutes }}
 - systemctl daemon-reload
-- systemctl enable --now static-routes.service
 {{- end }}
 {{- include "hostEntries" .}}
+{{- if $.Values.connectivity.network.staticRoutes }}
+{{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-init" }}
+- systemctl daemon-reload
+- systemctl enable --now static-routes.service
+{{- else if eq $.Values.providerSpecific.vmBootstrapFormat "ignition" }}
+{{- include "staticRoutesCommands" . }}
+{{- end }}
+{{- end }}
 
 postKubeadmCommands:
 {{ include "sshPostKubeadmCommands" . }}
