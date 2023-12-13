@@ -146,7 +146,9 @@ spec:
             name: {{ include "resource.default.name" $ }}-encryption-provider-config
             key: encryption
       {{- if $.Values.connectivity.network.staticRoutes }}
+      {{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-init" }}
       {{- include "staticRoutes" . | nindent 6}}
+      {{- end }}
       {{- end }}
     preKubeadmCommands:
       - bash /etc/kubernetes/patches/kube-apiserver-patch.sh {{ .Values.controlPlane.resourceRatio }}
@@ -156,8 +158,12 @@ spec:
       - systemctl restart containerd
       {{- end }}
       {{- if $.Values.connectivity.network.staticRoutes }}
+      {{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-init" }}
       - systemctl daemon-reload
       - systemctl enable --now static-routes.service
+      {{- else if eq $.Values.providerSpecific.vmBootstrapFormat "ignition" }}
+      {{- include "staticRoutesCommands" . | nindent 6}}
+      {{- end }}
       {{- end }}
       {{- include "hostEntries" . | nindent 6}}
     postKubeadmCommands:
