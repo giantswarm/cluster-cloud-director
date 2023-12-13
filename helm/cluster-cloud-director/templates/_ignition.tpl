@@ -84,19 +84,6 @@ ignition:
             ExecStart=/opt/set-host
             [Install]
             WantedBy=multi-user.target
-        - name: set-networkd-units.service
-          enabled: true
-          contents: |
-            [Unit]
-            Description=Create the networkd units
-            Requires=coreos-metadata.service
-            After=coreos-metadata.service
-            [Service]
-            Type=oneshot
-            RemainAfterExit=yes
-            ExecStart=/opt/set-networkd-units
-            [Install]
-            WantedBy=multi-user.target
         - name: ethtool-segmentation.service
           enabled: true
           contents: |
