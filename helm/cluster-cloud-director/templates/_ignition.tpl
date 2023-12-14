@@ -89,7 +89,7 @@ ignition:
             [Install]
             WantedBy=multi-user.target
         - name: set-static-routes.service
-          enabled: true
+          enabled: false
           contents: |
             [Unit]
             Description=Install the static routes
@@ -121,7 +121,7 @@ ignition:
               [Unit]
               # kubeadm must run after coreos-metadata populated /run/metadata directory.
               Requires=coreos-metadata.service
-              After=set-static-routes.service
+              After=set-networkd-units.service
               [Service]
               # Make metadata environment variables available for pre-kubeadm commands.
               EnvironmentFile=/run/metadata/*
