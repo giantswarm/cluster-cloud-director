@@ -69,4 +69,4 @@ providerSpecific:
       enabled: false
   userContext:
     secretRef: {}
-  vmBootstrapFormat: cloud-init
+  vmBootstrapFormat: cloud-config
