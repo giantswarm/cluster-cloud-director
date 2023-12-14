@@ -524,6 +524,7 @@
                 "image": {
                     "type": "object",
                     "title": "Node container image",
+                    "description": "Set to 'giantswarm' for ignition (Flatcar) and 'projects.registry.vmware.com/tkg' for cloud-init (Ubuntu).",
                     "additionalProperties": false,
                     "properties": {
                         "repository": {
@@ -532,7 +533,7 @@
                             "examples": [
                                 "giantswarm"
                             ],
-                            "default": "giantswarm"
+                            "default": "projects.registry.vmware.com/tkg"
                         }
                     }
                 },
@@ -675,7 +676,8 @@
                 },
                 "kubernetesVersion": {
                     "type": "string",
-                    "title": "Kubernetes version"
+                    "title": "Kubernetes version",
+                    "description": "For cloud-init (Ubuntu), append the version with '+vmware.1'."
                 },
                 "parentUid": {
                     "type": "string",

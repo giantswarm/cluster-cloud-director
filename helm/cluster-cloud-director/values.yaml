@@ -31,7 +31,7 @@ controlPlane:
     imageRepository: giantswarm
     imageTag: 3.5.4-0-k8s
   image:
-    repository: giantswarm
+    repository: projects.registry.vmware.com/tkg
   oidc: {}
   replicas: 1
   resourceRatio: 8
