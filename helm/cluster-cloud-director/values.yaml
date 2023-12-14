@@ -67,6 +67,15 @@ providerSpecific:
     enableVirtualServiceSharedIP: true
     oneArm:
       enabled: false
+  containerStorageInterface:
+    storageClass:
+      delete:
+        isDefault: true
+        vcdStorageProfileName: ""
+      enabled: true
+      retain:
+        isDefault: false
+        vcdStorageProfileName: ""
   userContext:
     secretRef: {}
   vmBootstrapFormat: cloud-config

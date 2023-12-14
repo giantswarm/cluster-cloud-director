@@ -864,6 +864,61 @@
                         }
                     }
                 },
+                "containerStorageInterface": {
+                    "type": "object",
+                    "title": "Container storage interface (CSI)",
+                    "required": [
+                        "storageClass"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                        "storageClass": {
+                            "type": "object",
+                            "title": "Pre-create storage class",
+                            "description": "Pre-create storage class for the VCD CSI.",
+                            "additionalProperties": false,
+                            "properties": {
+                                "delete": {
+                                    "type": "object",
+                                    "title": "Pre-create delete storage class",
+                                    "properties": {
+                                        "isDefault": {
+                                            "type": "boolean",
+                                            "title": "Default storage class",
+                                            "default": true
+                                        },
+                                        "vcdStorageProfileName": {
+                                            "type": "string",
+                                            "title": "Name of storage profile in VCD",
+                                            "default": ""
+                                        }
+                                    }
+                                },
+                                "enabled": {
+                                    "type": "boolean",
+                                    "title": "Enable",
+                                    "default": true
+                                },
+                                "retain": {
+                                    "type": "object",
+                                    "title": "Pre-create retain storage class",
+                                    "properties": {
+                                        "isDefault": {
+                                            "type": "boolean",
+                                            "title": "Default storage class",
+                                            "default": false
+                                        },
+                                        "vcdStorageProfileName": {
+                                            "type": "string",
+                                            "title": "Name of storage profile in VCD",
+                                            "default": ""
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "nodeClasses": {
                     "type": "object",
                     "title": "Node classes",
