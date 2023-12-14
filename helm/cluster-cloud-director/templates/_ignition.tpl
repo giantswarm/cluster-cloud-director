@@ -35,7 +35,6 @@ ignition:
               echo "::1         ipv6-localhost ipv6-loopback" >/etc/hosts
               echo "127.0.0.1   localhost" >>/etc/hosts
               echo "127.0.0.1   ${COREOS_CUSTOM_HOSTNAME}" >>/etc/hosts
-              sudo systemctl restart systemd-networkd
         - path: /opt/set-static-routes
           filesystem: root
           mode: 0744
