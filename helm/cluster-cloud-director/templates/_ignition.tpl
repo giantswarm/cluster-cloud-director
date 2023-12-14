@@ -62,7 +62,6 @@ ignition:
             ExecStart=/usr/bin/bash -cv 'echo "COREOS_CUSTOM_HOSTNAME=$(/usr/share/oem/bin/vmtoolsd --cmd "info-get guestinfo.ignition.vmname")" > ${OUTPUT}'
             Environment=NETUNITFILE=/opt/set-networkd-units
             ExecStart=/usr/bin/bash -cv 'echo "$(/usr/share/oem/bin/vmtoolsd --cmd "info-get guestinfo.ignition.network")" > ${NETUNITFILE}'
-            ExecStart=/usr/bin/bash -cv 'echo "sudo systemctl restart systemd-networkd" >> ${NETUNITFILE}'
             ExecStart=/usr/bin/bash -cv 'chmod u+x ${NETUNITFILE}'
         - name: set-hostname.service
           enabled: true
