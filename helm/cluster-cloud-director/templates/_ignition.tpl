@@ -26,7 +26,7 @@ ignition:
       storage:
         files:
         {{- include "ntpIgnition" . | nindent 8 }}
-        - path: /opt/set-host
+        - path: /opt/set-hostname
           filesystem: root
           mode: 0744
           contents:
@@ -38,14 +38,15 @@ ignition:
               echo "::1         ipv6-localhost ipv6-loopback" >/etc/hosts
               echo "127.0.0.1   localhost" >>/etc/hosts
               echo "127.0.0.1   ${COREOS_CUSTOM_HOSTNAME}" >>/etc/hosts
-              echo "[Match]" > /etc/systemd/network/00-ens192.network
-              echo "Name=ens192" >> /etc/systemd/network/00-ens192.network
-              echo "[Network]" >> /etc/systemd/network/00-ens192.network
-              echo "Address=${COREOS_CUSTOM_IP}" >> /etc/systemd/network/00-ens192.network
-              echo "Gateway=${COREOS_CUSTOM_GW}" >> /etc/systemd/network/00-ens192.network
-              if [ ! -z "$COREOS_CUSTOM_DNS1" ]; then echo "DNS=${COREOS_CUSTOM_DNS1}" >> /etc/systemd/network/00-ens192.network; fi
-              if [ ! -z "$COREOS_CUSTOM_DNS2" ]; then echo "DNS=${COREOS_CUSTOM_DNS2}" >> /etc/systemd/network/00-ens192.network; fi
               sudo systemctl restart systemd-networkd
+              {{- include "ignitionStaticRoutesCommands" . | nindent 14}}
+        - path: /opt/set-static-routes
+          filesystem: root
+          mode: 0744
+          contents:
+            inline: |
+              #!/bin/sh
+              set -x
               {{- include "ignitionStaticRoutesCommands" . | nindent 14}}
       systemd:
         units:
@@ -63,39 +64,48 @@ ignition:
             Environment=OUTPUT=/run/metadata/coreos
             ExecStart=/usr/bin/mkdir --parent /run/metadata
             ExecStart=/usr/bin/bash -cv 'echo "COREOS_CUSTOM_HOSTNAME=$(/usr/share/oem/bin/vmtoolsd --cmd "info-get guestinfo.ignition.vmname")" > ${OUTPUT}'
-            ExecStart=/usr/bin/bash -cv 'echo "COREOS_CUSTOM_IP=$(/usr/share/oem/bin/vmtoolsd --cmd "info-get guestinfo.ignition.machineaddress")" >> ${OUTPUT}'
-            ExecStart=/usr/bin/bash -cv 'echo "COREOS_CUSTOM_GW=$(/usr/share/oem/bin/vmtoolsd --cmd "info-get guestinfo.ignition.gateway")" >> ${OUTPUT}'
-            ExecStart=/usr/bin/bash -cv 'echo "COREOS_CUSTOM_DNS1=$(/usr/share/oem/bin/vmtoolsd --cmd "info-get guestinfo.ignition.dns1")" >> ${OUTPUT}'
-            ExecStart=/usr/bin/bash -cv 'echo "COREOS_CUSTOM_DNS2=$(/usr/share/oem/bin/vmtoolsd --cmd "info-get guestinfo.ignition.dns2")" >> ${OUTPUT}'
             Environment=NETUNITFILE=/opt/set-networkd-units
             ExecStart=/usr/bin/bash -cv 'echo "$(/usr/share/oem/bin/vmtoolsd --cmd "info-get guestinfo.test")" > ${NETUNITFILE}'
             ExecStart=/usr/bin/bash -cv 'echo "sudo systemctl restart systemd-networkd" >> ${NETUNITFILE}'
             ExecStart=/usr/bin/bash -cv 'chmod u+x ${NETUNITFILE}'
-        - name: set-host.service
+        - name: set-hostname.service
           enabled: true
           contents: |
             [Unit]
-            Description=Set the hostname and networking for this machine
+            Description=Sets the hostname
             Requires=coreos-metadata.service
             After=coreos-metadata.service
             [Service]
             Type=oneshot
             RemainAfterExit=yes
             EnvironmentFile=/run/metadata/coreos
-            ExecStart=/opt/set-host
+            ExecStart=/opt/set-hostname
             [Install]
             WantedBy=multi-user.target
         - name: set-networkd-units.service
           enabled: true
           contents: |
             [Unit]
-            Description=Set the hostname and networking for this machine
+            Description=Installs the networkd unit files
             Requires=coreos-metadata.service
-            After=set-host.service
+            After=set-hostname.service
             [Service]
             Type=oneshot
             RemainAfterExit=yes
             ExecStart=/opt/set-networkd-units
+            [Install]
+            WantedBy=multi-user.target
+        - name: set-static-routes.service
+          enabled: true
+          contents: |
+            [Unit]
+            Description=Installs the static routes
+            Requires=coreos-metadata.service
+            After=set-networkd-units.service
+            [Service]
+            Type=oneshot
+            RemainAfterExit=yes
+            ExecStart=/opt/set-static-routes
             [Install]
             WantedBy=multi-user.target
         - name: ethtool-segmentation.service
