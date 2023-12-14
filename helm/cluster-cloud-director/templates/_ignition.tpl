@@ -1,20 +1,3 @@
-{{- define "ignitionStaticRoutesCommands" -}}
-{{- range $.Values.connectivity.network.staticRoutes}}
-TIMEOUT=10
-echo "Trying to add route to {{ .destination }} - Timeout 5 seconds."
-while [[ ! $(ip r | grep {{ .destination }}) && $TIMEOUT -gt 0 ]]
-do
-  sleep 0.5
-  sudo ip route add {{ .destination }} via {{ .via }}
-  ((TIMEOUT-=1))
-done
-if [[ ! $(ip r | grep {{ .destination }}) ]]
-then
-  echo "WARN - Timed out while waiting for network with Gateway {{ .destination }} to come online."
-fi
-{{- end -}}
-{{- end }}
-
 {{- define "ignitionSpec" -}}
 format: ignition
 ignition:
@@ -35,14 +18,6 @@ ignition:
               echo "::1         ipv6-localhost ipv6-loopback" >/etc/hosts
               echo "127.0.0.1   localhost" >>/etc/hosts
               echo "127.0.0.1   ${COREOS_CUSTOM_HOSTNAME}" >>/etc/hosts
-        - path: /opt/set-static-routes
-          filesystem: root
-          mode: 0744
-          contents:
-            inline: |
-              #!/bin/sh
-              set -x
-              {{- include "ignitionStaticRoutesCommands" . | nindent 14}}
       systemd:
         units:
         - name: coreos-metadata.service
@@ -86,19 +61,6 @@ ignition:
             ExecStart=/usr/bin/bash -cv 'echo "$(/usr/share/oem/bin/vmtoolsd --cmd "info-get guestinfo.ignition.network")" > /opt/set-networkd-units'
             ExecStart=/usr/bin/bash -cv 'chmod u+x /opt/set-networkd-units'
             ExecStart=/opt/set-networkd-units
-            [Install]
-            WantedBy=multi-user.target
-        - name: set-static-routes.service
-          enabled: false
-          contents: |
-            [Unit]
-            Description=Install the static routes
-            Requires=coreos-metadata.service
-            After=set-networkd-units.service
-            [Service]
-            Type=oneshot
-            RemainAfterExit=yes
-            ExecStart=/opt/set-static-routes
             [Install]
             WantedBy=multi-user.target
         - name: ethtool-segmentation.service
