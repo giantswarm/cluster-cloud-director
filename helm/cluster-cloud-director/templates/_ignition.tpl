@@ -1,19 +1,16 @@
 {{- define "ignitionStaticRoutesCommands" -}}
 {{- range $.Values.connectivity.network.staticRoutes}}
-# Set a timeout of $TIMEOUT/2 seconds for each route.
 TIMEOUT=10
-# Trying to add the route with a 5sec timeout.
+echo "Trying to add route to {{ .destination }} - Timeout 5 seconds."
 while [[ ! $(ip r | grep {{ .destination }}) && $TIMEOUT -gt 0 ]]
 do
-  echo "Trying to add route to {{ .destination }}."
   sleep 0.5
   sudo ip route add {{ .destination }} via {{ .via }}
   ((TIMEOUT-=1))
 done
-# Print a warning if the route could not be added.
 if [[ ! $(ip r | grep {{ .destination }}) ]]
 then
-  echo "WARN - Timeout reached while waiting for network with Gateway {{ .destination }} to come online."
+  echo "WARN - Timed out while waiting for network with Gateway {{ .destination }} to come online."
 fi
 {{- end -}}
 {{- end }}
@@ -39,7 +36,6 @@ ignition:
               echo "127.0.0.1   localhost" >>/etc/hosts
               echo "127.0.0.1   ${COREOS_CUSTOM_HOSTNAME}" >>/etc/hosts
               sudo systemctl restart systemd-networkd
-              {{- include "ignitionStaticRoutesCommands" . | nindent 14}}
         - path: /opt/set-static-routes
           filesystem: root
           mode: 0744
@@ -72,7 +68,7 @@ ignition:
           enabled: true
           contents: |
             [Unit]
-            Description=Sets the hostname
+            Description=Set the hostname
             Requires=coreos-metadata.service
             After=coreos-metadata.service
             [Service]
@@ -86,7 +82,7 @@ ignition:
           enabled: true
           contents: |
             [Unit]
-            Description=Installs the networkd unit files
+            Description=Install the networkd unit files
             Requires=coreos-metadata.service
             After=set-hostname.service
             [Service]
@@ -99,7 +95,7 @@ ignition:
           enabled: true
           contents: |
             [Unit]
-            Description=Installs the static routes
+            Description=Install the static routes
             Requires=coreos-metadata.service
             After=set-networkd-units.service
             [Service]
