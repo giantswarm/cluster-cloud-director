@@ -141,7 +141,7 @@ joinConfiguration:
 {{- end }}
 
 files:
-{{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-init" }}
+{{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-config" }}
 {{- include "ntpFiles" . | nindent 2}}
 {{- end }}
 {{- include "sshFiles" . | nindent 2}}
@@ -150,7 +150,7 @@ files:
 {{- include "containerdProxyConfig" . | nindent 2}}
 {{- end }}
 {{- if $.Values.connectivity.network.staticRoutes }}
-{{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-init" }}
+{{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-config" }}
 {{- include "staticRoutes" . | nindent 2}}
 {{- end }}
 {{- end }}
@@ -166,7 +166,7 @@ preKubeadmCommands:
 {{- end }}
 {{- include "hostEntries" .}}
 {{- if $.Values.connectivity.network.staticRoutes }}
-{{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-init" }}
+{{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-config" }}
 - systemctl daemon-reload
 - systemctl enable --now static-routes.service
 {{- else if eq $.Values.providerSpecific.vmBootstrapFormat "ignition" }}
@@ -176,7 +176,7 @@ preKubeadmCommands:
 
 postKubeadmCommands:
 {{ include "sshPostKubeadmCommands" . }}
-{{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-init" }}
+{{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-config" }}
 {{- include "ntpPostKubeadmCommands" . }}
 {{- end }}
 - usermod -aG root nobody # required for node-exporter to access the host's filesystem

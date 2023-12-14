@@ -83,4 +83,4 @@ providerSpecific:
         vcdStorageProfileName: ""
   userContext:
     secretRef: {}
-  vmBootstrapFormat: cloud-init
+  vmBootstrapFormat: cloud-config
