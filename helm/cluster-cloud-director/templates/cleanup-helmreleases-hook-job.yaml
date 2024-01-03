@@ -109,7 +109,7 @@ spec:
                 kubectl patch -n ${NAMESPACE} helmrelease "${release}" --type=merge -p '{"metadata": {"finalizers": []}}'
               done
 
-              for chart in $(kubectl get HelmChart -n ${NAMESPACE} -o json | jq -r ".items[] | select(.spec.sourceRef.name == \"${CLUSTER_NAME}-default\") | .metadata.name"); do
+              for chart in $(kubectl get HelmChart -n ${NAMESPACE} -o json | jq -r ".items[] | select(.spec.sourceRef.name == \"${CLUSTER_NAME}-default\" or .spec.sourceRef.name == \"${CLUSTER_NAME}-cluster\") | .metadata.name"); do
                 echo "Patching helmchart $chart to remove finalizers"
                 kubectl patch -n ${NAMESPACE} helmchart "${chart}" --type=merge -p '{"metadata": {"finalizers": []}}'
                 echo "Deleting helmchart $chart"
