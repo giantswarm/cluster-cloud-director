@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.14.0] - 2023-12-20
 
+### Added
+
+- Installs network-policies-app as a HelmRelease that will lock all the communication to `giantswarm` and `kube-system` namespaces.
+
 ## [0.13.2] - 2023-12-12
 
 ### Added
