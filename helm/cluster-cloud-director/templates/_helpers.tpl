@@ -45,6 +45,15 @@ helm.sh/chart: {{ include "chart" . | quote }}
 {{- end -}}
 
 {{/*
+Create label to prevent accidental cluster deletion
+*/}}
+{- define "preventDeletionLabel" -}}
+{{- if $.Values.metadata.preventDeletion -}}
+giantswarm.io/prevent-deletion: "true"
+{{ end -}}
+{{- end -}}
+
+{{/*
 Create a prefix for all resource names.
 */}}
 {{- define "resource.default.name" -}}
