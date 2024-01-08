@@ -777,6 +777,11 @@
                     "type": "string",
                     "title": "Organization"
                 },
+                "preventDeletion": {
+                    "type": "boolean",
+                    "title": "Prevent cluster deletion",
+                    "default": false
+                },
                 "servicePriority": {
                     "type": "string",
                     "title": "Service priority",

@@ -61,6 +61,7 @@ kubectlImage:
   registry: quay.io
   tag: 1.23.5
 metadata:
+  preventDeletion: false
   servicePriority: highest
 providerSpecific:
   cloudProviderInterface:
