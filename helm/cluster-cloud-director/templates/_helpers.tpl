@@ -288,6 +288,5 @@ To enforce upgrades, a version suffix is appended to secret name.
 {{- define "auditLogFiles" -}}
 - path: /etc/kubernetes/policies/audit-policy.yaml
   permissions: "0600"
-  encoding: base64
-  content: {{ $.Files.Get "files/etc/kubernetes/policies/audit-policy.yaml" | b64enc }}
+  content: {{ $.Files.Get "files/etc/kubernetes/policies/audit-policy.yaml" | quote }}
 {{- end -}}
