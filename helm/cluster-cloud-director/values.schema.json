@@ -734,17 +734,17 @@
                         "enabled": {
                             "type": "boolean",
                             "title": "Enable teleport",
-                            "default": false
+                            "default": true
                         },
                         "proxyAddr": {
                             "type": "string",
                             "title": "Teleport proxy address",
-                            "default": "test.teleport.giantswarm.io:443"
+                            "default": "teleport.giantswarm.io:443"
                         },
                         "version": {
                             "type": "string",
                             "title": "Teleport version",
-                            "default": "13.1.5"
+                            "default": "14.1.3"
                         }
                     }
                 },
