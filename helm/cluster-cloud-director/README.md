@@ -10,12 +10,12 @@ Properties within the `.internal` top-level object
 | `internal.apiServer` |**None**|**Type:** `object`<br/>|
 | `internal.apiServer.enableAdmissionPlugins` | **Admission plugins** - List of admission plugins to be passed to the API server via the --enable-admission-plugins flag.|**Type:** `array`<br/>**Default:** `["DefaultStorageClass","DefaultTolerationSeconds","LimitRanger","MutatingAdmissionWebhook","NamespaceLifecycle","PersistentVolumeClaimResize","Priority","ResourceQuota","ServiceAccount","ValidatingAdmissionWebhook"]`|
 | `internal.apiServer.enableAdmissionPlugins[*]` | **Plugin**|**Type:** `string`<br/>**Examples:** `"DefaultStorageClass", "Priority"`<br/>**Value pattern:** `^[A-Za-z0-9]+$`<br/>|
-| `internal.apiServer.featureGates` | **Feature gates** - API server feature gate activation/deactivation.|**Type:** `array`<br/>**Default:** `[{"enabled":true,"name":"TTLAfterFinished"}]`|
+| `internal.apiServer.featureGates` | **Feature gates** - API server feature gate activation/deactivation.|**Type:** `array`<br/>**Default:** `[]`|
 | `internal.apiServer.featureGates[*]` | **Feature gate**|**Type:** `object`<br/>|
 | `internal.apiServer.featureGates[*].enabled` | **Enabled**|**Type:** `boolean`<br/>|
 | `internal.apiServer.featureGates[*].name` | **Name**|**Type:** `string`<br/>**Example:** `"UserNamespacesStatelessPodsSupport"`<br/>**Value pattern:** `^[A-Za-z0-9]+$`<br/>|
 | `internal.controllerManager` | **Controller manager**|**Type:** `object`<br/>|
-| `internal.controllerManager.featureGates` | **Feature gates** - Controller manager feature gate activation/deactivation.|**Type:** `array`<br/>**Default:** `[{"enabled":true,"name":"ExpandPersistentVolumes"},{"enabled":true,"name":"TTLAfterFinished"}]`|
+| `internal.controllerManager.featureGates` | **Feature gates** - Controller manager feature gate activation/deactivation.|**Type:** `array`<br/>**Default:** `[]`|
 | `internal.controllerManager.featureGates[*]` | **Feature gate**|**Type:** `object`<br/>|
 | `internal.controllerManager.featureGates[*].enabled` | **Enabled**|**Type:** `boolean`<br/>|
 | `internal.controllerManager.featureGates[*].name` | **Name**|**Type:** `string`<br/>**Example:** `"UserNamespacesStatelessPodsSupport"`<br/>**Value pattern:** `^[A-Za-z0-9]+$`<br/>|
@@ -136,6 +136,7 @@ Properties within the `.metadata` top-level object
 | `metadata.labels` | **Labels** - These labels are added to the Kubernetes resources defining this cluster.|**Type:** `object`<br/>|
 | `metadata.labels.PATTERN` | **Label**|**Type:** `string`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-zA-Z0-9/\._-]+$`<br/>**Value pattern:** `^[a-zA-Z0-9\._-]+$`<br/>|
 | `metadata.organization` | **Organization**|**Type:** `string`<br/>|
+| `metadata.preventDeletion` | **Prevent cluster deletion**|**Type:** `boolean`<br/>**Default:** `false`|
 | `metadata.servicePriority` | **Service priority** - The relative importance of this cluster.|**Type:** `string`<br/>**Default:** `"highest"`|
 
 ### Node pools
@@ -157,6 +158,15 @@ Properties within the `.providerSpecific` top-level object
 | `providerSpecific.cloudProviderInterface.enableVirtualServiceSharedIP` | **Share IPs in virtual services** - If enabled, multiple virtual services can share the same virtual IP address.|**Type:** `boolean`<br/>**Default:** `true`|
 | `providerSpecific.cloudProviderInterface.oneArm` | **One-arm** - If enabled, use an internal IP for the virtual service with a NAT rule to expose the external IP. Otherwise the virtual service will be exposed directly with the external IP.|**Type:** `object`<br/>|
 | `providerSpecific.cloudProviderInterface.oneArm.enabled` | **Enable**|**Type:** `boolean`<br/>**Default:** `false`|
+| `providerSpecific.containerStorageInterface` | **Container storage interface (CSI)**|**Type:** `object`<br/>|
+| `providerSpecific.containerStorageInterface.storageClass` | **Pre-create storage class** - Pre-create storage class for the VCD CSI.|**Type:** `object`<br/>|
+| `providerSpecific.containerStorageInterface.storageClass.delete` | **Pre-create delete storage class**|**Type:** `object`<br/>|
+| `providerSpecific.containerStorageInterface.storageClass.delete.isDefault` | **Default storage class**|**Type:** `boolean`<br/>**Default:** `true`|
+| `providerSpecific.containerStorageInterface.storageClass.delete.vcdStorageProfileName` | **Name of storage profile in VCD**|**Type:** `string`<br/>**Default:** `""`|
+| `providerSpecific.containerStorageInterface.storageClass.enabled` | **Enable**|**Type:** `boolean`<br/>**Default:** `true`|
+| `providerSpecific.containerStorageInterface.storageClass.retain` | **Pre-create retain storage class**|**Type:** `object`<br/>|
+| `providerSpecific.containerStorageInterface.storageClass.retain.isDefault` | **Default storage class**|**Type:** `boolean`<br/>**Default:** `false`|
+| `providerSpecific.containerStorageInterface.storageClass.retain.vcdStorageProfileName` | **Name of storage profile in VCD**|**Type:** `string`<br/>**Default:** `""`|
 | `providerSpecific.nodeClasses` | **Node classes** - Re-usable node configuration.|**Type:** `object`<br/>|
 | `providerSpecific.nodeClasses.PATTERN` |**None**|**Type:** `object`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]+$`<br/>|
 | `providerSpecific.nodeClasses.PATTERN.catalog` | **Catalog** - Name of the VCD catalog in which the VM template is stored.|**Type:** `string`<br/>**Example:** `"giantswarm"`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]+$`<br/>|
