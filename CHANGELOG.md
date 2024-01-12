@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add teleport support
 - Add `global.metadata.preventDeletion` to add the [deletion prevention label](https://docs.giantswarm.io/advanced/deletion-prevention/) to Cluster resources.
+- Fix indentation issue in `preventDeletion` calls.
 
 ## [0.14.0] - 2023-12-20
 
