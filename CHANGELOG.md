@@ -12,6 +12,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `global.metadata.preventDeletion` to add the [deletion prevention label](https://docs.giantswarm.io/advanced/deletion-prevention/) to Cluster resources.
 - Fix indentation issue in `preventDeletion` calls.
 
+### Changed
+
+- Bump CoreDNS HelmRelease to `1.21.0` and enable Renovate.
+- Bump Cilium HelmRelease to `0.19.0` and enable Renovate.
+- Enable Renovate on CPI and NetPol HelmReleases.
+
 ## [0.14.0] - 2023-12-20
 
 ### Added
