@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.14.1] - 2024-01-18
+
 ### Added
 
 - Add `global.metadata.preventDeletion` to add the [deletion prevention label](https://docs.giantswarm.io/advanced/deletion-prevention/) to Cluster resources.
@@ -475,7 +477,8 @@ Bump cloud provider to v0.2.5 (fix).
 - Added VCDCluster parameters to match CRD.
 - Nodepool and nodeclass support.
 
-[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.14.0...HEAD
+[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.14.1...HEAD
+[0.14.1]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.14.0...v0.14.1
 [0.14.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.13.2...v0.14.0
 [0.13.2]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.13.1...v0.13.2
 [0.13.1]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.13.0...v0.13.1
