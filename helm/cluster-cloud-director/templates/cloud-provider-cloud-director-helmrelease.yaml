@@ -24,7 +24,7 @@ spec:
       chart: cloud-provider-cloud-director
       # used by renovate
       # repo: giantswarm/cloud-provider-cloud-director-app
-      version: 0.2.9
+      version: 0.2.9 < TO UPDATE
       sourceRef:
         kind: HelmRepository
         name: {{ include "resource.default.name" $ }}-default
@@ -49,6 +49,8 @@ spec:
     global:
       basicAuthSecret:
         create: true
+      podSecurityStandards:
+        enforced: {{ .Values.global.podSecurityStandards.enforced }}
       vcdConfig:
         clusterid: "" # It will be set by the post-install/post-upgrade hook in post-install-rdeid-job.yaml.
         org: {{ .Values.providerSpecific.org | quote }}
