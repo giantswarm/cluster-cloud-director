@@ -22,6 +22,8 @@ spec:
   chart:
     spec:
       chart: cloud-provider-cloud-director
+      # used by renovate
+      # repo: giantswarm/cloud-provider-cloud-director-app
       version: 0.2.9
       sourceRef:
         kind: HelmRepository
