@@ -27,7 +27,7 @@ spec:
       version: 0.2.9-d0437b6bea8531e199cab35e29cf9f751d48815d
       sourceRef:
         kind: HelmRepository
-        name: {{ include "resource.default.name" $ }}-default
+        name: {{ include "resource.default.name" $ }}-default-test
   dependsOn:
     - name: {{ include "resource.default.name" $ }}-cilium
       namespace: {{ $.Release.Namespace }}
