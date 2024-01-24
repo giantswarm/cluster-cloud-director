@@ -88,6 +88,7 @@ spec:
       namespace: "{{ $.Release.Namespace }}"
       labels:
         {{- include "labels.common" $ | nindent 8 }}
+        cnp: {{ include "resource.default.name" $ }}-cleanup-helmreleases-hook
     spec:
       restartPolicy: Never
       serviceAccountName: "{{ include "resource.default.name" $ }}-cleanup-helmreleases-hook"
@@ -124,3 +125,26 @@ spec:
             limits:
               memory: "256Mi"
               cpu: "100m"
+{{- if not .Values.connectivity.network.allowAllEgress }}
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  labels:
+    {{- include "labels.common" $ | nindent 4 }}
+  name: "allow-{{ include "resource.default.name" $ }}-cleanup-helmreleases-hook-kubernetes-talk-to-apiserver"
+  namespace: "{{ $.Release.Namespace }}"
+spec:
+  egress:
+  - toEntities:
+    - kube-apiserver
+    toPorts:
+    - ports:
+      - port: "443"
+        protocol: TCP
+      - port: "6443"
+        protocol: TCP
+  endpointSelector:
+    matchLabels:
+      cnp: {{ include "resource.default.name" $ }}-cleanup-helmreleases-hook
+{{- end }}
