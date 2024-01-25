@@ -61,7 +61,7 @@ spec:
             effect: "NoSchedule"
             operator: "Equal"
             value: "true"
-{{- if .Values.connectivity.network.allowAllEgress }}
+{{- if .Values.internal.ciliumNetworkPolicy }}
     defaultPolicies:
       enabled: true
       tolerations:

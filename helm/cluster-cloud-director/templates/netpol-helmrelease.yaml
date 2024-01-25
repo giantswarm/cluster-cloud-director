@@ -1,4 +1,4 @@
-{{- if not .Values.connectivity.network.allowAllEgress }}
+{{- if .Values.internal.ciliumNetworkPolicy }}
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:

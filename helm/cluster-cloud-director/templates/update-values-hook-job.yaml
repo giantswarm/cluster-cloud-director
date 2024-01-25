@@ -158,14 +158,13 @@ spec:
             limits:
               memory: "256Mi"
               cpu: "100m"
-{{- if not .Values.connectivity.network.allowAllEgress }}
 ---
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
   labels:
     {{- include "labels.common" $ | nindent 4 }}
-  name: "allow-{{ include "resource.default.name" $ }}-update-values-hook-kubernetes-talk-to-apiserver"
+  name: "allow-{{ include "resource.default.name" $ }}-update-values-hook-to-apiserver"
   namespace: "{{ $.Release.Namespace }}"
 spec:
   egress:
@@ -186,7 +185,7 @@ kind: CiliumNetworkPolicy
 metadata:
   labels:
     {{- include "labels.common" $ | nindent 4 }}
-  name: "allow-{{ include "resource.default.name" $ }}-pre-upgrade-suspend-hook-kubernetes-talk-to-apiserver"
+  name: "allow-{{ include "resource.default.name" $ }}-pre-upgrade-suspend-hook-to-apiserver"
   namespace: "{{ $.Release.Namespace }}"
 spec:
   egress:
@@ -201,4 +200,3 @@ spec:
   endpointSelector:
     matchLabels:
       cnp: {{ include "resource.default.name" $ }}-pre-upgrade-suspend-hook
-{{- end }}
