@@ -4,7 +4,6 @@ baseDomain: k8s.test
 connectivity:
   containerRegistries: {}
   network:
-    allowAllEgress: false
     controlPlaneEndpoint:
       port: 6443
     loadBalancers: {}
@@ -49,6 +48,8 @@ internal:
       - ServiceAccount
       - ValidatingAdmissionWebhook
     featureGates: []
+  ciliumNetworkPolicy:
+    enabled: true
   controllerManager:
     featureGates: []
   sandboxContainerImage:
