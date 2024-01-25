@@ -14,6 +14,8 @@ Properties within the `.internal` top-level object
 | `internal.apiServer.featureGates[*]` | **Feature gate**|**Type:** `object`<br/>|
 | `internal.apiServer.featureGates[*].enabled` | **Enabled**|**Type:** `boolean`<br/>|
 | `internal.apiServer.featureGates[*].name` | **Name**|**Type:** `string`<br/>**Example:** `"UserNamespacesStatelessPodsSupport"`<br/>**Value pattern:** `^[A-Za-z0-9]+$`<br/>|
+| `internal.ciliumNetworkPolicy` | **CiliumNetworkPolicies**|**Type:** `object`<br/>|
+| `internal.ciliumNetworkPolicy.enabled` | **Enable CiliumNetworkPolicies** - Installs the network-policies-app (deny all by default) if set to true|**Type:** `boolean`<br/>**Default:** `true`|
 | `internal.controllerManager` | **Controller manager**|**Type:** `object`<br/>|
 | `internal.controllerManager.featureGates` | **Feature gates** - Controller manager feature gate activation/deactivation.|**Type:** `array`<br/>**Default:** `[]`|
 | `internal.controllerManager.featureGates[*]` | **Feature gate**|**Type:** `object`<br/>|
@@ -45,7 +47,6 @@ Configurations related to cluster connectivity such as container registries.
 | `connectivity.containerRegistries.*[*].credentials.username` | **Username** - Used to authenticate for the registry with username/password.|**Type:** `string`<br/>|
 | `connectivity.containerRegistries.*[*].endpoint` | **Endpoint** - Endpoint for the container registry.|**Type:** `string`<br/>|
 | `connectivity.network` | **Network**|**Type:** `object`<br/>|
-| `connectivity.network.allowAllEgress` | **Allow all egress** - When set to true default permisive CiliumNetworkPolicy CRs are installed. See https://github.com/giantswarm/cilium-app/blob/v0.10.0/helm/cilium/values.yaml#L2453.|**Type:** `boolean`<br/>**Default:** `false`|
 | `connectivity.network.controlPlaneEndpoint` | **Control plane endpoint** - Kubernetes API endpoint.|**Type:** `object`<br/>|
 | `connectivity.network.controlPlaneEndpoint.host` | **Host**|**Type:** `string`<br/>|
 | `connectivity.network.controlPlaneEndpoint.port` | **Port number**|**Type:** `integer`<br/>**Default:** `6443`|

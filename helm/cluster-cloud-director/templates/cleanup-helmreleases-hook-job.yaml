@@ -125,14 +125,13 @@ spec:
             limits:
               memory: "256Mi"
               cpu: "100m"
-{{- if not .Values.connectivity.network.allowAllEgress }}
 ---
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
   labels:
     {{- include "labels.common" $ | nindent 4 }}
-  name: "allow-{{ include "resource.default.name" $ }}-cleanup-helmreleases-hook-kubernetes-talk-to-apiserver"
+  name: "allow-{{ include "resource.default.name" $ }}-cleanup-helmreleases-hook-to-apiserver"
   namespace: "{{ $.Release.Namespace }}"
 spec:
   egress:
@@ -147,4 +146,3 @@ spec:
   endpointSelector:
     matchLabels:
       cnp: {{ include "resource.default.name" $ }}-cleanup-helmreleases-hook
-{{- end }}
