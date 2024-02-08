@@ -48,8 +48,10 @@ internal:
       - ServiceAccount
       - ValidatingAdmissionWebhook
     featureGates: []
-  ciliumNetworkPolicy:
-    enabled: true
+  cilium:
+    networkPolicy:
+      enabled: true
+    policyAuditMode: false
   controllerManager:
     featureGates: []
   sandboxContainerImage:

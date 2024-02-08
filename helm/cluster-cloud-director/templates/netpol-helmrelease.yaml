@@ -1,4 +1,4 @@
-{{- if .Values.internal.ciliumNetworkPolicy.enabled }}
+{{- if .Values.internal.cilium.networkPolicy.enabled }}
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:

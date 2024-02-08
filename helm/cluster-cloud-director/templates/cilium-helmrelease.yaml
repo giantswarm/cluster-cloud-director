@@ -61,7 +61,8 @@ spec:
             effect: "NoSchedule"
             operator: "Equal"
             value: "true"
-{{- if .Values.internal.ciliumNetworkPolicy.enabled }}
+    policyAuditMode: {{ .Values.internal.cilium.policyAuditMode }}
+{{- if .Values.internal.cilium.networkPolicy.enabled }}
     defaultPolicies:
       enabled: true
       tolerations:

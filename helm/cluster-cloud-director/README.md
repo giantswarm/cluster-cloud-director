@@ -14,8 +14,10 @@ Properties within the `.internal` top-level object
 | `internal.apiServer.featureGates[*]` | **Feature gate**|**Type:** `object`<br/>|
 | `internal.apiServer.featureGates[*].enabled` | **Enabled**|**Type:** `boolean`<br/>|
 | `internal.apiServer.featureGates[*].name` | **Name**|**Type:** `string`<br/>**Example:** `"UserNamespacesStatelessPodsSupport"`<br/>**Value pattern:** `^[A-Za-z0-9]+$`<br/>|
-| `internal.ciliumNetworkPolicy` | **CiliumNetworkPolicies**|**Type:** `object`<br/>|
-| `internal.ciliumNetworkPolicy.enabled` | **Enable CiliumNetworkPolicies** - Installs the network-policies-app (deny all by default) if set to true|**Type:** `boolean`<br/>**Default:** `true`|
+| `internal.cilium` | **Cilium configuration**|**Type:** `object`<br/>|
+| `internal.cilium.networkPolicy` | **Network Policies**|**Type:** `object`<br/>|
+| `internal.cilium.networkPolicy.enabled` | **Enable CiliumNetworkPolicies** - Installs the network-policies-app (deny all by default) if set to true|**Type:** `boolean`<br/>**Default:** `true`|
+| `internal.cilium.policyAuditMode` | **Enable Cilium policyAuditMode** - Enables or disables Audit Mode.|**Type:** `boolean`<br/>**Default:** `false`|
 | `internal.controllerManager` | **Controller manager**|**Type:** `object`<br/>|
 | `internal.controllerManager.featureGates` | **Feature gates** - Controller manager feature gate activation/deactivation.|**Type:** `array`<br/>**Default:** `[]`|
 | `internal.controllerManager.featureGates[*]` | **Feature gate**|**Type:** `object`<br/>|
