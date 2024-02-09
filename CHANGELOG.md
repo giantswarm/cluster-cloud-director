@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Add helm hook annotations to helmrelease cleanup job.
+
 ## [0.14.2] - 2024-01-25
 
 ### Added

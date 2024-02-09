@@ -129,6 +129,10 @@ spec:
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
+  annotations:
+    "helm.sh/hook": "post-delete"
+    "helm.sh/hook-delete-policy": "before-hook-creation,hook-succeeded,hook-failed"
+    "helm.sh/hook-weight": "-5"
   labels:
     {{- include "labels.common" $ | nindent 4 }}
   name: "allow-{{ include "resource.default.name" $ }}-cleanup-helmreleases-hook-to-apiserver"
