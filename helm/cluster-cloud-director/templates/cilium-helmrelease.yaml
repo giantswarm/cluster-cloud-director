@@ -72,3 +72,6 @@ spec:
         - key: CriticalAddonsOnly
           operator: Exists
 {{- end }}
+    global:
+      podSecurityStandards:
+        enforced: {{ .Values.global.podSecurityStandards.enforced }}

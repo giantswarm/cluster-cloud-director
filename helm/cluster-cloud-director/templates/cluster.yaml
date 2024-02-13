@@ -15,6 +15,9 @@ metadata:
     {{- end }}
     {{- end }}
     {{- include "preventDeletionLabel" $ | nindent 4 }}
+    {{- if .Values.global.podSecurityStandards.enforced }}
+    policy.giantswarm.io/psp-status: disabled
+    {{- end }}
 spec:
   clusterNetwork:
     pods:

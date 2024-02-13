@@ -34,6 +34,9 @@ controlPlane:
   oidc: {}
   replicas: 1
   resourceRatio: 8
+global:
+  podSecurityStandards:
+    enforced: false
 internal:
   apiServer:
     enableAdmissionPlugins:
