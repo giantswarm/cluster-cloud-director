@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.14.4] - 2024-02-13
+
 ### Added
 
 - Add flag for `podSecurityStandards`.
@@ -494,7 +496,8 @@ Bump cloud provider to v0.2.5 (fix).
 - Added VCDCluster parameters to match CRD.
 - Nodepool and nodeclass support.
 
-[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.14.3...HEAD
+[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.14.4...HEAD
+[0.14.4]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.14.3...v0.14.4
 [0.14.3]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.14.2...v0.14.3
 [0.14.2]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.14.1...v0.14.2
 [0.14.1]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.14.0...v0.14.1
