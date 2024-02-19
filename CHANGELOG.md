@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Only create Cilium resources if Cilium CRDs exist.
+
 ## [0.14.5] - 2024-02-14
 
 ### Changed

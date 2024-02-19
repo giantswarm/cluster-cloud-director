@@ -126,6 +126,7 @@ spec:
               memory: "256Mi"
               cpu: "100m"
 ---
+{{- if .Capabilities.APIVersions.Has "cilium.io/v2" -}}
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
@@ -150,3 +151,4 @@ spec:
   endpointSelector:
     matchLabels:
       cnp: {{ include "resource.default.name" $ }}-cleanup-helmreleases-hook
+{{- end }}
