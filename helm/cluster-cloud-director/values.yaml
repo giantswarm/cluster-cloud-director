@@ -57,12 +57,12 @@ internal:
     featureGates: []
   sandboxContainerImage:
     name: giantswarm/pause
-    registry: quay.io
+    registry: gsoci.azurecr.io
     tag: "3.9"
   useAsManagementCluster: false
 kubectlImage:
   name: giantswarm/kubectl
-  registry: quay.io
+  registry: gsoci.azurecr.io
   tag: 1.23.5
 metadata:
   preventDeletion: false
