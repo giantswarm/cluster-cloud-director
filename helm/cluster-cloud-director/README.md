@@ -99,7 +99,7 @@ Properties within the `.controlPlane` top-level object
 | `controlPlane.dns.imageRepository` | **Repository**|**Type:** `string`<br/>**Example:** `"projects.registry.vmware.com/tkg"`<br/>**Default:** `"projects.registry.vmware.com/tkg"`|
 | `controlPlane.dns.imageTag` | **Tag**|**Type:** `string`<br/>**Example:** `"v1.7.0_vmware.12"`<br/>**Default:** `"v1.7.0_vmware.12"`|
 | `controlPlane.etcd` | **Etcd container image**|**Type:** `object`<br/>|
-| `controlPlane.etcd.imageRepository` | **Repository**|**Type:** `string`<br/>**Example:** `"giantswarm"`<br/>**Default:** `"giantswarm"`|
+| `controlPlane.etcd.imageRepository` | **Repository**|**Type:** `string`<br/>**Example:** `"gsoci.azurecr.io/giantswarm"`<br/>**Default:** `"gsoci.azurecr.io/giantswarm"`|
 | `controlPlane.etcd.imageTag` | **Tag**|**Type:** `string`<br/>**Example:** `"3.5.4-0-k8s"`<br/>**Default:** `"3.5.4-0-k8s"`|
 | `controlPlane.image` | **Node container image**|**Type:** `object`<br/>|
 | `controlPlane.image.repository` | **Repository**|**Type:** `string`<br/>**Example:** `"projects.registry.vmware.com/tkg"`<br/>**Default:** `"projects.registry.vmware.com/tkg"`|

@@ -27,7 +27,7 @@ controlPlane:
     imageRepository: projects.registry.vmware.com/tkg
     imageTag: v1.7.0_vmware.12
   etcd:
-    imageRepository: giantswarm
+    imageRepository: gsoci.azurecr.io/giantswarm
     imageTag: 3.5.4-0-k8s
   image:
     repository: projects.registry.vmware.com/tkg

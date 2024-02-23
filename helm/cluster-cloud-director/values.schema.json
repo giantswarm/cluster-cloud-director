@@ -501,9 +501,9 @@
                             "type": "string",
                             "title": "Repository",
                             "examples": [
-                                "giantswarm"
+                                "gsoci.azurecr.io/giantswarm"
                             ],
-                            "default": "giantswarm"
+                            "default": "gsoci.azurecr.io/giantswarm"
                         },
                         "imageTag": {
                             "type": "string",
