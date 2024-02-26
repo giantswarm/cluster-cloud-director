@@ -501,9 +501,9 @@
                             "type": "string",
                             "title": "Repository",
                             "examples": [
-                                "giantswarm"
+                                "gsoci.azurecr.io/giantswarm"
                             ],
-                            "default": "giantswarm"
+                            "default": "gsoci.azurecr.io/giantswarm"
                         },
                         "imageTag": {
                             "type": "string",
@@ -723,7 +723,7 @@
                         "registry": {
                             "type": "string",
                             "title": "Registry",
-                            "default": "quay.io"
+                            "default": "gsoci.azurecr.io"
                         },
                         "tag": {
                             "type": "string",
@@ -758,7 +758,7 @@
                 "registry": {
                     "type": "string",
                     "title": "Registry",
-                    "default": "quay.io"
+                    "default": "gsoci.azurecr.io"
                 },
                 "tag": {
                     "type": "string",
