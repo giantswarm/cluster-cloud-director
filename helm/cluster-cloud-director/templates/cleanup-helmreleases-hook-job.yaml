@@ -95,6 +95,9 @@ spec:
       securityContext:
         runAsUser: {{ include "securityContext.runAsUser" $ }}
         runAsGroup: {{ include "securityContext.runAsGroup" $ }}
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
       containers:
         - name: post-delete-job
           image: "{{ .Values.kubectlImage.registry }}/{{ .Values.kubectlImage.name }}:{{ .Values.kubectlImage.tag }}"
@@ -117,6 +120,12 @@ spec:
                 kubectl delete -n ${NAMESPACE} helmchart "${chart}" --ignore-not-found=true
               done
           securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            seccompProfile:
+              type: RuntimeDefault
             readOnlyRootFilesystem: true
           resources:
             requests:
