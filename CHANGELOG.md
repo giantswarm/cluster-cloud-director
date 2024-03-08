@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Switch container registry to `gsoci.azurecr.io`.
 - Adapt cleanup hook for cluster policies.
+- Enforce PSS by default (requires k8s 1.25 or newer).
 
 ## [0.14.6] - 2024-02-19
 

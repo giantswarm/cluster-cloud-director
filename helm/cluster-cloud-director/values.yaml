@@ -36,7 +36,7 @@ controlPlane:
   resourceRatio: 8
 global:
   podSecurityStandards:
-    enforced: false
+    enforced: true
 internal:
   apiServer:
     enableAdmissionPlugins:
