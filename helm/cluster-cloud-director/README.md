@@ -126,7 +126,7 @@ Used by cluster-shared library chart to configure coredns in-cluster.
 | :----------- | :-------------- | :--------------- |
 | `kubectlImage.name` | **Repository**|**Type:** `string`<br/>**Default:** `"giantswarm/kubectl"`|
 | `kubectlImage.registry` | **Registry**|**Type:** `string`<br/>**Default:** `"gsoci.azurecr.io"`|
-| `kubectlImage.tag` | **Tag**|**Type:** `string`<br/>**Default:** `"1.23.5"`|
+| `kubectlImage.tag` | **Tag**|**Type:** `string`<br/>**Default:** `"1.25.15"`|
 
 ### Metadata
 Properties within the `.metadata` top-level object

@@ -63,7 +63,7 @@ internal:
 kubectlImage:
   name: giantswarm/kubectl
   registry: gsoci.azurecr.io
-  tag: 1.23.5
+  tag: 1.25.15
 metadata:
   preventDeletion: false
   servicePriority: highest

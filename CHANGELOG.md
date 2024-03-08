@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Bump `kubectl` image to `1.25.15`.
+
 ## [0.15.0] - 2024-03-08
 
 ### Changed
