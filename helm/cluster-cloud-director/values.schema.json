@@ -618,7 +618,7 @@
                             "type": "boolean",
                             "title": "Enforced Pod Security Standards",
                             "description": "Use PSSs instead of PSPs.",
-                            "default": false
+                            "default": true
                         }
                     }
                 }

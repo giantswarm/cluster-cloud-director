@@ -155,7 +155,7 @@ Properties within the `.global.podSecurityStandards` object
 
 | **Property** | **Description** | **More Details** |
 | :----------- | :-------------- | :--------------- |
-| `global.podSecurityStandards.enforced` | **Enforced Pod Security Standards** - Use PSSs instead of PSPs.|**Type:** `boolean`<br/>**Default:** `false`|
+| `global.podSecurityStandards.enforced` | **Enforced Pod Security Standards** - Use PSSs instead of PSPs.|**Type:** `boolean`<br/>**Default:** `true`|
 
 ### VMware Cloud Director (VCD) settings
 Properties within the `.providerSpecific` top-level object
