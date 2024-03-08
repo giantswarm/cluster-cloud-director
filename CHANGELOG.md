@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.15.0] - 2024-03-08
+
 ### Changed
 
 - Switch container registry to `gsoci.azurecr.io`.
@@ -514,7 +516,8 @@ Bump cloud provider to v0.2.5 (fix).
 - Added VCDCluster parameters to match CRD.
 - Nodepool and nodeclass support.
 
-[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.14.6...HEAD
+[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.15.0...HEAD
+[0.15.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.14.6...v0.15.0
 [0.14.6]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.14.5...v0.14.6
 [0.14.5]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.14.4...v0.14.5
 [0.14.4]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.14.3...v0.14.4
