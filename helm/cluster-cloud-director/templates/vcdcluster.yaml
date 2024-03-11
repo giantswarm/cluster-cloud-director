@@ -5,6 +5,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "labels.common" . | nindent 4 }}
+    {{- include "preventDeletionLabel" $ | nindent 4 }}
 spec:
   {{- with .Values.providerSpecific }}
   site: {{ .site }}

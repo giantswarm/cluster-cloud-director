@@ -208,12 +208,6 @@
                     ],
                     "additionalProperties": false,
                     "properties": {
-                        "allowAllEgress": {
-                            "type": "boolean",
-                            "title": "Allow all egress",
-                            "description": "When set to true default permisive CiliumNetworkPolicy CRs are installed. See https://github.com/giantswarm/cilium-app/blob/v0.10.0/helm/cilium/values.yaml#L2453.",
-                            "default": false
-                        },
                         "controlPlaneEndpoint": {
                             "type": "object",
                             "title": "Control plane endpoint",
@@ -507,9 +501,9 @@
                             "type": "string",
                             "title": "Repository",
                             "examples": [
-                                "giantswarm"
+                                "gsoci.azurecr.io/giantswarm"
                             ],
-                            "default": "giantswarm"
+                            "default": "gsoci.azurecr.io/giantswarm"
                         },
                         "imageTag": {
                             "type": "string",
@@ -613,6 +607,24 @@
                 }
             }
         },
+        "global": {
+            "type": "object",
+            "title": "Global parameters",
+            "properties": {
+                "podSecurityStandards": {
+                    "type": "object",
+                    "title": "Pod Security Standards",
+                    "properties": {
+                        "enforced": {
+                            "type": "boolean",
+                            "title": "Enforced Pod Security Standards",
+                            "description": "Use PSSs instead of PSPs.",
+                            "default": true
+                        }
+                    }
+                }
+            }
+        },
         "internal": {
             "type": "object",
             "additionalProperties": false,
@@ -655,6 +667,18 @@
                                 "$ref": "#/$defs/featureGate"
                             },
                             "default": []
+                        }
+                    }
+                },
+                "ciliumNetworkPolicy": {
+                    "type": "object",
+                    "title": "CiliumNetworkPolicies",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean",
+                            "title": "Enable CiliumNetworkPolicies",
+                            "description": "Installs the network-policies-app (deny all by default) if set to true",
+                            "default": true
                         }
                     }
                 },
@@ -701,7 +725,7 @@
                         "registry": {
                             "type": "string",
                             "title": "Registry",
-                            "default": "quay.io"
+                            "default": "gsoci.azurecr.io"
                         },
                         "tag": {
                             "type": "string",
@@ -736,12 +760,12 @@
                 "registry": {
                     "type": "string",
                     "title": "Registry",
-                    "default": "quay.io"
+                    "default": "gsoci.azurecr.io"
                 },
                 "tag": {
                     "type": "string",
                     "title": "Tag",
-                    "default": "1.23.5"
+                    "default": "1.25.15"
                 }
             }
         },
@@ -778,6 +802,11 @@
                 "organization": {
                     "type": "string",
                     "title": "Organization"
+                },
+                "preventDeletion": {
+                    "type": "boolean",
+                    "title": "Prevent cluster deletion",
+                    "default": false
                 },
                 "servicePriority": {
                     "type": "string",
