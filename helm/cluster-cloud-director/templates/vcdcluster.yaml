@@ -45,3 +45,8 @@ spec:
     secretRef:
       name: {{ .Values.providerSpecific.userContext.secretRef.secretName }}
       namespace: {{ .Release.Namespace }}
+
+  # This is required by the JSON schema of VCDCluster v1beta3
+  multiZoneSpec:
+    externalLoadBalancerConfig:
+      edgeGatewayZones: []
