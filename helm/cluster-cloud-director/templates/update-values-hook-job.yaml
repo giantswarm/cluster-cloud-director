@@ -93,6 +93,9 @@ spec:
       securityContext:
         runAsUser: {{ include "securityContext.runAsUser" $ }}
         runAsGroup: {{ include "securityContext.runAsGroup" $ }}
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
       containers:
         - name: post-install-job
           image: "{{ .Values.kubectlImage.registry }}/{{ .Values.kubectlImage.name }}:{{ .Values.kubectlImage.tag }}"
@@ -102,6 +105,12 @@ spec:
             - |
               kubectl patch helmrelease -n {{ $.Release.Namespace }} {{ include "resource.default.name" $ }}-cloud-provider-cloud-director --type=merge -p '{"spec":{"suspend":true}}'
           securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            seccompProfile:
+              type: RuntimeDefault
             readOnlyRootFilesystem: true
           resources:
             requests:
@@ -137,6 +146,9 @@ spec:
       securityContext:
         runAsUser: {{ include "securityContext.runAsUser" $ }}
         runAsGroup: {{ include "securityContext.runAsGroup" $ }}
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
       containers:
         - name: post-install-job
           image: "{{ .Values.kubectlImage.registry }}/{{ .Values.kubectlImage.name }}:{{ .Values.kubectlImage.tag }}"
@@ -150,6 +162,12 @@ spec:
               done
               kubectl patch helmrelease -n {{ $.Release.Namespace }} {{ include "resource.default.name" $ }}-cloud-provider-cloud-director --type=merge -p '{"spec":{"suspend":false,"values":{"global": {"vcdConfig": {"clusterid": "'${rde_id}'"}}}}}'
           securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            seccompProfile:
+              type: RuntimeDefault
             readOnlyRootFilesystem: true
           resources:
             requests:
