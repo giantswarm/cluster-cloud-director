@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.15.2] - 2024-03-14
 
+### Changed
+
+- Add security fields to update hook jobs.
+
 ## [0.15.1] - 2024-03-08
 
 ### Changed
