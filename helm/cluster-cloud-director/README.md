@@ -21,7 +21,7 @@ Properties within the `.internal` top-level object
 | `internal.controllerManager.featureGates[*]` | **Feature gate**|**Type:** `object`<br/>|
 | `internal.controllerManager.featureGates[*].enabled` | **Enabled**|**Type:** `boolean`<br/>|
 | `internal.controllerManager.featureGates[*].name` | **Name**|**Type:** `string`<br/>**Example:** `"UserNamespacesStatelessPodsSupport"`<br/>**Value pattern:** `^[A-Za-z0-9]+$`<br/>|
-| `internal.kubernetesVersion` | **Kubernetes version**|**Type:** `string`<br/>|
+| `internal.kubernetesVersion` | **Kubernetes version**|**Type:** `string`<br/>**Default:** `"v1.25.13"`|
 | `internal.parentUid` | **Management cluster UID** - If set, create the cluster from a specific management cluster associated with this UID.|**Type:** `string`<br/>|
 | `internal.rdeId` | **Runtime defined entity (RDE) identifier** - This cluster's RDE ID in the VCD API.|**Type:** `string`<br/>|
 | `internal.sandboxContainerImage` | **Sandbox Container image (pause container)**|**Type:** `object`<br/>|
@@ -116,7 +116,7 @@ Properties within the `.controlPlane` top-level object
 | `controlPlane.resourceRatio` | **Resource ratio** - Ratio between node resources and apiserver resource requests.|**Type:** `integer`<br/>**Default:** `8`|
 | `controlPlane.sizingPolicy` | **Sizing policy** - Name of the VCD sizing policy to use.|**Type:** `string`<br/>**Example:** `"m1.medium"`<br/>|
 | `controlPlane.storageProfile` | **Storage profile** - Name of the VCD storage profile to use.|**Type:** `string`<br/>|
-| `controlPlane.template` | **Template** - Name of the template used to create the node VMs.|**Type:** `string`<br/>**Example:** `"ubuntu-2004-kube-v1.22.5"`<br/>|
+| `controlPlane.template` | **Template** - Name of the template used to create the node VMs.|**Type:** `string`<br/>**Default:** `"ubuntu-2004-kube-v1.25.13"`|
 
 ### Kubectl image
 Properties within the `.kubectlImage` top-level object
@@ -189,7 +189,7 @@ Properties within the `.providerSpecific` top-level object
 | `providerSpecific.nodeClasses.PATTERN.placementPolicy` | **VM placement policy** - Name of the VCD VM placement policy to use.|**Type:** `string`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]+$`<br/>|
 | `providerSpecific.nodeClasses.PATTERN.sizingPolicy` | **Sizing policy** - Name of the VCD sizing policy to use.|**Type:** `string`<br/>**Example:** `"m1.medium"`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]+$`<br/>|
 | `providerSpecific.nodeClasses.PATTERN.storageProfile` | **Storage profile** - Name of the VCD storage profile to use.|**Type:** `string`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]+$`<br/>|
-| `providerSpecific.nodeClasses.PATTERN.template` | **Template** - Name of the template used to create the node VMs.|**Type:** `string`<br/>**Example:** `"ubuntu-2004-kube-v1.22.5"`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]+$`<br/>|
+| `providerSpecific.nodeClasses.PATTERN.template` | **Template** - Name of the template used to create the node VMs.|**Type:** `string`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]+$`<br/>**Default:** `"ubuntu-2004-kube-v1.25.13"`|
 | `providerSpecific.org` | **Organization** - VCD organization name.|**Type:** `string`<br/>|
 | `providerSpecific.ovdc` | **OvDC name** - Name of the organization virtual datacenter (OvDC) to create this cluster in.|**Type:** `string`<br/>|
 | `providerSpecific.ovdcNetwork` | **OvDC network** - VCD network to connect VMs.|**Type:** `string`<br/>|
