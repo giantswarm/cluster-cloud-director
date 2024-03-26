@@ -1,6 +1,6 @@
 # DO NOT EDIT. Generated with:
 #
-#    devctl@6.21.0
+#    devctl@6.23.3
 #
 name: Compare Helm Rendering
 
@@ -21,7 +21,7 @@ jobs:
     if: github.event_name == 'pull_request'
     steps:
       - name: Find suspend comment
-        uses: peter-evans/find-comment@v3
+        uses: peter-evans/find-comment@d5fe37641ad8451bdd80312415672ba26c86575e  # v3.0.0
         continue-on-error: true
         id: fc
         with:
@@ -45,14 +45,14 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request' && needs.check-cmp-state.outputs.suspend_comment_id == 0 && needs.check-cmp-state.outputs.suspend_diffs_printing_from_pr_body == 'false'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - name: install helm
-        uses: azure/setup-helm@v4
+        uses: azure/setup-helm@b7246b12e77f7134dc2d460a3d5bad15bbe29390  # v4.1.0
         with:
            version: ${{ env.helm_ver }}
       - run: which helm
       - name: install dyff
-        uses: giantswarm/install-binary-action@v1
+        uses: giantswarm/install-binary-action@033b1a657eea23d9c42e77312b370e6125e4e38f  # v2.0.0
         with:
           binary: dyff
           download_url: "https://github.com/homeport/dyff/releases/download/v${version}/dyff_${version}_linux_amd64.tar.gz"
@@ -79,7 +79,7 @@ jobs:
 
             helm template -n org-giantswarm -f "helm/${{ github.event.repository.name }}/ci/ci-values.yaml" -f "${test_file_path}" "helm/${{ github.event.repository.name }}" > "/tmp/${test_file_path}/render-new.yaml"
           done
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
         with:
           ref: "${{ github.event.repository.default_branch }}"
           path: 'old'
@@ -99,7 +99,7 @@ jobs:
             helm template -n org-giantswarm -f "old/helm/${{ github.event.repository.name }}/ci/ci-values.yaml" -f "${test_file_path}" "old/helm/${{ github.event.repository.name }}" > "/tmp/${test_file_path}/render-old.yaml"
           done
       - name: get the diffs
-        uses: mathiasvr/command-output@v2.0.0
+        uses: mathiasvr/command-output@34408ea3d0528273faff3d9e201761ae96106cd0  # v2.0.0
         id: diff
         with:
           run: |
@@ -121,7 +121,7 @@ jobs:
               echo "=== No differences at all ==="
             fi
       - name: Find diff comment
-        uses: peter-evans/find-comment@v3
+        uses: peter-evans/find-comment@d5fe37641ad8451bdd80312415672ba26c86575e  # v3.0.0
         continue-on-error: true
         id: fc
         with:
@@ -129,7 +129,7 @@ jobs:
           comment-author: 'github-actions[bot]'
           body-includes: 'differences in the rendered Helm template'
       - name: Delete old comment
-        uses: jungwinter/comment@v1
+        uses: winterjung/comment@fda92dbcb5e7e79cccd55ecb107a8a3d7802a469  # v1.1.0
         continue-on-error: true
         if: steps.fc.outputs.comment-id != 0
         with:
@@ -137,7 +137,7 @@ jobs:
           comment_id: ${{ steps.fc.outputs.comment-id }}
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Create comment in case of differences
-        uses: peter-evans/create-or-update-comment@v4
+        uses: peter-evans/create-or-update-comment@71345be0265236311c031f5c7866368bd1eff043  # v4.0.0
         if: "!contains(steps.diff.outputs.stdout, '=== No differences at all ===')"
         with:
           issue-number: ${{ github.event.pull_request.number }}
@@ -154,7 +154,7 @@ jobs:
             </details>
             <!-- mandatory empty line -->
       - name: Create comment in case of no differences
-        uses: peter-evans/create-or-update-comment@v4
+        uses: peter-evans/create-or-update-comment@71345be0265236311c031f5c7866368bd1eff043  # v4.0.0
         if: "contains(steps.diff.outputs.stdout, '=== No differences at all ===')"
         with:
           issue-number: ${{ github.event.pull_request.number }}

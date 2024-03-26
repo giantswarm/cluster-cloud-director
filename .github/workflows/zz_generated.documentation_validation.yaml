@@ -1,6 +1,6 @@
 # DO NOT EDIT. Generated with:
 #
-#    devctl@6.21.0
+#    devctl@6.23.3
 #
 
 # This workflow validates the documentation generated from the JSON schema of the cluster-app
@@ -28,11 +28,11 @@ jobs:
       GO_VERSION: 1.21.3
     steps:
       - name: Set up Go ${{ env.GO_VERSION }}
-        uses: actions/setup-go@v3.3.0
+        uses: actions/setup-go@0c52d547c9bc32b1aa3301fd7a9cb496313a4491 # v5.0.0
         with:
           go-version: ${{ env.GO_VERSION }}
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - name: "Run 'make generate-docs' and check for differences"
         run: |
           make generate-docs
