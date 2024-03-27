@@ -1,6 +1,6 @@
 # DO NOT EDIT. Generated with:
 #
-#    devctl@6.21.0
+#    devctl@6.23.3
 #
 
 # This workflow validates the JSON schema of the cluster-app, which is located in
@@ -26,10 +26,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - name: Run schemalint
         id: run-schemalint
-        uses: giantswarm/schemalint/actions/verify-helm-schema@v2
+        uses: giantswarm/schemalint/actions/verify-helm-schema@79be66ce4ed5c6154615f68e9b97ab3110b62968  # v2.5.1
         with:
           rule-set: 'cluster-app'
   generate:
@@ -37,8 +37,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
       - name: Run helm-values-gen
         id: run-helm-values-gen
-        uses: giantswarm/helm-values-gen/actions/ensure-generated@v1
+        uses: giantswarm/helm-values-gen/actions/ensure-generated@bb33e5f342b2026c9ba36073a4f2fdc74495f8c4  # v1.0.3
