@@ -24,8 +24,8 @@ connectivity:
 controlPlane:
   diskSizeGB: 30
   dns:
-    imageRepository: giantswarm
-    imageTag: v1.9.3
+    imageRepository: gsoci.azurecr.io/giantswarm
+    imageTag: 1.9.4-giantswarm
   etcd:
     imageRepository: gsoci.azurecr.io/giantswarm
     imageTag: 3.5.4-0-k8s

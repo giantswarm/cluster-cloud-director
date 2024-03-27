@@ -96,8 +96,8 @@ Properties within the `.controlPlane` top-level object
 | `controlPlane.customNodeLabels[*]` | **Custom node label**|**Type:** `string`<br/>**Example:** `"key=value"`<br/>**Value pattern:** `^[A-Za-z0-9-_\./]{1,63}=[A-Za-z0-9-_\.]{0,63}$`<br/>|
 | `controlPlane.diskSizeGB` | **Disk size**|**Type:** `integer`<br/>**Example:** `30`<br/>|
 | `controlPlane.dns` | **DNS container image**|**Type:** `object`<br/>|
-| `controlPlane.dns.imageRepository` | **Repository**|**Type:** `string`<br/>**Example:** `"giantswarm"`<br/>**Default:** `"giantswarm"`|
-| `controlPlane.dns.imageTag` | **Tag**|**Type:** `string`<br/>**Example:** `"v1.9.3"`<br/>**Default:** `"v1.9.3"`|
+| `controlPlane.dns.imageRepository` | **Repository**|**Type:** `string`<br/>**Default:** `"gsoci.azurecr.io/giantswarm"`|
+| `controlPlane.dns.imageTag` | **Tag**|**Type:** `string`<br/>**Default:** `"1.9.4-giantswarm"`|
 | `controlPlane.etcd` | **Etcd container image**|**Type:** `object`<br/>|
 | `controlPlane.etcd.imageRepository` | **Repository**|**Type:** `string`<br/>**Example:** `"gsoci.azurecr.io/giantswarm"`<br/>**Default:** `"gsoci.azurecr.io/giantswarm"`|
 | `controlPlane.etcd.imageTag` | **Tag**|**Type:** `string`<br/>**Example:** `"3.5.4-0-k8s"`<br/>**Default:** `"3.5.4-0-k8s"`|

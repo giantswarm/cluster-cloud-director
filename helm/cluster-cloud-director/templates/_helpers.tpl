@@ -161,9 +161,6 @@ preKubeadmCommands:
 - systemctl daemon-reload
 - systemctl restart containerd
 {{- end }}
-{{- if $.Values.connectivity.network.staticRoutes }}
-- systemctl daemon-reload
-{{- end }}
 {{- include "hostEntries" .}}
 {{- if $.Values.connectivity.network.staticRoutes }}
 {{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-config" }}

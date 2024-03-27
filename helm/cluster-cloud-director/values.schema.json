@@ -477,18 +477,12 @@
                         "imageRepository": {
                             "type": "string",
                             "title": "Repository",
-                            "examples": [
-                                "giantswarm"
-                            ],
-                            "default": "giantswarm"
+                            "default": "gsoci.azurecr.io/giantswarm"
                         },
                         "imageTag": {
                             "type": "string",
                             "title": "Tag",
-                            "examples": [
-                                "v1.9.3"
-                            ],
-                            "default": "v1.9.3"
+                            "default": "1.9.4-giantswarm"
                         }
                     }
                 },
