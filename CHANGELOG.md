@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Set Kubernetes version and templates defaults to `v1.25.13`.
+
 ## [0.15.2] - 2024-03-14
 
 ### Changed

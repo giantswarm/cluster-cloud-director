@@ -115,9 +115,7 @@
             "type": "string",
             "title": "Template",
             "description": "Name of the template used to create the node VMs.",
-            "examples": [
-                "ubuntu-2004-kube-v1.22.5"
-            ]
+            "default": "ubuntu-2004-kube-v1.25.13"
         }
     },
     "type": "object",
@@ -699,7 +697,8 @@
                 },
                 "kubernetesVersion": {
                     "type": "string",
-                    "title": "Kubernetes version"
+                    "title": "Kubernetes version",
+                    "default": "v1.25.13"
                 },
                 "parentUid": {
                     "type": "string",
