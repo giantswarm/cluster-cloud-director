@@ -26,4 +26,4 @@ export MAX_MUTATING_REQUESTS_INFLIGHT=$((cpus*(800/ratio)))
 export API_SERVER_CPU_REQUEST=$((cpus*(1000/ratio)))m
 export API_SERVER_MEMORY_REQUEST=$((memory/ratio))Mi
 
-envsubst < "/tmp/kubeadm/patches/kube-apiserver+json.tpl"  > "/tmp/kubeadm/patches/kube-apiserver+json.json"
+envsubst < "/etc/kubernetes/patches/kube-apiserver+json.tpl"  > "/etc/kubernetes/patches/kube-apiserver+json.json"

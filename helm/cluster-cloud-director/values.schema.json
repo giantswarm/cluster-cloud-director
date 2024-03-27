@@ -477,18 +477,12 @@
                         "imageRepository": {
                             "type": "string",
                             "title": "Repository",
-                            "examples": [
-                                "projects.registry.vmware.com/tkg"
-                            ],
-                            "default": "projects.registry.vmware.com/tkg"
+                            "default": "gsoci.azurecr.io/giantswarm"
                         },
                         "imageTag": {
                             "type": "string",
                             "title": "Tag",
-                            "examples": [
-                                "v1.7.0_vmware.12"
-                            ],
-                            "default": "v1.7.0_vmware.12"
+                            "default": "1.9.4-giantswarm"
                         }
                     }
                 },
@@ -518,13 +512,14 @@
                 "image": {
                     "type": "object",
                     "title": "Node container image",
+                    "description": "Set to 'giantswarm' for ignition (Flatcar) and 'projects.registry.vmware.com/tkg' for cloud-init (Ubuntu).",
                     "additionalProperties": false,
                     "properties": {
                         "repository": {
                             "type": "string",
                             "title": "Repository",
                             "examples": [
-                                "projects.registry.vmware.com/tkg"
+                                "giantswarm"
                             ],
                             "default": "projects.registry.vmware.com/tkg"
                         }
@@ -699,7 +694,8 @@
                 },
                 "kubernetesVersion": {
                     "type": "string",
-                    "title": "Kubernetes version"
+                    "title": "Kubernetes version",
+                    "description": "For cloud-init (Ubuntu), append the version with '+vmware.1'."
                 },
                 "parentUid": {
                     "type": "string",
@@ -1024,6 +1020,16 @@
                             }
                         }
                     }
+                },
+                "vmBootstrapFormat": {
+                    "type": "string",
+                    "title": "Ignition or cloud-init for OS initialization",
+                    "description": "Select either 'ignition' for Flatcar or 'cloud-config' for other OSes (e.g. Ubuntu).",
+                    "enum": [
+                        "cloud-config",
+                        "ignition"
+                    ],
+                    "default": "cloud-config"
                 },
                 "vmNamingTemplate": {
                     "type": "string",

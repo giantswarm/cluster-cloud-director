@@ -2,7 +2,9 @@ baseDomain: "test.gigantic.io"
 controlPlane:
   catalog: giantswarm
   replicas: 1
+  sizingPolicy: m1.medium
   template: ubuntu-2004-kube-v1.25.13
+  diskSizeGB: 30
   oidc:
     issuerUrl: https://dex.gerbil.test.gigantic.io
     caFile: ""
@@ -27,9 +29,15 @@ providerSpecific:
   nodeClasses:
     default:
       catalog: giantswarm
+      sizingPolicy: m1.medium
       template: ubuntu-2004-kube-v1.25.13
+      diskSizeGB: 30
   userContext:
     secretRef:
       secretName: vcd-credentials
+metadata:
+  description: "Testing Cluster"
+  organization: giantswarm
+  servicePriority: highest
 internal:
   kubernetesVersion: v1.25.13+vmware.1
