@@ -14,7 +14,9 @@ spec:
   chart:
     spec:
       chart: coredns-app
-      version: 1.15.1
+      # used by renovate
+      # repo: giantswarm/coredns-app
+      version: 1.21.0
       sourceRef:
         kind: HelmRepository
         name: {{ include "resource.default.name" $ }}-default
@@ -39,3 +41,6 @@ spec:
           clusterIPRange: {{ index .Values.connectivity.network.services.cidrBlocks 0 | quote }}
         DNS:
           IP: {{ include "clusterDNS" $ | quote }}
+    global:
+      podSecurityStandards:
+        enforced: {{ .Values.global.podSecurityStandards.enforced }}

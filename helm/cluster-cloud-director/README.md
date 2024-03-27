@@ -14,6 +14,8 @@ Properties within the `.internal` top-level object
 | `internal.apiServer.featureGates[*]` | **Feature gate**|**Type:** `object`<br/>|
 | `internal.apiServer.featureGates[*].enabled` | **Enabled**|**Type:** `boolean`<br/>|
 | `internal.apiServer.featureGates[*].name` | **Name**|**Type:** `string`<br/>**Example:** `"UserNamespacesStatelessPodsSupport"`<br/>**Value pattern:** `^[A-Za-z0-9]+$`<br/>|
+| `internal.ciliumNetworkPolicy` | **CiliumNetworkPolicies**|**Type:** `object`<br/>|
+| `internal.ciliumNetworkPolicy.enabled` | **Enable CiliumNetworkPolicies** - Installs the network-policies-app (deny all by default) if set to true|**Type:** `boolean`<br/>**Default:** `true`|
 | `internal.controllerManager` | **Controller manager**|**Type:** `object`<br/>|
 | `internal.controllerManager.featureGates` | **Feature gates** - Controller manager feature gate activation/deactivation.|**Type:** `array`<br/>**Default:** `[]`|
 | `internal.controllerManager.featureGates[*]` | **Feature gate**|**Type:** `object`<br/>|
@@ -24,7 +26,7 @@ Properties within the `.internal` top-level object
 | `internal.rdeId` | **Runtime defined entity (RDE) identifier** - This cluster's RDE ID in the VCD API.|**Type:** `string`<br/>|
 | `internal.sandboxContainerImage` | **Sandbox Container image (pause container)**|**Type:** `object`<br/>|
 | `internal.sandboxContainerImage.name` | **Repository**|**Type:** `string`<br/>**Default:** `"giantswarm/pause"`|
-| `internal.sandboxContainerImage.registry` | **Registry**|**Type:** `string`<br/>**Default:** `"quay.io"`|
+| `internal.sandboxContainerImage.registry` | **Registry**|**Type:** `string`<br/>**Default:** `"gsoci.azurecr.io"`|
 | `internal.sandboxContainerImage.tag` | **Tag**|**Type:** `string`<br/>**Default:** `"3.9"`|
 | `internal.skipRde` | **Skip RDE** - Set to true if the API schema extension is installed in the correct version in VCD to create CAPVCD entities in the API. Set to false otherwise.|**Type:** `boolean`<br/>|
 | `internal.useAsManagementCluster` | **Display as management cluster**|**Type:** `boolean`<br/>**Default:** `false`|
@@ -45,7 +47,6 @@ Configurations related to cluster connectivity such as container registries.
 | `connectivity.containerRegistries.*[*].credentials.username` | **Username** - Used to authenticate for the registry with username/password.|**Type:** `string`<br/>|
 | `connectivity.containerRegistries.*[*].endpoint` | **Endpoint** - Endpoint for the container registry.|**Type:** `string`<br/>|
 | `connectivity.network` | **Network**|**Type:** `object`<br/>|
-| `connectivity.network.allowAllEgress` | **Allow all egress** - When set to true default permisive CiliumNetworkPolicy CRs are installed. See https://github.com/giantswarm/cilium-app/blob/v0.10.0/helm/cilium/values.yaml#L2453.|**Type:** `boolean`<br/>**Default:** `false`|
 | `connectivity.network.controlPlaneEndpoint` | **Control plane endpoint** - Kubernetes API endpoint.|**Type:** `object`<br/>|
 | `connectivity.network.controlPlaneEndpoint.host` | **Host**|**Type:** `string`<br/>|
 | `connectivity.network.controlPlaneEndpoint.port` | **Port number**|**Type:** `integer`<br/>**Default:** `6443`|
@@ -98,7 +99,7 @@ Properties within the `.controlPlane` top-level object
 | `controlPlane.dns.imageRepository` | **Repository**|**Type:** `string`<br/>**Example:** `"projects.registry.vmware.com/tkg"`<br/>**Default:** `"projects.registry.vmware.com/tkg"`|
 | `controlPlane.dns.imageTag` | **Tag**|**Type:** `string`<br/>**Example:** `"v1.7.0_vmware.12"`<br/>**Default:** `"v1.7.0_vmware.12"`|
 | `controlPlane.etcd` | **Etcd container image**|**Type:** `object`<br/>|
-| `controlPlane.etcd.imageRepository` | **Repository**|**Type:** `string`<br/>**Example:** `"giantswarm"`<br/>**Default:** `"giantswarm"`|
+| `controlPlane.etcd.imageRepository` | **Repository**|**Type:** `string`<br/>**Example:** `"gsoci.azurecr.io/giantswarm"`<br/>**Default:** `"gsoci.azurecr.io/giantswarm"`|
 | `controlPlane.etcd.imageTag` | **Tag**|**Type:** `string`<br/>**Example:** `"3.5.4-0-k8s"`<br/>**Default:** `"3.5.4-0-k8s"`|
 | `controlPlane.image` | **Node container image**|**Type:** `object`<br/>|
 | `controlPlane.image.repository` | **Repository**|**Type:** `string`<br/>**Example:** `"projects.registry.vmware.com/tkg"`<br/>**Default:** `"projects.registry.vmware.com/tkg"`|
@@ -124,8 +125,8 @@ Used by cluster-shared library chart to configure coredns in-cluster.
 | **Property** | **Description** | **More Details** |
 | :----------- | :-------------- | :--------------- |
 | `kubectlImage.name` | **Repository**|**Type:** `string`<br/>**Default:** `"giantswarm/kubectl"`|
-| `kubectlImage.registry` | **Registry**|**Type:** `string`<br/>**Default:** `"quay.io"`|
-| `kubectlImage.tag` | **Tag**|**Type:** `string`<br/>**Default:** `"1.23.5"`|
+| `kubectlImage.registry` | **Registry**|**Type:** `string`<br/>**Default:** `"gsoci.azurecr.io"`|
+| `kubectlImage.tag` | **Tag**|**Type:** `string`<br/>**Default:** `"1.25.15"`|
 
 ### Metadata
 Properties within the `.metadata` top-level object
@@ -148,6 +149,13 @@ Groups of worker nodes with identical configuration.
 | `nodePools.PATTERN` |**None**|**Type:** `object`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]{3,10}$`<br/>|
 | `nodePools.PATTERN.class` | **Node class** - A valid node class name, as specified in VMware Cloud Director (VCD) settings > Node classes.|**Type:** `string`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]{3,10}$`<br/>**Value pattern:** `^[a-z0-9-]+$`<br/>|
 | `nodePools.PATTERN.replicas` | **Number of nodes**|**Type:** `integer`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]{3,10}$`<br/>**Default:** `1`|
+
+### Pod Security Standards
+Properties within the `.global.podSecurityStandards` object
+
+| **Property** | **Description** | **More Details** |
+| :----------- | :-------------- | :--------------- |
+| `global.podSecurityStandards.enforced` | **Enforced Pod Security Standards** - Use PSSs instead of PSPs.|**Type:** `boolean`<br/>**Default:** `true`|
 
 ### VMware Cloud Director (VCD) settings
 Properties within the `.providerSpecific` top-level object
