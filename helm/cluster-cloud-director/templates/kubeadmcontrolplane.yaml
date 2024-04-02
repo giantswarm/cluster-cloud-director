@@ -99,21 +99,15 @@ spec:
           imageTag: {{ .Values.controlPlane.etcd.imageTag }}
       imageRepository: {{ .Values.controlPlane.image.repository }}
     {{- include "sshUsers" . | nindent 4 }}
+    {{- if eq $.Values.providerSpecific.vmBootstrapFormat "ignition" }}
+    {{- include "ignitionSpec" . | nindent 4 }}
+    {{- end }}
     initConfiguration:
-      # TODO we need cluster-api-app@1.8.0 to be able to use skipPhases
-      # Right now we do a hackery to workaround this limitation. To revert
-      # this:
-      #     - remove files/var/run/kubeadm/update-kubeadm-yaml-skip-phases.sh
-      #       from the chart directory
-      #     - remove files/var/run/kubeadm/update-kubeadm-yaml-skip-phases.sh
-      #       references in _kubeadm.tpl
-      #     - remove _kubeadm.tpl file from the chart directory
-      #     - uncomment lines below
-      #skipPhases:
-      #  - addon/coredns
-      #  - addon/kube-proxy
+      skipPhases:
+        - addon/coredns
+        - addon/kube-proxy
       patches:
-        directory: "/tmp/kubeadm/patches"
+        directory: "/etc/kubernetes/patches"
       nodeRegistration:
         criSocket: /run/containerd/containerd.sock
         {{- include "taints" .Values.controlPlane.customNodeTaints | nindent 8 }}
@@ -121,7 +115,7 @@ spec:
           {{- include "kubeletExtraArgs" . | nindent 10}}
     joinConfiguration:
       patches:
-        directory: "/tmp/kubeadm/patches"
+        directory: "/etc/kubernetes/patches"
       nodeRegistration:
         criSocket: /run/containerd/containerd.sock
         {{- include "taints" .Values.controlPlane.customNodeTaints | nindent 8 }}
@@ -133,14 +127,16 @@ spec:
     files:
       {{- include "auditLogFiles" . | nindent 6 }}
       {{- include "sshFiles" . | nindent 6 }}
+      {{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-config" }}
       {{- include "ntpFiles" . | nindent 6 }}
+      {{- end }}
       {{- if $.Values.connectivity.proxy.enabled }}
       {{- include "containerdProxyConfig" . | nindent 6 }}
       {{- end }}
-      {{- include "kubeadmFiles" . | nindent 6 }}
       {{- include "containerdConfig" . | nindent 6 }}
-      {{- range $kubeadmPatch, $_ :=  .Files.Glob  "files/etc/patches/**" }}
-      - path: {{ (printf "/tmp/kubeadm/patches/%s" (base $kubeadmPatch)) }}
+      {{- range $kubeadmPatch, $_ :=  .Files.Glob  "files/etc/kubernetes/**" }}
+      - path: {{ (printf "/etc/kubernetes/patches/%s" (base $kubeadmPatch)) }}
+        permissions: "0600"
         content: |-
           {{- $.Files.Get $kubeadmPatch | nindent 10 }}
       {{- end }}
@@ -151,24 +147,31 @@ spec:
             name: {{ include "resource.default.name" $ }}-encryption-provider-config
             key: encryption
       {{- if $.Values.connectivity.network.staticRoutes }}
+      {{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-config" }}
       {{- include "staticRoutes" . | nindent 6}}
       {{- end }}
+      {{- end }}
     preKubeadmCommands:
-      - bash /tmp/kubeadm/patches/kube-apiserver-patch.sh {{ .Values.controlPlane.resourceRatio }}
-      - bash /run/kubeadm/gs-update-kubeadm-yaml-skip-phases.sh
+      - bash /etc/kubernetes/patches/kube-apiserver-patch.sh {{ .Values.controlPlane.resourceRatio }}
       - /bin/test ! -d /var/lib/kubelet && (/bin/mkdir -p /var/lib/kubelet && /bin/chmod 0750 /var/lib/kubelet)
       {{- if $.Values.connectivity.proxy.enabled }}
       - systemctl daemon-reload
       - systemctl restart containerd
       {{- end }}
       {{- if $.Values.connectivity.network.staticRoutes }}
+      {{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-config" }}
       - systemctl daemon-reload
       - systemctl enable --now static-routes.service
+      {{- else if eq $.Values.providerSpecific.vmBootstrapFormat "ignition" }}
+      {{- include "staticRoutesCommands" . | nindent 6}}
+      {{- end }}
       {{- end }}
       {{- include "hostEntries" . | nindent 6}}
-    postKubeadmCommands:  
+    postKubeadmCommands:
       {{- include "sshPostKubeadmCommands" . | nindent 6 }}
+      {{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-config" }}
       {{- include "ntpPostKubeadmCommands" . | nindent 6 }}
+      {{- end }}
   machineTemplate:
     metadata:
       labels: {{- include "labels.common" . | nindent 8 }}

@@ -21,7 +21,7 @@ Properties within the `.internal` top-level object
 | `internal.controllerManager.featureGates[*]` | **Feature gate**|**Type:** `object`<br/>|
 | `internal.controllerManager.featureGates[*].enabled` | **Enabled**|**Type:** `boolean`<br/>|
 | `internal.controllerManager.featureGates[*].name` | **Name**|**Type:** `string`<br/>**Example:** `"UserNamespacesStatelessPodsSupport"`<br/>**Value pattern:** `^[A-Za-z0-9]+$`<br/>|
-| `internal.kubernetesVersion` | **Kubernetes version**|**Type:** `string`<br/>|
+| `internal.kubernetesVersion` | **Kubernetes version** - For cloud-init (Ubuntu), append the version with '+vmware.1'.|**Type:** `string`<br/>|
 | `internal.parentUid` | **Management cluster UID** - If set, create the cluster from a specific management cluster associated with this UID.|**Type:** `string`<br/>|
 | `internal.rdeId` | **Runtime defined entity (RDE) identifier** - This cluster's RDE ID in the VCD API.|**Type:** `string`<br/>|
 | `internal.sandboxContainerImage` | **Sandbox Container image (pause container)**|**Type:** `object`<br/>|
@@ -96,13 +96,13 @@ Properties within the `.controlPlane` top-level object
 | `controlPlane.customNodeLabels[*]` | **Custom node label**|**Type:** `string`<br/>**Example:** `"key=value"`<br/>**Value pattern:** `^[A-Za-z0-9-_\./]{1,63}=[A-Za-z0-9-_\.]{0,63}$`<br/>|
 | `controlPlane.diskSizeGB` | **Disk size**|**Type:** `integer`<br/>**Example:** `30`<br/>|
 | `controlPlane.dns` | **DNS container image**|**Type:** `object`<br/>|
-| `controlPlane.dns.imageRepository` | **Repository**|**Type:** `string`<br/>**Example:** `"projects.registry.vmware.com/tkg"`<br/>**Default:** `"projects.registry.vmware.com/tkg"`|
-| `controlPlane.dns.imageTag` | **Tag**|**Type:** `string`<br/>**Example:** `"v1.7.0_vmware.12"`<br/>**Default:** `"v1.7.0_vmware.12"`|
+| `controlPlane.dns.imageRepository` | **Repository**|**Type:** `string`<br/>**Default:** `"gsoci.azurecr.io/giantswarm"`|
+| `controlPlane.dns.imageTag` | **Tag**|**Type:** `string`<br/>**Default:** `"1.9.4-giantswarm"`|
 | `controlPlane.etcd` | **Etcd container image**|**Type:** `object`<br/>|
 | `controlPlane.etcd.imageRepository` | **Repository**|**Type:** `string`<br/>**Example:** `"gsoci.azurecr.io/giantswarm"`<br/>**Default:** `"gsoci.azurecr.io/giantswarm"`|
 | `controlPlane.etcd.imageTag` | **Tag**|**Type:** `string`<br/>**Example:** `"3.5.4-0-k8s"`<br/>**Default:** `"3.5.4-0-k8s"`|
-| `controlPlane.image` | **Node container image**|**Type:** `object`<br/>|
-| `controlPlane.image.repository` | **Repository**|**Type:** `string`<br/>**Example:** `"projects.registry.vmware.com/tkg"`<br/>**Default:** `"projects.registry.vmware.com/tkg"`|
+| `controlPlane.image` | **Node container image** - Set to 'giantswarm' for ignition (Flatcar) and 'projects.registry.vmware.com/tkg' for cloud-init (Ubuntu).|**Type:** `object`<br/>|
+| `controlPlane.image.repository` | **Repository**|**Type:** `string`<br/>**Example:** `"giantswarm"`<br/>**Default:** `"projects.registry.vmware.com/tkg"`|
 | `controlPlane.oidc` | **OIDC authentication**|**Type:** `object`<br/>|
 | `controlPlane.oidc.caFile` | **Certificate authority file** - Path to identity provider's CA certificate in PEM format.|**Type:** `string`<br/>|
 | `controlPlane.oidc.clientId` | **Client ID** - OIDC client identifier to identify with.|**Type:** `string`<br/>|
@@ -197,6 +197,7 @@ Properties within the `.providerSpecific` top-level object
 | `providerSpecific.userContext` | **VCD API access token**|**Type:** `object`<br/>|
 | `providerSpecific.userContext.secretRef` | **Secret reference**|**Type:** `object`<br/>|
 | `providerSpecific.userContext.secretRef.secretName` | **Name** - Name of the secret containing the VCD API token.|**Type:** `string`<br/>|
+| `providerSpecific.vmBootstrapFormat` | **Ignition or cloud-init for OS initialization** - Select either 'ignition' for Flatcar or 'cloud-config' for other OSes (e.g. Ubuntu).|**Type:** `string`<br/>**Default:** `"cloud-config"`|
 | `providerSpecific.vmNamingTemplate` | **VM naming template** - Go template to specify the VM naming convention.|**Type:** `string`<br/>**Example:** `"mytenant-{{ .machine.Name | sha256sum | trunc 7 }}"`<br/>|
 
 ### Other
