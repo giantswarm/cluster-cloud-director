@@ -17,7 +17,7 @@ spec:
       chart: network-policies
       # used by renovate
       # repo: giantswarm/network-policies-app
-      version: 0.0.4
+      version: 0.1.0
       sourceRef:
         kind: HelmRepository
         name: {{ include "resource.default.name" $ }}-cluster
