@@ -164,10 +164,6 @@ spec:
       - systemctl daemon-reload
       - systemctl restart containerd
       {{- end }}
-      {{- if $.Values.internal.teleport.enabled }}
-      - systemctl daemon-reload
-      - systemctl enable --now teleport.service
-      {{- end }}
       {{- if $.Values.connectivity.network.staticRoutes }}
       {{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-config" }}
       - systemctl daemon-reload
@@ -175,6 +171,10 @@ spec:
       {{- else if eq $.Values.providerSpecific.vmBootstrapFormat "ignition" }}
       {{- include "staticRoutesCommands" . | nindent 6}}
       {{- end }}
+      {{- end }}
+      {{- if $.Values.internal.teleport.enabled }}
+      - systemctl daemon-reload
+      - systemctl enable --now teleport.service
       {{- end }}
       {{- include "hostEntries" . | nindent 6}}
     postKubeadmCommands:
