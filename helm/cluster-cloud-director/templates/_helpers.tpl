@@ -145,6 +145,13 @@ and is used to join the node to the teleport cluster.
   content: {{ tpl ($.Files.Get "files/systemd/teleport.service") . | b64enc }}
 {{- end -}}
 
+{{- define "staticRoutesCommands" -}}
+{{- range $.Values.connectivity.network.staticRoutes}}
+- sudo ip route add {{ .destination }} via {{ .via }}
+{{- end -}}
+{{- end }}
+
+
 {{- define "hostEntries" -}}
 {{- range $.Values.connectivity.network.hostEntries}}
 - echo "{{ .ip }}  {{ .fqdn }}" >> /etc/hosts
@@ -159,7 +166,7 @@ See https://github.com/kubernetes-sigs/cluster-api/pull/5027/files
 */}}
 {{- define "kubeadmConfigTemplateSpec" -}}
 
-{{- include "sshUsers" . }}
+{{ include "sshUsers" . }}
 
 joinConfiguration:
   nodeRegistration:
@@ -169,8 +176,14 @@ joinConfiguration:
       node-labels: "giantswarm.io/node-pool={{ .pool.name }},{{- include "labelsByClass" . -}}"
     {{- include "taintsByClass" . | nindent  4}}
 
+{{- if eq $.Values.providerSpecific.vmBootstrapFormat "ignition" }}
+{{ include "ignitionSpec" . }}
+{{- end }}
+
 files:
+{{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-config" }}
 {{- include "ntpFiles" . | nindent 2}}
+{{- end }}
 {{- include "sshFiles" . | nindent 2}}
 {{- include "containerdConfig" . | nindent 2 }}
 {{- if $.Values.connectivity.proxy.enabled }}
@@ -183,7 +196,9 @@ files:
 {{- include "teleportFiles" . | nindent 2}}
 {{- end }}
 {{- if $.Values.connectivity.network.staticRoutes }}
+{{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-config" }}
 {{- include "staticRoutes" . | nindent 2}}
+{{- end }}
 {{- end }}
 
 preKubeadmCommands:
@@ -193,19 +208,25 @@ preKubeadmCommands:
 - systemctl daemon-reload
 - systemctl restart containerd
 {{- end }}
+{{- include "hostEntries" .}}
 {{- if $.Values.connectivity.network.staticRoutes }}
+{{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-config" }}
 - systemctl daemon-reload
 - systemctl enable --now static-routes.service
+{{- else if eq $.Values.providerSpecific.vmBootstrapFormat "ignition" }}
+{{- include "staticRoutesCommands" . }}
+{{- end }}
 {{- end }}
 {{- if $.Values.internal.teleport.enabled }}
 - systemctl daemon-reload
 - systemctl enable --now teleport.service
 {{- end }}
 {{- include "hostEntries" .}}
-
 postKubeadmCommands:
 {{ include "sshPostKubeadmCommands" . }}
+{{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-config" }}
 {{- include "ntpPostKubeadmCommands" . }}
+{{- end }}
 - usermod -aG root nobody # required for node-exporter to access the host's filesystem
 
 {{- end }}

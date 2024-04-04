@@ -1,7 +1,6 @@
 # The helper functions here can be called in templates and _helpers.tpl
 # This file should be self-sufficient. Don't call any functions from _helpers.tpl
 
-
 {{- define "ntpFiles" -}}
 {{- if or $.Values.connectivity.ntp.pools $.Values.connectivity.ntp.servers -}}
 - path: /etc/chrony/chrony.conf
@@ -35,3 +34,22 @@
 - systemctl restart chrony
 {{- end -}}
 {{- end -}}
+
+{{- define "ntpIgnition" -}}
+{{- with $.Values.connectivity.ntp }}
+{{- if or .pools .servers -}}
+- path: /etc/systemd/timesyncd.conf
+  mode: 0644
+  contents:
+    inline: |
+      [Time]
+      {{- if and .pools .servers }}
+      NTP={{ join " " .pools }} {{ join " " .servers }}
+      {{- else if .pools }}
+      NTP={{ join " " .pools }}
+      {{- else }}
+      NTP={{ join " " .servers }}
+      {{- end }}
+{{- end -}}
+{{- end }}
+{{- end }}

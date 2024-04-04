@@ -208,12 +208,6 @@
                     ],
                     "additionalProperties": false,
                     "properties": {
-                        "allowAllEgress": {
-                            "type": "boolean",
-                            "title": "Allow all egress",
-                            "description": "When set to true default permisive CiliumNetworkPolicy CRs are installed. See https://github.com/giantswarm/cilium-app/blob/v0.10.0/helm/cilium/values.yaml#L2453.",
-                            "default": false
-                        },
                         "controlPlaneEndpoint": {
                             "type": "object",
                             "title": "Control plane endpoint",
@@ -483,18 +477,12 @@
                         "imageRepository": {
                             "type": "string",
                             "title": "Repository",
-                            "examples": [
-                                "projects.registry.vmware.com/tkg"
-                            ],
-                            "default": "projects.registry.vmware.com/tkg"
+                            "default": "gsoci.azurecr.io/giantswarm"
                         },
                         "imageTag": {
                             "type": "string",
                             "title": "Tag",
-                            "examples": [
-                                "v1.7.0_vmware.12"
-                            ],
-                            "default": "v1.7.0_vmware.12"
+                            "default": "1.9.4-giantswarm"
                         }
                     }
                 },
@@ -507,9 +495,9 @@
                             "type": "string",
                             "title": "Repository",
                             "examples": [
-                                "giantswarm"
+                                "gsoci.azurecr.io/giantswarm"
                             ],
-                            "default": "giantswarm"
+                            "default": "gsoci.azurecr.io/giantswarm"
                         },
                         "imageTag": {
                             "type": "string",
@@ -524,13 +512,14 @@
                 "image": {
                     "type": "object",
                     "title": "Node container image",
+                    "description": "Set to 'giantswarm' for ignition (Flatcar) and 'projects.registry.vmware.com/tkg' for cloud-init (Ubuntu).",
                     "additionalProperties": false,
                     "properties": {
                         "repository": {
                             "type": "string",
                             "title": "Repository",
                             "examples": [
-                                "projects.registry.vmware.com/tkg"
+                                "giantswarm"
                             ],
                             "default": "projects.registry.vmware.com/tkg"
                         }
@@ -612,6 +601,24 @@
                 }
             }
         },
+        "global": {
+            "type": "object",
+            "title": "Global parameters",
+            "properties": {
+                "podSecurityStandards": {
+                    "type": "object",
+                    "title": "Pod Security Standards",
+                    "properties": {
+                        "enforced": {
+                            "type": "boolean",
+                            "title": "Enforced Pod Security Standards",
+                            "description": "Use PSSs instead of PSPs.",
+                            "default": true
+                        }
+                    }
+                }
+            }
+        },
         "internal": {
             "type": "object",
             "additionalProperties": false,
@@ -657,6 +664,18 @@
                         }
                     }
                 },
+                "ciliumNetworkPolicy": {
+                    "type": "object",
+                    "title": "CiliumNetworkPolicies",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean",
+                            "title": "Enable CiliumNetworkPolicies",
+                            "description": "Installs the network-policies-app (deny all by default) if set to true",
+                            "default": true
+                        }
+                    }
+                },
                 "controllerManager": {
                     "type": "object",
                     "title": "Controller manager",
@@ -675,7 +694,8 @@
                 },
                 "kubernetesVersion": {
                     "type": "string",
-                    "title": "Kubernetes version"
+                    "title": "Kubernetes version",
+                    "description": "For cloud-init (Ubuntu), append the version with '+vmware.1'."
                 },
                 "parentUid": {
                     "type": "string",
@@ -699,7 +719,7 @@
                         "registry": {
                             "type": "string",
                             "title": "Registry",
-                            "default": "quay.io"
+                            "default": "gsoci.azurecr.io"
                         },
                         "tag": {
                             "type": "string",
@@ -755,12 +775,12 @@
                 "registry": {
                     "type": "string",
                     "title": "Registry",
-                    "default": "quay.io"
+                    "default": "gsoci.azurecr.io"
                 },
                 "tag": {
                     "type": "string",
                     "title": "Tag",
-                    "default": "1.23.5"
+                    "default": "1.25.15"
                 }
             }
         },
@@ -1021,6 +1041,16 @@
                             }
                         }
                     }
+                },
+                "vmBootstrapFormat": {
+                    "type": "string",
+                    "title": "Ignition or cloud-init for OS initialization",
+                    "description": "Select either 'ignition' for Flatcar or 'cloud-config' for other OSes (e.g. Ubuntu).",
+                    "enum": [
+                        "cloud-config",
+                        "ignition"
+                    ],
+                    "default": "cloud-config"
                 },
                 "vmNamingTemplate": {
                     "type": "string",

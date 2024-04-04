@@ -88,12 +88,16 @@ spec:
       namespace: "{{ $.Release.Namespace }}"
       labels:
         {{- include "labels.common" $ | nindent 8 }}
+        cnp: {{ include "resource.default.name" $ }}-cleanup-helmreleases-hook
     spec:
       restartPolicy: Never
       serviceAccountName: "{{ include "resource.default.name" $ }}-cleanup-helmreleases-hook"
       securityContext:
         runAsUser: {{ include "securityContext.runAsUser" $ }}
         runAsGroup: {{ include "securityContext.runAsGroup" $ }}
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
       containers:
         - name: post-delete-job
           image: "{{ .Values.kubectlImage.registry }}/{{ .Values.kubectlImage.name }}:{{ .Values.kubectlImage.tag }}"
@@ -116,6 +120,12 @@ spec:
                 kubectl delete -n ${NAMESPACE} helmchart "${chart}" --ignore-not-found=true
               done
           securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            seccompProfile:
+              type: RuntimeDefault
             readOnlyRootFilesystem: true
           resources:
             requests:
@@ -124,3 +134,30 @@ spec:
             limits:
               memory: "256Mi"
               cpu: "100m"
+---
+{{- if .Capabilities.APIVersions.Has "cilium.io/v2" -}}
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  annotations:
+    "helm.sh/hook": "post-delete"
+    "helm.sh/hook-delete-policy": "before-hook-creation,hook-succeeded,hook-failed"
+    "helm.sh/hook-weight": "-5"
+  labels:
+    {{- include "labels.common" $ | nindent 4 }}
+  name: "allow-{{ include "resource.default.name" $ }}-cleanup-helmreleases-hook-to-apiserver"
+  namespace: "{{ $.Release.Namespace }}"
+spec:
+  egress:
+  - toEntities:
+    - kube-apiserver
+    toPorts:
+    - ports:
+      - port: "443"
+        protocol: TCP
+      - port: "6443"
+        protocol: TCP
+  endpointSelector:
+    matchLabels:
+      cnp: {{ include "resource.default.name" $ }}-cleanup-helmreleases-hook
+{{- end }}

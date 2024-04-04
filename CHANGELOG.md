@@ -7,6 +7,63 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.16.0] - 2024-04-02
+
+### Added
+
+- Add support for Ignition (Flatcar). Backwards compatible with Ubuntu but using ignition requires `cluster-api-provider-cloud-director-app` in version `v0.8.0` or above.
+
+## [0.15.2] - 2024-03-14
+
+### Changed
+
+- Add security fields to update hook jobs.
+
+## [0.15.1] - 2024-03-08
+
+### Changed
+
+- Bump `kubectl` image to `1.25.15`.
+
+## [0.15.0] - 2024-03-08
+
+### Changed
+
+- Switch container registry to `gsoci.azurecr.io`.
+- Adapt cleanup hook for cluster policies.
+- Enforce PSS by default (requires k8s 1.25 or newer).
+
+## [0.14.6] - 2024-02-19
+
+### Fixed
+
+- Only create Cilium resources if Cilium CRDs exist.
+
+## [0.14.5] - 2024-02-14
+
+### Changed
+
+- Bump netpol app which disables the coredns `CiliumClusterwideNetworkPolicy`.
+
+## [0.14.4] - 2024-02-13
+
+### Added
+
+- Add flag for `podSecurityStandards`.
+
+## [0.14.3] - 2024-02-12
+
+### Changed
+
+- Add helm hook annotations to helmrelease cleanup job.
+
+## [0.14.2] - 2024-01-25
+
+### Added
+
+- Add flags to disable PSPs.
+- Add CiliumNetworkPolicies
+
 ## [0.14.1] - 2024-01-18
 
 ### Added
@@ -478,7 +535,16 @@ Bump cloud provider to v0.2.5 (fix).
 - Added VCDCluster parameters to match CRD.
 - Nodepool and nodeclass support.
 
-[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.14.1...HEAD
+[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.16.0...HEAD
+[0.16.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.15.2...v0.16.0
+[0.15.2]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.15.1...v0.15.2
+[0.15.1]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.15.0...v0.15.1
+[0.15.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.14.6...v0.15.0
+[0.14.6]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.14.5...v0.14.6
+[0.14.5]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.14.4...v0.14.5
+[0.14.4]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.14.3...v0.14.4
+[0.14.3]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.14.2...v0.14.3
+[0.14.2]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.14.1...v0.14.2
 [0.14.1]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.14.0...v0.14.1
 [0.14.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.13.2...v0.14.0
 [0.13.2]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.13.1...v0.13.2

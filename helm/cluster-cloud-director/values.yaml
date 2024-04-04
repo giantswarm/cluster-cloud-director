@@ -4,7 +4,6 @@ baseDomain: k8s.test
 connectivity:
   containerRegistries: {}
   network:
-    allowAllEgress: false
     controlPlaneEndpoint:
       port: 6443
     loadBalancers: {}
@@ -25,16 +24,19 @@ connectivity:
 controlPlane:
   diskSizeGB: 30
   dns:
-    imageRepository: projects.registry.vmware.com/tkg
-    imageTag: v1.7.0_vmware.12
+    imageRepository: gsoci.azurecr.io/giantswarm
+    imageTag: 1.9.4-giantswarm
   etcd:
-    imageRepository: giantswarm
+    imageRepository: gsoci.azurecr.io/giantswarm
     imageTag: 3.5.4-0-k8s
   image:
     repository: projects.registry.vmware.com/tkg
   oidc: {}
   replicas: 1
   resourceRatio: 8
+global:
+  podSecurityStandards:
+    enforced: true
 internal:
   apiServer:
     enableAdmissionPlugins:
@@ -49,11 +51,13 @@ internal:
       - ServiceAccount
       - ValidatingAdmissionWebhook
     featureGates: []
+  ciliumNetworkPolicy:
+    enabled: true
   controllerManager:
     featureGates: []
   sandboxContainerImage:
     name: giantswarm/pause
-    registry: quay.io
+    registry: gsoci.azurecr.io
     tag: "3.9"
   teleport:
     enabled: true
@@ -62,8 +66,8 @@ internal:
   useAsManagementCluster: false
 kubectlImage:
   name: giantswarm/kubectl
-  registry: quay.io
-  tag: 1.23.5
+  registry: gsoci.azurecr.io
+  tag: 1.25.15
 metadata:
   preventDeletion: false
   servicePriority: highest
@@ -83,3 +87,4 @@ providerSpecific:
         vcdStorageProfileName: ""
   userContext:
     secretRef: {}
+  vmBootstrapFormat: cloud-config
