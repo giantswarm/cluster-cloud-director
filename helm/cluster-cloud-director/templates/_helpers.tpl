@@ -201,6 +201,10 @@ preKubeadmCommands:
 - systemctl daemon-reload
 - systemctl restart containerd
 {{- end }}
+{{- if $.Values.internal.teleport.enabled }}
+- systemctl daemon-reload
+- systemctl enable --now teleport.service
+{{- end }}
 {{- include "hostEntries" .}}
 {{- if $.Values.connectivity.network.staticRoutes }}
 {{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-config" }}
@@ -209,10 +213,6 @@ preKubeadmCommands:
 {{- else if eq $.Values.providerSpecific.vmBootstrapFormat "ignition" }}
 {{- include "staticRoutesCommands" . }}
 {{- end }}
-{{- end }}
-{{- if $.Values.internal.teleport.enabled }}
-- systemctl daemon-reload
-- systemctl enable --now teleport.service
 {{- end }}
 postKubeadmCommands:
 {{ include "sshPostKubeadmCommands" . }}
