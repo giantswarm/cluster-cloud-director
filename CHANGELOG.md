@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Add support for Ignition (Flatcar). Backwards compatible with Ubuntu but using ignition requires `cluster-api-provider-cloud-director-app` in version `v0.7.3` or above.
+- Add support for Ignition (Flatcar). Backwards compatible with Ubuntu but using ignition requires `cluster-api-provider-cloud-director-app` in version `v0.8.0` or above.
 
 ## [0.15.2] - 2024-03-14
 
