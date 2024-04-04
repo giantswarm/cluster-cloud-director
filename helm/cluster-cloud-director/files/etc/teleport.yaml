@@ -27,11 +27,9 @@ ssh_service:
     command: [/opt/teleport-node-role.sh]
     period: 1m0s
   labels:
+    ins: {{ .Values.managementCluster }}
     mc: {{ .Values.managementCluster }}
-    {{- $clusterName := include "resource.default.name" $ }}
-    {{- if ne .Values.managementCluster $clusterName }}
     cluster: {{ include "resource.default.name" $ }}
-    {{- end }}
     baseDomain: {{ .Values.baseDomain }}
 proxy_service:
   enabled: "no"
