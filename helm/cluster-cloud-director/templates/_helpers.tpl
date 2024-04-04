@@ -135,10 +135,6 @@ and is used to join the node to the teleport cluster.
   permissions: "0755"
   encoding: base64
   content: {{ $.Files.Get "files/opt/teleport-node-role.sh" | b64enc }}
-- path: /opt/teleport-installer.sh
-  permissions: "0644"
-  encoding: base64
-  content: {{ $.Files.Get "files/opt/teleport-installer.sh" | b64enc }}
 - path: /etc/systemd/system/teleport.service
   permissions: "0644"
   encoding: base64
@@ -150,7 +146,6 @@ and is used to join the node to the teleport cluster.
 - sudo ip route add {{ .destination }} via {{ .via }}
 {{- end -}}
 {{- end }}
-
 
 {{- define "hostEntries" -}}
 {{- range $.Values.connectivity.network.hostEntries}}
@@ -203,7 +198,6 @@ files:
 
 preKubeadmCommands:
 - /bin/test ! -d /var/lib/kubelet && (/bin/mkdir -p /var/lib/kubelet && /bin/chmod 0750 /var/lib/kubelet)
-
 {{- if $.Values.connectivity.proxy.enabled }}
 - systemctl daemon-reload
 - systemctl restart containerd
@@ -221,7 +215,6 @@ preKubeadmCommands:
 - systemctl daemon-reload
 - systemctl enable --now teleport.service
 {{- end }}
-{{- include "hostEntries" .}}
 postKubeadmCommands:
 {{ include "sshPostKubeadmCommands" . }}
 {{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-config" }}
