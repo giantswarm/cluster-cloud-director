@@ -740,7 +740,7 @@
                         "enabled": {
                             "type": "boolean",
                             "title": "Enable teleport",
-                            "default": true
+                            "default": false
                         },
                         "proxyAddr": {
                             "type": "string",
