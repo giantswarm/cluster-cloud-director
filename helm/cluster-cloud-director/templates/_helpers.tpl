@@ -88,7 +88,6 @@ use the cluster-apps-operator created secret <clusterName>-cluster-values as def
       key: containerdProxy   
 {{- end -}}
 
-
 {{- define "teleportProxyConfig" -}}
 - path: /etc/systemd/system/teleport.service.d/99-http-proxy.conf
   permissions: "0600"
