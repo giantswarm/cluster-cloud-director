@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add teleport support to SSH into nodes (disabled by default)
+
 ## [0.16.0] - 2024-04-02
 
 ### Added
@@ -68,7 +72,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Add teleport support
 - Add `global.metadata.preventDeletion` to add the [deletion prevention label](https://docs.giantswarm.io/advanced/deletion-prevention/) to Cluster resources.
 - Fix indentation issue in `preventDeletion` calls.
 
