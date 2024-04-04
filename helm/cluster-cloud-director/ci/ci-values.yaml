@@ -33,3 +33,5 @@ providerSpecific:
       secretName: vcd-credentials
 internal:
   kubernetesVersion: v1.25.13+vmware.1
+  teleport:
+    enabled: true
