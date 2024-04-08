@@ -102,7 +102,7 @@ Properties within the `.controlPlane` top-level object
 | `controlPlane.etcd.imageRepository` | **Repository**|**Type:** `string`<br/>**Example:** `"gsoci.azurecr.io/giantswarm"`<br/>**Default:** `"gsoci.azurecr.io/giantswarm"`|
 | `controlPlane.etcd.imageTag` | **Tag**|**Type:** `string`<br/>**Example:** `"3.5.4-0-k8s"`<br/>**Default:** `"3.5.4-0-k8s"`|
 | `controlPlane.image` | **Node container image** - Set to 'giantswarm' for ignition (Flatcar) and 'projects.registry.vmware.com/tkg' for cloud-init (Ubuntu).|**Type:** `object`<br/>|
-| `controlPlane.image.repository` | **Repository**|**Type:** `string`<br/>**Example:** `"giantswarm"`<br/>**Default:** `"projects.registry.vmware.com/tkg"`|
+| `controlPlane.image.repository` | **Repository**|**Type:** `string`<br/>**Default:** `"projects.registry.vmware.com/tkg"`|
 | `controlPlane.oidc` | **OIDC authentication**|**Type:** `object`<br/>|
 | `controlPlane.oidc.caFile` | **Certificate authority file** - Path to identity provider's CA certificate in PEM format.|**Type:** `string`<br/>|
 | `controlPlane.oidc.clientId` | **Client ID** - OIDC client identifier to identify with.|**Type:** `string`<br/>|

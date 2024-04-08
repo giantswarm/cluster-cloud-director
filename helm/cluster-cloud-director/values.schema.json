@@ -517,9 +517,6 @@
                         "repository": {
                             "type": "string",
                             "title": "Repository",
-                            "examples": [
-                                "giantswarm"
-                            ],
                             "default": "projects.registry.vmware.com/tkg"
                         }
                     }
