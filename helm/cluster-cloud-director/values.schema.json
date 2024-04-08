@@ -5,9 +5,7 @@
             "type": "string",
             "title": "Catalog",
             "description": "Name of the VCD catalog in which the VM template is stored.",
-            "examples": [
-                "giantswarm"
-            ]
+            "default": "giantswarm"
         },
         "cidrBlocks": {
             "type": "array",
@@ -115,9 +113,7 @@
             "type": "string",
             "title": "Template",
             "description": "Name of the template used to create the node VMs.",
-            "examples": [
-                "ubuntu-2004-kube-v1.22.5"
-            ]
+            "default": "flatcar-stable-3602.2.1-kube-v1.25.16"
         }
     },
     "type": "object",
@@ -840,6 +836,26 @@
                         }
                     }
                 }
+            },
+            "properties": {
+                "worker": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "class": {
+                            "type": "string",
+                            "title": "Node class",
+                            "description": "A valid node class name, as specified in VMware Cloud Director (VCD) settings > Node classes.",
+                            "default": "default"
+                        },
+                        "replicas": {
+                            "type": "integer",
+                            "title": "Number of nodes",
+                            "default": 2,
+                            "minimum": 1
+                        }
+                    }
+                }
             }
         },
         "provider": {
@@ -965,6 +981,39 @@
                                     "$ref": "#/$defs/diskSizeGB",
                                     "description": "Node root volume size, in GB.",
                                     "default": 30
+                                },
+                                "placementPolicy": {
+                                    "$ref": "#/$defs/placementPolicy"
+                                },
+                                "sizingPolicy": {
+                                    "$ref": "#/$defs/sizingPolicy"
+                                },
+                                "storageProfile": {
+                                    "$ref": "#/$defs/storageProfile"
+                                },
+                                "template": {
+                                    "$ref": "#/$defs/template"
+                                }
+                            }
+                        }
+                    },
+                    "properties": {
+                        "default": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                                "catalog": {
+                                    "$ref": "#/$defs/catalog"
+                                },
+                                "customNodeLabels": {
+                                    "$ref": "#/$defs/nodeLabels"
+                                },
+                                "customNodeTaints": {
+                                    "$ref": "#/$defs/nodeTaints"
+                                },
+                                "diskSizeGB": {
+                                    "$ref": "#/$defs/diskSizeGB",
+                                    "description": "Node root volume size, in GB."
                                 },
                                 "placementPolicy": {
                                     "$ref": "#/$defs/placementPolicy"

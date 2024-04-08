@@ -100,3 +100,28 @@ k8sServiceHost: api.{{ include "resource.default.name" $ }}.{{ .Values.baseDomai
 You can see it in [cilium-helmrelease.yaml](helm/cluster-cloud-director/templates/cilium-helmrelease.yaml).
 
 This means cluster nodes won't come up Ready before this domain is set to the IP of the Kubernetes API server (it's defined in the `Cluster` CR under `.spec.controlPlaneEndpoint.host`). In Giant Swarm clusters we use [dns-operator-route53](https://github.com/giantswarm/dns-operator-route53) to create the records (public DNS resolution is then required).
+
+## Update chart's schema docs
+
+After making a change to the schema, run `schemadocs` to update the README documentation.
+
+https://github.com/giantswarm/schemadocs
+
+```yaml
+VALUES_SCHEMA=$(find ./helm -maxdepth 2 -name values.schema.json)
+CHART_README=$(find ./helm -maxdepth 2 -name README.md)
+
+schemadocs generate $VALUES_SCHEMA -o $CHART_README
+```
+
+## Generate values from schema
+
+Do not make changes to the `values.yaml` file manually. That file should be automatically generated from the schema.
+
+https://github.com/giantswarm/helm-values-gen
+
+```yaml
+cd helm/cluster-cloud-director
+
+helm-values-gen values.schema.json -o values.yaml -f
+```
