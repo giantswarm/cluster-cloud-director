@@ -518,7 +518,7 @@
                         "repository": {
                             "type": "string",
                             "title": "Repository",
-                            "default": "gsoci.azurecr.io/giantswarm"
+                            "default": "projects.registry.vmware.com/tkg"
                         }
                     }
                 },
