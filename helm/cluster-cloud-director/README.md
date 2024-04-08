@@ -102,7 +102,7 @@ Properties within the `.controlPlane` top-level object
 | `controlPlane.etcd.imageRepository` | **Repository**|**Type:** `string`<br/>**Example:** `"gsoci.azurecr.io/giantswarm"`<br/>**Default:** `"gsoci.azurecr.io/giantswarm"`|
 | `controlPlane.etcd.imageTag` | **Tag**|**Type:** `string`<br/>**Example:** `"3.5.4-0-k8s"`<br/>**Default:** `"3.5.4-0-k8s"`|
 | `controlPlane.image` | **Node container image** - Set to 'giantswarm' for ignition (Flatcar) and 'projects.registry.vmware.com/tkg' for cloud-init (Ubuntu).|**Type:** `object`<br/>|
-| `controlPlane.image.repository` | **Repository**|**Type:** `string`<br/>**Example:** `"giantswarm"`<br/>**Default:** `"projects.registry.vmware.com/tkg"`|
+| `controlPlane.image.repository` | **Repository**|**Type:** `string`<br/>**Default:** `"gsoci.azurecr.io/giantswarm"`|
 | `controlPlane.oidc` | **OIDC authentication**|**Type:** `object`<br/>|
 | `controlPlane.oidc.caFile` | **Certificate authority file** - Path to identity provider's CA certificate in PEM format.|**Type:** `string`<br/>|
 | `controlPlane.oidc.clientId` | **Client ID** - OIDC client identifier to identify with.|**Type:** `string`<br/>|
@@ -197,7 +197,7 @@ Properties within the `.providerSpecific` top-level object
 | `providerSpecific.userContext` | **VCD API access token**|**Type:** `object`<br/>|
 | `providerSpecific.userContext.secretRef` | **Secret reference**|**Type:** `object`<br/>|
 | `providerSpecific.userContext.secretRef.secretName` | **Name** - Name of the secret containing the VCD API token.|**Type:** `string`<br/>|
-| `providerSpecific.vmBootstrapFormat` | **Ignition or cloud-init for OS initialization** - Select either 'ignition' for Flatcar or 'cloud-config' for other OSes (e.g. Ubuntu).|**Type:** `string`<br/>**Default:** `"cloud-config"`|
+| `providerSpecific.vmBootstrapFormat` | **Ignition or cloud-init for OS initialization** - Select either 'ignition' for Flatcar or 'cloud-config' for other OSes (e.g. Ubuntu).|**Type:** `string`<br/>**Default:** `"ignition"`|
 | `providerSpecific.vmNamingTemplate` | **VM naming template** - Go template to specify the VM naming convention.|**Type:** `string`<br/>**Example:** `"mytenant-{{ .machine.Name | sha256sum | trunc 7 }}"`<br/>|
 
 ### Other

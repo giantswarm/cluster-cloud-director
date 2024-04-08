@@ -518,10 +518,7 @@
                         "repository": {
                             "type": "string",
                             "title": "Repository",
-                            "examples": [
-                                "giantswarm"
-                            ],
-                            "default": "projects.registry.vmware.com/tkg"
+                            "default": "gsoci.azurecr.io/giantswarm"
                         }
                     }
                 },
@@ -1029,7 +1026,7 @@
                         "cloud-config",
                         "ignition"
                     ],
-                    "default": "cloud-config"
+                    "default": "ignition"
                 },
                 "vmNamingTemplate": {
                     "type": "string",
