@@ -71,8 +71,9 @@
                 "additionalProperties": false,
                 "properties": {
                     "effect": {
+                        "title": "node taint effect",
                         "type": "string",
-                        "description": "One of NoSchedule, PreferNoSchedule or NoExecute",
+                        "description": "One of NoSchedule, PreferNoSchedule or NoExecute.",
                         "enum": [
                             "NoSchedule",
                             "PreferNoSchedule",
@@ -80,13 +81,15 @@
                         ]
                     },
                     "key": {
+                        "title": "node taint key",
                         "type": "string",
-                        "description": "Name of the label on a node",
+                        "description": "Name of the label on a node.",
                         "minLength": 1
                     },
                     "value": {
+                        "title": "node taint value",
                         "type": "string",
-                        "description": "value of the label identified by the key"
+                        "description": "Value of the label identified by the key."
                     }
                 }
             }
@@ -839,6 +842,7 @@
             },
             "properties": {
                 "worker": {
+                    "title": "Default nodePool",
                     "type": "object",
                     "additionalProperties": false,
                     "properties": {
@@ -999,6 +1003,7 @@
                     },
                     "properties": {
                         "default": {
+                            "title": "Default nodeClass",
                             "type": "object",
                             "additionalProperties": false,
                             "properties": {
