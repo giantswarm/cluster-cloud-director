@@ -71,7 +71,7 @@
                 "additionalProperties": false,
                 "properties": {
                     "effect": {
-                        "title": "node taint effect",
+                        "title": "Node taint effect",
                         "type": "string",
                         "description": "One of NoSchedule, PreferNoSchedule or NoExecute.",
                         "enum": [
@@ -81,13 +81,13 @@
                         ]
                     },
                     "key": {
-                        "title": "node taint key",
+                        "title": "Node taint key",
                         "type": "string",
                         "description": "Name of the label on a node.",
                         "minLength": 1
                     },
                     "value": {
-                        "title": "node taint value",
+                        "title": "Node taint value",
                         "type": "string",
                         "description": "Value of the label identified by the key."
                     }
