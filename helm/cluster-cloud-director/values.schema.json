@@ -694,7 +694,8 @@
                 "kubernetesVersion": {
                     "type": "string",
                     "title": "Kubernetes version",
-                    "description": "For cloud-init (Ubuntu), append the version with '+vmware.1'."
+                    "description": "For cloud-init (Ubuntu), append the version with '+vmware.1'.",
+                    "default": "v1.25.16"
                 },
                 "parentUid": {
                     "type": "string",

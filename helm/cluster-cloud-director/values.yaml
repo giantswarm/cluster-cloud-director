@@ -57,6 +57,7 @@ internal:
     enabled: true
   controllerManager:
     featureGates: []
+  kubernetesVersion: v1.25.16
   sandboxContainerImage:
     name: giantswarm/pause
     registry: gsoci.azurecr.io
