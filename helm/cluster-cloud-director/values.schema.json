@@ -1026,7 +1026,7 @@
                         "cloud-config",
                         "ignition"
                     ],
-                    "default": "ignition"
+                    "default": "cloud-config"
                 },
                 "vmNamingTemplate": {
                     "type": "string",
