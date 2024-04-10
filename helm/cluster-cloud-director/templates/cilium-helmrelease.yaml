@@ -63,7 +63,8 @@ spec:
             value: "true"
 {{- if .Values.internal.ciliumNetworkPolicy.enabled }}
     defaultPolicies:
-      enabled: true
+      remove: true
+      enabled: false
       tolerations:
         - effect: NoSchedule
           operator: Exists

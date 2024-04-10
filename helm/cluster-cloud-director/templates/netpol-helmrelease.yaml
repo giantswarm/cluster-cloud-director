@@ -33,7 +33,9 @@ spec:
       retries: 30
   # Default values
   # https://github.com/giantswarm/network-policies-app/blob/main/helm/network-policies-app/values.yaml
-  # values:
+  values:
+    allowEgressToDNS:
+      enabled: true
 ---
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
