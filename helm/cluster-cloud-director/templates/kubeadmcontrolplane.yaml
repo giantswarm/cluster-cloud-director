@@ -133,6 +133,12 @@ spec:
       {{- if $.Values.connectivity.proxy.enabled }}
       {{- include "containerdProxyConfig" . | nindent 6 }}
       {{- end }}
+      {{- if $.Values.internal.teleport.enabled }}
+      {{- include "teleportFiles" . | nindent 6 }}
+      {{- end }}
+      {{- if and $.Values.internal.teleport.enabled $.Values.connectivity.proxy.enabled }}
+      {{- include "teleportProxyConfig" . | nindent 6 }}
+      {{- end }}
       {{- include "containerdConfig" . | nindent 6 }}
       {{- range $kubeadmPatch, $_ :=  .Files.Glob  "files/etc/kubernetes/**" }}
       - path: {{ (printf "/etc/kubernetes/patches/%s" (base $kubeadmPatch)) }}
@@ -165,6 +171,10 @@ spec:
       {{- else if eq $.Values.providerSpecific.vmBootstrapFormat "ignition" }}
       {{- include "staticRoutesCommands" . | nindent 6}}
       {{- end }}
+      {{- end }}
+      {{- if $.Values.internal.teleport.enabled }}
+      - systemctl daemon-reload
+      - systemctl enable --now teleport.service
       {{- end }}
       {{- include "hostEntries" . | nindent 6}}
     postKubeadmCommands:
