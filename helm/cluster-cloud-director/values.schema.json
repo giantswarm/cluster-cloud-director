@@ -493,17 +493,11 @@
                         "imageRepository": {
                             "type": "string",
                             "title": "Repository",
-                            "examples": [
-                                "gsoci.azurecr.io/giantswarm"
-                            ],
                             "default": "gsoci.azurecr.io/giantswarm"
                         },
                         "imageTag": {
                             "type": "string",
                             "title": "Tag",
-                            "examples": [
-                                "3.5.4-0-k8s"
-                            ],
                             "default": "3.5.4-0-k8s"
                         }
                     }
@@ -511,13 +505,13 @@
                 "image": {
                     "type": "object",
                     "title": "Node container image",
-                    "description": "Set to 'giantswarm' for ignition (Flatcar) and 'projects.registry.vmware.com/tkg' for cloud-init (Ubuntu).",
+                    "description": "Set to 'gsoci.azurecr.io/giantswarm' for ignition (Flatcar) and 'projects.registry.vmware.com/tkg' for cloud-init (Ubuntu).",
                     "additionalProperties": false,
                     "properties": {
                         "repository": {
                             "type": "string",
                             "title": "Repository",
-                            "default": "projects.registry.vmware.com/tkg"
+                            "default": "gsoci.azurecr.io/giantswarm"
                         }
                     }
                 },
@@ -1081,7 +1075,7 @@
                         "cloud-config",
                         "ignition"
                     ],
-                    "default": "cloud-config"
+                    "default": "ignition"
                 },
                 "vmNamingTemplate": {
                     "type": "string",

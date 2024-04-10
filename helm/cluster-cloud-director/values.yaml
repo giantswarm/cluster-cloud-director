@@ -31,7 +31,7 @@ controlPlane:
     imageRepository: gsoci.azurecr.io/giantswarm
     imageTag: 3.5.4-0-k8s
   image:
-    repository: projects.registry.vmware.com/tkg
+    repository: gsoci.azurecr.io/giantswarm
   oidc: {}
   replicas: 1
   resourceRatio: 8
@@ -94,4 +94,4 @@ providerSpecific:
       template: flatcar-stable-3602.2.1-kube-v1.25.16
   userContext:
     secretRef: {}
-  vmBootstrapFormat: cloud-config
+  vmBootstrapFormat: ignition
