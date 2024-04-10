@@ -61,7 +61,6 @@ internal:
     tag: "3.9"
   teleport:
     enabled: false
-    proxyAddr: teleport.giantswarm.io:443
   useAsManagementCluster: false
 kubectlImage:
   name: giantswarm/kubectl
