@@ -465,8 +465,7 @@
                 "diskSizeGB": {
                     "$ref": "#/$defs/diskSizeGB",
                     "title": "Disk size",
-                    "description": "Control plane node root volume size, in GB.",
-                    "default": 30
+                    "description": "Control plane node root volume size, in GB."
                 },
                 "dns": {
                     "type": "object",
@@ -975,8 +974,7 @@
                                 },
                                 "diskSizeGB": {
                                     "$ref": "#/$defs/diskSizeGB",
-                                    "description": "Node root volume size, in GB.",
-                                    "default": 30
+                                    "description": "Node root volume size, in GB."
                                 },
                                 "placementPolicy": {
                                     "$ref": "#/$defs/placementPolicy"
