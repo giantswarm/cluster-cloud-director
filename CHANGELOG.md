@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Changed schema to include a default nodeClass `default` used by a default nodePool `worker`. Customers and GS currently set these so they will be overwritten. These defaults are to be used by E2E tests.
 
+### Added
+
+- Add teleport support to SSH into nodes (disabled by default)
+
 ## [0.16.0] - 2024-04-02
 
 ### Added

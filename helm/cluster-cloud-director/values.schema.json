@@ -723,6 +723,22 @@
                     "title": "Skip RDE",
                     "description": "Set to true if the API schema extension is installed in the correct version in VCD to create CAPVCD entities in the API. Set to false otherwise."
                 },
+                "teleport": {
+                    "type": "object",
+                    "title": "Teleport",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean",
+                            "title": "Enable teleport",
+                            "default": false
+                        },
+                        "proxyAddr": {
+                            "type": "string",
+                            "title": "Teleport proxy address",
+                            "default": "teleport.giantswarm.io:443"
+                        }
+                    }
+                },
                 "useAsManagementCluster": {
                     "type": "boolean",
                     "title": "Display as management cluster",
