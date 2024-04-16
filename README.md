@@ -10,7 +10,7 @@ This repository contains the Helm chart used for deploying CAPI clusters via [CA
 
 | Cluster App Version | Kubernetes version | Flatcar Version | vApp Template Name | CPI / CSI | Comment |
 | ------------------- | ------------------ | --------------- | ------------------ | ----------- | ------- |
-| Update in release PR | v1.25.16        | 3602.2.1        | flatcar-stable-3602.2.1-kube-v1.25.16 | 1.2.0 / 1.3.2 |
+| v0.50.0             | v1.25.16        | 3602.2.1        | flatcar-stable-3602.2.1-kube-v1.25.16 | 1.2.0 / 1.3.2 |  |
 
 ## Authentication to VCD
 
