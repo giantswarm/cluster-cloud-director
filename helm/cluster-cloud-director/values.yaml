@@ -22,7 +22,7 @@ connectivity:
     sshTrustedUserCAKeys:
       - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM4cvZ01fLmO9cJbWUj7sfF+NhECgy+Cl0bazSrZX7sU vault-ca@vault.operations.giantswarm.io
 controlPlane:
-  diskSizeGB: 30
+  catalog: giantswarm
   dns:
     imageRepository: gsoci.azurecr.io/giantswarm
     imageTag: 1.9.4-giantswarm
@@ -30,10 +30,11 @@ controlPlane:
     imageRepository: gsoci.azurecr.io/giantswarm
     imageTag: 3.5.4-0-k8s
   image:
-    repository: projects.registry.vmware.com/tkg
+    repository: gsoci.azurecr.io/giantswarm
   oidc: {}
   replicas: 1
   resourceRatio: 8
+  template: flatcar-stable-3602.2.1-kube-v1.25.16
 global:
   podSecurityStandards:
     enforced: true
@@ -55,6 +56,7 @@ internal:
     enabled: true
   controllerManager:
     featureGates: []
+  kubernetesVersion: v1.25.16
   sandboxContainerImage:
     name: giantswarm/pause
     registry: gsoci.azurecr.io
@@ -70,6 +72,10 @@ kubectlImage:
 metadata:
   preventDeletion: false
   servicePriority: highest
+nodePools:
+  worker:
+    class: default
+    replicas: 2
 providerSpecific:
   cloudProviderInterface:
     enableVirtualServiceSharedIP: true
@@ -84,6 +90,10 @@ providerSpecific:
       retain:
         isDefault: false
         vcdStorageProfileName: ""
+  nodeClasses:
+    default:
+      catalog: giantswarm
+      template: flatcar-stable-3602.2.1-kube-v1.25.16
   userContext:
     secretRef: {}
-  vmBootstrapFormat: cloud-config
+  vmBootstrapFormat: ignition

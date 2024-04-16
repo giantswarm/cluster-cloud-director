@@ -5,9 +5,7 @@
             "type": "string",
             "title": "Catalog",
             "description": "Name of the VCD catalog in which the VM template is stored.",
-            "examples": [
-                "giantswarm"
-            ]
+            "default": "giantswarm"
         },
         "cidrBlocks": {
             "type": "array",
@@ -74,7 +72,8 @@
                 "properties": {
                     "effect": {
                         "type": "string",
-                        "description": "One of NoSchedule, PreferNoSchedule or NoExecute",
+                        "title": "Node taint effect",
+                        "description": "One of NoSchedule, PreferNoSchedule or NoExecute.",
                         "enum": [
                             "NoSchedule",
                             "PreferNoSchedule",
@@ -83,12 +82,14 @@
                     },
                     "key": {
                         "type": "string",
-                        "description": "Name of the label on a node",
+                        "title": "Node taint key",
+                        "description": "Name of the label on a node.",
                         "minLength": 1
                     },
                     "value": {
                         "type": "string",
-                        "description": "value of the label identified by the key"
+                        "title": "Node taint value",
+                        "description": "Value of the label identified by the key."
                     }
                 }
             }
@@ -115,9 +116,7 @@
             "type": "string",
             "title": "Template",
             "description": "Name of the template used to create the node VMs.",
-            "examples": [
-                "ubuntu-2004-kube-v1.22.5"
-            ]
+            "default": "flatcar-stable-3602.2.1-kube-v1.25.16"
         }
     },
     "type": "object",
@@ -466,8 +465,7 @@
                 "diskSizeGB": {
                     "$ref": "#/$defs/diskSizeGB",
                     "title": "Disk size",
-                    "description": "Control plane node root volume size, in GB.",
-                    "default": 30
+                    "description": "Control plane node root volume size, in GB."
                 },
                 "dns": {
                     "type": "object",
@@ -494,17 +492,11 @@
                         "imageRepository": {
                             "type": "string",
                             "title": "Repository",
-                            "examples": [
-                                "gsoci.azurecr.io/giantswarm"
-                            ],
                             "default": "gsoci.azurecr.io/giantswarm"
                         },
                         "imageTag": {
                             "type": "string",
                             "title": "Tag",
-                            "examples": [
-                                "3.5.4-0-k8s"
-                            ],
                             "default": "3.5.4-0-k8s"
                         }
                     }
@@ -512,13 +504,13 @@
                 "image": {
                     "type": "object",
                     "title": "Node container image",
-                    "description": "Set to 'giantswarm' for ignition (Flatcar) and 'projects.registry.vmware.com/tkg' for cloud-init (Ubuntu).",
+                    "description": "Set to 'gsoci.azurecr.io/giantswarm' for ignition (Flatcar) and 'projects.registry.vmware.com/tkg' for cloud-init (Ubuntu).",
                     "additionalProperties": false,
                     "properties": {
                         "repository": {
                             "type": "string",
                             "title": "Repository",
-                            "default": "projects.registry.vmware.com/tkg"
+                            "default": "gsoci.azurecr.io/giantswarm"
                         }
                     }
                 },
@@ -692,7 +684,8 @@
                 "kubernetesVersion": {
                     "type": "string",
                     "title": "Kubernetes version",
-                    "description": "For cloud-init (Ubuntu), append the version with '+vmware.1'."
+                    "description": "For cloud-init (Ubuntu), append the version with '+vmware.1'.",
+                    "default": "v1.25.16"
                 },
                 "parentUid": {
                     "type": "string",
@@ -853,6 +846,27 @@
                         }
                     }
                 }
+            },
+            "properties": {
+                "worker": {
+                    "type": "object",
+                    "title": "Default nodePool",
+                    "additionalProperties": false,
+                    "properties": {
+                        "class": {
+                            "type": "string",
+                            "title": "Node class",
+                            "description": "A valid node class name, as specified in VMware Cloud Director (VCD) settings > Node classes.",
+                            "default": "default"
+                        },
+                        "replicas": {
+                            "type": "integer",
+                            "title": "Number of nodes",
+                            "default": 2,
+                            "minimum": 1
+                        }
+                    }
+                }
             }
         },
         "provider": {
@@ -976,8 +990,41 @@
                                 },
                                 "diskSizeGB": {
                                     "$ref": "#/$defs/diskSizeGB",
-                                    "description": "Node root volume size, in GB.",
-                                    "default": 30
+                                    "description": "Node root volume size, in GB."
+                                },
+                                "placementPolicy": {
+                                    "$ref": "#/$defs/placementPolicy"
+                                },
+                                "sizingPolicy": {
+                                    "$ref": "#/$defs/sizingPolicy"
+                                },
+                                "storageProfile": {
+                                    "$ref": "#/$defs/storageProfile"
+                                },
+                                "template": {
+                                    "$ref": "#/$defs/template"
+                                }
+                            }
+                        }
+                    },
+                    "properties": {
+                        "default": {
+                            "type": "object",
+                            "title": "Default nodeClass",
+                            "additionalProperties": false,
+                            "properties": {
+                                "catalog": {
+                                    "$ref": "#/$defs/catalog"
+                                },
+                                "customNodeLabels": {
+                                    "$ref": "#/$defs/nodeLabels"
+                                },
+                                "customNodeTaints": {
+                                    "$ref": "#/$defs/nodeTaints"
+                                },
+                                "diskSizeGB": {
+                                    "$ref": "#/$defs/diskSizeGB",
+                                    "description": "Node root volume size, in GB."
                                 },
                                 "placementPolicy": {
                                     "$ref": "#/$defs/placementPolicy"
@@ -1042,7 +1089,7 @@
                         "cloud-config",
                         "ignition"
                     ],
-                    "default": "cloud-config"
+                    "default": "ignition"
                 },
                 "vmNamingTemplate": {
                     "type": "string",

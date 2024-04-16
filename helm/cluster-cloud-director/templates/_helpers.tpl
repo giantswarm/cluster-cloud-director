@@ -225,7 +225,7 @@ postKubeadmCommands:
 
 {{- define "kubeadmConfigTemplateRevision" -}}
 {{- $inputs := (dict
-  "data" (include "kubeadmConfigTemplateSpec" .) ) }}
+  "data" (replace "\n\n" "\n" (include "kubeadmConfigTemplateSpec" .)) ) }}
 {{- mustToJson $inputs | toString | quote | sha1sum | trunc 8 }}
 {{- end -}}
 

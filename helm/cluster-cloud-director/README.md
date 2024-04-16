@@ -21,7 +21,7 @@ Properties within the `.internal` top-level object
 | `internal.controllerManager.featureGates[*]` | **Feature gate**|**Type:** `object`<br/>|
 | `internal.controllerManager.featureGates[*].enabled` | **Enabled**|**Type:** `boolean`<br/>|
 | `internal.controllerManager.featureGates[*].name` | **Name**|**Type:** `string`<br/>**Example:** `"UserNamespacesStatelessPodsSupport"`<br/>**Value pattern:** `^[A-Za-z0-9]+$`<br/>|
-| `internal.kubernetesVersion` | **Kubernetes version** - For cloud-init (Ubuntu), append the version with '+vmware.1'.|**Type:** `string`<br/>|
+| `internal.kubernetesVersion` | **Kubernetes version** - For cloud-init (Ubuntu), append the version with '+vmware.1'.|**Type:** `string`<br/>**Default:** `"v1.25.16"`|
 | `internal.parentUid` | **Management cluster UID** - If set, create the cluster from a specific management cluster associated with this UID.|**Type:** `string`<br/>|
 | `internal.rdeId` | **Runtime defined entity (RDE) identifier** - This cluster's RDE ID in the VCD API.|**Type:** `string`<br/>|
 | `internal.sandboxContainerImage` | **Sandbox Container image (pause container)**|**Type:** `object`<br/>|
@@ -92,7 +92,7 @@ Properties within the `.controlPlane` top-level object
 
 | **Property** | **Description** | **More Details** |
 | :----------- | :-------------- | :--------------- |
-| `controlPlane.catalog` | **Catalog** - Name of the VCD catalog in which the VM template is stored.|**Type:** `string`<br/>**Example:** `"giantswarm"`<br/>|
+| `controlPlane.catalog` | **Catalog** - Name of the VCD catalog in which the VM template is stored.|**Type:** `string`<br/>**Default:** `"giantswarm"`|
 | `controlPlane.certSANs` | **Subject alternative names (SAN)** - Alternative names to encode in the API server's certificate.|**Type:** `array`<br/>|
 | `controlPlane.certSANs[*]` | **SAN**|**Type:** `string`<br/>|
 | `controlPlane.customNodeLabels` | **Node labels**|**Type:** `array`<br/>|
@@ -102,10 +102,10 @@ Properties within the `.controlPlane` top-level object
 | `controlPlane.dns.imageRepository` | **Repository**|**Type:** `string`<br/>**Default:** `"gsoci.azurecr.io/giantswarm"`|
 | `controlPlane.dns.imageTag` | **Tag**|**Type:** `string`<br/>**Default:** `"1.9.4-giantswarm"`|
 | `controlPlane.etcd` | **Etcd container image**|**Type:** `object`<br/>|
-| `controlPlane.etcd.imageRepository` | **Repository**|**Type:** `string`<br/>**Example:** `"gsoci.azurecr.io/giantswarm"`<br/>**Default:** `"gsoci.azurecr.io/giantswarm"`|
-| `controlPlane.etcd.imageTag` | **Tag**|**Type:** `string`<br/>**Example:** `"3.5.4-0-k8s"`<br/>**Default:** `"3.5.4-0-k8s"`|
-| `controlPlane.image` | **Node container image** - Set to 'giantswarm' for ignition (Flatcar) and 'projects.registry.vmware.com/tkg' for cloud-init (Ubuntu).|**Type:** `object`<br/>|
-| `controlPlane.image.repository` | **Repository**|**Type:** `string`<br/>**Default:** `"projects.registry.vmware.com/tkg"`|
+| `controlPlane.etcd.imageRepository` | **Repository**|**Type:** `string`<br/>**Default:** `"gsoci.azurecr.io/giantswarm"`|
+| `controlPlane.etcd.imageTag` | **Tag**|**Type:** `string`<br/>**Default:** `"3.5.4-0-k8s"`|
+| `controlPlane.image` | **Node container image** - Set to 'gsoci.azurecr.io/giantswarm' for ignition (Flatcar) and 'projects.registry.vmware.com/tkg' for cloud-init (Ubuntu).|**Type:** `object`<br/>|
+| `controlPlane.image.repository` | **Repository**|**Type:** `string`<br/>**Default:** `"gsoci.azurecr.io/giantswarm"`|
 | `controlPlane.oidc` | **OIDC authentication**|**Type:** `object`<br/>|
 | `controlPlane.oidc.caFile` | **Certificate authority file** - Path to identity provider's CA certificate in PEM format.|**Type:** `string`<br/>|
 | `controlPlane.oidc.clientId` | **Client ID** - OIDC client identifier to identify with.|**Type:** `string`<br/>|
@@ -119,7 +119,7 @@ Properties within the `.controlPlane` top-level object
 | `controlPlane.resourceRatio` | **Resource ratio** - Ratio between node resources and apiserver resource requests.|**Type:** `integer`<br/>**Default:** `8`|
 | `controlPlane.sizingPolicy` | **Sizing policy** - Name of the VCD sizing policy to use.|**Type:** `string`<br/>**Example:** `"m1.medium"`<br/>|
 | `controlPlane.storageProfile` | **Storage profile** - Name of the VCD storage profile to use.|**Type:** `string`<br/>|
-| `controlPlane.template` | **Template** - Name of the template used to create the node VMs.|**Type:** `string`<br/>**Example:** `"ubuntu-2004-kube-v1.22.5"`<br/>|
+| `controlPlane.template` | **Template** - Name of the template used to create the node VMs.|**Type:** `string`<br/>**Default:** `"flatcar-stable-3602.2.1-kube-v1.25.16"`|
 
 ### Kubectl image
 Properties within the `.kubectlImage` top-level object
@@ -152,6 +152,9 @@ Groups of worker nodes with identical configuration.
 | `nodePools.PATTERN` |**None**|**Type:** `object`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]{3,10}$`<br/>|
 | `nodePools.PATTERN.class` | **Node class** - A valid node class name, as specified in VMware Cloud Director (VCD) settings > Node classes.|**Type:** `string`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]{3,10}$`<br/>**Value pattern:** `^[a-z0-9-]+$`<br/>|
 | `nodePools.PATTERN.replicas` | **Number of nodes**|**Type:** `integer`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]{3,10}$`<br/>**Default:** `1`|
+| `nodePools.worker` | **Default nodePool**|**Type:** `object`<br/>|
+| `nodePools.worker.class` | **Node class** - A valid node class name, as specified in VMware Cloud Director (VCD) settings > Node classes.|**Type:** `string`<br/>**Default:** `"default"`|
+| `nodePools.worker.replicas` | **Number of nodes**|**Type:** `integer`<br/>**Default:** `2`|
 
 ### Pod Security Standards
 Properties within the `.global.podSecurityStandards` object
@@ -180,19 +183,33 @@ Properties within the `.providerSpecific` top-level object
 | `providerSpecific.containerStorageInterface.storageClass.retain.vcdStorageProfileName` | **Name of storage profile in VCD**|**Type:** `string`<br/>**Default:** `""`|
 | `providerSpecific.nodeClasses` | **Node classes** - Re-usable node configuration.|**Type:** `object`<br/>|
 | `providerSpecific.nodeClasses.PATTERN` |**None**|**Type:** `object`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]+$`<br/>|
-| `providerSpecific.nodeClasses.PATTERN.catalog` | **Catalog** - Name of the VCD catalog in which the VM template is stored.|**Type:** `string`<br/>**Example:** `"giantswarm"`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]+$`<br/>|
+| `providerSpecific.nodeClasses.PATTERN.catalog` | **Catalog** - Name of the VCD catalog in which the VM template is stored.|**Type:** `string`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]+$`<br/>**Default:** `"giantswarm"`|
 | `providerSpecific.nodeClasses.PATTERN.customNodeLabels` | **Node labels**|**Type:** `array`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]+$`<br/>|
 | `providerSpecific.nodeClasses.PATTERN.customNodeLabels[*]` | **Custom node label**|**Type:** `string`<br/>**Example:** `"key=value"`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]+$`<br/>**Value pattern:** `^[A-Za-z0-9-_\./]{1,63}=[A-Za-z0-9-_\.]{0,63}$`<br/>|
 | `providerSpecific.nodeClasses.PATTERN.customNodeTaints` | **Node taints**|**Type:** `array`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]+$`<br/>|
 | `providerSpecific.nodeClasses.PATTERN.customNodeTaints[*]` | **Custom node taint**|**Type:** `object`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]+$`<br/>|
-| `providerSpecific.nodeClasses.PATTERN.customNodeTaints[*].effect` |One of NoSchedule, PreferNoSchedule or NoExecute|**Type:** `string`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]+$`<br/>|
-| `providerSpecific.nodeClasses.PATTERN.customNodeTaints[*].key` |Name of the label on a node|**Type:** `string`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]+$`<br/>|
-| `providerSpecific.nodeClasses.PATTERN.customNodeTaints[*].value` |value of the label identified by the key|**Type:** `string`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]+$`<br/>|
+| `providerSpecific.nodeClasses.PATTERN.customNodeTaints[*].effect` | **Node taint effect** - One of NoSchedule, PreferNoSchedule or NoExecute.|**Type:** `string`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]+$`<br/>|
+| `providerSpecific.nodeClasses.PATTERN.customNodeTaints[*].key` | **Node taint key** - Name of the label on a node.|**Type:** `string`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]+$`<br/>|
+| `providerSpecific.nodeClasses.PATTERN.customNodeTaints[*].value` | **Node taint value** - Value of the label identified by the key.|**Type:** `string`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]+$`<br/>|
 | `providerSpecific.nodeClasses.PATTERN.diskSizeGB` | **Disk size**|**Type:** `integer`<br/>**Example:** `30`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]+$`<br/>|
 | `providerSpecific.nodeClasses.PATTERN.placementPolicy` | **VM placement policy** - Name of the VCD VM placement policy to use.|**Type:** `string`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]+$`<br/>|
 | `providerSpecific.nodeClasses.PATTERN.sizingPolicy` | **Sizing policy** - Name of the VCD sizing policy to use.|**Type:** `string`<br/>**Example:** `"m1.medium"`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]+$`<br/>|
 | `providerSpecific.nodeClasses.PATTERN.storageProfile` | **Storage profile** - Name of the VCD storage profile to use.|**Type:** `string`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]+$`<br/>|
-| `providerSpecific.nodeClasses.PATTERN.template` | **Template** - Name of the template used to create the node VMs.|**Type:** `string`<br/>**Example:** `"ubuntu-2004-kube-v1.22.5"`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]+$`<br/>|
+| `providerSpecific.nodeClasses.PATTERN.template` | **Template** - Name of the template used to create the node VMs.|**Type:** `string`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]+$`<br/>**Default:** `"flatcar-stable-3602.2.1-kube-v1.25.16"`|
+| `providerSpecific.nodeClasses.default` | **Default nodeClass**|**Type:** `object`<br/>|
+| `providerSpecific.nodeClasses.default.catalog` | **Catalog** - Name of the VCD catalog in which the VM template is stored.|**Type:** `string`<br/>**Default:** `"giantswarm"`|
+| `providerSpecific.nodeClasses.default.customNodeLabels` | **Node labels**|**Type:** `array`<br/>|
+| `providerSpecific.nodeClasses.default.customNodeLabels[*]` | **Custom node label**|**Type:** `string`<br/>**Example:** `"key=value"`<br/>**Value pattern:** `^[A-Za-z0-9-_\./]{1,63}=[A-Za-z0-9-_\.]{0,63}$`<br/>|
+| `providerSpecific.nodeClasses.default.customNodeTaints` | **Node taints**|**Type:** `array`<br/>|
+| `providerSpecific.nodeClasses.default.customNodeTaints[*]` | **Custom node taint**|**Type:** `object`<br/>|
+| `providerSpecific.nodeClasses.default.customNodeTaints[*].effect` | **Node taint effect** - One of NoSchedule, PreferNoSchedule or NoExecute.|**Type:** `string`<br/>|
+| `providerSpecific.nodeClasses.default.customNodeTaints[*].key` | **Node taint key** - Name of the label on a node.|**Type:** `string`<br/>|
+| `providerSpecific.nodeClasses.default.customNodeTaints[*].value` | **Node taint value** - Value of the label identified by the key.|**Type:** `string`<br/>|
+| `providerSpecific.nodeClasses.default.diskSizeGB` | **Disk size**|**Type:** `integer`<br/>**Example:** `30`<br/>|
+| `providerSpecific.nodeClasses.default.placementPolicy` | **VM placement policy** - Name of the VCD VM placement policy to use.|**Type:** `string`<br/>|
+| `providerSpecific.nodeClasses.default.sizingPolicy` | **Sizing policy** - Name of the VCD sizing policy to use.|**Type:** `string`<br/>**Example:** `"m1.medium"`<br/>|
+| `providerSpecific.nodeClasses.default.storageProfile` | **Storage profile** - Name of the VCD storage profile to use.|**Type:** `string`<br/>|
+| `providerSpecific.nodeClasses.default.template` | **Template** - Name of the template used to create the node VMs.|**Type:** `string`<br/>**Default:** `"flatcar-stable-3602.2.1-kube-v1.25.16"`|
 | `providerSpecific.org` | **Organization** - VCD organization name.|**Type:** `string`<br/>|
 | `providerSpecific.ovdc` | **OvDC name** - Name of the organization virtual datacenter (OvDC) to create this cluster in.|**Type:** `string`<br/>|
 | `providerSpecific.ovdcNetwork` | **OvDC network** - VCD network to connect VMs.|**Type:** `string`<br/>|
@@ -200,7 +217,7 @@ Properties within the `.providerSpecific` top-level object
 | `providerSpecific.userContext` | **VCD API access token**|**Type:** `object`<br/>|
 | `providerSpecific.userContext.secretRef` | **Secret reference**|**Type:** `object`<br/>|
 | `providerSpecific.userContext.secretRef.secretName` | **Name** - Name of the secret containing the VCD API token.|**Type:** `string`<br/>|
-| `providerSpecific.vmBootstrapFormat` | **Ignition or cloud-init for OS initialization** - Select either 'ignition' for Flatcar or 'cloud-config' for other OSes (e.g. Ubuntu).|**Type:** `string`<br/>**Default:** `"cloud-config"`|
+| `providerSpecific.vmBootstrapFormat` | **Ignition or cloud-init for OS initialization** - Select either 'ignition' for Flatcar or 'cloud-config' for other OSes (e.g. Ubuntu).|**Type:** `string`<br/>**Default:** `"ignition"`|
 | `providerSpecific.vmNamingTemplate` | **VM naming template** - Go template to specify the VM naming convention.|**Type:** `string`<br/>**Example:** `"mytenant-{{ .machine.Name | sha256sum | trunc 7 }}"`<br/>|
 
 ### Other
