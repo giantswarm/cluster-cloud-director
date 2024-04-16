@@ -6,6 +6,12 @@ This repository contains the Helm chart used for deploying CAPI clusters via [CA
 - `cilium` as CNI in `kube-proxy` replacement mode (see [Limitations](#Limitations) section below)
 - CPI and CSI for VMware Cloud Director
 
+## Cluster app components versions (defaults)
+
+| Cluster App Version | Kubernetes version | Flatcar Version | vApp Template Name | CPI / CSI | Comment |
+| ------------------- | ------------------ | --------------- | ------------------ | ----------- | ------- |
+| Update in release PR | v1.25.16        | 3602.2.1        | flatcar-stable-3602.2.1-kube-v1.25.16 | 1.2.0 / 1.3.2 |
+
 ## Authentication to VCD
 
 Authentication to the VCD API is achieved as part of the cluster creation process to abide by user-defined resource quotas. It can be achieved by referencing a secret (preferred method) or specifying creds/token in the VCDCluster definition. **We only support referencing a secret in this app**.
