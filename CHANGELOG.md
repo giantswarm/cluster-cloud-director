@@ -14,6 +14,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Add teleport support to SSH into nodes (disabled by default)
+- Enable DNS network policies from network-policies-app.
+
+### Removed
+
+- Remove default network policies from cilium-app.
 
 ## [0.16.0] - 2024-04-02
 
