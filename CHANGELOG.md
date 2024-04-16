@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.50.0] - 2024-04-16
+
 ### Changed
 
 - Changed schema to include a default nodeClass `default` used by a default nodePool `worker`. Customers and GS currently set these so they will be overwritten. These defaults are to be used by E2E tests. Other settings are defaulted in the chart such as Kubernetes version, VM template, catalog...
@@ -547,7 +549,8 @@ Bump cloud provider to v0.2.5 (fix).
 - Added VCDCluster parameters to match CRD.
 - Nodepool and nodeclass support.
 
-[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.16.0...HEAD
+[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.50.0...HEAD
+[0.50.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.16.0...v0.50.0
 [0.16.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.15.2...v0.16.0
 [0.15.2]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.15.1...v0.15.2
 [0.15.1]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.15.0...v0.15.1
