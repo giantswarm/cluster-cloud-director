@@ -119,7 +119,7 @@ Properties within the `.controlPlane` top-level object
 | `controlPlane.resourceRatio` | **Resource ratio** - Ratio between node resources and apiserver resource requests.|**Type:** `integer`<br/>**Default:** `8`|
 | `controlPlane.sizingPolicy` | **Sizing policy** - Name of the VCD sizing policy to use.|**Type:** `string`<br/>**Example:** `"m1.medium"`<br/>|
 | `controlPlane.storageProfile` | **Storage profile** - Name of the VCD storage profile to use.|**Type:** `string`<br/>|
-| `controlPlane.template` | **Template** - Name of the template used to create the node VMs.|**Type:** `string`<br/>**Default:** `"flatcar-stable-3602.2.1-kube-v1.25.16"`|
+| `controlPlane.template` | **Template** - Name of the template used to create the node VMs.|**Type:** `string`<br/>**Default:** `"flatcar-stable-3815.2.1-kube-v1.25.16"`|
 
 ### Kubectl image
 Properties within the `.kubectlImage` top-level object
@@ -195,7 +195,7 @@ Properties within the `.providerSpecific` top-level object
 | `providerSpecific.nodeClasses.PATTERN.placementPolicy` | **VM placement policy** - Name of the VCD VM placement policy to use.|**Type:** `string`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]+$`<br/>|
 | `providerSpecific.nodeClasses.PATTERN.sizingPolicy` | **Sizing policy** - Name of the VCD sizing policy to use.|**Type:** `string`<br/>**Example:** `"m1.medium"`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]+$`<br/>|
 | `providerSpecific.nodeClasses.PATTERN.storageProfile` | **Storage profile** - Name of the VCD storage profile to use.|**Type:** `string`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]+$`<br/>|
-| `providerSpecific.nodeClasses.PATTERN.template` | **Template** - Name of the template used to create the node VMs.|**Type:** `string`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]+$`<br/>**Default:** `"flatcar-stable-3602.2.1-kube-v1.25.16"`|
+| `providerSpecific.nodeClasses.PATTERN.template` | **Template** - Name of the template used to create the node VMs.|**Type:** `string`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]+$`<br/>**Default:** `"flatcar-stable-3815.2.1-kube-v1.25.16"`|
 | `providerSpecific.nodeClasses.default` | **Default nodeClass**|**Type:** `object`<br/>|
 | `providerSpecific.nodeClasses.default.catalog` | **Catalog** - Name of the VCD catalog in which the VM template is stored.|**Type:** `string`<br/>**Default:** `"giantswarm"`|
 | `providerSpecific.nodeClasses.default.customNodeLabels` | **Node labels**|**Type:** `array`<br/>|
@@ -209,7 +209,7 @@ Properties within the `.providerSpecific` top-level object
 | `providerSpecific.nodeClasses.default.placementPolicy` | **VM placement policy** - Name of the VCD VM placement policy to use.|**Type:** `string`<br/>|
 | `providerSpecific.nodeClasses.default.sizingPolicy` | **Sizing policy** - Name of the VCD sizing policy to use.|**Type:** `string`<br/>**Example:** `"m1.medium"`<br/>|
 | `providerSpecific.nodeClasses.default.storageProfile` | **Storage profile** - Name of the VCD storage profile to use.|**Type:** `string`<br/>|
-| `providerSpecific.nodeClasses.default.template` | **Template** - Name of the template used to create the node VMs.|**Type:** `string`<br/>**Default:** `"flatcar-stable-3602.2.1-kube-v1.25.16"`|
+| `providerSpecific.nodeClasses.default.template` | **Template** - Name of the template used to create the node VMs.|**Type:** `string`<br/>**Default:** `"flatcar-stable-3815.2.1-kube-v1.25.16"`|
 | `providerSpecific.org` | **Organization** - VCD organization name.|**Type:** `string`<br/>|
 | `providerSpecific.ovdc` | **OvDC name** - Name of the organization virtual datacenter (OvDC) to create this cluster in.|**Type:** `string`<br/>|
 | `providerSpecific.ovdcNetwork` | **OvDC network** - VCD network to connect VMs.|**Type:** `string`<br/>|

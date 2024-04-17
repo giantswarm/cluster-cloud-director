@@ -34,7 +34,7 @@ controlPlane:
   oidc: {}
   replicas: 1
   resourceRatio: 8
-  template: flatcar-stable-3602.2.1-kube-v1.25.16
+  template: flatcar-stable-3815.2.1-kube-v1.25.16
 global:
   podSecurityStandards:
     enforced: true
@@ -93,7 +93,7 @@ providerSpecific:
   nodeClasses:
     default:
       catalog: giantswarm
-      template: flatcar-stable-3602.2.1-kube-v1.25.16
+      template: flatcar-stable-3815.2.1-kube-v1.25.16
   userContext:
     secretRef: {}
   vmBootstrapFormat: ignition
