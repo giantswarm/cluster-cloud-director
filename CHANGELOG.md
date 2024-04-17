@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Enable teleport by default.
+
 ## [0.50.0] - 2024-04-16
 
 ### Changed

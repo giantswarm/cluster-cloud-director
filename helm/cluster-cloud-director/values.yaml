@@ -62,7 +62,7 @@ internal:
     registry: gsoci.azurecr.io
     tag: "3.9"
   teleport:
-    enabled: false
+    enabled: true
     proxyAddr: teleport.giantswarm.io:443
   useAsManagementCluster: false
 kubectlImage:
