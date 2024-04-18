@@ -116,7 +116,7 @@
             "type": "string",
             "title": "Template",
             "description": "Name of the template used to create the node VMs.",
-            "default": "flatcar-stable-3602.2.1-kube-v1.25.16"
+            "default": "flatcar-stable-3815.2.1-kube-v1.25.16"
         }
     },
     "type": "object",
