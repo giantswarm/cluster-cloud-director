@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Updated machine template to newer Flatcar version which includes teleport v15.1.7 binaries. **WARNING: This will roll CP and worker nodes.**
+- Enable teleport by default.
 
 ## [0.50.0] - 2024-04-16
 
