@@ -1,6 +1,8 @@
 # DO NOT EDIT. Generated with:
 #
-#    devctl@6.23.3
+#    devctl
+#
+#    https://github.com/giantswarm/devctl/blob/7a2bb1c2403407b720ec16e047f804471a57209e/pkg/gen/input/workflows/internal/file/cluster_app_documentation_validation.yaml.template
 #
 
 # This workflow validates the documentation generated from the JSON schema of the cluster-app
@@ -32,7 +34,7 @@ jobs:
         with:
           go-version: ${{ env.GO_VERSION }}
       - name: Checkout code
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        uses: actions/checkout@1d96c772d19495a3b5c517cd2bc0cb401ea0529f # v4.1.3
       - name: "Run 'make generate-docs' and check for differences"
         run: |
           make generate-docs
