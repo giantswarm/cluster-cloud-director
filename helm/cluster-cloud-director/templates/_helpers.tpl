@@ -140,12 +140,6 @@ and is used to join the node to the teleport cluster.
   content: {{ tpl ($.Files.Get "files/systemd/teleport.service") . | b64enc }}
 {{- end -}}
 
-{{- define "staticRoutesCommands" -}}
-{{- range $.Values.connectivity.network.staticRoutes}}
-- sudo ip route add {{ .destination }} via {{ .via }}
-{{- end -}}
-{{- end }}
-
 {{- define "hostEntries" -}}
 {{- range $.Values.connectivity.network.hostEntries}}
 - echo "{{ .ip }}  {{ .fqdn }}" >> /etc/hosts
@@ -206,8 +200,6 @@ preKubeadmCommands:
 {{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-config" }}
 - systemctl daemon-reload
 - systemctl enable --now static-routes.service
-{{- else if eq $.Values.providerSpecific.vmBootstrapFormat "ignition" }}
-{{- include "staticRoutesCommands" . }}
 {{- end }}
 {{- end }}
 {{- if $.Values.internal.teleport.enabled }}
