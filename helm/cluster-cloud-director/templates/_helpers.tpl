@@ -206,8 +206,6 @@ preKubeadmCommands:
 {{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-config" }}
 - systemctl daemon-reload
 - systemctl enable --now static-routes.service
-{{- else if eq $.Values.providerSpecific.vmBootstrapFormat "ignition" }}
-{{- include "staticRoutesCommands" . }}
 {{- end }}
 {{- end }}
 {{- if $.Values.internal.teleport.enabled }}

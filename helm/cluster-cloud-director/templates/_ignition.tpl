@@ -63,6 +63,23 @@ ignition:
             ExecStart=/opt/set-networkd-units
             [Install]
             WantedBy=multi-user.target
+        {{- if $.Values.connectivity.network.staticRoutes }}
+        - name: set-static-routes.service
+          enabled: true
+          contents: |
+            [Unit]
+            Description=Install the static routes
+            Requires=set-networkd-units.service
+            After=set-networkd-units.service
+            [Service]
+            Type=oneshot
+            RemainAfterExit=yes
+            {{- range $.Values.connectivity.network.staticRoutes}}
+            ExecStart=/bin/bash -c "ip route add {{ .destination }} via {{ .via }}"
+            {{- end }}
+            [Install]
+            WantedBy=multi-user.target
+        {{- end }}
         - name: ethtool-segmentation.service
           enabled: true
           contents: |
