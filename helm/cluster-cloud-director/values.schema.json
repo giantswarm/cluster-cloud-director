@@ -121,18 +121,12 @@
     },
     "type": "object",
     "required": [
-        "baseDomain",
         "controlPlane",
         "connectivity",
         "nodePools"
     ],
     "additionalProperties": true,
     "properties": {
-        "baseDomain": {
-            "type": "string",
-            "title": "Base DNS domain",
-            "default": "k8s.test"
-        },
         "cluster-shared": {
             "type": "object",
             "title": "Library chart"
@@ -305,10 +299,15 @@
                     "title": "Connectivity",
                     "description": "Configurations related to cluster connectivity such as container registries.",
                     "required": [
+                        "baseDomain",
                         "network"
                     ],
                     "additionalProperties": false,
                     "properties": {
+                        "baseDomain": {
+                            "type": "string",
+                            "title": "Base DNS domain"
+                        },
                         "containerRegistries": {
                             "type": "object",
                             "title": "Container registries",

@@ -13,7 +13,7 @@ spec:
         certSANs:
         - localhost
         - 127.0.0.1
-        - "api.{{ include "resource.default.name" $ }}.{{ .Values.baseDomain }}"
+        - "api.{{ include "resource.default.name" $ }}.{{ .Values.global.connectivity.baseDomain }}"
         {{- if .Values.controlPlane.certSANs }}
         {{- range .Values.controlPlane.certSANs}}
         - {{ . }}

@@ -30,7 +30,7 @@ ssh_service:
     ins: {{ .Values.managementCluster }}
     mc: {{ .Values.managementCluster }}
     cluster: {{ include "resource.default.name" $ }}
-    baseDomain: {{ .Values.baseDomain }}
+    baseDomain: {{ .Values.global.connectivity.baseDomain }}
 proxy_service:
   enabled: "no"
   https_keypairs: []
