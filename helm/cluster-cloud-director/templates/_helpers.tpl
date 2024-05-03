@@ -76,7 +76,7 @@ use the cluster-apps-operator created secret <clusterName>-cluster-values as def
 */}}
 {{- define "containerdProxySecret" -}}
 {{- $defaultContainerdProxySecret := printf "%s-systemd-proxy" (include "resource.default.name" . ) -}}
-{{ .Values.connectivity.proxy.secretName | default $defaultContainerdProxySecret }}
+{{ .Values.global.connectivity.proxy.secretName | default $defaultContainerdProxySecret }}
 {{- end -}}
 
 {{- define "containerdProxyConfig" -}}
@@ -110,7 +110,7 @@ use the cluster-apps-operator created secret <clusterName>-cluster-values as def
     [Service]
     Type=oneshot
     RemainAfterExit=yes
-    {{- range $.Values.connectivity.network.staticRoutes}}
+    {{- range $.Values.global.connectivity.network.staticRoutes}}
     ExecStart=/bin/bash -c "ip route add {{ .destination }} via {{ .via }}"
     {{- end -}}
 {{- end }}
@@ -141,13 +141,13 @@ and is used to join the node to the teleport cluster.
 {{- end -}}
 
 {{- define "staticRoutesCommands" -}}
-{{- range $.Values.connectivity.network.staticRoutes}}
+{{- range $.Values.global.connectivity.network.staticRoutes}}
 - sudo ip route add {{ .destination }} via {{ .via }}
 {{- end -}}
 {{- end }}
 
 {{- define "hostEntries" -}}
-{{- range $.Values.connectivity.network.hostEntries}}
+{{- range $.Values.global.connectivity.network.hostEntries}}
 - echo "{{ .ip }}  {{ .fqdn }}" >> /etc/hosts
 {{- end -}}
 {{- end }}
@@ -180,16 +180,16 @@ files:
 {{- end }}
 {{- include "sshFiles" . | nindent 2}}
 {{- include "containerdConfig" . | nindent 2 }}
-{{- if $.Values.connectivity.proxy.enabled }}
+{{- if $.Values.global.connectivity.proxy.enabled }}
 {{- include "containerdProxyConfig" . | nindent 2}}
 {{- end }}
-{{- if and $.Values.internal.teleport.enabled $.Values.connectivity.proxy.enabled }}
+{{- if and $.Values.internal.teleport.enabled $.Values.global.connectivity.proxy.enabled }}
 {{- include "teleportProxyConfig" . | nindent 2}}
 {{- end }}
 {{- if $.Values.internal.teleport.enabled }}
 {{- include "teleportFiles" . | nindent 2}}
 {{- end }}
-{{- if $.Values.connectivity.network.staticRoutes }}
+{{- if $.Values.global.connectivity.network.staticRoutes }}
 {{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-config" }}
 {{- include "staticRoutes" . | nindent 2}}
 {{- end }}
@@ -197,12 +197,12 @@ files:
 
 preKubeadmCommands:
 - /bin/test ! -d /var/lib/kubelet && (/bin/mkdir -p /var/lib/kubelet && /bin/chmod 0750 /var/lib/kubelet)
-{{- if $.Values.connectivity.proxy.enabled }}
+{{- if $.Values.global.connectivity.proxy.enabled }}
 - systemctl daemon-reload
 - systemctl restart containerd
 {{- end }}
 {{- include "hostEntries" .}}
-{{- if $.Values.connectivity.network.staticRoutes }}
+{{- if $.Values.global.connectivity.network.staticRoutes }}
 {{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-config" }}
 - systemctl daemon-reload
 - systemctl enable --now static-routes.service
