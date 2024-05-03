@@ -122,7 +122,6 @@
     "type": "object",
     "required": [
         "controlPlane",
-        "connectivity",
         "nodePools"
     ],
     "additionalProperties": true,
@@ -293,6 +292,9 @@
         "global": {
             "type": "object",
             "title": "Global parameters",
+            "required": [
+                "connectivity"
+            ],
             "properties": {
                 "connectivity": {
                     "type": "object",
