@@ -244,9 +244,9 @@ placementPolicy: {{ .currentClass.placementPolicy }}
 storageProfile: {{ .currentClass.storageProfile }}
 diskSize: {{ mul .currentClass.diskSizeGB 1024 1024 1024 }}
 vmNamingTemplate: {{ $.providerSpecific.vmNamingTemplate }}
-{{- if $.connectivity.network.extraOvdcNetworks }}
+{{- if $.global.connectivity.network.extraOvdcNetworks }}
 extraOvdcNetworks:
-  {{- range $.connectivity.network.extraOvdcNetworks }}
+  {{- range $.global.connectivity.network.extraOvdcNetworks }}
   - {{ . }}
   {{- end }}
 {{- end -}}
