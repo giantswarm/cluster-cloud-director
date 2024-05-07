@@ -35,57 +35,58 @@ Properties within the `.internal` top-level object
 | `internal.useAsManagementCluster` | **Display as management cluster**|**Type:** `boolean`<br/>**Default:** `false`|
 
 ### Connectivity
-Properties within the `.connectivity` top-level object
+Properties within the `.global.connectivity` object
 Configurations related to cluster connectivity such as container registries.
 
 | **Property** | **Description** | **More Details** |
 | :----------- | :-------------- | :--------------- |
-| `connectivity.containerRegistries` | **Container registries** - Endpoints and credentials configuration for container registries.|**Type:** `object`<br/>**Default:** `{}`|
-| `connectivity.containerRegistries.*` |**None**|**Type:** `array`<br/>|
-| `connectivity.containerRegistries.*[*]` |**None**|**Type:** `object`<br/>|
-| `connectivity.containerRegistries.*[*].credentials` | **Credentials** - Credentials for the endpoint.|**Type:** `object`<br/>|
-| `connectivity.containerRegistries.*[*].credentials.auth` | **Auth** - Base64-encoded string from the concatenation of the username, a colon, and the password.|**Type:** `string`<br/>|
-| `connectivity.containerRegistries.*[*].credentials.identitytoken` | **Identity token** - Used to authenticate the user and obtain an access token for the registry.|**Type:** `string`<br/>|
-| `connectivity.containerRegistries.*[*].credentials.password` | **Password** - Used to authenticate for the registry with username/password.|**Type:** `string`<br/>|
-| `connectivity.containerRegistries.*[*].credentials.username` | **Username** - Used to authenticate for the registry with username/password.|**Type:** `string`<br/>|
-| `connectivity.containerRegistries.*[*].endpoint` | **Endpoint** - Endpoint for the container registry.|**Type:** `string`<br/>|
-| `connectivity.network` | **Network**|**Type:** `object`<br/>|
-| `connectivity.network.controlPlaneEndpoint` | **Control plane endpoint** - Kubernetes API endpoint.|**Type:** `object`<br/>|
-| `connectivity.network.controlPlaneEndpoint.host` | **Host**|**Type:** `string`<br/>|
-| `connectivity.network.controlPlaneEndpoint.port` | **Port number**|**Type:** `integer`<br/>**Default:** `6443`|
-| `connectivity.network.extraOvdcNetworks` | **Extra OVDC networks** - OVDC networks to attach VMs to, additionally.|**Type:** `array`<br/>|
-| `connectivity.network.extraOvdcNetworks[*]` |**None**|**Type:** `string`<br/>|
-| `connectivity.network.hostEntries` | **Host entries**|**Type:** `array`<br/>|
-| `connectivity.network.hostEntries[*]` |**None**|**Type:** `object`<br/>|
-| `connectivity.network.hostEntries[*].fqdn` | **FQDN**|**Type:** `string`<br/>|
-| `connectivity.network.hostEntries[*].ip` | **IP address**|**Type:** `string`<br/>|
-| `connectivity.network.loadBalancers` | **Load Balancers**|**Type:** `object`<br/>|
-| `connectivity.network.loadBalancers.vipSubnet` | **Virtual IP subnet** - Virtual IP CIDR for the external network.|**Type:** `string`<br/>|
-| `connectivity.network.pods` | **Pods**|**Type:** `object`<br/>|
-| `connectivity.network.pods.cidrBlocks` |**None**|**Type:** `array`<br/>|
-| `connectivity.network.pods.cidrBlocks[*]` |IPv4 address range, in CIDR notation.|**Type:** `string`<br/>**Example:** `"10.244.0.0/16"`<br/>|
-| `connectivity.network.services` | **Services**|**Type:** `object`<br/>|
-| `connectivity.network.services.cidrBlocks` |**None**|**Type:** `array`<br/>|
-| `connectivity.network.services.cidrBlocks[*]` |IPv4 address range, in CIDR notation.|**Type:** `string`<br/>**Example:** `"10.244.0.0/16"`<br/>|
-| `connectivity.network.staticRoutes` | **Static routes**|**Type:** `array`<br/>|
-| `connectivity.network.staticRoutes[*]` |**None**|**Type:** `object`<br/>|
-| `connectivity.network.staticRoutes[*].destination` | **Destination** - IPv4 address range in CIDR notation.|**Type:** `string`<br/>**Example:** `"10.128.0.0/16"`<br/>|
-| `connectivity.network.staticRoutes[*].via` | **Via**|**Type:** `string`<br/>|
-| `connectivity.ntp` | **Time synchronization (NTP)** - Servers/pools to synchronize this cluster's clocks with.|**Type:** `object`<br/>|
-| `connectivity.ntp.pools` | **Pools**|**Type:** `array`<br/>|
-| `connectivity.ntp.pools[*]` | **Pool**|**Type:** `string`<br/>**Example:** `"ntp.ubuntu.com"`<br/>|
-| `connectivity.ntp.servers` | **Servers**|**Type:** `array`<br/>|
-| `connectivity.ntp.servers[*]` | **Server**|**Type:** `string`<br/>|
-| `connectivity.proxy` | **Proxy** - Whether/how outgoing traffic is routed through proxy servers.|**Type:** `object`<br/>|
-| `connectivity.proxy.enabled` | **Enable**|**Type:** `boolean`<br/>|
-| `connectivity.proxy.secretName` | **Secret name** - Name of a secret resource used by containerd to obtain the HTTP_PROXY, HTTPS_PROXY, and NO_PROXY environment variables. If empty the value will be defaulted to <clusterName>-cluster-values.|**Type:** `string`<br/>**Value pattern:** `^[a-z0-9-]{0,63}$`<br/>|
-| `connectivity.shell` | **Shell access**|**Type:** `object`<br/>|
-| `connectivity.shell.osUsers` | **OS Users** - Configuration for OS users in cluster nodes.|**Type:** `array`<br/>**Default:** `[{"name":"giantswarm","sudo":"ALL=(ALL) NOPASSWD:ALL"}]`|
-| `connectivity.shell.osUsers[*]` | **User**|**Type:** `object`<br/>|
-| `connectivity.shell.osUsers[*].name` | **Name** - Username of the user.|**Type:** `string`<br/>**Value pattern:** `^[a-z][-a-z0-9]+$`<br/>|
-| `connectivity.shell.osUsers[*].sudo` | **Sudoers configuration** - Permissions string to add to /etc/sudoers for this user.|**Type:** `string`<br/>|
-| `connectivity.shell.sshTrustedUserCAKeys` | **Trusted SSH cert issuers** - CA certificates of issuers that are trusted to sign SSH user certificates.|**Type:** `array`<br/>**Default:** `["ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM4cvZ01fLmO9cJbWUj7sfF+NhECgy+Cl0bazSrZX7sU vault-ca@vault.operations.giantswarm.io"]`|
-| `connectivity.shell.sshTrustedUserCAKeys[*]` |**None**|**Type:** `string`<br/>|
+| `global.connectivity.baseDomain` | **Base DNS domain**|**Type:** `string`<br/>|
+| `global.connectivity.containerRegistries` | **Container registries** - Endpoints and credentials configuration for container registries.|**Type:** `object`<br/>**Default:** `{}`|
+| `global.connectivity.containerRegistries.*` |**None**|**Type:** `array`<br/>|
+| `global.connectivity.containerRegistries.*[*]` |**None**|**Type:** `object`<br/>|
+| `global.connectivity.containerRegistries.*[*].credentials` | **Credentials** - Credentials for the endpoint.|**Type:** `object`<br/>|
+| `global.connectivity.containerRegistries.*[*].credentials.auth` | **Auth** - Base64-encoded string from the concatenation of the username, a colon, and the password.|**Type:** `string`<br/>|
+| `global.connectivity.containerRegistries.*[*].credentials.identitytoken` | **Identity token** - Used to authenticate the user and obtain an access token for the registry.|**Type:** `string`<br/>|
+| `global.connectivity.containerRegistries.*[*].credentials.password` | **Password** - Used to authenticate for the registry with username/password.|**Type:** `string`<br/>|
+| `global.connectivity.containerRegistries.*[*].credentials.username` | **Username** - Used to authenticate for the registry with username/password.|**Type:** `string`<br/>|
+| `global.connectivity.containerRegistries.*[*].endpoint` | **Endpoint** - Endpoint for the container registry.|**Type:** `string`<br/>|
+| `global.connectivity.network` | **Network**|**Type:** `object`<br/>|
+| `global.connectivity.network.controlPlaneEndpoint` | **Control plane endpoint** - Kubernetes API endpoint.|**Type:** `object`<br/>|
+| `global.connectivity.network.controlPlaneEndpoint.host` | **Host**|**Type:** `string`<br/>|
+| `global.connectivity.network.controlPlaneEndpoint.port` | **Port number**|**Type:** `integer`<br/>**Default:** `6443`|
+| `global.connectivity.network.extraOvdcNetworks` | **Extra OVDC networks** - OVDC networks to attach VMs to, additionally.|**Type:** `array`<br/>|
+| `global.connectivity.network.extraOvdcNetworks[*]` |**None**|**Type:** `string`<br/>|
+| `global.connectivity.network.hostEntries` | **Host entries**|**Type:** `array`<br/>|
+| `global.connectivity.network.hostEntries[*]` |**None**|**Type:** `object`<br/>|
+| `global.connectivity.network.hostEntries[*].fqdn` | **FQDN**|**Type:** `string`<br/>|
+| `global.connectivity.network.hostEntries[*].ip` | **IP address**|**Type:** `string`<br/>|
+| `global.connectivity.network.loadBalancers` | **Load Balancers**|**Type:** `object`<br/>|
+| `global.connectivity.network.loadBalancers.vipSubnet` | **Virtual IP subnet** - Virtual IP CIDR for the external network.|**Type:** `string`<br/>|
+| `global.connectivity.network.pods` | **Pods**|**Type:** `object`<br/>|
+| `global.connectivity.network.pods.cidrBlocks` |**None**|**Type:** `array`<br/>|
+| `global.connectivity.network.pods.cidrBlocks[*]` |IPv4 address range, in CIDR notation.|**Type:** `string`<br/>**Example:** `"10.244.0.0/16"`<br/>|
+| `global.connectivity.network.services` | **Services**|**Type:** `object`<br/>|
+| `global.connectivity.network.services.cidrBlocks` |**None**|**Type:** `array`<br/>|
+| `global.connectivity.network.services.cidrBlocks[*]` |IPv4 address range, in CIDR notation.|**Type:** `string`<br/>**Example:** `"10.244.0.0/16"`<br/>|
+| `global.connectivity.network.staticRoutes` | **Static routes**|**Type:** `array`<br/>|
+| `global.connectivity.network.staticRoutes[*]` |**None**|**Type:** `object`<br/>|
+| `global.connectivity.network.staticRoutes[*].destination` | **Destination** - IPv4 address range in CIDR notation.|**Type:** `string`<br/>**Example:** `"10.128.0.0/16"`<br/>|
+| `global.connectivity.network.staticRoutes[*].via` | **Via**|**Type:** `string`<br/>|
+| `global.connectivity.ntp` | **Time synchronization (NTP)** - Servers/pools to synchronize this cluster's clocks with.|**Type:** `object`<br/>|
+| `global.connectivity.ntp.pools` | **Pools**|**Type:** `array`<br/>|
+| `global.connectivity.ntp.pools[*]` | **Pool**|**Type:** `string`<br/>**Example:** `"ntp.ubuntu.com"`<br/>|
+| `global.connectivity.ntp.servers` | **Servers**|**Type:** `array`<br/>|
+| `global.connectivity.ntp.servers[*]` | **Server**|**Type:** `string`<br/>|
+| `global.connectivity.proxy` | **Proxy** - Whether/how outgoing traffic is routed through proxy servers.|**Type:** `object`<br/>|
+| `global.connectivity.proxy.enabled` | **Enable**|**Type:** `boolean`<br/>|
+| `global.connectivity.proxy.secretName` | **Secret name** - Name of a secret resource used by containerd to obtain the HTTP_PROXY, HTTPS_PROXY, and NO_PROXY environment variables. If empty the value will be defaulted to <clusterName>-cluster-values.|**Type:** `string`<br/>**Value pattern:** `^[a-z0-9-]{0,63}$`<br/>|
+| `global.connectivity.shell` | **Shell access**|**Type:** `object`<br/>|
+| `global.connectivity.shell.osUsers` | **OS Users** - Configuration for OS users in cluster nodes.|**Type:** `array`<br/>**Default:** `[{"name":"giantswarm","sudo":"ALL=(ALL) NOPASSWD:ALL"}]`|
+| `global.connectivity.shell.osUsers[*]` | **User**|**Type:** `object`<br/>|
+| `global.connectivity.shell.osUsers[*].name` | **Name** - Username of the user.|**Type:** `string`<br/>**Value pattern:** `^[a-z][-a-z0-9]+$`<br/>|
+| `global.connectivity.shell.osUsers[*].sudo` | **Sudoers configuration** - Permissions string to add to /etc/sudoers for this user.|**Type:** `string`<br/>|
+| `global.connectivity.shell.sshTrustedUserCAKeys` | **Trusted SSH cert issuers** - CA certificates of issuers that are trusted to sign SSH user certificates.|**Type:** `array`<br/>**Default:** `["ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM4cvZ01fLmO9cJbWUj7sfF+NhECgy+Cl0bazSrZX7sU vault-ca@vault.operations.giantswarm.io"]`|
+| `global.connectivity.shell.sshTrustedUserCAKeys[*]` |**None**|**Type:** `string`<br/>|
 
 ### Control plane
 Properties within the `.controlPlane` top-level object
@@ -224,7 +225,6 @@ Properties within the `.providerSpecific` top-level object
 
 | **Property** | **Description** | **More Details** |
 | :----------- | :-------------- | :--------------- |
-| `baseDomain` | **Base DNS domain**|**Type:** `string`<br/>**Default:** `"k8s.test"`|
 | `cluster-shared` | **Library chart**|**Type:** `object`<br/>|
 | `managementCluster` | **Management cluster name** - The Cluster API management cluster that manages this cluster.|**Type:** `string`<br/>|
 | `provider` | **Cluster API provider name**|**Type:** `string`<br/>|
