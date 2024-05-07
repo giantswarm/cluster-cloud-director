@@ -58,7 +58,7 @@ spec:
         ovdcNetwork: {{ .Values.providerSpecific.ovdcNetwork | quote }}
         site: {{ .Values.providerSpecific.site | quote }}
         vAppName: {{ include "resource.default.name" $  | quote }}
-        vipSubnet: {{ .Values.connectivity.network.loadBalancers.vipSubnet }}
+        vipSubnet: {{ .Values.global.connectivity.network.loadBalancers.vipSubnet }}
         enableVirtualServiceSharedIP: {{ .Values.providerSpecific.cloudProviderInterface.enableVirtualServiceSharedIP }}
         oneArm:
           enabled: {{ .Values.providerSpecific.cloudProviderInterface.oneArm.enabled }}

@@ -11,6 +11,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Remove the interface to set `etcd` and `coredns` images to let kubeadm take care of it.
 
+### **Breaking change**.
+
+<details>
+<summary>How to migrate values</summary>
+
+Using `yq`, migrate to the new values layout with the following command:
+
+```bash
+#!/bin/bash
+yq eval --inplace 'with(select(.connectivity != null);  .global.connectivity = .connectivity) |
+    with(select(.baseDomain != null);                   .global.connectivity.baseDomain = .baseDomain) |
+
+    del(.connectivity) |
+    del(.baseDomain)' values.yaml
+```
+
+</details>
+
+### Changed
+
+- Move Helm values property `.Values.connectivity` to `.Values.global.connectivity`.
+- Move Helm values property `.Values.baseDomain` to `.Values.global.connectivity.baseDomain`.
+
 ## [0.52.1] - 2024-05-16
 
 ### Fixed

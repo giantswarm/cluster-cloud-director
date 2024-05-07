@@ -59,9 +59,9 @@ ignition:
             Type=oneshot
             RemainAfterExit=yes
             ExecStart=/usr/bin/bash -cv 'echo "$("$(find /usr/bin /usr/share/oem -name vmtoolsd -type f -executable 2>/dev/null | head -n 1)" --cmd "info-get guestinfo.ignition.network")" > /opt/set-networkd-units'
-            {{- if $.Values.connectivity.network.staticRoutes }}
+            {{- if $.Values.global.connectivity.network.staticRoutes }}
             ExecStart=/usr/bin/bash -cv 'echo "sleep 3" >> /opt/set-networkd-units'
-            {{- range $.Values.connectivity.network.staticRoutes}}
+            {{- range $.Values.global.connectivity.network.staticRoutes}}
             ExecStart=/usr/bin/bash -cv 'echo "sudo ip route add {{ .destination }} via {{ .via }}" >> /opt/set-networkd-units'
             {{- end }}
             {{- end }}
