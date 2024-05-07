@@ -4,13 +4,13 @@ metadata:
   name: {{ include "resource.default.name" $ }}
   namespace: {{ .Release.Namespace }}
   annotations:
-    cluster.giantswarm.io/description: {{ .Values.metadata.description | quote }}
+    cluster.giantswarm.io/description: {{ .Values.global.metadata.description | quote }}
   labels:
     cluster-apps-operator.giantswarm.io/watching: ""
-    giantswarm.io/service-priority: {{ .Values.metadata.servicePriority | quote }}
+    giantswarm.io/service-priority: {{ .Values.global.metadata.servicePriority | quote }}
     {{- include "labels.common" . | nindent 4 }}
-    {{- if .Values.metadata.labels }}
-    {{- range $key, $val := .Values.metadata.labels }}
+    {{- if .Values.global.metadata.labels }}
+    {{- range $key, $val := .Values.global.metadata.labels }}
     {{ $key }}: {{ $val | quote }}
     {{- end }}
     {{- end }}
