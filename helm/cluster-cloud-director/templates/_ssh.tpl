@@ -3,11 +3,11 @@
 
 
 {{- define "sshFiles" -}}
-{{- if $.Values.connectivity.shell.sshTrustedUserCAKeys -}}
+{{- if $.Values.global.connectivity.shell.sshTrustedUserCAKeys -}}
 - path: /etc/ssh/trusted-user-ca-keys.pem
   permissions: "0600"
   content: |
-    {{- range $.Values.connectivity.shell.sshTrustedUserCAKeys }}
+    {{- range $.Values.global.connectivity.shell.sshTrustedUserCAKeys }}
     {{.}}
     {{- end }}
 - path: /etc/ssh/sshd_config
@@ -22,8 +22,8 @@
 {{- end -}}
 
 {{- define "sshUsers" -}}
-{{- if $.Values.connectivity.shell.osUsers -}}
+{{- if $.Values.global.connectivity.shell.osUsers -}}
 users:
-  {{- $.Values.connectivity.shell.osUsers | toYaml | nindent 2 }}
+  {{- $.Values.global.connectivity.shell.osUsers | toYaml | nindent 2 }}
 {{- end }}
 {{- end -}}
