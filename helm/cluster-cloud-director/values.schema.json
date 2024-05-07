@@ -595,6 +595,54 @@
                         }
                     }
                 },
+                "metadata": {
+                    "type": "object",
+                    "title": "Metadata",
+                    "additionalProperties": false,
+                    "properties": {
+                        "description": {
+                            "type": "string",
+                            "title": "Cluster description",
+                            "description": "User-friendly description of the cluster's purpose."
+                        },
+                        "labels": {
+                            "type": "object",
+                            "title": "Labels",
+                            "description": "These labels are added to the Kubernetes resources defining this cluster.",
+                            "additionalProperties": false,
+                            "patternProperties": {
+                                "^[a-zA-Z0-9/\\._-]+$": {
+                                    "type": "string",
+                                    "title": "Label",
+                                    "maxLength": 63,
+                                    "minLength": 0,
+                                    "pattern": "^[a-zA-Z0-9\\._-]+$"
+                                }
+                            }
+                        },
+                        "organization": {
+                            "type": "string",
+                            "title": "Organization"
+                        },
+                        "preventDeletion": {
+                            "type": "boolean",
+                            "title": "Prevent cluster deletion",
+                            "default": false
+                        },
+                        "servicePriority": {
+                            "type": "string",
+                            "title": "Service priority",
+                            "description": "The relative importance of this cluster.",
+                            "$comment": "Defined in https://github.com/giantswarm/rfc/tree/main/classify-cluster-priority",
+                            "enum": [
+                                "highest",
+                                "medium",
+                                "lowest"
+                            ],
+                            "default": "highest"
+                        }
+                    }
+                },
                 "podSecurityStandards": {
                     "type": "object",
                     "title": "Pod Security Standards",
@@ -774,54 +822,6 @@
             "type": "string",
             "title": "Management cluster name",
             "description": "The Cluster API management cluster that manages this cluster."
-        },
-        "metadata": {
-            "type": "object",
-            "title": "Metadata",
-            "additionalProperties": false,
-            "properties": {
-                "description": {
-                    "type": "string",
-                    "title": "Cluster description",
-                    "description": "User-friendly description of the cluster's purpose."
-                },
-                "labels": {
-                    "type": "object",
-                    "title": "Labels",
-                    "description": "These labels are added to the Kubernetes resources defining this cluster.",
-                    "additionalProperties": false,
-                    "patternProperties": {
-                        "^[a-zA-Z0-9/\\._-]+$": {
-                            "type": "string",
-                            "title": "Label",
-                            "maxLength": 63,
-                            "minLength": 0,
-                            "pattern": "^[a-zA-Z0-9\\._-]+$"
-                        }
-                    }
-                },
-                "organization": {
-                    "type": "string",
-                    "title": "Organization"
-                },
-                "preventDeletion": {
-                    "type": "boolean",
-                    "title": "Prevent cluster deletion",
-                    "default": false
-                },
-                "servicePriority": {
-                    "type": "string",
-                    "title": "Service priority",
-                    "description": "The relative importance of this cluster.",
-                    "$comment": "Defined in https://github.com/giantswarm/rfc/tree/main/classify-cluster-priority",
-                    "enum": [
-                        "highest",
-                        "medium",
-                        "lowest"
-                    ],
-                    "default": "highest"
-                }
-            }
         },
         "nodePools": {
             "type": "object",
