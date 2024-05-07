@@ -126,7 +126,7 @@
         "connectivity",
         "nodePools"
     ],
-    "additionalProperties": false,
+    "additionalProperties": true,
     "properties": {
         "baseDomain": {
             "type": "string",
