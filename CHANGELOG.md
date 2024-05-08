@@ -22,9 +22,11 @@ Using `yq`, migrate to the new values layout with the following command:
 #!/bin/bash
 yq eval --inplace 'with(select(.connectivity != null);  .global.connectivity = .connectivity) |
     with(select(.baseDomain != null);                   .global.connectivity.baseDomain = .baseDomain) |
+    with(select(.metadata != null);                     .global.metadata = .metadata) |
 
     del(.connectivity) |
-    del(.baseDomain)' values.yaml
+    del(.baseDomain) |
+    del(.metadata)' values.yaml
 ```
 
 </details>
@@ -33,6 +35,7 @@ yq eval --inplace 'with(select(.connectivity != null);  .global.connectivity = .
 
 - Move Helm values property `.Values.connectivity` to `.Values.global.connectivity`.
 - Move Helm values property `.Values.baseDomain` to `.Values.global.connectivity.baseDomain`.
+- Move Helm values property `.Values.metadata` to `.Values.global.metadata`.
 
 ## [0.52.1] - 2024-05-16
 

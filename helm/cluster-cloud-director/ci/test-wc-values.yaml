@@ -30,10 +30,6 @@ providerSpecific:
   userContext:
     secretRef:
       secretName: vcd-credentials
-metadata:
-  description: "Testing Cluster"
-  organization: giantswarm
-  servicePriority: highest
 internal:
   kubernetesVersion: v1.25.13+vmware.1
 global:
@@ -42,3 +38,7 @@ global:
       loadBalancers:
         vipSubnet: 10.205.9.254/24
     baseDomain: "test.gigantic.io"
+  metadata:
+    description: "Testing Cluster"
+    organization: giantswarm
+    servicePriority: highest

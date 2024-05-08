@@ -4,7 +4,7 @@ metadata:
   name: {{ include "resource.default.name" $ }}-default
   namespace: {{ $.Release.Namespace }}
   annotations:
-    cluster.giantswarm.io/description: {{ .Values.metadata.description | quote }}
+    cluster.giantswarm.io/description: {{ .Values.global.metadata.description | quote }}
   labels:
     {{- include "labels.common" . | nindent 4 }}
 spec:
@@ -17,7 +17,7 @@ metadata:
   name: {{ include "resource.default.name" $ }}-default-test
   namespace: {{ $.Release.Namespace }}
   annotations:
-    cluster.giantswarm.io/description: {{ .Values.metadata.description | quote }}
+    cluster.giantswarm.io/description: {{ .Values.global.metadata.description | quote }}
   labels:
     {{- include "labels.common" . | nindent 4 }}
 spec:
