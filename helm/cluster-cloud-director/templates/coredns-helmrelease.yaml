@@ -4,7 +4,7 @@ metadata:
   name: {{ include "resource.default.name" $ }}-coredns
   namespace: {{ $.Release.Namespace }}
   annotations:
-    cluster.giantswarm.io/description: {{ .Values.metadata.description | quote }}
+    cluster.giantswarm.io/description: {{ .Values.global.metadata.description | quote }}
   labels:
     {{- include "labels.common" . | nindent 4 }}
 spec:
@@ -35,10 +35,10 @@ spec:
   values:
     cluster:
       calico:
-        CIDR: {{ index .Values.connectivity.network.pods.cidrBlocks 0 | quote }}
+        CIDR: {{ index .Values.global.connectivity.network.pods.cidrBlocks 0 | quote }}
       kubernetes:
         API:
-          clusterIPRange: {{ index .Values.connectivity.network.services.cidrBlocks 0 | quote }}
+          clusterIPRange: {{ index .Values.global.connectivity.network.services.cidrBlocks 0 | quote }}
         DNS:
           IP: {{ include "clusterDNS" $ | quote }}
     global:

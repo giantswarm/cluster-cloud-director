@@ -7,11 +7,40 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### **Breaking change**.
+
+<details>
+<summary>How to migrate values</summary>
+
+Using `yq`, migrate to the new values layout with the following command:
+
+```bash
+#!/bin/bash
+yq eval --inplace 'with(select(.connectivity != null);  .global.connectivity = .connectivity) |
+    with(select(.baseDomain != null);                   .global.connectivity.baseDomain = .baseDomain) |
+    with(select(.metadata != null);                     .global.metadata = .metadata) |
+
+    del(.connectivity) |
+    del(.baseDomain) |
+    del(.metadata)' values.yaml
+```
+
+</details>
+
+### Changed
+
+- Move Helm values property `.Values.connectivity` to `.Values.global.connectivity`.
+- Move Helm values property `.Values.baseDomain` to `.Values.global.connectivity.baseDomain`.
+- Move Helm values property `.Values.metadata` to `.Values.global.metadata`.
+
+## [0.51.0] - 2024-05-07
+
 ### Changed
 
 - Updated machine template to newer Flatcar version which includes teleport v15.1.7 binaries. **WARNING: This will roll CP and worker nodes.**
 - Enable teleport by default.
 - Use a dedicated systemd unit to set static routes in Flatcar.
+- Temporarily enable `additionalProperties` to facilitate chart refactoring.
 
 ## [0.50.0] - 2024-04-16
 
@@ -555,7 +584,8 @@ Bump cloud provider to v0.2.5 (fix).
 - Added VCDCluster parameters to match CRD.
 - Nodepool and nodeclass support.
 
-[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.50.0...HEAD
+[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.51.0...HEAD
+[0.51.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.50.0...v0.51.0
 [0.50.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.16.0...v0.50.0
 [0.16.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.15.2...v0.16.0
 [0.15.2]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.15.1...v0.15.2

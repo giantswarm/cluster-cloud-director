@@ -121,315 +121,14 @@
     },
     "type": "object",
     "required": [
-        "baseDomain",
         "controlPlane",
-        "connectivity",
         "nodePools"
     ],
-    "additionalProperties": false,
+    "additionalProperties": true,
     "properties": {
-        "baseDomain": {
-            "type": "string",
-            "title": "Base DNS domain",
-            "default": "k8s.test"
-        },
         "cluster-shared": {
             "type": "object",
             "title": "Library chart"
-        },
-        "connectivity": {
-            "type": "object",
-            "title": "Connectivity",
-            "description": "Configurations related to cluster connectivity such as container registries.",
-            "required": [
-                "network"
-            ],
-            "additionalProperties": false,
-            "properties": {
-                "containerRegistries": {
-                    "type": "object",
-                    "title": "Container registries",
-                    "description": "Endpoints and credentials configuration for container registries.",
-                    "additionalProperties": {
-                        "type": "array",
-                        "items": {
-                            "type": "object",
-                            "required": [
-                                "endpoint"
-                            ],
-                            "additionalProperties": false,
-                            "properties": {
-                                "credentials": {
-                                    "type": "object",
-                                    "title": "Credentials",
-                                    "description": "Credentials for the endpoint.",
-                                    "additionalProperties": false,
-                                    "properties": {
-                                        "auth": {
-                                            "type": "string",
-                                            "title": "Auth",
-                                            "description": "Base64-encoded string from the concatenation of the username, a colon, and the password."
-                                        },
-                                        "identitytoken": {
-                                            "type": "string",
-                                            "title": "Identity token",
-                                            "description": "Used to authenticate the user and obtain an access token for the registry."
-                                        },
-                                        "password": {
-                                            "type": "string",
-                                            "title": "Password",
-                                            "description": "Used to authenticate for the registry with username/password."
-                                        },
-                                        "username": {
-                                            "type": "string",
-                                            "title": "Username",
-                                            "description": "Used to authenticate for the registry with username/password."
-                                        }
-                                    }
-                                },
-                                "endpoint": {
-                                    "type": "string",
-                                    "title": "Endpoint",
-                                    "description": "Endpoint for the container registry."
-                                }
-                            }
-                        }
-                    },
-                    "default": {}
-                },
-                "network": {
-                    "type": "object",
-                    "title": "Network",
-                    "required": [
-                        "loadBalancers",
-                        "pods",
-                        "services"
-                    ],
-                    "additionalProperties": false,
-                    "properties": {
-                        "controlPlaneEndpoint": {
-                            "type": "object",
-                            "title": "Control plane endpoint",
-                            "description": "Kubernetes API endpoint.",
-                            "additionalProperties": false,
-                            "properties": {
-                                "host": {
-                                    "type": "string",
-                                    "title": "Host"
-                                },
-                                "port": {
-                                    "type": "integer",
-                                    "title": "Port number",
-                                    "default": 6443
-                                }
-                            }
-                        },
-                        "extraOvdcNetworks": {
-                            "type": "array",
-                            "title": "Extra OVDC networks",
-                            "description": "OVDC networks to attach VMs to, additionally.",
-                            "items": {
-                                "type": "string"
-                            }
-                        },
-                        "hostEntries": {
-                            "type": "array",
-                            "title": "Host entries",
-                            "items": {
-                                "type": "object",
-                                "required": [
-                                    "ip",
-                                    "fqdn"
-                                ],
-                                "additionalProperties": false,
-                                "properties": {
-                                    "fqdn": {
-                                        "type": "string",
-                                        "title": "FQDN"
-                                    },
-                                    "ip": {
-                                        "type": "string",
-                                        "title": "IP address",
-                                        "format": "ipv4"
-                                    }
-                                }
-                            }
-                        },
-                        "loadBalancers": {
-                            "type": "object",
-                            "title": "Load Balancers",
-                            "required": [
-                                "vipSubnet"
-                            ],
-                            "additionalProperties": false,
-                            "properties": {
-                                "vipSubnet": {
-                                    "type": "string",
-                                    "title": "Virtual IP subnet",
-                                    "description": "Virtual IP CIDR for the external network."
-                                }
-                            }
-                        },
-                        "pods": {
-                            "type": "object",
-                            "title": "Pods",
-                            "required": [
-                                "cidrBlocks"
-                            ],
-                            "additionalProperties": false,
-                            "properties": {
-                                "cidrBlocks": {
-                                    "$ref": "#/$defs/cidrBlocks",
-                                    "title": "Pod subnets",
-                                    "default": [
-                                        "10.244.0.0/16"
-                                    ]
-                                }
-                            }
-                        },
-                        "services": {
-                            "type": "object",
-                            "title": "Services",
-                            "required": [
-                                "cidrBlocks"
-                            ],
-                            "additionalProperties": false,
-                            "properties": {
-                                "cidrBlocks": {
-                                    "$ref": "#/$defs/cidrBlocks",
-                                    "title": "Service subnets",
-                                    "default": [
-                                        "172.31.0.0/16"
-                                    ]
-                                }
-                            }
-                        },
-                        "staticRoutes": {
-                            "type": "array",
-                            "title": "Static routes",
-                            "items": {
-                                "type": "object",
-                                "required": [
-                                    "destination",
-                                    "via"
-                                ],
-                                "additionalProperties": false,
-                                "properties": {
-                                    "destination": {
-                                        "type": "string",
-                                        "title": "Destination",
-                                        "description": "IPv4 address range in CIDR notation.",
-                                        "examples": [
-                                            "10.128.0.0/16"
-                                        ]
-                                    },
-                                    "via": {
-                                        "type": "string",
-                                        "title": "Via",
-                                        "format": "ipv4"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "ntp": {
-                    "type": "object",
-                    "title": "Time synchronization (NTP)",
-                    "description": "Servers/pools to synchronize this cluster's clocks with.",
-                    "additionalProperties": false,
-                    "properties": {
-                        "pools": {
-                            "type": "array",
-                            "title": "Pools",
-                            "items": {
-                                "type": "string",
-                                "title": "Pool",
-                                "examples": [
-                                    "ntp.ubuntu.com"
-                                ]
-                            }
-                        },
-                        "servers": {
-                            "type": "array",
-                            "title": "Servers",
-                            "items": {
-                                "type": "string",
-                                "title": "Server"
-                            }
-                        }
-                    }
-                },
-                "proxy": {
-                    "type": "object",
-                    "title": "Proxy",
-                    "description": "Whether/how outgoing traffic is routed through proxy servers.",
-                    "additionalProperties": false,
-                    "properties": {
-                        "enabled": {
-                            "type": "boolean",
-                            "title": "Enable"
-                        },
-                        "secretName": {
-                            "type": "string",
-                            "title": "Secret name",
-                            "description": "Name of a secret resource used by containerd to obtain the HTTP_PROXY, HTTPS_PROXY, and NO_PROXY environment variables. If empty the value will be defaulted to <clusterName>-cluster-values.",
-                            "pattern": "^[a-z0-9-]{0,63}$"
-                        }
-                    }
-                },
-                "shell": {
-                    "type": "object",
-                    "title": "Shell access",
-                    "additionalProperties": false,
-                    "properties": {
-                        "osUsers": {
-                            "type": "array",
-                            "title": "OS Users",
-                            "description": "Configuration for OS users in cluster nodes.",
-                            "items": {
-                                "type": "object",
-                                "title": "User",
-                                "required": [
-                                    "name"
-                                ],
-                                "additionalProperties": false,
-                                "properties": {
-                                    "name": {
-                                        "type": "string",
-                                        "title": "Name",
-                                        "description": "Username of the user.",
-                                        "minLength": 2,
-                                        "pattern": "^[a-z][-a-z0-9]+$"
-                                    },
-                                    "sudo": {
-                                        "type": "string",
-                                        "title": "Sudoers configuration",
-                                        "description": "Permissions string to add to /etc/sudoers for this user."
-                                    }
-                                }
-                            },
-                            "default": [
-                                {
-                                    "name": "giantswarm",
-                                    "sudo": "ALL=(ALL) NOPASSWD:ALL"
-                                }
-                            ]
-                        },
-                        "sshTrustedUserCAKeys": {
-                            "type": "array",
-                            "title": "Trusted SSH cert issuers",
-                            "description": "CA certificates of issuers that are trusted to sign SSH user certificates.",
-                            "items": {
-                                "type": "string"
-                            },
-                            "default": [
-                                "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM4cvZ01fLmO9cJbWUj7sfF+NhECgy+Cl0bazSrZX7sU vault-ca@vault.operations.giantswarm.io"
-                            ]
-                        }
-                    }
-                }
-            }
         },
         "controlPlane": {
             "type": "object",
@@ -593,7 +292,357 @@
         "global": {
             "type": "object",
             "title": "Global parameters",
+            "required": [
+                "connectivity"
+            ],
             "properties": {
+                "connectivity": {
+                    "type": "object",
+                    "title": "Connectivity",
+                    "description": "Configurations related to cluster connectivity such as container registries.",
+                    "required": [
+                        "baseDomain",
+                        "network"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                        "baseDomain": {
+                            "type": "string",
+                            "title": "Base DNS domain"
+                        },
+                        "containerRegistries": {
+                            "type": "object",
+                            "title": "Container registries",
+                            "description": "Endpoints and credentials configuration for container registries.",
+                            "additionalProperties": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "required": [
+                                        "endpoint"
+                                    ],
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "credentials": {
+                                            "type": "object",
+                                            "title": "Credentials",
+                                            "description": "Credentials for the endpoint.",
+                                            "additionalProperties": false,
+                                            "properties": {
+                                                "auth": {
+                                                    "type": "string",
+                                                    "title": "Auth",
+                                                    "description": "Base64-encoded string from the concatenation of the username, a colon, and the password."
+                                                },
+                                                "identitytoken": {
+                                                    "type": "string",
+                                                    "title": "Identity token",
+                                                    "description": "Used to authenticate the user and obtain an access token for the registry."
+                                                },
+                                                "password": {
+                                                    "type": "string",
+                                                    "title": "Password",
+                                                    "description": "Used to authenticate for the registry with username/password."
+                                                },
+                                                "username": {
+                                                    "type": "string",
+                                                    "title": "Username",
+                                                    "description": "Used to authenticate for the registry with username/password."
+                                                }
+                                            }
+                                        },
+                                        "endpoint": {
+                                            "type": "string",
+                                            "title": "Endpoint",
+                                            "description": "Endpoint for the container registry."
+                                        }
+                                    }
+                                }
+                            },
+                            "default": {}
+                        },
+                        "network": {
+                            "type": "object",
+                            "title": "Network",
+                            "required": [
+                                "loadBalancers",
+                                "pods",
+                                "services"
+                            ],
+                            "additionalProperties": false,
+                            "properties": {
+                                "controlPlaneEndpoint": {
+                                    "type": "object",
+                                    "title": "Control plane endpoint",
+                                    "description": "Kubernetes API endpoint.",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "host": {
+                                            "type": "string",
+                                            "title": "Host"
+                                        },
+                                        "port": {
+                                            "type": "integer",
+                                            "title": "Port number",
+                                            "default": 6443
+                                        }
+                                    }
+                                },
+                                "extraOvdcNetworks": {
+                                    "type": "array",
+                                    "title": "Extra OVDC networks",
+                                    "description": "OVDC networks to attach VMs to, additionally.",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "hostEntries": {
+                                    "type": "array",
+                                    "title": "Host entries",
+                                    "items": {
+                                        "type": "object",
+                                        "required": [
+                                            "ip",
+                                            "fqdn"
+                                        ],
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "fqdn": {
+                                                "type": "string",
+                                                "title": "FQDN"
+                                            },
+                                            "ip": {
+                                                "type": "string",
+                                                "title": "IP address",
+                                                "format": "ipv4"
+                                            }
+                                        }
+                                    }
+                                },
+                                "loadBalancers": {
+                                    "type": "object",
+                                    "title": "Load Balancers",
+                                    "required": [
+                                        "vipSubnet"
+                                    ],
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "vipSubnet": {
+                                            "type": "string",
+                                            "title": "Virtual IP subnet",
+                                            "description": "Virtual IP CIDR for the external network."
+                                        }
+                                    }
+                                },
+                                "pods": {
+                                    "type": "object",
+                                    "title": "Pods",
+                                    "required": [
+                                        "cidrBlocks"
+                                    ],
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "cidrBlocks": {
+                                            "$ref": "#/$defs/cidrBlocks",
+                                            "title": "Pod subnets",
+                                            "default": [
+                                                "10.244.0.0/16"
+                                            ]
+                                        }
+                                    }
+                                },
+                                "services": {
+                                    "type": "object",
+                                    "title": "Services",
+                                    "required": [
+                                        "cidrBlocks"
+                                    ],
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "cidrBlocks": {
+                                            "$ref": "#/$defs/cidrBlocks",
+                                            "title": "Service subnets",
+                                            "default": [
+                                                "172.31.0.0/16"
+                                            ]
+                                        }
+                                    }
+                                },
+                                "staticRoutes": {
+                                    "type": "array",
+                                    "title": "Static routes",
+                                    "items": {
+                                        "type": "object",
+                                        "required": [
+                                            "destination",
+                                            "via"
+                                        ],
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "destination": {
+                                                "type": "string",
+                                                "title": "Destination",
+                                                "description": "IPv4 address range in CIDR notation.",
+                                                "examples": [
+                                                    "10.128.0.0/16"
+                                                ]
+                                            },
+                                            "via": {
+                                                "type": "string",
+                                                "title": "Via",
+                                                "format": "ipv4"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "ntp": {
+                            "type": "object",
+                            "title": "Time synchronization (NTP)",
+                            "description": "Servers/pools to synchronize this cluster's clocks with.",
+                            "additionalProperties": false,
+                            "properties": {
+                                "pools": {
+                                    "type": "array",
+                                    "title": "Pools",
+                                    "items": {
+                                        "type": "string",
+                                        "title": "Pool",
+                                        "examples": [
+                                            "ntp.ubuntu.com"
+                                        ]
+                                    }
+                                },
+                                "servers": {
+                                    "type": "array",
+                                    "title": "Servers",
+                                    "items": {
+                                        "type": "string",
+                                        "title": "Server"
+                                    }
+                                }
+                            }
+                        },
+                        "proxy": {
+                            "type": "object",
+                            "title": "Proxy",
+                            "description": "Whether/how outgoing traffic is routed through proxy servers.",
+                            "additionalProperties": false,
+                            "properties": {
+                                "enabled": {
+                                    "type": "boolean",
+                                    "title": "Enable"
+                                },
+                                "secretName": {
+                                    "type": "string",
+                                    "title": "Secret name",
+                                    "description": "Name of a secret resource used by containerd to obtain the HTTP_PROXY, HTTPS_PROXY, and NO_PROXY environment variables. If empty the value will be defaulted to <clusterName>-cluster-values.",
+                                    "pattern": "^[a-z0-9-]{0,63}$"
+                                }
+                            }
+                        },
+                        "shell": {
+                            "type": "object",
+                            "title": "Shell access",
+                            "additionalProperties": false,
+                            "properties": {
+                                "osUsers": {
+                                    "type": "array",
+                                    "title": "OS Users",
+                                    "description": "Configuration for OS users in cluster nodes.",
+                                    "items": {
+                                        "type": "object",
+                                        "title": "User",
+                                        "required": [
+                                            "name"
+                                        ],
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "name": {
+                                                "type": "string",
+                                                "title": "Name",
+                                                "description": "Username of the user.",
+                                                "minLength": 2,
+                                                "pattern": "^[a-z][-a-z0-9]+$"
+                                            },
+                                            "sudo": {
+                                                "type": "string",
+                                                "title": "Sudoers configuration",
+                                                "description": "Permissions string to add to /etc/sudoers for this user."
+                                            }
+                                        }
+                                    },
+                                    "default": [
+                                        {
+                                            "name": "giantswarm",
+                                            "sudo": "ALL=(ALL) NOPASSWD:ALL"
+                                        }
+                                    ]
+                                },
+                                "sshTrustedUserCAKeys": {
+                                    "type": "array",
+                                    "title": "Trusted SSH cert issuers",
+                                    "description": "CA certificates of issuers that are trusted to sign SSH user certificates.",
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "default": [
+                                        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM4cvZ01fLmO9cJbWUj7sfF+NhECgy+Cl0bazSrZX7sU vault-ca@vault.operations.giantswarm.io"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "metadata": {
+                    "type": "object",
+                    "title": "Metadata",
+                    "additionalProperties": false,
+                    "properties": {
+                        "description": {
+                            "type": "string",
+                            "title": "Cluster description",
+                            "description": "User-friendly description of the cluster's purpose."
+                        },
+                        "labels": {
+                            "type": "object",
+                            "title": "Labels",
+                            "description": "These labels are added to the Kubernetes resources defining this cluster.",
+                            "additionalProperties": false,
+                            "patternProperties": {
+                                "^[a-zA-Z0-9/\\._-]+$": {
+                                    "type": "string",
+                                    "title": "Label",
+                                    "maxLength": 63,
+                                    "minLength": 0,
+                                    "pattern": "^[a-zA-Z0-9\\._-]+$"
+                                }
+                            }
+                        },
+                        "organization": {
+                            "type": "string",
+                            "title": "Organization"
+                        },
+                        "preventDeletion": {
+                            "type": "boolean",
+                            "title": "Prevent cluster deletion",
+                            "default": false
+                        },
+                        "servicePriority": {
+                            "type": "string",
+                            "title": "Service priority",
+                            "description": "The relative importance of this cluster.",
+                            "$comment": "Defined in https://github.com/giantswarm/rfc/tree/main/classify-cluster-priority",
+                            "enum": [
+                                "highest",
+                                "medium",
+                                "lowest"
+                            ],
+                            "default": "highest"
+                        }
+                    }
+                },
                 "podSecurityStandards": {
                     "type": "object",
                     "title": "Pod Security Standards",
@@ -773,54 +822,6 @@
             "type": "string",
             "title": "Management cluster name",
             "description": "The Cluster API management cluster that manages this cluster."
-        },
-        "metadata": {
-            "type": "object",
-            "title": "Metadata",
-            "additionalProperties": false,
-            "properties": {
-                "description": {
-                    "type": "string",
-                    "title": "Cluster description",
-                    "description": "User-friendly description of the cluster's purpose."
-                },
-                "labels": {
-                    "type": "object",
-                    "title": "Labels",
-                    "description": "These labels are added to the Kubernetes resources defining this cluster.",
-                    "additionalProperties": false,
-                    "patternProperties": {
-                        "^[a-zA-Z0-9/\\._-]+$": {
-                            "type": "string",
-                            "title": "Label",
-                            "maxLength": 63,
-                            "minLength": 0,
-                            "pattern": "^[a-zA-Z0-9\\._-]+$"
-                        }
-                    }
-                },
-                "organization": {
-                    "type": "string",
-                    "title": "Organization"
-                },
-                "preventDeletion": {
-                    "type": "boolean",
-                    "title": "Prevent cluster deletion",
-                    "default": false
-                },
-                "servicePriority": {
-                    "type": "string",
-                    "title": "Service priority",
-                    "description": "The relative importance of this cluster.",
-                    "$comment": "Defined in https://github.com/giantswarm/rfc/tree/main/classify-cluster-priority",
-                    "enum": [
-                        "highest",
-                        "medium",
-                        "lowest"
-                    ],
-                    "default": "highest"
-                }
-            }
         },
         "nodePools": {
             "type": "object",
