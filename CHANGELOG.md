@@ -32,6 +32,7 @@ yq eval --inplace 'with(select(.connectivity != null);  .global.connectivity = .
 - Move Helm values property `.Values.connectivity` to `.Values.global.connectivity`.
 - Move Helm values property `.Values.baseDomain` to `.Values.global.connectivity.baseDomain`.
 - Move Helm values property `.Values.metadata` to `.Values.global.metadata`.
+- Add static route commands to network setup script in Flatcar systemd unit.
 
 ## [0.51.0] - 2024-05-07
 
@@ -39,7 +40,6 @@ yq eval --inplace 'with(select(.connectivity != null);  .global.connectivity = .
 
 - Updated machine template to newer Flatcar version which includes teleport v15.1.7 binaries. **WARNING: This will roll CP and worker nodes.**
 - Enable teleport by default.
-- Use a dedicated systemd unit to set static routes in Flatcar.
 - Temporarily enable `additionalProperties` to facilitate chart refactoring.
 
 ## [0.50.0] - 2024-04-16
