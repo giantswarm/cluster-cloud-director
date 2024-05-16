@@ -7,9 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Wait 3 seconds after restarting `networkd` to avoid race condition with first static route.
+
 ## [0.52.0] - 2024-05-15
 
-### Changelog
+### Changed
 
 - Add static route commands to network setup script in Flatcar systemd unit.
 
