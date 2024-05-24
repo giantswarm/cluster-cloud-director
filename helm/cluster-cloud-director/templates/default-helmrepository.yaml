@@ -1,4 +1,4 @@
-apiVersion: source.toolkit.fluxcd.io/v1beta2
+apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
   name: {{ include "resource.default.name" $ }}-default
@@ -11,7 +11,7 @@ spec:
   interval: 10m
   url: https://giantswarm.github.io/default-catalog
 ---
-apiVersion: source.toolkit.fluxcd.io/v1beta2
+apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
   name: {{ include "resource.default.name" $ }}-default-test
