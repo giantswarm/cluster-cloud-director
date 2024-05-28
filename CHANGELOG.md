@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Remove the interface to set `etcd` and `coredns` images to let kubeadm take care of it.
+
 ## [0.52.1] - 2024-05-16
 
 ### Fixed
