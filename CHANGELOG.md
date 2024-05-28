@@ -7,10 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.52.1] - 2024-05-16
+
+### Fixed
+
+- Wait 3 seconds after restarting `networkd` to avoid race condition with first static route.
+
+## [0.52.0] - 2024-05-15
+
+### Changed
+
+- Add static route commands to network setup script in Flatcar systemd unit.
+
+## [0.51.0] - 2024-05-07
+
 ### Changed
 
 - Updated machine template to newer Flatcar version which includes teleport v15.1.7 binaries. **WARNING: This will roll CP and worker nodes.**
 - Enable teleport by default.
+- Temporarily enable `additionalProperties` to facilitate chart refactoring.
 
 ## [0.50.0] - 2024-04-16
 
@@ -554,7 +569,10 @@ Bump cloud provider to v0.2.5 (fix).
 - Added VCDCluster parameters to match CRD.
 - Nodepool and nodeclass support.
 
-[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.50.0...HEAD
+[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.52.1...HEAD
+[0.52.1]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.52.0...v0.52.1
+[0.52.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.51.0...v0.52.0
+[0.51.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.50.0...v0.51.0
 [0.50.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.16.0...v0.50.0
 [0.16.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.15.2...v0.16.0
 [0.15.2]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.15.1...v0.15.2
