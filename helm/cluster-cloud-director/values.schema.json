@@ -438,8 +438,6 @@
                 "catalog",
                 "template",
                 "replicas",
-                "dns",
-                "etcd",
                 "resourceRatio"
             ],
             "additionalProperties": false,
@@ -466,40 +464,6 @@
                     "$ref": "#/$defs/diskSizeGB",
                     "title": "Disk size",
                     "description": "Control plane node root volume size, in GB."
-                },
-                "dns": {
-                    "type": "object",
-                    "title": "DNS container image",
-                    "additionalProperties": false,
-                    "properties": {
-                        "imageRepository": {
-                            "type": "string",
-                            "title": "Repository",
-                            "default": "gsoci.azurecr.io/giantswarm"
-                        },
-                        "imageTag": {
-                            "type": "string",
-                            "title": "Tag",
-                            "default": "1.9.4-giantswarm"
-                        }
-                    }
-                },
-                "etcd": {
-                    "type": "object",
-                    "title": "Etcd container image",
-                    "additionalProperties": false,
-                    "properties": {
-                        "imageRepository": {
-                            "type": "string",
-                            "title": "Repository",
-                            "default": "gsoci.azurecr.io/giantswarm"
-                        },
-                        "imageTag": {
-                            "type": "string",
-                            "title": "Tag",
-                            "default": "3.5.4-0-k8s"
-                        }
-                    }
                 },
                 "image": {
                     "type": "object",
