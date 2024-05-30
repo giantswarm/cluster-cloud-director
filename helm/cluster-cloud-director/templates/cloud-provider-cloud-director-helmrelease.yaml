@@ -24,10 +24,10 @@ spec:
       chart: cloud-provider-cloud-director
       # used by renovate
       # repo: giantswarm/cloud-provider-cloud-director-app
-      version: 0.2.10-db1e0fa3801b743ac7de7a85f8c011c42ad405e7
+      version: 0.2.11
       sourceRef:
         kind: HelmRepository
-        name: {{ include "resource.default.name" $ }}-default-test
+        name: {{ include "resource.default.name" $ }}-default
   dependsOn:
     - name: {{ include "resource.default.name" $ }}-cilium
       namespace: {{ $.Release.Namespace }}
