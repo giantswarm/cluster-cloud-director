@@ -130,129 +130,6 @@
             "type": "object",
             "title": "Library chart"
         },
-        "controlPlane": {
-            "type": "object",
-            "title": "Control plane",
-            "required": [
-                "catalog",
-                "template",
-                "replicas",
-                "resourceRatio"
-            ],
-            "additionalProperties": false,
-            "properties": {
-                "catalog": {
-                    "$ref": "#/$defs/catalog",
-                    "title": "Catalog",
-                    "description": "VCD catalog where the VM template is stored."
-                },
-                "certSANs": {
-                    "type": "array",
-                    "title": "Subject alternative names (SAN)",
-                    "description": "Alternative names to encode in the API server's certificate.",
-                    "items": {
-                        "type": "string",
-                        "title": "SAN"
-                    }
-                },
-                "customNodeLabels": {
-                    "$ref": "#/$defs/nodeLabels",
-                    "title": "Custom node labels"
-                },
-                "diskSizeGB": {
-                    "$ref": "#/$defs/diskSizeGB",
-                    "title": "Disk size",
-                    "description": "Control plane node root volume size, in GB."
-                },
-                "image": {
-                    "type": "object",
-                    "title": "Node container image",
-                    "description": "Set to 'gsoci.azurecr.io/giantswarm' for ignition (Flatcar) and 'projects.registry.vmware.com/tkg' for cloud-init (Ubuntu).",
-                    "additionalProperties": false,
-                    "properties": {
-                        "repository": {
-                            "type": "string",
-                            "title": "Repository",
-                            "default": "gsoci.azurecr.io/giantswarm"
-                        }
-                    }
-                },
-                "oidc": {
-                    "type": "object",
-                    "title": "OIDC authentication",
-                    "required": [
-                        "clientId",
-                        "groupsClaim",
-                        "issuerUrl",
-                        "usernameClaim"
-                    ],
-                    "additionalProperties": false,
-                    "properties": {
-                        "caFile": {
-                            "type": "string",
-                            "title": "Certificate authority file",
-                            "description": "Path to identity provider's CA certificate in PEM format."
-                        },
-                        "clientId": {
-                            "type": "string",
-                            "title": "Client ID",
-                            "description": "OIDC client identifier to identify with."
-                        },
-                        "groupsClaim": {
-                            "type": "string",
-                            "title": "Groups claim",
-                            "description": "Name of the identity token claim bearing the user's group memberships."
-                        },
-                        "groupsPrefix": {
-                            "type": "string",
-                            "title": "Groups prefix",
-                            "description": "Prefix prepended to groups values to prevent clashes with existing names."
-                        },
-                        "issuerUrl": {
-                            "type": "string",
-                            "title": "Issuer URL",
-                            "description": "URL of the provider which allows the API server to discover public signing keys, not including any path. Discovery URL without the '/.well-known/openid-configuration' part."
-                        },
-                        "usernameClaim": {
-                            "type": "string",
-                            "title": "Username claim",
-                            "description": "Name of the identity token claim bearing the unique user identifier."
-                        },
-                        "usernamePrefix": {
-                            "type": "string",
-                            "title": "Username prefix",
-                            "description": "Prefix prepended to username values to prevent clashes with existing names."
-                        }
-                    }
-                },
-                "placementPolicy": {
-                    "$ref": "#/$defs/placementPolicy"
-                },
-                "replicas": {
-                    "type": "integer",
-                    "title": "Number of nodes",
-                    "description": "Number of control plane instances to create. Must be an odd number.",
-                    "default": 1
-                },
-                "resourceRatio": {
-                    "type": "integer",
-                    "title": "Resource ratio",
-                    "description": "Ratio between node resources and apiserver resource requests.",
-                    "default": 8,
-                    "minimum": 2
-                },
-                "sizingPolicy": {
-                    "$ref": "#/$defs/sizingPolicy"
-                },
-                "storageProfile": {
-                    "$ref": "#/$defs/storageProfile"
-                },
-                "template": {
-                    "$ref": "#/$defs/template",
-                    "title": "VM template"
-                }
-            }
-        },
         "global": {
             "type": "object",
             "title": "Global parameters",
@@ -559,6 +436,129 @@
                         }
                     }
                 },
+                "controlPlane": {
+                    "type": "object",
+                    "title": "Control plane",
+                    "required": [
+                        "catalog",
+                        "template",
+                        "replicas",
+                        "resourceRatio"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                        "catalog": {
+                            "$ref": "#/$defs/catalog",
+                            "title": "Catalog",
+                            "description": "VCD catalog where the VM template is stored."
+                        },
+                        "certSANs": {
+                            "type": "array",
+                            "title": "Subject alternative names (SAN)",
+                            "description": "Alternative names to encode in the API server's certificate.",
+                            "items": {
+                                "type": "string",
+                                "title": "SAN"
+                            }
+                        },
+                        "customNodeLabels": {
+                            "$ref": "#/$defs/nodeLabels",
+                            "title": "Custom node labels"
+                        },
+                        "diskSizeGB": {
+                            "$ref": "#/$defs/diskSizeGB",
+                            "title": "Disk size",
+                            "description": "Control plane node root volume size, in GB."
+                        },
+                        "image": {
+                            "type": "object",
+                            "title": "Node container image",
+                            "description": "Set to 'gsoci.azurecr.io/giantswarm' for ignition (Flatcar) and 'projects.registry.vmware.com/tkg' for cloud-init (Ubuntu).",
+                            "additionalProperties": false,
+                            "properties": {
+                                "repository": {
+                                    "type": "string",
+                                    "title": "Repository",
+                                    "default": "gsoci.azurecr.io/giantswarm"
+                                }
+                            }
+                        },
+                        "oidc": {
+                            "type": "object",
+                            "title": "OIDC authentication",
+                            "required": [
+                                "clientId",
+                                "groupsClaim",
+                                "issuerUrl",
+                                "usernameClaim"
+                            ],
+                            "additionalProperties": false,
+                            "properties": {
+                                "caFile": {
+                                    "type": "string",
+                                    "title": "Certificate authority file",
+                                    "description": "Path to identity provider's CA certificate in PEM format."
+                                },
+                                "clientId": {
+                                    "type": "string",
+                                    "title": "Client ID",
+                                    "description": "OIDC client identifier to identify with."
+                                },
+                                "groupsClaim": {
+                                    "type": "string",
+                                    "title": "Groups claim",
+                                    "description": "Name of the identity token claim bearing the user's group memberships."
+                                },
+                                "groupsPrefix": {
+                                    "type": "string",
+                                    "title": "Groups prefix",
+                                    "description": "Prefix prepended to groups values to prevent clashes with existing names."
+                                },
+                                "issuerUrl": {
+                                    "type": "string",
+                                    "title": "Issuer URL",
+                                    "description": "URL of the provider which allows the API server to discover public signing keys, not including any path. Discovery URL without the '/.well-known/openid-configuration' part."
+                                },
+                                "usernameClaim": {
+                                    "type": "string",
+                                    "title": "Username claim",
+                                    "description": "Name of the identity token claim bearing the unique user identifier."
+                                },
+                                "usernamePrefix": {
+                                    "type": "string",
+                                    "title": "Username prefix",
+                                    "description": "Prefix prepended to username values to prevent clashes with existing names."
+                                }
+                            }
+                        },
+                        "placementPolicy": {
+                            "$ref": "#/$defs/placementPolicy"
+                        },
+                        "replicas": {
+                            "type": "integer",
+                            "title": "Number of nodes",
+                            "description": "Number of control plane instances to create. Must be an odd number.",
+                            "default": 1
+                        },
+                        "resourceRatio": {
+                            "type": "integer",
+                            "title": "Resource ratio",
+                            "description": "Ratio between node resources and apiserver resource requests.",
+                            "default": 8,
+                            "minimum": 2
+                        },
+                        "sizingPolicy": {
+                            "$ref": "#/$defs/sizingPolicy"
+                        },
+                        "storageProfile": {
+                            "$ref": "#/$defs/storageProfile"
+                        },
+                        "template": {
+                            "$ref": "#/$defs/template",
+                            "title": "VM template"
+                        }
+                    }
+                },
                 "metadata": {
                     "type": "object",
                     "title": "Metadata",
@@ -629,6 +629,15 @@
                     "type": "object",
                     "additionalProperties": false,
                     "properties": {
+                        "certSANs": {
+                            "type": "array",
+                            "title": "Subject alternative names (SAN)",
+                            "description": "Alternative names to encode in the API server's certificate.",
+                            "items": {
+                                "type": "string",
+                                "title": "SAN"
+                            }
+                        },
                         "enableAdmissionPlugins": {
                             "type": "array",
                             "title": "Admission plugins",

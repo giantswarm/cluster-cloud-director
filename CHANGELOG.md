@@ -23,10 +23,13 @@ Using `yq`, migrate to the new values layout with the following command:
 yq eval --inplace 'with(select(.connectivity != null);  .global.connectivity = .connectivity) |
     with(select(.baseDomain != null);                   .global.connectivity.baseDomain = .baseDomain) |
     with(select(.metadata != null);                     .global.metadata = .metadata) |
+    with(select(.controlPlane.certSANs != null);        .internal.apiServer.certSANs = .controlPlane.certSANs) |
+    with(select(.controlPlane != null);                 .global.controlPlane = .controlPlane) |
 
     del(.connectivity) |
     del(.baseDomain) |
-    del(.metadata)' values.yaml
+    del(.metadata) |
+    del(.controlPlane)' values.yaml
 ```
 
 </details>
@@ -36,6 +39,8 @@ yq eval --inplace 'with(select(.connectivity != null);  .global.connectivity = .
 - Move Helm values property `.Values.connectivity` to `.Values.global.connectivity`.
 - Move Helm values property `.Values.baseDomain` to `.Values.global.connectivity.baseDomain`.
 - Move Helm values property `.Values.metadata` to `.Values.global.metadata`.
+- Move Helm values property `.Values.controlPlane.certSANs` to `.Values.internal.apiServer.certSANs`.
+- Move Helm values property `.Values.controlPlane` to `.Values.global.controlPlane`.
 
 ## [0.52.1] - 2024-05-16
 

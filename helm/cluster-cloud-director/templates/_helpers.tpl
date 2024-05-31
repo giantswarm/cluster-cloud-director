@@ -291,7 +291,7 @@ taints:
 
 {{- define "mtRevisionByControlPlane" -}}
 {{- $outerScope := . }}
-{{- include "mtRevision" (merge (dict "currentClass" .Values.controlPlane) $outerScope.Values) }}
+{{- include "mtRevision" (merge (dict "currentClass" .Values.global.controlPlane) $outerScope.Values) }}
 {{- end -}}
 
 {{/*
