@@ -32,6 +32,10 @@ global:
   metadata:
     preventDeletion: false
     servicePriority: highest
+  nodePools:
+    worker:
+      class: default
+      replicas: 2
   podSecurityStandards:
     enforced: true
 internal:
@@ -65,10 +69,6 @@ kubectlImage:
   name: giantswarm/kubectl
   registry: gsoci.azurecr.io
   tag: 1.25.15
-nodePools:
-  worker:
-    class: default
-    replicas: 2
 providerSpecific:
   cloudProviderInterface:
     enableVirtualServiceSharedIP: true
