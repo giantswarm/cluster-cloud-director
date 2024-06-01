@@ -607,6 +607,53 @@
                         }
                     }
                 },
+                "nodePools": {
+                    "type": "object",
+                    "title": "Node pools",
+                    "description": "Groups of worker nodes with identical configuration.",
+                    "additionalProperties": false,
+                    "patternProperties": {
+                        "^[a-z0-9-]{3,10}$": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                                "class": {
+                                    "type": "string",
+                                    "title": "Node class",
+                                    "description": "A valid node class name, as specified in VMware Cloud Director (VCD) settings > Node classes.",
+                                    "pattern": "^[a-z0-9-]+$"
+                                },
+                                "replicas": {
+                                    "type": "integer",
+                                    "title": "Number of nodes",
+                                    "default": 1,
+                                    "minimum": 1
+                                }
+                            }
+                        }
+                    },
+                    "properties": {
+                        "worker": {
+                            "type": "object",
+                            "title": "Default nodePool",
+                            "additionalProperties": false,
+                            "properties": {
+                                "class": {
+                                    "type": "string",
+                                    "title": "Node class",
+                                    "description": "A valid node class name, as specified in VMware Cloud Director (VCD) settings > Node classes.",
+                                    "default": "default"
+                                },
+                                "replicas": {
+                                    "type": "integer",
+                                    "title": "Number of nodes",
+                                    "default": 2,
+                                    "minimum": 1
+                                }
+                            }
+                        }
+                    }
+                },
                 "podSecurityStandards": {
                     "type": "object",
                     "title": "Pod Security Standards",
@@ -795,53 +842,6 @@
             "type": "string",
             "title": "Management cluster name",
             "description": "The Cluster API management cluster that manages this cluster."
-        },
-        "nodePools": {
-            "type": "object",
-            "title": "Node pools",
-            "description": "Groups of worker nodes with identical configuration.",
-            "additionalProperties": false,
-            "patternProperties": {
-                "^[a-z0-9-]{3,10}$": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "properties": {
-                        "class": {
-                            "type": "string",
-                            "title": "Node class",
-                            "description": "A valid node class name, as specified in VMware Cloud Director (VCD) settings > Node classes.",
-                            "pattern": "^[a-z0-9-]+$"
-                        },
-                        "replicas": {
-                            "type": "integer",
-                            "title": "Number of nodes",
-                            "default": 1,
-                            "minimum": 1
-                        }
-                    }
-                }
-            },
-            "properties": {
-                "worker": {
-                    "type": "object",
-                    "title": "Default nodePool",
-                    "additionalProperties": false,
-                    "properties": {
-                        "class": {
-                            "type": "string",
-                            "title": "Node class",
-                            "description": "A valid node class name, as specified in VMware Cloud Director (VCD) settings > Node classes.",
-                            "default": "default"
-                        },
-                        "replicas": {
-                            "type": "integer",
-                            "title": "Number of nodes",
-                            "default": 2,
-                            "minimum": 1
-                        }
-                    }
-                }
-            }
         },
         "provider": {
             "type": "string",
