@@ -164,12 +164,12 @@ joinConfiguration:
       node-labels: "giantswarm.io/node-pool={{ .pool.name }},{{- include "labelsByClass" . -}}"
     {{- include "taintsByClass" . | nindent  4}}
 
-{{- if eq $.Values.providerSpecific.vmBootstrapFormat "ignition" }}
+{{- if eq $.Values.global.providerSpecific.vmBootstrapFormat "ignition" }}
 {{ include "ignitionSpec" . }}
 {{- end }}
 
 files:
-{{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-config" }}
+{{- if eq $.Values.global.providerSpecific.vmBootstrapFormat "cloud-config" }}
 {{- include "ntpFiles" . | nindent 2}}
 {{- end }}
 {{- include "sshFiles" . | nindent 2}}
@@ -184,7 +184,7 @@ files:
 {{- include "teleportFiles" . | nindent 2}}
 {{- end }}
 {{- if $.Values.global.connectivity.network.staticRoutes }}
-{{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-config" }}
+{{- if eq $.Values.global.providerSpecific.vmBootstrapFormat "cloud-config" }}
 {{- include "staticRoutes" . | nindent 2}}
 {{- end }}
 {{- end }}
@@ -197,7 +197,7 @@ preKubeadmCommands:
 {{- end }}
 {{- include "hostEntries" .}}
 {{- if $.Values.global.connectivity.network.staticRoutes }}
-{{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-config" }}
+{{- if eq $.Values.global.providerSpecific.vmBootstrapFormat "cloud-config" }}
 - systemctl daemon-reload
 - systemctl enable --now static-routes.service
 {{- end }}
@@ -208,7 +208,7 @@ preKubeadmCommands:
 {{- end }}
 postKubeadmCommands:
 {{ include "sshPostKubeadmCommands" . }}
-{{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-config" }}
+{{- if eq $.Values.global.providerSpecific.vmBootstrapFormat "cloud-config" }}
 {{- include "ntpPostKubeadmCommands" . }}
 {{- end }}
 - usermod -aG root nobody # required for node-exporter to access the host's filesystem
@@ -235,7 +235,7 @@ sizingPolicy: {{ .currentClass.sizingPolicy }}
 placementPolicy: {{ .currentClass.placementPolicy }}
 storageProfile: {{ .currentClass.storageProfile }}
 diskSize: {{ mul .currentClass.diskSizeGB 1024 1024 1024 }}
-vmNamingTemplate: {{ $.providerSpecific.vmNamingTemplate }}
+vmNamingTemplate: {{ $.global.providerSpecific.vmNamingTemplate }}
 {{- if $.global.connectivity.network.extraOvdcNetworks }}
 extraOvdcNetworks:
   {{- range $.global.connectivity.network.extraOvdcNetworks }}
@@ -264,7 +264,7 @@ taints:
 
 {{- define "mtRevisionByClass" -}}
 {{- $outerScope := . }}
-{{- range $name, $value := .currentValues.providerSpecific.nodeClasses }}
+{{- range $name, $value := .currentValues.global.providerSpecific.nodeClasses }}
 {{- if eq $name $outerScope.class }}
 {{- include "mtRevision" (merge (dict "currentClass" $value) $outerScope.currentValues) }}
 {{- end }}
@@ -273,7 +273,7 @@ taints:
 
 {{- define "taintsByClass" -}}
 {{- $outerScope := . }}
-{{- range $name, $value := .Values.providerSpecific.nodeClasses }}
+{{- range $name, $value := .Values.global.providerSpecific.nodeClasses }}
 {{- if eq $name $outerScope.pool.class }}
 {{- include "taints" $value.customNodeTaints }}
 {{- end }}
@@ -282,7 +282,7 @@ taints:
 
 {{- define "labelsByClass" -}}
 {{- $outerScope := . }}
-{{- range $name, $value := .Values.providerSpecific.nodeClasses }}
+{{- range $name, $value := .Values.global.providerSpecific.nodeClasses }}
 {{- if eq $name $outerScope.pool.class }}
 {{- join "," $value.customNodeLabels -}}
 {{- end }}

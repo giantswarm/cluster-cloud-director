@@ -1,4 +1,4 @@
-{{- range $name, $value := (merge .Values.providerSpecific.nodeClasses (dict "control-plane" .Values.global.controlPlane)) }}
+{{- range $name, $value := (merge .Values.global.providerSpecific.nodeClasses (dict "control-plane" .Values.global.controlPlane)) }}
 {{- $c := (merge (dict "currentClass"  $value) $.Values) }}
 ---
 apiVersion: {{ include "infrastructureApiVersion" . }}

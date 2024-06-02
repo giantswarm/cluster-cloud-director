@@ -38,6 +38,27 @@ global:
       replicas: 2
   podSecurityStandards:
     enforced: true
+  providerSpecific:
+    cloudProviderInterface:
+      enableVirtualServiceSharedIP: true
+      oneArm:
+        enabled: false
+    containerStorageInterface:
+      storageClass:
+        delete:
+          isDefault: true
+          vcdStorageProfileName: ""
+        enabled: true
+        retain:
+          isDefault: false
+          vcdStorageProfileName: ""
+    nodeClasses:
+      default:
+        catalog: giantswarm
+        template: flatcar-stable-3815.2.1-kube-v1.25.16
+    userContext:
+      secretRef: {}
+    vmBootstrapFormat: ignition
 internal:
   apiServer:
     enableAdmissionPlugins:
@@ -69,24 +90,3 @@ kubectlImage:
   name: giantswarm/kubectl
   registry: gsoci.azurecr.io
   tag: 1.25.15
-providerSpecific:
-  cloudProviderInterface:
-    enableVirtualServiceSharedIP: true
-    oneArm:
-      enabled: false
-  containerStorageInterface:
-    storageClass:
-      delete:
-        isDefault: true
-        vcdStorageProfileName: ""
-      enabled: true
-      retain:
-        isDefault: false
-        vcdStorageProfileName: ""
-  nodeClasses:
-    default:
-      catalog: giantswarm
-      template: flatcar-stable-3815.2.1-kube-v1.25.16
-  userContext:
-    secretRef: {}
-  vmBootstrapFormat: ignition

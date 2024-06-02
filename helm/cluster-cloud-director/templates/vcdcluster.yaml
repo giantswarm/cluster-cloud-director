@@ -7,7 +7,7 @@ metadata:
     {{- include "labels.common" . | nindent 4 }}
     {{- include "preventDeletionLabel" $ | nindent 4 }}
 spec:
-  {{- with .Values.providerSpecific }}
+  {{- with .Values.global.providerSpecific }}
   site: {{ .site }}
   org: {{ .org }}
   ovdc: {{ .ovdc }}
@@ -43,5 +43,5 @@ spec:
   # Authentication  
   userContext:
     secretRef:
-      name: {{ .Values.providerSpecific.userContext.secretRef.secretName }}
+      name: {{ .Values.global.providerSpecific.userContext.secretRef.secretName }}
       namespace: {{ .Release.Namespace }}
