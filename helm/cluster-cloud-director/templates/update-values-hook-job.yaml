@@ -98,7 +98,7 @@ spec:
           type: RuntimeDefault
       containers:
         - name: post-install-job
-          image: "{{ .Values.kubectlImage.registry }}/{{ .Values.kubectlImage.name }}:{{ .Values.kubectlImage.tag }}"
+          image: "{{ .Values.internal.kubectlImage.registry }}/{{ .Values.internal.kubectlImage.name }}:{{ .Values.internal.kubectlImage.tag }}"
           command:
             - "/bin/sh"
             - "-xc"
@@ -151,7 +151,7 @@ spec:
           type: RuntimeDefault
       containers:
         - name: post-install-job
-          image: "{{ .Values.kubectlImage.registry }}/{{ .Values.kubectlImage.name }}:{{ .Values.kubectlImage.tag }}"
+          image: "{{ .Values.internal.kubectlImage.registry }}/{{ .Values.internal.kubectlImage.name }}:{{ .Values.internal.kubectlImage.tag }}"
           command:
             - "/bin/sh"
             - "-xc"

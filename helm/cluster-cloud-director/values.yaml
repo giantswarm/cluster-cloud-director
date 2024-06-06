@@ -77,6 +77,10 @@ internal:
     enabled: true
   controllerManager:
     featureGates: []
+  kubectlImage:
+    name: giantswarm/kubectl
+    registry: gsoci.azurecr.io
+    tag: 1.25.15
   kubernetesVersion: v1.25.16
   sandboxContainerImage:
     name: giantswarm/pause
@@ -86,7 +90,3 @@ internal:
     enabled: true
     proxyAddr: teleport.giantswarm.io:443
   useAsManagementCluster: false
-kubectlImage:
-  name: giantswarm/kubectl
-  registry: gsoci.azurecr.io
-  tag: 1.25.15

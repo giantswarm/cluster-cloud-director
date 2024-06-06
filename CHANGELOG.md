@@ -27,13 +27,15 @@ yq eval --inplace 'with(select(.connectivity != null);  .global.connectivity = .
     with(select(.controlPlane != null);                 .global.controlPlane = .controlPlane) |
     with(select(.nodePools != null);                    .global.nodePools = .nodePools) |
     with(select(.providerSpecific != null);             .global.providerSpecific = .providerSpecific) |
+    with(select(.kubectlImage != null);                 .internal.kubectlImage = .kubectlImage) |
 
     del(.connectivity) |
     del(.baseDomain) |
     del(.metadata) |
     del(.controlPlane) |
     del(.nodePools) |
-    del(.providerSpecific)' values.yaml
+    del(.providerSpecific) |
+    del(.kubectlImage)' values.yaml
 ```
 
 </details>
@@ -47,6 +49,7 @@ yq eval --inplace 'with(select(.connectivity != null);  .global.connectivity = .
 - Move Helm values property `.Values.controlPlane` to `.Values.global.controlPlane`.
 - Move Helm values property `.Values.nodePools` to `.Values.global.nodePools`.
 - Move Helm values property `.Values.providerSpecific` to `.Values.global.providerSpecific`.
+- Move Helm values property `.Values.kubectlImage` to `.Values.internal.kubectlImage`.
 
 ## [0.52.1] - 2024-05-16
 

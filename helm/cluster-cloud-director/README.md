@@ -3,10 +3,49 @@
 <!-- DOCS_START -->
 
 ### 
+Properties within the `.internal` top-level object
 
 | **Property** | **Description** | **More Details** |
 | :----------- | :-------------- | :--------------- |
-| `cluster-shared` | **Library chart**|**Type:** `object`<br/>|
+| `internal.apiServer` |**None**|**Type:** `object`<br/>|
+| `internal.apiServer.certSANs` | **Subject alternative names (SAN)** - Alternative names to encode in the API server's certificate.|**Type:** `array`<br/>|
+| `internal.apiServer.certSANs[*]` | **SAN**|**Type:** `string`<br/>|
+| `internal.apiServer.enableAdmissionPlugins` | **Admission plugins** - List of admission plugins to be passed to the API server via the --enable-admission-plugins flag.|**Type:** `array`<br/>**Default:** `["DefaultStorageClass","DefaultTolerationSeconds","LimitRanger","MutatingAdmissionWebhook","NamespaceLifecycle","PersistentVolumeClaimResize","Priority","ResourceQuota","ServiceAccount","ValidatingAdmissionWebhook"]`|
+| `internal.apiServer.enableAdmissionPlugins[*]` | **Plugin**|**Type:** `string`<br/>**Examples:** `"DefaultStorageClass", "Priority"`<br/>**Value pattern:** `^[A-Za-z0-9]+$`<br/>|
+| `internal.apiServer.featureGates` | **Feature gates** - API server feature gate activation/deactivation.|**Type:** `array`<br/>**Default:** `[]`|
+| `internal.apiServer.featureGates[*]` | **Feature gate**|**Type:** `object`<br/>|
+| `internal.apiServer.featureGates[*].enabled` | **Enabled**|**Type:** `boolean`<br/>|
+| `internal.apiServer.featureGates[*].name` | **Name**|**Type:** `string`<br/>**Example:** `"UserNamespacesStatelessPodsSupport"`<br/>**Value pattern:** `^[A-Za-z0-9]+$`<br/>|
+| `internal.ciliumNetworkPolicy` | **CiliumNetworkPolicies**|**Type:** `object`<br/>|
+| `internal.ciliumNetworkPolicy.enabled` | **Enable CiliumNetworkPolicies** - Installs the network-policies-app (deny all by default) if set to true|**Type:** `boolean`<br/>**Default:** `true`|
+| `internal.controllerManager` | **Controller manager**|**Type:** `object`<br/>|
+| `internal.controllerManager.featureGates` | **Feature gates** - Controller manager feature gate activation/deactivation.|**Type:** `array`<br/>**Default:** `[]`|
+| `internal.controllerManager.featureGates[*]` | **Feature gate**|**Type:** `object`<br/>|
+| `internal.controllerManager.featureGates[*].enabled` | **Enabled**|**Type:** `boolean`<br/>|
+| `internal.controllerManager.featureGates[*].name` | **Name**|**Type:** `string`<br/>**Example:** `"UserNamespacesStatelessPodsSupport"`<br/>**Value pattern:** `^[A-Za-z0-9]+$`<br/>|
+| `internal.kubectlImage` | **Kubectl image** - Used by cluster-shared library chart to configure coredns in-cluster.|**Type:** `object`<br/>|
+| `internal.kubectlImage.name` | **Repository**|**Type:** `string`<br/>**Default:** `"giantswarm/kubectl"`|
+| `internal.kubectlImage.registry` | **Registry**|**Type:** `string`<br/>**Default:** `"gsoci.azurecr.io"`|
+| `internal.kubectlImage.tag` | **Tag**|**Type:** `string`<br/>**Default:** `"1.25.15"`|
+| `internal.kubernetesVersion` | **Kubernetes version** - For cloud-init (Ubuntu), append the version with '+vmware.1'.|**Type:** `string`<br/>**Default:** `"v1.25.16"`|
+| `internal.parentUid` | **Management cluster UID** - If set, create the cluster from a specific management cluster associated with this UID.|**Type:** `string`<br/>|
+| `internal.rdeId` | **Runtime defined entity (RDE) identifier** - This cluster's RDE ID in the VCD API.|**Type:** `string`<br/>|
+| `internal.sandboxContainerImage` | **Sandbox Container image (pause container)**|**Type:** `object`<br/>|
+| `internal.sandboxContainerImage.name` | **Repository**|**Type:** `string`<br/>**Default:** `"giantswarm/pause"`|
+| `internal.sandboxContainerImage.registry` | **Registry**|**Type:** `string`<br/>**Default:** `"gsoci.azurecr.io"`|
+| `internal.sandboxContainerImage.tag` | **Tag**|**Type:** `string`<br/>**Default:** `"3.9"`|
+| `internal.skipRde` | **Skip RDE** - Set to true if the API schema extension is installed in the correct version in VCD to create CAPVCD entities in the API. Set to false otherwise.|**Type:** `boolean`<br/>|
+| `internal.teleport` | **Teleport**|**Type:** `object`<br/>|
+| `internal.teleport.enabled` | **Enable teleport**|**Type:** `boolean`<br/>**Default:** `true`|
+| `internal.teleport.proxyAddr` | **Teleport proxy address**|**Type:** `string`<br/>**Default:** `"teleport.giantswarm.io:443"`|
+| `internal.useAsManagementCluster` | **Display as management cluster**|**Type:** `boolean`<br/>**Default:** `false`|
+
+### Connectivity
+Properties within the `.global.connectivity` object
+Configurations related to cluster connectivity such as container registries.
+
+| **Property** | **Description** | **More Details** |
+| :----------- | :-------------- | :--------------- |
 | `global.connectivity.baseDomain` | **Base DNS domain**|**Type:** `string`<br/>|
 | `global.connectivity.containerRegistries` | **Container registries** - Endpoints and credentials configuration for container registries.|**Type:** `object`<br/>**Default:** `{}`|
 | `global.connectivity.containerRegistries.*` |**None**|**Type:** `array`<br/>|
@@ -54,6 +93,12 @@
 | `global.connectivity.shell.osUsers[*].sudo` | **Sudoers configuration** - Permissions string to add to /etc/sudoers for this user.|**Type:** `string`<br/>|
 | `global.connectivity.shell.sshTrustedUserCAKeys` | **Trusted SSH cert issuers** - CA certificates of issuers that are trusted to sign SSH user certificates.|**Type:** `array`<br/>**Default:** `["ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM4cvZ01fLmO9cJbWUj7sfF+NhECgy+Cl0bazSrZX7sU vault-ca@vault.operations.giantswarm.io"]`|
 | `global.connectivity.shell.sshTrustedUserCAKeys[*]` |**None**|**Type:** `string`<br/>|
+
+### Control plane
+Properties within the `.global.controlPlane` object
+
+| **Property** | **Description** | **More Details** |
+| :----------- | :-------------- | :--------------- |
 | `global.controlPlane.catalog` | **Catalog** - Name of the VCD catalog in which the VM template is stored.|**Type:** `string`<br/>**Default:** `"giantswarm"`|
 | `global.controlPlane.certSANs` | **Subject alternative names (SAN)** - Alternative names to encode in the API server's certificate.|**Type:** `array`<br/>|
 | `global.controlPlane.certSANs[*]` | **SAN**|**Type:** `string`<br/>|
@@ -76,19 +121,44 @@
 | `global.controlPlane.sizingPolicy` | **Sizing policy** - Name of the VCD sizing policy to use.|**Type:** `string`<br/>**Example:** `"m1.medium"`<br/>|
 | `global.controlPlane.storageProfile` | **Storage profile** - Name of the VCD storage profile to use.|**Type:** `string`<br/>|
 | `global.controlPlane.template` | **Template** - Name of the template used to create the node VMs.|**Type:** `string`<br/>**Default:** `"flatcar-stable-3815.2.1-kube-v1.25.16"`|
+
+### Metadata
+Properties within the `.global.metadata` object
+
+| **Property** | **Description** | **More Details** |
+| :----------- | :-------------- | :--------------- |
 | `global.metadata.description` | **Cluster description** - User-friendly description of the cluster's purpose.|**Type:** `string`<br/>|
 | `global.metadata.labels` | **Labels** - These labels are added to the Kubernetes resources defining this cluster.|**Type:** `object`<br/>|
 | `global.metadata.labels.PATTERN` | **Label**|**Type:** `string`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-zA-Z0-9/\._-]+$`<br/>**Value pattern:** `^[a-zA-Z0-9\._-]+$`<br/>|
 | `global.metadata.organization` | **Organization**|**Type:** `string`<br/>|
 | `global.metadata.preventDeletion` | **Prevent cluster deletion**|**Type:** `boolean`<br/>**Default:** `false`|
 | `global.metadata.servicePriority` | **Service priority** - The relative importance of this cluster.|**Type:** `string`<br/>**Default:** `"highest"`|
+
+### Node pools
+Properties within the `.global.nodePools` object
+Groups of worker nodes with identical configuration.
+
+| **Property** | **Description** | **More Details** |
+| :----------- | :-------------- | :--------------- |
 | `global.nodePools.PATTERN` |**None**|**Type:** `object`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]{3,10}$`<br/>|
 | `global.nodePools.PATTERN.class` | **Node class** - A valid node class name, as specified in VMware Cloud Director (VCD) settings > Node classes.|**Type:** `string`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]{3,10}$`<br/>**Value pattern:** `^[a-z0-9-]+$`<br/>|
 | `global.nodePools.PATTERN.replicas` | **Number of nodes**|**Type:** `integer`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]{3,10}$`<br/>**Default:** `1`|
 | `global.nodePools.worker` | **Default nodePool**|**Type:** `object`<br/>|
 | `global.nodePools.worker.class` | **Node class** - A valid node class name, as specified in VMware Cloud Director (VCD) settings > Node classes.|**Type:** `string`<br/>**Default:** `"default"`|
 | `global.nodePools.worker.replicas` | **Number of nodes**|**Type:** `integer`<br/>**Default:** `2`|
+
+### Pod Security Standards
+Properties within the `.global.podSecurityStandards` object
+
+| **Property** | **Description** | **More Details** |
+| :----------- | :-------------- | :--------------- |
 | `global.podSecurityStandards.enforced` | **Enforced Pod Security Standards** - Use PSSs instead of PSPs.|**Type:** `boolean`<br/>**Default:** `true`|
+
+### VMware Cloud Director (VCD) settings
+Properties within the `.global.providerSpecific` object
+
+| **Property** | **Description** | **More Details** |
+| :----------- | :-------------- | :--------------- |
 | `global.providerSpecific.cloudProviderInterface` | **Cloud provider interface (CPI)**|**Type:** `object`<br/>|
 | `global.providerSpecific.cloudProviderInterface.enableVirtualServiceSharedIP` | **Share IPs in virtual services** - If enabled, multiple virtual services can share the same virtual IP address.|**Type:** `boolean`<br/>**Default:** `true`|
 | `global.providerSpecific.cloudProviderInterface.oneArm` | **One-arm** - If enabled, use an internal IP for the virtual service with a NAT rule to expose the external IP. Otherwise the virtual service will be exposed directly with the external IP.|**Type:** `object`<br/>|
@@ -140,37 +210,12 @@
 | `global.providerSpecific.userContext.secretRef.secretName` | **Name** - Name of the secret containing the VCD API token.|**Type:** `string`<br/>|
 | `global.providerSpecific.vmBootstrapFormat` | **Ignition or cloud-init for OS initialization** - Select either 'ignition' for Flatcar or 'cloud-config' for other OSes (e.g. Ubuntu).|**Type:** `string`<br/>**Default:** `"ignition"`|
 | `global.providerSpecific.vmNamingTemplate` | **VM naming template** - Go template to specify the VM naming convention.|**Type:** `string`<br/>**Example:** `"mytenant-{{ .machine.Name | sha256sum | trunc 7 }}"`<br/>|
-| `internal.apiServer` |**None**|**Type:** `object`<br/>|
-| `internal.apiServer.certSANs` | **Subject alternative names (SAN)** - Alternative names to encode in the API server's certificate.|**Type:** `array`<br/>|
-| `internal.apiServer.certSANs[*]` | **SAN**|**Type:** `string`<br/>|
-| `internal.apiServer.enableAdmissionPlugins` | **Admission plugins** - List of admission plugins to be passed to the API server via the --enable-admission-plugins flag.|**Type:** `array`<br/>**Default:** `["DefaultStorageClass","DefaultTolerationSeconds","LimitRanger","MutatingAdmissionWebhook","NamespaceLifecycle","PersistentVolumeClaimResize","Priority","ResourceQuota","ServiceAccount","ValidatingAdmissionWebhook"]`|
-| `internal.apiServer.enableAdmissionPlugins[*]` | **Plugin**|**Type:** `string`<br/>**Examples:** `"DefaultStorageClass", "Priority"`<br/>**Value pattern:** `^[A-Za-z0-9]+$`<br/>|
-| `internal.apiServer.featureGates` | **Feature gates** - API server feature gate activation/deactivation.|**Type:** `array`<br/>**Default:** `[]`|
-| `internal.apiServer.featureGates[*]` | **Feature gate**|**Type:** `object`<br/>|
-| `internal.apiServer.featureGates[*].enabled` | **Enabled**|**Type:** `boolean`<br/>|
-| `internal.apiServer.featureGates[*].name` | **Name**|**Type:** `string`<br/>**Example:** `"UserNamespacesStatelessPodsSupport"`<br/>**Value pattern:** `^[A-Za-z0-9]+$`<br/>|
-| `internal.ciliumNetworkPolicy` | **CiliumNetworkPolicies**|**Type:** `object`<br/>|
-| `internal.ciliumNetworkPolicy.enabled` | **Enable CiliumNetworkPolicies** - Installs the network-policies-app (deny all by default) if set to true|**Type:** `boolean`<br/>**Default:** `true`|
-| `internal.controllerManager` | **Controller manager**|**Type:** `object`<br/>|
-| `internal.controllerManager.featureGates` | **Feature gates** - Controller manager feature gate activation/deactivation.|**Type:** `array`<br/>**Default:** `[]`|
-| `internal.controllerManager.featureGates[*]` | **Feature gate**|**Type:** `object`<br/>|
-| `internal.controllerManager.featureGates[*].enabled` | **Enabled**|**Type:** `boolean`<br/>|
-| `internal.controllerManager.featureGates[*].name` | **Name**|**Type:** `string`<br/>**Example:** `"UserNamespacesStatelessPodsSupport"`<br/>**Value pattern:** `^[A-Za-z0-9]+$`<br/>|
-| `internal.kubernetesVersion` | **Kubernetes version** - For cloud-init (Ubuntu), append the version with '+vmware.1'.|**Type:** `string`<br/>**Default:** `"v1.25.16"`|
-| `internal.parentUid` | **Management cluster UID** - If set, create the cluster from a specific management cluster associated with this UID.|**Type:** `string`<br/>|
-| `internal.rdeId` | **Runtime defined entity (RDE) identifier** - This cluster's RDE ID in the VCD API.|**Type:** `string`<br/>|
-| `internal.sandboxContainerImage` | **Sandbox Container image (pause container)**|**Type:** `object`<br/>|
-| `internal.sandboxContainerImage.name` | **Repository**|**Type:** `string`<br/>**Default:** `"giantswarm/pause"`|
-| `internal.sandboxContainerImage.registry` | **Registry**|**Type:** `string`<br/>**Default:** `"gsoci.azurecr.io"`|
-| `internal.sandboxContainerImage.tag` | **Tag**|**Type:** `string`<br/>**Default:** `"3.9"`|
-| `internal.skipRde` | **Skip RDE** - Set to true if the API schema extension is installed in the correct version in VCD to create CAPVCD entities in the API. Set to false otherwise.|**Type:** `boolean`<br/>|
-| `internal.teleport` | **Teleport**|**Type:** `object`<br/>|
-| `internal.teleport.enabled` | **Enable teleport**|**Type:** `boolean`<br/>**Default:** `true`|
-| `internal.teleport.proxyAddr` | **Teleport proxy address**|**Type:** `string`<br/>**Default:** `"teleport.giantswarm.io:443"`|
-| `internal.useAsManagementCluster` | **Display as management cluster**|**Type:** `boolean`<br/>**Default:** `false`|
-| `kubectlImage.name` | **Repository**|**Type:** `string`<br/>**Default:** `"giantswarm/kubectl"`|
-| `kubectlImage.registry` | **Registry**|**Type:** `string`<br/>**Default:** `"gsoci.azurecr.io"`|
-| `kubectlImage.tag` | **Tag**|**Type:** `string`<br/>**Default:** `"1.25.15"`|
+
+### Other
+
+| **Property** | **Description** | **More Details** |
+| :----------- | :-------------- | :--------------- |
+| `cluster-shared` | **Library chart**|**Type:** `object`<br/>|
 | `managementCluster` | **Management cluster name** - The Cluster API management cluster that manages this cluster.|**Type:** `string`<br/>|
 | `provider` | **Cluster API provider name**|**Type:** `string`<br/>|
 
