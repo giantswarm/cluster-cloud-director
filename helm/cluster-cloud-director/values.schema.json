@@ -120,10 +120,6 @@
         }
     },
     "type": "object",
-    "required": [
-        "controlPlane",
-        "nodePools"
-    ],
     "additionalProperties": false,
     "properties": {
         "cluster-shared": {
@@ -134,7 +130,9 @@
             "type": "object",
             "title": "Global parameters",
             "required": [
-                "connectivity"
+                "connectivity",
+                "controlPlane",
+                "nodePools"
             ],
             "properties": {
                 "connectivity": {
