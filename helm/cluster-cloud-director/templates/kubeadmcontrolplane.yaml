@@ -14,8 +14,8 @@ spec:
         - localhost
         - 127.0.0.1
         - "api.{{ include "resource.default.name" $ }}.{{ .Values.global.connectivity.baseDomain }}"
-        {{- if .Values.controlPlane.certSANs }}
-        {{- range .Values.controlPlane.certSANs}}
+        {{- if .Values.internal.apiServer.certSANs }}
+        {{- range .Values.internal.apiServer.certSANs }}
         - {{ . }}
         {{- end }}
         {{- end }}
@@ -36,8 +36,8 @@ spec:
           {{- end }}
           {{- end }}
           kubelet-preferred-address-types: "InternalIP"
-          {{- if .Values.controlPlane.oidc.issuerUrl }}
-          {{- with .Values.controlPlane.oidc }}
+          {{- if .Values.global.controlPlane.oidc.issuerUrl }}
+          {{- with .Values.global.controlPlane.oidc }}
           oidc-issuer-url: {{ .issuerUrl }}
           oidc-client-id: {{ .clientId }}
           oidc-username-claim: {{ .usernameClaim }}
@@ -92,7 +92,7 @@ spec:
         local:
           extraArgs:
             listen-metrics-urls: "http://0.0.0.0:2381"
-      imageRepository: {{ .Values.controlPlane.image.repository }}
+      imageRepository: {{ .Values.global.controlPlane.image.repository }}
     {{- include "sshUsers" . | nindent 4 }}
     {{- if eq $.Values.providerSpecific.vmBootstrapFormat "ignition" }}
     {{- include "ignitionSpec" . | nindent 4 }}
@@ -105,7 +105,7 @@ spec:
         directory: "/etc/kubernetes/patches"
       nodeRegistration:
         criSocket: /run/containerd/containerd.sock
-        {{- include "taints" .Values.controlPlane.customNodeTaints | nindent 8 }}
+        {{- include "taints" .Values.global.controlPlane.customNodeTaints | nindent 8 }}
         kubeletExtraArgs:
           {{- include "kubeletExtraArgs" . | nindent 10}}
     joinConfiguration:
@@ -113,10 +113,10 @@ spec:
         directory: "/etc/kubernetes/patches"
       nodeRegistration:
         criSocket: /run/containerd/containerd.sock
-        {{- include "taints" .Values.controlPlane.customNodeTaints | nindent 8 }}
+        {{- include "taints" .Values.global.controlPlane.customNodeTaints | nindent 8 }}
         kubeletExtraArgs:
           {{- include "kubeletExtraArgs" . | nindent 10}}
-          {{- with .Values.controlPlane.customNodeLabels -}}
+          {{- with .Values.global.controlPlane.customNodeLabels -}}
           node-labels: "{{- join "," . }}"
           {{- end }}
     files:
@@ -153,7 +153,7 @@ spec:
       {{- end }}
       {{- end }}
     preKubeadmCommands:
-      - bash /etc/kubernetes/patches/kube-apiserver-patch.sh {{ .Values.controlPlane.resourceRatio }}
+      - bash /etc/kubernetes/patches/kube-apiserver-patch.sh {{ .Values.global.controlPlane.resourceRatio }}
       - /bin/test ! -d /var/lib/kubelet && (/bin/mkdir -p /var/lib/kubelet && /bin/chmod 0750 /var/lib/kubelet)
       {{- if $.Values.global.connectivity.proxy.enabled }}
       - systemctl daemon-reload
@@ -183,5 +183,5 @@ spec:
       kind: VCDMachineTemplate
       name: {{ include "resource.default.name" . }}-control-plane-{{ include "mtRevisionByControlPlane" $ }}
       namespace: {{ .Release.Namespace }}
-  replicas: {{ .Values.controlPlane.replicas }}
+  replicas: {{ .Values.global.controlPlane.replicas }}
   version: {{ .Values.internal.kubernetesVersion }}
