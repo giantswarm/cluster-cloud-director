@@ -120,11 +120,7 @@
         }
     },
     "type": "object",
-    "required": [
-        "controlPlane",
-        "nodePools"
-    ],
-    "additionalProperties": true,
+    "additionalProperties": false,
     "properties": {
         "cluster-shared": {
             "type": "object",
@@ -134,7 +130,9 @@
             "type": "object",
             "title": "Global parameters",
             "required": [
-                "connectivity"
+                "connectivity",
+                "controlPlane",
+                "nodePools"
             ],
             "properties": {
                 "connectivity": {
@@ -978,6 +976,29 @@
                         }
                     }
                 },
+                "kubectlImage": {
+                    "type": "object",
+                    "title": "Kubectl image",
+                    "description": "Used by cluster-shared library chart to configure coredns in-cluster.",
+                    "additionalProperties": false,
+                    "properties": {
+                        "name": {
+                            "type": "string",
+                            "title": "Repository",
+                            "default": "giantswarm/kubectl"
+                        },
+                        "registry": {
+                            "type": "string",
+                            "title": "Registry",
+                            "default": "gsoci.azurecr.io"
+                        },
+                        "tag": {
+                            "type": "string",
+                            "title": "Tag",
+                            "default": "1.25.15"
+                        }
+                    }
+                },
                 "kubernetesVersion": {
                     "type": "string",
                     "title": "Kubernetes version",
@@ -1040,29 +1061,6 @@
                     "type": "boolean",
                     "title": "Display as management cluster",
                     "default": false
-                }
-            }
-        },
-        "kubectlImage": {
-            "type": "object",
-            "title": "Kubectl image",
-            "description": "Used by cluster-shared library chart to configure coredns in-cluster.",
-            "additionalProperties": false,
-            "properties": {
-                "name": {
-                    "type": "string",
-                    "title": "Repository",
-                    "default": "giantswarm/kubectl"
-                },
-                "registry": {
-                    "type": "string",
-                    "title": "Registry",
-                    "default": "gsoci.azurecr.io"
-                },
-                "tag": {
-                    "type": "string",
-                    "title": "Tag",
-                    "default": "1.25.15"
                 }
             }
         },
