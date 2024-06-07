@@ -28,8 +28,8 @@ app: {{ include "name" . | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
 cluster.x-k8s.io/cluster-name: {{ include "resource.default.name" . | quote }}
 giantswarm.io/cluster: {{ include "resource.default.name" . | quote }}
-{{- if .Values.metadata.organization }}
-giantswarm.io/organization: {{ .Values.metadata.organization | quote }}
+{{- if .Values.global.metadata.organization }}
+giantswarm.io/organization: {{ .Values.global.metadata.organization | quote }}
 {{- end }}
 application.giantswarm.io/team: {{ index .Chart.Annotations "application.giantswarm.io/team" | quote }}
 {{- end -}}
@@ -48,7 +48,7 @@ helm.sh/chart: {{ include "chart" . | quote }}
 Create label to prevent accidental cluster deletion
 */}}
 {{- define "preventDeletionLabel" -}}
-{{- if $.Values.metadata.preventDeletion -}}
+{{- if $.Values.global.metadata.preventDeletion -}}
 giantswarm.io/prevent-deletion: "true"
 {{ end -}}
 {{- end -}}
