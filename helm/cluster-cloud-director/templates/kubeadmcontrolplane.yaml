@@ -94,7 +94,7 @@ spec:
             listen-metrics-urls: "http://0.0.0.0:2381"
       imageRepository: {{ .Values.global.controlPlane.image.repository }}
     {{- include "sshUsers" . | nindent 4 }}
-    {{- if eq $.Values.providerSpecific.vmBootstrapFormat "ignition" }}
+    {{- if eq $.Values.global.providerSpecific.vmBootstrapFormat "ignition" }}
     {{- include "ignitionSpec" . | nindent 4 }}
     {{- end }}
     initConfiguration:
@@ -122,7 +122,7 @@ spec:
     files:
       {{- include "auditLogFiles" . | nindent 6 }}
       {{- include "sshFiles" . | nindent 6 }}
-      {{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-config" }}
+      {{- if eq $.Values.global.providerSpecific.vmBootstrapFormat "cloud-config" }}
       {{- include "ntpFiles" . | nindent 6 }}
       {{- end }}
       {{- if $.Values.global.connectivity.proxy.enabled }}
@@ -148,7 +148,7 @@ spec:
             name: {{ include "resource.default.name" $ }}-encryption-provider-config
             key: encryption
       {{- if $.Values.global.connectivity.network.staticRoutes }}
-      {{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-config" }}
+      {{- if eq $.Values.global.providerSpecific.vmBootstrapFormat "cloud-config" }}
       {{- include "staticRoutes" . | nindent 6}}
       {{- end }}
       {{- end }}
@@ -160,7 +160,7 @@ spec:
       - systemctl restart containerd
       {{- end }}
       {{- if $.Values.global.connectivity.network.staticRoutes }}
-      {{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-config" }}
+      {{- if eq $.Values.global.providerSpecific.vmBootstrapFormat "cloud-config" }}
       - systemctl daemon-reload
       - systemctl enable --now static-routes.service
       {{- end }}
@@ -172,7 +172,7 @@ spec:
       {{- include "hostEntries" . | nindent 6}}
     postKubeadmCommands:
       {{- include "sshPostKubeadmCommands" . | nindent 6 }}
-      {{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-config" }}
+      {{- if eq $.Values.global.providerSpecific.vmBootstrapFormat "cloud-config" }}
       {{- include "ntpPostKubeadmCommands" . | nindent 6 }}
       {{- end }}
   machineTemplate:

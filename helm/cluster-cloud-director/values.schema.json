@@ -665,6 +665,234 @@
                             "default": true
                         }
                     }
+                },
+                "providerSpecific": {
+                    "type": "object",
+                    "title": "VMware Cloud Director (VCD) settings",
+                    "required": [
+                        "org",
+                        "ovdc",
+                        "ovdcNetwork",
+                        "site"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                        "cloudProviderInterface": {
+                            "type": "object",
+                            "title": "Cloud provider interface (CPI)",
+                            "required": [
+                                "enableVirtualServiceSharedIP",
+                                "oneArm"
+                            ],
+                            "additionalProperties": false,
+                            "properties": {
+                                "enableVirtualServiceSharedIP": {
+                                    "type": "boolean",
+                                    "title": "Share IPs in virtual services",
+                                    "description": "If enabled, multiple virtual services can share the same virtual IP address.",
+                                    "default": true
+                                },
+                                "oneArm": {
+                                    "type": "object",
+                                    "title": "One-arm",
+                                    "description": "If enabled, use an internal IP for the virtual service with a NAT rule to expose the external IP. Otherwise the virtual service will be exposed directly with the external IP.",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "enabled": {
+                                            "type": "boolean",
+                                            "title": "Enable",
+                                            "default": false
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "containerStorageInterface": {
+                            "type": "object",
+                            "title": "Container storage interface (CSI)",
+                            "required": [
+                                "storageClass"
+                            ],
+                            "additionalProperties": false,
+                            "properties": {
+                                "storageClass": {
+                                    "type": "object",
+                                    "title": "Pre-create storage class",
+                                    "description": "Pre-create storage class for the VCD CSI.",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "delete": {
+                                            "type": "object",
+                                            "title": "Pre-create delete storage class",
+                                            "properties": {
+                                                "isDefault": {
+                                                    "type": "boolean",
+                                                    "title": "Default storage class",
+                                                    "default": true
+                                                },
+                                                "vcdStorageProfileName": {
+                                                    "type": "string",
+                                                    "title": "Name of storage profile in VCD",
+                                                    "default": ""
+                                                }
+                                            }
+                                        },
+                                        "enabled": {
+                                            "type": "boolean",
+                                            "title": "Enable",
+                                            "default": true
+                                        },
+                                        "retain": {
+                                            "type": "object",
+                                            "title": "Pre-create retain storage class",
+                                            "properties": {
+                                                "isDefault": {
+                                                    "type": "boolean",
+                                                    "title": "Default storage class",
+                                                    "default": false
+                                                },
+                                                "vcdStorageProfileName": {
+                                                    "type": "string",
+                                                    "title": "Name of storage profile in VCD",
+                                                    "default": ""
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "nodeClasses": {
+                            "type": "object",
+                            "title": "Node classes",
+                            "description": "Re-usable node configuration.",
+                            "additionalProperties": false,
+                            "patternProperties": {
+                                "^[a-z0-9-]+$": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "catalog": {
+                                            "$ref": "#/$defs/catalog"
+                                        },
+                                        "customNodeLabels": {
+                                            "$ref": "#/$defs/nodeLabels"
+                                        },
+                                        "customNodeTaints": {
+                                            "$ref": "#/$defs/nodeTaints"
+                                        },
+                                        "diskSizeGB": {
+                                            "$ref": "#/$defs/diskSizeGB",
+                                            "description": "Node root volume size, in GB."
+                                        },
+                                        "placementPolicy": {
+                                            "$ref": "#/$defs/placementPolicy"
+                                        },
+                                        "sizingPolicy": {
+                                            "$ref": "#/$defs/sizingPolicy"
+                                        },
+                                        "storageProfile": {
+                                            "$ref": "#/$defs/storageProfile"
+                                        },
+                                        "template": {
+                                            "$ref": "#/$defs/template"
+                                        }
+                                    }
+                                }
+                            },
+                            "properties": {
+                                "default": {
+                                    "type": "object",
+                                    "title": "Default nodeClass",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "catalog": {
+                                            "$ref": "#/$defs/catalog"
+                                        },
+                                        "customNodeLabels": {
+                                            "$ref": "#/$defs/nodeLabels"
+                                        },
+                                        "customNodeTaints": {
+                                            "$ref": "#/$defs/nodeTaints"
+                                        },
+                                        "diskSizeGB": {
+                                            "$ref": "#/$defs/diskSizeGB",
+                                            "description": "Node root volume size, in GB."
+                                        },
+                                        "placementPolicy": {
+                                            "$ref": "#/$defs/placementPolicy"
+                                        },
+                                        "sizingPolicy": {
+                                            "$ref": "#/$defs/sizingPolicy"
+                                        },
+                                        "storageProfile": {
+                                            "$ref": "#/$defs/storageProfile"
+                                        },
+                                        "template": {
+                                            "$ref": "#/$defs/template"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "org": {
+                            "type": "string",
+                            "title": "Organization",
+                            "description": "VCD organization name."
+                        },
+                        "ovdc": {
+                            "type": "string",
+                            "title": "OvDC name",
+                            "description": "Name of the organization virtual datacenter (OvDC) to create this cluster in."
+                        },
+                        "ovdcNetwork": {
+                            "type": "string",
+                            "title": "OvDC network",
+                            "description": "VCD network to connect VMs."
+                        },
+                        "site": {
+                            "type": "string",
+                            "title": "Endpoint",
+                            "description": "VCD endpoint URL in the format https://VCD_HOST, without trailing slash."
+                        },
+                        "userContext": {
+                            "type": "object",
+                            "title": "VCD API access token",
+                            "additionalProperties": false,
+                            "properties": {
+                                "secretRef": {
+                                    "type": "object",
+                                    "title": "Secret reference",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "secretName": {
+                                            "type": "string",
+                                            "title": "Name",
+                                            "description": "Name of the secret containing the VCD API token."
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "vmBootstrapFormat": {
+                            "type": "string",
+                            "title": "Ignition or cloud-init for OS initialization",
+                            "description": "Select either 'ignition' for Flatcar or 'cloud-config' for other OSes (e.g. Ubuntu).",
+                            "enum": [
+                                "cloud-config",
+                                "ignition"
+                            ],
+                            "default": "ignition"
+                        },
+                        "vmNamingTemplate": {
+                            "type": "string",
+                            "title": "VM naming template",
+                            "description": "Go template to specify the VM naming convention.",
+                            "examples": [
+                                "mytenant-{{ .machine.Name | sha256sum | trunc 7 }}"
+                            ]
+                        }
+                    }
                 }
             }
         },
@@ -846,234 +1074,6 @@
         "provider": {
             "type": "string",
             "title": "Cluster API provider name"
-        },
-        "providerSpecific": {
-            "type": "object",
-            "title": "VMware Cloud Director (VCD) settings",
-            "required": [
-                "org",
-                "ovdc",
-                "ovdcNetwork",
-                "site"
-            ],
-            "additionalProperties": false,
-            "properties": {
-                "cloudProviderInterface": {
-                    "type": "object",
-                    "title": "Cloud provider interface (CPI)",
-                    "required": [
-                        "enableVirtualServiceSharedIP",
-                        "oneArm"
-                    ],
-                    "additionalProperties": false,
-                    "properties": {
-                        "enableVirtualServiceSharedIP": {
-                            "type": "boolean",
-                            "title": "Share IPs in virtual services",
-                            "description": "If enabled, multiple virtual services can share the same virtual IP address.",
-                            "default": true
-                        },
-                        "oneArm": {
-                            "type": "object",
-                            "title": "One-arm",
-                            "description": "If enabled, use an internal IP for the virtual service with a NAT rule to expose the external IP. Otherwise the virtual service will be exposed directly with the external IP.",
-                            "additionalProperties": false,
-                            "properties": {
-                                "enabled": {
-                                    "type": "boolean",
-                                    "title": "Enable",
-                                    "default": false
-                                }
-                            }
-                        }
-                    }
-                },
-                "containerStorageInterface": {
-                    "type": "object",
-                    "title": "Container storage interface (CSI)",
-                    "required": [
-                        "storageClass"
-                    ],
-                    "additionalProperties": false,
-                    "properties": {
-                        "storageClass": {
-                            "type": "object",
-                            "title": "Pre-create storage class",
-                            "description": "Pre-create storage class for the VCD CSI.",
-                            "additionalProperties": false,
-                            "properties": {
-                                "delete": {
-                                    "type": "object",
-                                    "title": "Pre-create delete storage class",
-                                    "properties": {
-                                        "isDefault": {
-                                            "type": "boolean",
-                                            "title": "Default storage class",
-                                            "default": true
-                                        },
-                                        "vcdStorageProfileName": {
-                                            "type": "string",
-                                            "title": "Name of storage profile in VCD",
-                                            "default": ""
-                                        }
-                                    }
-                                },
-                                "enabled": {
-                                    "type": "boolean",
-                                    "title": "Enable",
-                                    "default": true
-                                },
-                                "retain": {
-                                    "type": "object",
-                                    "title": "Pre-create retain storage class",
-                                    "properties": {
-                                        "isDefault": {
-                                            "type": "boolean",
-                                            "title": "Default storage class",
-                                            "default": false
-                                        },
-                                        "vcdStorageProfileName": {
-                                            "type": "string",
-                                            "title": "Name of storage profile in VCD",
-                                            "default": ""
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "nodeClasses": {
-                    "type": "object",
-                    "title": "Node classes",
-                    "description": "Re-usable node configuration.",
-                    "additionalProperties": false,
-                    "patternProperties": {
-                        "^[a-z0-9-]+$": {
-                            "type": "object",
-                            "additionalProperties": false,
-                            "properties": {
-                                "catalog": {
-                                    "$ref": "#/$defs/catalog"
-                                },
-                                "customNodeLabels": {
-                                    "$ref": "#/$defs/nodeLabels"
-                                },
-                                "customNodeTaints": {
-                                    "$ref": "#/$defs/nodeTaints"
-                                },
-                                "diskSizeGB": {
-                                    "$ref": "#/$defs/diskSizeGB",
-                                    "description": "Node root volume size, in GB."
-                                },
-                                "placementPolicy": {
-                                    "$ref": "#/$defs/placementPolicy"
-                                },
-                                "sizingPolicy": {
-                                    "$ref": "#/$defs/sizingPolicy"
-                                },
-                                "storageProfile": {
-                                    "$ref": "#/$defs/storageProfile"
-                                },
-                                "template": {
-                                    "$ref": "#/$defs/template"
-                                }
-                            }
-                        }
-                    },
-                    "properties": {
-                        "default": {
-                            "type": "object",
-                            "title": "Default nodeClass",
-                            "additionalProperties": false,
-                            "properties": {
-                                "catalog": {
-                                    "$ref": "#/$defs/catalog"
-                                },
-                                "customNodeLabels": {
-                                    "$ref": "#/$defs/nodeLabels"
-                                },
-                                "customNodeTaints": {
-                                    "$ref": "#/$defs/nodeTaints"
-                                },
-                                "diskSizeGB": {
-                                    "$ref": "#/$defs/diskSizeGB",
-                                    "description": "Node root volume size, in GB."
-                                },
-                                "placementPolicy": {
-                                    "$ref": "#/$defs/placementPolicy"
-                                },
-                                "sizingPolicy": {
-                                    "$ref": "#/$defs/sizingPolicy"
-                                },
-                                "storageProfile": {
-                                    "$ref": "#/$defs/storageProfile"
-                                },
-                                "template": {
-                                    "$ref": "#/$defs/template"
-                                }
-                            }
-                        }
-                    }
-                },
-                "org": {
-                    "type": "string",
-                    "title": "Organization",
-                    "description": "VCD organization name."
-                },
-                "ovdc": {
-                    "type": "string",
-                    "title": "OvDC name",
-                    "description": "Name of the organization virtual datacenter (OvDC) to create this cluster in."
-                },
-                "ovdcNetwork": {
-                    "type": "string",
-                    "title": "OvDC network",
-                    "description": "VCD network to connect VMs."
-                },
-                "site": {
-                    "type": "string",
-                    "title": "Endpoint",
-                    "description": "VCD endpoint URL in the format https://VCD_HOST, without trailing slash."
-                },
-                "userContext": {
-                    "type": "object",
-                    "title": "VCD API access token",
-                    "additionalProperties": false,
-                    "properties": {
-                        "secretRef": {
-                            "type": "object",
-                            "title": "Secret reference",
-                            "additionalProperties": false,
-                            "properties": {
-                                "secretName": {
-                                    "type": "string",
-                                    "title": "Name",
-                                    "description": "Name of the secret containing the VCD API token."
-                                }
-                            }
-                        }
-                    }
-                },
-                "vmBootstrapFormat": {
-                    "type": "string",
-                    "title": "Ignition or cloud-init for OS initialization",
-                    "description": "Select either 'ignition' for Flatcar or 'cloud-config' for other OSes (e.g. Ubuntu).",
-                    "enum": [
-                        "cloud-config",
-                        "ignition"
-                    ],
-                    "default": "ignition"
-                },
-                "vmNamingTemplate": {
-                    "type": "string",
-                    "title": "VM naming template",
-                    "description": "Go template to specify the VM naming convention.",
-                    "examples": [
-                        "mytenant-{{ .machine.Name | sha256sum | trunc 7 }}"
-                    ]
-                }
-            }
         }
     }
 }

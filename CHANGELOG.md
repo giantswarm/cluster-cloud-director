@@ -26,12 +26,14 @@ yq eval --inplace 'with(select(.connectivity != null);  .global.connectivity = .
     with(select(.controlPlane.certSANs != null);        .internal.apiServer.certSANs = .controlPlane.certSANs) |
     with(select(.controlPlane != null);                 .global.controlPlane = .controlPlane) |
     with(select(.nodePools != null);                    .global.nodePools = .nodePools) |
+    with(select(.providerSpecific != null);             .global.providerSpecific = .providerSpecific) |
 
     del(.connectivity) |
     del(.baseDomain) |
     del(.metadata) |
     del(.controlPlane) |
-    del(.nodePools)' values.yaml
+    del(.nodePools) |
+    del(.providerSpecific)' values.yaml
 ```
 
 </details>
@@ -44,6 +46,7 @@ yq eval --inplace 'with(select(.connectivity != null);  .global.connectivity = .
 - Move Helm values property `.Values.controlPlane.certSANs` to `.Values.internal.apiServer.certSANs`.
 - Move Helm values property `.Values.controlPlane` to `.Values.global.controlPlane`.
 - Move Helm values property `.Values.nodePools` to `.Values.global.nodePools`.
+- Move Helm values property `.Values.providerSpecific` to `.Values.global.providerSpecific`.
 
 ## [0.52.1] - 2024-05-16
 

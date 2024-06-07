@@ -42,7 +42,7 @@ spec:
   # https://github.com/giantswarm/cloud-provider-cloud-director-app/blob/main/helm/cloud-provider-cloud-director/values.yaml
   valuesFrom:
     - kind: Secret
-      name: {{ .Values.providerSpecific.userContext.secretRef.secretName | quote }}
+      name: {{ .Values.global.providerSpecific.userContext.secretRef.secretName | quote }}
       valuesKey: "refreshToken"
       targetPath: "global.basicAuthSecret.refreshToken"
   values:
@@ -53,18 +53,18 @@ spec:
         enforced: {{ .Values.global.podSecurityStandards.enforced }}
       vcdConfig:
         clusterid: "" # It will be set by the post-install/post-upgrade hook in post-install-rdeid-job.yaml.
-        org: {{ .Values.providerSpecific.org | quote }}
-        ovdc: {{ .Values.providerSpecific.ovdc | quote }}
-        ovdcNetwork: {{ .Values.providerSpecific.ovdcNetwork | quote }}
-        site: {{ .Values.providerSpecific.site | quote }}
+        org: {{ .Values.global.providerSpecific.org | quote }}
+        ovdc: {{ .Values.global.providerSpecific.ovdc | quote }}
+        ovdcNetwork: {{ .Values.global.providerSpecific.ovdcNetwork | quote }}
+        site: {{ .Values.global.providerSpecific.site | quote }}
         vAppName: {{ include "resource.default.name" $  | quote }}
         vipSubnet: {{ .Values.global.connectivity.network.loadBalancers.vipSubnet }}
-        enableVirtualServiceSharedIP: {{ .Values.providerSpecific.cloudProviderInterface.enableVirtualServiceSharedIP }}
+        enableVirtualServiceSharedIP: {{ .Values.global.providerSpecific.cloudProviderInterface.enableVirtualServiceSharedIP }}
         oneArm:
-          enabled: {{ .Values.providerSpecific.cloudProviderInterface.oneArm.enabled }}
+          enabled: {{ .Values.global.providerSpecific.cloudProviderInterface.oneArm.enabled }}
     cloud-director-named-disk-csi-driver:
       storageClass:
-        {{- with .Values.providerSpecific.containerStorageInterface.storageClass }}
+        {{- with .Values.global.providerSpecific.containerStorageInterface.storageClass }}
         enabled: {{ .enabled }}
         delete:
           isDefault: {{ .delete.isDefault }}

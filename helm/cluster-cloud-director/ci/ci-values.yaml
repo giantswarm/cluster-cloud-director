@@ -1,15 +1,3 @@
-providerSpecific:
-  org: test
-  ovdc: test
-  ovdcNetwork: test
-  site: "https://test.cloud"
-  nodeClasses:
-    default:
-      catalog: giantswarm
-      template: ubuntu-2004-kube-v1.25.13
-  userContext:
-    secretRef:
-      secretName: vcd-credentials
 internal:
   kubernetesVersion: v1.25.13+vmware.1
   teleport:
@@ -36,3 +24,15 @@ global:
     worker:
       class: default
       replicas: 2
+  providerSpecific:
+    org: test
+    ovdc: test
+    ovdcNetwork: test
+    site: "https://test.cloud"
+    nodeClasses:
+      default:
+        catalog: giantswarm
+        template: ubuntu-2004-kube-v1.25.13
+    userContext:
+      secretRef:
+        secretName: vcd-credentials
