@@ -141,7 +141,7 @@ and is used to join the node to the teleport cluster.
 {{- end -}}
 
 {{- define "hostEntries" -}}
-{{- range $.Values.connectivity.network.hostEntries}}
+{{- range $.Values.global.connectivity.network.hostEntries}}
 - echo "{{ .ip }}  {{ .fqdn }}" >> /etc/hosts
 {{- end -}}
 {{- end }}
