@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.53.0] - 2024-06-08
+
 ### Changed
 
 - Remove the interface to set `etcd` and `coredns` images to let kubeadm take care of it.
@@ -613,7 +615,8 @@ Bump cloud provider to v0.2.5 (fix).
 - Added VCDCluster parameters to match CRD.
 - Nodepool and nodeclass support.
 
-[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.52.1...HEAD
+[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.53.0...HEAD
+[0.53.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.52.1...v0.53.0
 [0.52.1]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.52.0...v0.52.1
 [0.52.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.51.0...v0.52.0
 [0.51.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.50.0...v0.51.0
