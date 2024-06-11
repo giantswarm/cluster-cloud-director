@@ -22,6 +22,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Remove the interface to set `etcd` and `coredns` images to let kubeadm take care of it.
+- Bump CPI to upstream `1.6.0`.
+- Bump CSI to upstream `1.5.0`.
 
 ### **Breaking change**.
 
