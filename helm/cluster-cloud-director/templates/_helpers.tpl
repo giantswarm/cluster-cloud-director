@@ -134,10 +134,6 @@ and is used to join the node to the teleport cluster.
   permissions: "0755"
   encoding: base64
   content: {{ $.Files.Get "files/opt/teleport-node-role.sh" | b64enc }}
-- path: /etc/systemd/system/teleport.service
-  permissions: "0644"
-  encoding: base64
-  content: {{ tpl ($.Files.Get "files/systemd/teleport.service") . | b64enc }}
 {{- end -}}
 
 {{- define "hostEntries" -}}
