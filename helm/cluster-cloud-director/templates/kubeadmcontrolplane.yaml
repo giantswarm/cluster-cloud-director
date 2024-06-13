@@ -127,6 +127,9 @@ spec:
       {{- end }}
       {{- if $.Values.global.connectivity.proxy.enabled }}
       {{- include "containerdProxyConfig" . | nindent 6 }}
+      {{- if $.Values.internal.teleport.enabled }}
+      {{- include "teleportProxyConfig" . | nindent 6 }}
+      {{- end }}
       {{- end }}
       {{- if $.Values.internal.teleport.enabled }}
       {{- include "teleportFiles" . | nindent 6 }}
@@ -161,10 +164,6 @@ spec:
       - systemctl daemon-reload
       - systemctl enable --now static-routes.service
       {{- end }}
-      {{- end }}
-      {{- if $.Values.internal.teleport.enabled }}
-      - systemctl daemon-reload
-      - systemctl enable --now teleport.service
       {{- end }}
       {{- include "hostEntries" . | nindent 6}}
     postKubeadmCommands:

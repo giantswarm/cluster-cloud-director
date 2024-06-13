@@ -20,6 +20,21 @@ ignition:
               echo "127.0.0.1   ${COREOS_CUSTOM_HOSTNAME}" >>/etc/hosts
       systemd:
         units:
+        - name: teleport.service
+          enabled: true
+          contents: |
+            [Unit]
+            Description=Teleport Service
+            After=network.target
+            [Service]
+            Type=simple
+            Restart=on-failure
+            ExecStart=/opt/bin/teleport start --roles=node --config=/etc/teleport.yaml --pid-file=/run/teleport.pid
+            ExecReload=/bin/kill -HUP $MAINPID
+            PIDFile=/run/teleport.pid
+            LimitNOFILE=524288
+            [Install]
+            WantedBy=multi-user.target        
         - name: coreos-metadata.service
           contents: |
             [Unit]

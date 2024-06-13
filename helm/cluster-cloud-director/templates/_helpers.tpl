@@ -172,6 +172,9 @@ files:
 {{- include "containerdConfig" . | nindent 2 }}
 {{- if $.Values.global.connectivity.proxy.enabled }}
 {{- include "containerdProxyConfig" . | nindent 2}}
+{{- if $.Values.internal.teleport.enabled }}
+{{- include "teleportProxyConfig" . | nindent 2}}
+{{- end }}
 {{- end }}
 {{- if $.Values.internal.teleport.enabled }}
 {{- include "teleportFiles" . | nindent 2}}
@@ -194,10 +197,6 @@ preKubeadmCommands:
 - systemctl daemon-reload
 - systemctl enable --now static-routes.service
 {{- end }}
-{{- end }}
-{{- if $.Values.internal.teleport.enabled }}
-- systemctl daemon-reload
-- systemctl enable --now teleport.service
 {{- end }}
 postKubeadmCommands:
 {{ include "sshPostKubeadmCommands" . }}
