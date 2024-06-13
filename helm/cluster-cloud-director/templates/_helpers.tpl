@@ -177,9 +177,6 @@ files:
 {{- if $.Values.global.connectivity.proxy.enabled }}
 {{- include "containerdProxyConfig" . | nindent 2}}
 {{- end }}
-{{- if and $.Values.internal.teleport.enabled $.Values.global.connectivity.proxy.enabled }}
-{{- include "teleportProxyConfig" . | nindent 2}}
-{{- end }}
 {{- if $.Values.internal.teleport.enabled }}
 {{- include "teleportFiles" . | nindent 2}}
 {{- end }}
