@@ -131,9 +131,6 @@ spec:
       {{- if $.Values.internal.teleport.enabled }}
       {{- include "teleportFiles" . | nindent 6 }}
       {{- end }}
-      {{- if and $.Values.internal.teleport.enabled $.Values.global.connectivity.proxy.enabled }}
-      {{- include "teleportProxyConfig" . | nindent 6 }}
-      {{- end }}
       {{- include "containerdConfig" . | nindent 6 }}
       {{- range $kubeadmPatch, $_ :=  .Files.Glob  "files/etc/kubernetes/**" }}
       - path: {{ (printf "/etc/kubernetes/patches/%s" (base $kubeadmPatch)) }}
