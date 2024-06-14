@@ -3,7 +3,7 @@
     "$defs": {
         "catalog": {
             "type": "string",
-            "title": "Catalog",
+            "title": "Catalog test",
             "description": "Name of the VCD catalog in which the VM template is stored.",
             "default": "giantswarm"
         },
