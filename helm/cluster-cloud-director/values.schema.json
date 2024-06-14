@@ -126,6 +126,63 @@
             "type": "object",
             "title": "Library chart"
         },
+        "cluster": {
+            "type": "object",
+            "title": "Cluster",
+            "description": "Helm values for the provider-independent cluster chart",
+            "default": {
+                "providerIntegration": {
+                    "controlPlane": {
+                        "resources": {
+                            "infrastructureMachineTemplate": {
+                                "group": "infrastructure.cluster.x-k8s.io",
+                                "kind": "AzureMachineTemplate",
+                                "version": "v1beta1"
+                            },
+                            "infrastructureMachineTemplateSpecTemplateName": "controlplane-azuremachinetemplate-spec"
+                        }
+                    },
+                    "provider": "azure",
+                    "resourcesApi": {
+                        "bastionResourceEnabled": false,
+                        "ciliumHelmReleaseResourceEnabled": false,
+                        "cleanupHelmReleaseResourcesEnabled": false,
+                        "clusterResourceEnabled": true,
+                        "controlPlaneResourceEnabled": false,
+                        "coreDnsHelmReleaseResourceEnabled": false,
+                        "helmRepositoryResourcesEnabled": false,
+                        "infrastructureCluster": {
+                            "group": "infrastructure.cluster.x-k8s.io",
+                            "kind": "AzureCluster",
+                            "version": "v1beta1"
+                        },
+                        "infrastructureMachinePool": {
+                            "group": "infrastructure.cluster.x-k8s.io",
+                            "kind": "AzureMachineDeployment",
+                            "version": "v1beta1"
+                        },
+                        "machineHealthCheckResourceEnabled": false,
+                        "machinePoolResourcesEnabled": false,
+                        "networkPoliciesHelmReleaseResourceEnabled": false,
+                        "nodePoolKind": "MachineDeployment",
+                        "verticalPodAutoscalerCrdHelmReleaseResourceEnabled": false
+                    },
+                    "workers": {
+                        "defaultNodePools": {
+                            "def00": {
+                                "customNodeLabels": [
+                                    "label=default"
+                                ],
+                                "instanceType": "Standard_D4s_v5",
+                                "replicas": 2,
+                                "rootVolumeSizeGB": 50
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        },
         "global": {
             "type": "object",
             "title": "Global parameters",
