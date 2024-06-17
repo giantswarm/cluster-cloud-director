@@ -2,7 +2,7 @@
 #
 #    devctl
 #
-#    https://github.com/giantswarm/devctl/blob/7a2bb1c2403407b720ec16e047f804471a57209e/pkg/gen/input/makefile/internal/file/Makefile.gen.cluster_app.mk.template
+#    https://github.com/giantswarm/devctl/blob/cbdb6d5fa8756316d0c43e5945e3d3078c9e617e/pkg/gen/input/makefile/internal/file/Makefile.gen.cluster_app.mk.template
 #
 
 ##@ Schema
