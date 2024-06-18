@@ -28,8 +28,8 @@ app: {{ include "name" . | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
 cluster.x-k8s.io/cluster-name: {{ include "resource.default.name" . | quote }}
 giantswarm.io/cluster: {{ include "resource.default.name" . | quote }}
-{{- if .Values.metadata.organization }}
-giantswarm.io/organization: {{ .Values.metadata.organization | quote }}
+{{- if .Values.global.metadata.organization }}
+giantswarm.io/organization: {{ .Values.global.metadata.organization | quote }}
 {{- end }}
 application.giantswarm.io/team: {{ index .Chart.Annotations "application.giantswarm.io/team" | quote }}
 {{- end -}}
@@ -48,7 +48,7 @@ helm.sh/chart: {{ include "chart" . | quote }}
 Create label to prevent accidental cluster deletion
 */}}
 {{- define "preventDeletionLabel" -}}
-{{- if $.Values.metadata.preventDeletion -}}
+{{- if $.Values.global.metadata.preventDeletion -}}
 giantswarm.io/prevent-deletion: "true"
 {{ end -}}
 {{- end -}}
@@ -76,7 +76,7 @@ use the cluster-apps-operator created secret <clusterName>-cluster-values as def
 */}}
 {{- define "containerdProxySecret" -}}
 {{- $defaultContainerdProxySecret := printf "%s-systemd-proxy" (include "resource.default.name" . ) -}}
-{{ .Values.connectivity.proxy.secretName | default $defaultContainerdProxySecret }}
+{{ .Values.global.connectivity.proxy.secretName | default $defaultContainerdProxySecret }}
 {{- end -}}
 
 {{- define "containerdProxyConfig" -}}
@@ -110,7 +110,7 @@ use the cluster-apps-operator created secret <clusterName>-cluster-values as def
     [Service]
     Type=oneshot
     RemainAfterExit=yes
-    {{- range $.Values.connectivity.network.staticRoutes}}
+    {{- range $.Values.global.connectivity.network.staticRoutes}}
     ExecStart=/bin/bash -c "ip route add {{ .destination }} via {{ .via }}"
     {{- end -}}
 {{- end }}
@@ -141,7 +141,7 @@ and is used to join the node to the teleport cluster.
 {{- end -}}
 
 {{- define "hostEntries" -}}
-{{- range $.Values.connectivity.network.hostEntries}}
+{{- range $.Values.global.connectivity.network.hostEntries}}
 - echo "{{ .ip }}  {{ .fqdn }}" >> /etc/hosts
 {{- end -}}
 {{- end }}
@@ -164,40 +164,40 @@ joinConfiguration:
       node-labels: "giantswarm.io/node-pool={{ .pool.name }},{{- include "labelsByClass" . -}}"
     {{- include "taintsByClass" . | nindent  4}}
 
-{{- if eq $.Values.providerSpecific.vmBootstrapFormat "ignition" }}
+{{- if eq $.Values.global.providerSpecific.vmBootstrapFormat "ignition" }}
 {{ include "ignitionSpec" . }}
 {{- end }}
 
 files:
-{{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-config" }}
+{{- if eq $.Values.global.providerSpecific.vmBootstrapFormat "cloud-config" }}
 {{- include "ntpFiles" . | nindent 2}}
 {{- end }}
 {{- include "sshFiles" . | nindent 2}}
 {{- include "containerdConfig" . | nindent 2 }}
-{{- if $.Values.connectivity.proxy.enabled }}
+{{- if $.Values.global.connectivity.proxy.enabled }}
 {{- include "containerdProxyConfig" . | nindent 2}}
 {{- end }}
-{{- if and $.Values.internal.teleport.enabled $.Values.connectivity.proxy.enabled }}
+{{- if and $.Values.internal.teleport.enabled $.Values.global.connectivity.proxy.enabled }}
 {{- include "teleportProxyConfig" . | nindent 2}}
 {{- end }}
 {{- if $.Values.internal.teleport.enabled }}
 {{- include "teleportFiles" . | nindent 2}}
 {{- end }}
-{{- if $.Values.connectivity.network.staticRoutes }}
-{{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-config" }}
+{{- if $.Values.global.connectivity.network.staticRoutes }}
+{{- if eq $.Values.global.providerSpecific.vmBootstrapFormat "cloud-config" }}
 {{- include "staticRoutes" . | nindent 2}}
 {{- end }}
 {{- end }}
 
 preKubeadmCommands:
 - /bin/test ! -d /var/lib/kubelet && (/bin/mkdir -p /var/lib/kubelet && /bin/chmod 0750 /var/lib/kubelet)
-{{- if $.Values.connectivity.proxy.enabled }}
+{{- if $.Values.global.connectivity.proxy.enabled }}
 - systemctl daemon-reload
 - systemctl restart containerd
 {{- end }}
 {{- include "hostEntries" .}}
-{{- if $.Values.connectivity.network.staticRoutes }}
-{{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-config" }}
+{{- if $.Values.global.connectivity.network.staticRoutes }}
+{{- if eq $.Values.global.providerSpecific.vmBootstrapFormat "cloud-config" }}
 - systemctl daemon-reload
 - systemctl enable --now static-routes.service
 {{- end }}
@@ -208,7 +208,7 @@ preKubeadmCommands:
 {{- end }}
 postKubeadmCommands:
 {{ include "sshPostKubeadmCommands" . }}
-{{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-config" }}
+{{- if eq $.Values.global.providerSpecific.vmBootstrapFormat "cloud-config" }}
 {{- include "ntpPostKubeadmCommands" . }}
 {{- end }}
 - usermod -aG root nobody # required for node-exporter to access the host's filesystem
@@ -235,10 +235,10 @@ sizingPolicy: {{ .currentClass.sizingPolicy }}
 placementPolicy: {{ .currentClass.placementPolicy }}
 storageProfile: {{ .currentClass.storageProfile }}
 diskSize: {{ mul .currentClass.diskSizeGB 1024 1024 1024 }}
-vmNamingTemplate: {{ $.providerSpecific.vmNamingTemplate }}
-{{- if $.connectivity.network.extraOvdcNetworks }}
+vmNamingTemplate: {{ $.global.providerSpecific.vmNamingTemplate }}
+{{- if $.global.connectivity.network.extraOvdcNetworks }}
 extraOvdcNetworks:
-  {{- range $.connectivity.network.extraOvdcNetworks }}
+  {{- range $.global.connectivity.network.extraOvdcNetworks }}
   - {{ . }}
   {{- end }}
 {{- end -}}
@@ -264,7 +264,7 @@ taints:
 
 {{- define "mtRevisionByClass" -}}
 {{- $outerScope := . }}
-{{- range $name, $value := .currentValues.providerSpecific.nodeClasses }}
+{{- range $name, $value := .currentValues.global.providerSpecific.nodeClasses }}
 {{- if eq $name $outerScope.class }}
 {{- include "mtRevision" (merge (dict "currentClass" $value) $outerScope.currentValues) }}
 {{- end }}
@@ -273,7 +273,7 @@ taints:
 
 {{- define "taintsByClass" -}}
 {{- $outerScope := . }}
-{{- range $name, $value := .Values.providerSpecific.nodeClasses }}
+{{- range $name, $value := .Values.global.providerSpecific.nodeClasses }}
 {{- if eq $name $outerScope.pool.class }}
 {{- include "taints" $value.customNodeTaints }}
 {{- end }}
@@ -282,7 +282,7 @@ taints:
 
 {{- define "labelsByClass" -}}
 {{- $outerScope := . }}
-{{- range $name, $value := .Values.providerSpecific.nodeClasses }}
+{{- range $name, $value := .Values.global.providerSpecific.nodeClasses }}
 {{- if eq $name $outerScope.pool.class }}
 {{- join "," $value.customNodeLabels -}}
 {{- end }}
@@ -291,7 +291,7 @@ taints:
 
 {{- define "mtRevisionByControlPlane" -}}
 {{- $outerScope := . }}
-{{- include "mtRevision" (merge (dict "currentClass" .Values.controlPlane) $outerScope.Values) }}
+{{- include "mtRevision" (merge (dict "currentClass" .Values.global.controlPlane) $outerScope.Values) }}
 {{- end -}}
 
 {{/*

@@ -25,7 +25,7 @@ sandbox_image = "{{ .Values.internal.sandboxContainerImage.registry }}/{{ .Value
 
 [plugins."io.containerd.grpc.v1.cri".registry]
   [plugins."io.containerd.grpc.v1.cri".registry.mirrors]
-  {{- range $host, $config := .Values.connectivity.containerRegistries }}
+  {{- range $host, $config := .Values.global.connectivity.containerRegistries }}
     [plugins."io.containerd.grpc.v1.cri".registry.mirrors."{{$host}}"]
       endpoint = [
         {{- range $value := $config -}}
@@ -34,7 +34,7 @@ sandbox_image = "{{ .Values.internal.sandboxContainerImage.registry }}/{{ .Value
     ]
   {{- end }}
 [plugins."io.containerd.grpc.v1.cri".registry.configs]
-  {{ range $host, $config := .Values.connectivity.containerRegistries -}}
+  {{ range $host, $config := .Values.global.connectivity.containerRegistries -}}
     {{ range $value := $config -}}
       {{ with $value.credentials -}}
       [plugins."io.containerd.grpc.v1.cri".registry.configs."{{$value.endpoint}}".auth]

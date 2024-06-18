@@ -7,9 +7,73 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Update example cluster manifest.
+
+## [0.53.1] - 2024-06-08
+
+### Changed
+
+- Update values schema to allow `.Values.baseDomain` and `.Values.connectivity.containerRegistries` to support chart migration.
+
+## [0.53.0] - 2024-06-08
+
+### Changed
+
+- Remove the interface to set `etcd` and `coredns` images to let kubeadm take care of it.
+- Bump CPI to upstream `1.6.0`.
+- Bump CSI to upstream `1.5.0`.
+
+### **Breaking change**.
+
+<details>
+<summary>How to migrate values</summary>
+
+Using `yq`, migrate to the new values layout with the following command:
+
+```bash
+#!/bin/bash
+yq eval --inplace 'with(select(.connectivity != null);  .global.connectivity = .connectivity) |
+    with(select(.baseDomain != null);                   .global.connectivity.baseDomain = .baseDomain) |
+    with(select(.metadata != null);                     .global.metadata = .metadata) |
+    with(select(.controlPlane.certSANs != null);        .internal.apiServer.certSANs = .controlPlane.certSANs) |
+    with(select(.controlPlane != null);                 .global.controlPlane = .controlPlane) |
+    with(select(.nodePools != null);                    .global.nodePools = .nodePools) |
+    with(select(.providerSpecific != null);             .global.providerSpecific = .providerSpecific) |
+    with(select(.kubectlImage != null);                 .internal.kubectlImage = .kubectlImage) |
+
+    del(.connectivity) |
+    del(.baseDomain) |
+    del(.metadata) |
+    del(.controlPlane) |
+    del(.nodePools) |
+    del(.providerSpecific) |
+    del(.kubectlImage)' values.yaml
+```
+
+</details>
+
+### Changed
+
+- Move Helm values property `.Values.connectivity` to `.Values.global.connectivity`.
+- Move Helm values property `.Values.baseDomain` to `.Values.global.connectivity.baseDomain`.
+- Move Helm values property `.Values.metadata` to `.Values.global.metadata`.
+- Move Helm values property `.Values.controlPlane.certSANs` to `.Values.internal.apiServer.certSANs`.
+- Move Helm values property `.Values.controlPlane` to `.Values.global.controlPlane`.
+- Move Helm values property `.Values.nodePools` to `.Values.global.nodePools`.
+- Move Helm values property `.Values.providerSpecific` to `.Values.global.providerSpecific`.
+- Move Helm values property `.Values.kubectlImage` to `.Values.internal.kubectlImage`.
+
+## [0.52.1] - 2024-05-16
+
+### Fixed
+
+- Wait 3 seconds after restarting `networkd` to avoid race condition with first static route.
+
 ## [0.52.0] - 2024-05-15
 
-### Changelog
+### Changed
 
 - Add static route commands to network setup script in Flatcar systemd unit.
 
@@ -563,7 +627,10 @@ Bump cloud provider to v0.2.5 (fix).
 - Added VCDCluster parameters to match CRD.
 - Nodepool and nodeclass support.
 
-[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.52.0...HEAD
+[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.53.1...HEAD
+[0.53.1]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.53.0...v0.53.1
+[0.53.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.52.1...v0.53.0
+[0.52.1]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.52.0...v0.52.1
 [0.52.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.51.0...v0.52.0
 [0.51.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.50.0...v0.51.0
 [0.50.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.16.0...v0.50.0

@@ -13,9 +13,9 @@ spec:
         certSANs:
         - localhost
         - 127.0.0.1
-        - "api.{{ include "resource.default.name" $ }}.{{ .Values.baseDomain }}"
-        {{- if .Values.controlPlane.certSANs }}
-        {{- range .Values.controlPlane.certSANs}}
+        - "api.{{ include "resource.default.name" $ }}.{{ .Values.global.connectivity.baseDomain }}"
+        {{- if .Values.internal.apiServer.certSANs }}
+        {{- range .Values.internal.apiServer.certSANs }}
         - {{ . }}
         {{- end }}
         {{- end }}
@@ -36,8 +36,8 @@ spec:
           {{- end }}
           {{- end }}
           kubelet-preferred-address-types: "InternalIP"
-          {{- if .Values.controlPlane.oidc.issuerUrl }}
-          {{- with .Values.controlPlane.oidc }}
+          {{- if .Values.global.controlPlane.oidc.issuerUrl }}
+          {{- with .Values.global.controlPlane.oidc }}
           oidc-issuer-url: {{ .issuerUrl }}
           oidc-client-id: {{ .clientId }}
           oidc-username-claim: {{ .usernameClaim }}
@@ -88,18 +88,13 @@ spec:
         extraArgs:
           authorization-always-allow-paths: "/healthz,/readyz,/livez,/metrics"
           bind-address: "0.0.0.0"
-      dns:
-        imageRepository: {{ .Values.controlPlane.dns.imageRepository }}
-        imageTag: {{ .Values.controlPlane.dns.imageTag }}
       etcd:
         local:
           extraArgs:
             listen-metrics-urls: "http://0.0.0.0:2381"
-          imageRepository: {{ .Values.controlPlane.etcd.imageRepository }}
-          imageTag: {{ .Values.controlPlane.etcd.imageTag }}
-      imageRepository: {{ .Values.controlPlane.image.repository }}
+      imageRepository: {{ .Values.global.controlPlane.image.repository }}
     {{- include "sshUsers" . | nindent 4 }}
-    {{- if eq $.Values.providerSpecific.vmBootstrapFormat "ignition" }}
+    {{- if eq $.Values.global.providerSpecific.vmBootstrapFormat "ignition" }}
     {{- include "ignitionSpec" . | nindent 4 }}
     {{- end }}
     initConfiguration:
@@ -110,7 +105,7 @@ spec:
         directory: "/etc/kubernetes/patches"
       nodeRegistration:
         criSocket: /run/containerd/containerd.sock
-        {{- include "taints" .Values.controlPlane.customNodeTaints | nindent 8 }}
+        {{- include "taints" .Values.global.controlPlane.customNodeTaints | nindent 8 }}
         kubeletExtraArgs:
           {{- include "kubeletExtraArgs" . | nindent 10}}
     joinConfiguration:
@@ -118,25 +113,25 @@ spec:
         directory: "/etc/kubernetes/patches"
       nodeRegistration:
         criSocket: /run/containerd/containerd.sock
-        {{- include "taints" .Values.controlPlane.customNodeTaints | nindent 8 }}
+        {{- include "taints" .Values.global.controlPlane.customNodeTaints | nindent 8 }}
         kubeletExtraArgs:
           {{- include "kubeletExtraArgs" . | nindent 10}}
-          {{- with .Values.controlPlane.customNodeLabels -}}
+          {{- with .Values.global.controlPlane.customNodeLabels -}}
           node-labels: "{{- join "," . }}"
           {{- end }}
     files:
       {{- include "auditLogFiles" . | nindent 6 }}
       {{- include "sshFiles" . | nindent 6 }}
-      {{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-config" }}
+      {{- if eq $.Values.global.providerSpecific.vmBootstrapFormat "cloud-config" }}
       {{- include "ntpFiles" . | nindent 6 }}
       {{- end }}
-      {{- if $.Values.connectivity.proxy.enabled }}
+      {{- if $.Values.global.connectivity.proxy.enabled }}
       {{- include "containerdProxyConfig" . | nindent 6 }}
       {{- end }}
       {{- if $.Values.internal.teleport.enabled }}
       {{- include "teleportFiles" . | nindent 6 }}
       {{- end }}
-      {{- if and $.Values.internal.teleport.enabled $.Values.connectivity.proxy.enabled }}
+      {{- if and $.Values.internal.teleport.enabled $.Values.global.connectivity.proxy.enabled }}
       {{- include "teleportProxyConfig" . | nindent 6 }}
       {{- end }}
       {{- include "containerdConfig" . | nindent 6 }}
@@ -152,20 +147,20 @@ spec:
           secret:
             name: {{ include "resource.default.name" $ }}-encryption-provider-config
             key: encryption
-      {{- if $.Values.connectivity.network.staticRoutes }}
-      {{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-config" }}
+      {{- if $.Values.global.connectivity.network.staticRoutes }}
+      {{- if eq $.Values.global.providerSpecific.vmBootstrapFormat "cloud-config" }}
       {{- include "staticRoutes" . | nindent 6}}
       {{- end }}
       {{- end }}
     preKubeadmCommands:
-      - bash /etc/kubernetes/patches/kube-apiserver-patch.sh {{ .Values.controlPlane.resourceRatio }}
+      - bash /etc/kubernetes/patches/kube-apiserver-patch.sh {{ .Values.global.controlPlane.resourceRatio }}
       - /bin/test ! -d /var/lib/kubelet && (/bin/mkdir -p /var/lib/kubelet && /bin/chmod 0750 /var/lib/kubelet)
-      {{- if $.Values.connectivity.proxy.enabled }}
+      {{- if $.Values.global.connectivity.proxy.enabled }}
       - systemctl daemon-reload
       - systemctl restart containerd
       {{- end }}
-      {{- if $.Values.connectivity.network.staticRoutes }}
-      {{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-config" }}
+      {{- if $.Values.global.connectivity.network.staticRoutes }}
+      {{- if eq $.Values.global.providerSpecific.vmBootstrapFormat "cloud-config" }}
       - systemctl daemon-reload
       - systemctl enable --now static-routes.service
       {{- end }}
@@ -177,7 +172,7 @@ spec:
       {{- include "hostEntries" . | nindent 6}}
     postKubeadmCommands:
       {{- include "sshPostKubeadmCommands" . | nindent 6 }}
-      {{- if eq $.Values.providerSpecific.vmBootstrapFormat "cloud-config" }}
+      {{- if eq $.Values.global.providerSpecific.vmBootstrapFormat "cloud-config" }}
       {{- include "ntpPostKubeadmCommands" . | nindent 6 }}
       {{- end }}
   machineTemplate:
@@ -188,5 +183,5 @@ spec:
       kind: VCDMachineTemplate
       name: {{ include "resource.default.name" . }}-control-plane-{{ include "mtRevisionByControlPlane" $ }}
       namespace: {{ .Release.Namespace }}
-  replicas: {{ .Values.controlPlane.replicas }}
+  replicas: {{ .Values.global.controlPlane.replicas }}
   version: {{ .Values.internal.kubernetesVersion }}
