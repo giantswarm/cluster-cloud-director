@@ -52,22 +52,35 @@ ignition:
           enabled: true
           contents: |
             [Unit]
-            Description=Install the networkd unit files and static routes
+            Description=Install the networkd unit files
             Requires=coreos-metadata.service
             After=set-hostname.service
             [Service]
             Type=oneshot
             RemainAfterExit=yes
             ExecStart=/usr/bin/bash -cv 'echo "$("$(find /usr/bin /usr/share/oem -name vmtoolsd -type f -executable 2>/dev/null | head -n 1)" --cmd "info-get guestinfo.ignition.network")" > /opt/set-networkd-units'
-            {{- if $.Values.connectivity.network.staticRoutes }}
-            {{- range $.Values.connectivity.network.staticRoutes}}
-            ExecStart=/usr/bin/bash -cv 'echo "sudo ip route add {{ .destination }} via {{ .via }}" >> /opt/set-networkd-units'
-            {{- end }}
-            {{- end }}
             ExecStart=/usr/bin/bash -cv 'chmod u+x /opt/set-networkd-units'
             ExecStart=/opt/set-networkd-units
             [Install]
             WantedBy=multi-user.target
+        {{- if $.Values.connectivity.network.staticRoutes }}
+        - name: set-static-routes.service
+          enabled: true
+          contents: |
+            [Unit]
+            Description=Install the static routes
+            BindsTo=systemd-networkd.service
+            After=systemd-networkd.service
+            [Service]
+            Type=oneshot
+            RemainAfterExit=yes
+            ExecStart=/usr/bin/bash -cv 'sleep 3'
+            {{- range $.Values.connectivity.network.staticRoutes}}
+            ExecStart=/usr/bin/bash -cv 'sudo ip route add {{ .destination }} via {{ .via }}'
+            {{- end }}
+            [Install]
+            WantedBy=multi-user.target
+        {{- end }}
         - name: ethtool-segmentation.service
           enabled: true
           contents: |
