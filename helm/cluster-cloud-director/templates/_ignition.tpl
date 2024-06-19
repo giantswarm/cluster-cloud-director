@@ -74,12 +74,19 @@ ignition:
             [Service]
             Type=oneshot
             RemainAfterExit=yes
-            ExecStart=/usr/bin/bash -cv 'echo "sleep 3" >> /opt/set-networkd-units'
+            ExecStart=/usr/bin/bash -cv 'sleep 3'
             {{- range $.Values.global.connectivity.network.staticRoutes}}
-            ExecStart=/usr/bin/bash -cv 'sudo ip route add {{ .destination }} via {{ .via }}'
+            ExecStart=/usr/bin/bash -cv 'ip route add {{ .destination }} via {{ .via }}'
             {{- end }}
             [Install]
             WantedBy=multi-user.target
+        - name: systemd-networkd.service
+          enabled: true
+          dropins:
+            - name: 10-static-routes-dependency.conf
+              contents: |
+                [Unit]
+                Upholds=set-static-routes.service
         {{- end }}
         - name: ethtool-segmentation.service
           enabled: true
