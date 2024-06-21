@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Update example cluster manifest.
 
+### Removed
+
+- Stop setting `defaultPolicies.remove=true` in `cilium-app`.
+
 ## [0.53.1] - 2024-06-08
 
 ### Changed
