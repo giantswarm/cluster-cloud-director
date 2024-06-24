@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Update example cluster manifest.
+- Move static routes to `set-static-routes` unit and use it as drop-in to `systemd-networkd`.
 
 ### Removed
 
