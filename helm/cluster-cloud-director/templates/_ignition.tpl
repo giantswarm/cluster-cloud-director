@@ -69,7 +69,7 @@ ignition:
           contents: |
             [Unit]
             Description=Install the static routes
-            After=systemd-networkd.service
+            After=systemd-networkd.service set-networkd-units.service
             BindsTo=systemd-networkd.service
             [Service]
             Type=oneshot
