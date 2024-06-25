@@ -263,6 +263,39 @@
                             },
                             "default": {}
                         },
+                        "localRegistryCache": {
+                            "type": "object",
+                            "title": "Local registry cache",
+                            "description": "Caching container registry within the cluster.",
+                            "required": [
+                                "enabled",
+                                "port"
+                            ],
+                            "additionalProperties": false,
+                            "properties": {
+                                "enabled": {
+                                    "type": "boolean",
+                                    "title": "Enable",
+                                    "description": "Enabling this will deploy the Zot registry service in the cluster. To make use of it as a pull-through cache, you also have to specify registries to cache images for.",
+                                    "default": false
+                                },
+                                "mirroredRegistries": {
+                                    "type": "array",
+                                    "title": "Registries to cache",
+                                    "description": "Here you must specify each registry to cache container images for. Please also make sure to have an entry for each registry in Global > Components > Containerd > Container registries.",
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "default": []
+                                },
+                                "port": {
+                                    "type": "integer",
+                                    "title": "Service port",
+                                    "description": "NodePort used by the local registry service.",
+                                    "default": 32767
+                                }
+                            }
+                        },
                         "network": {
                             "type": "object",
                             "title": "Network",

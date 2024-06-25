@@ -1,0 +1,61 @@
+internal:
+  kubernetesVersion: v1.25.13+vmware.1
+global:
+  connectivity:
+    network:
+      loadBalancers:
+        vipSubnet: 10.205.9.254/24
+    baseDomain: "test.gigantic.io"
+    containerRegistries:
+      gsoci.azurecr.io:
+        - endpoint: zot-test-1.golem.gaws.gigantic.io
+          credentials:
+            username: example
+            password: xxxxx
+      gsociprivate.azurecr.io:
+        - endpoint: zot-test-2.golem.gaws.gigantic.io
+          credentials:
+            username: example
+            password: yyyyy
+    localRegistryCache:
+      enabled: true
+      mirroredRegistries:
+        - gsoci.azurecr.io
+        - gsociprivate.azurecr.io
+  metadata:
+    description: "Testing Cluster"
+    organization: giantswarm
+    servicePriority: highest
+  controlPlane:
+    catalog: giantswarm
+    replicas: 1
+    sizingPolicy: m1.medium
+    template: ubuntu-2004-kube-v1.25.13
+    diskSizeGB: 30
+    oidc:
+      issuerUrl: https://dex.gerbil.test.gigantic.io
+      caFile: ""
+      clientId: "dex-k8s-authenticator"
+      usernameClaim: "email"
+      groupsClaim: "groups"
+      usernamePrefix: ""
+      groupsPrefix: ""
+  nodePools:
+    worker:
+      class: default
+      replicas: 2
+  providerSpecific:
+    org: test
+    ovdc: test
+    ovdcNetwork: test
+    site: "https://test.cloud"
+    nodeClasses:
+      default:
+        catalog: giantswarm
+        sizingPolicy: m1.medium
+        template: ubuntu-2004-kube-v1.25.13
+        diskSizeGB: 30
+    userContext:
+      secretRef:
+        secretName: vcd-credentials
+

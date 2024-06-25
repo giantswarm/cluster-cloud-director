@@ -5,6 +5,10 @@ connectivity:
 global:
   connectivity:
     containerRegistries: {}
+    localRegistryCache:
+      enabled: false
+      mirroredRegistries: []
+      port: 32767
     network:
       controlPlaneEndpoint:
         port: 6443

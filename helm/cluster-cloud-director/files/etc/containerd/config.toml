@@ -28,21 +28,24 @@ sandbox_image = "{{ .Values.internal.sandboxContainerImage.registry }}/{{ .Value
   {{- range $host, $config := .Values.global.connectivity.containerRegistries }}
     [plugins."io.containerd.grpc.v1.cri".registry.mirrors."{{$host}}"]
       endpoint = [
+        {{- if and $.Values.global.connectivity.localRegistryCache.enabled (has $host $.Values.global.connectivity.localRegistryCache.mirroredRegistries) -}}
+        "http://127.0.0.1:{{ $.Values.global.connectivity.localRegistryCache.port }}",
+        {{- end -}}
         {{- range $value := $config -}}
         "https://{{$value.endpoint}}",
         {{- end -}}
-    ]
+      ]
   {{- end }}
 [plugins."io.containerd.grpc.v1.cri".registry.configs]
-  {{ range $host, $config := .Values.global.connectivity.containerRegistries -}}
+  {{- range $host, $config := .Values.global.connectivity.containerRegistries -}}
     {{ range $value := $config -}}
-      {{ with $value.credentials -}}
-      [plugins."io.containerd.grpc.v1.cri".registry.configs."{{$value.endpoint}}".auth]
+      {{- with $value.credentials }}
+    [plugins."io.containerd.grpc.v1.cri".registry.configs."{{$value.endpoint}}".auth]
       {{ if and .username .password -}}
       auth = {{ printf "%s:%s" .username .password | b64enc | quote }}
       {{- else if .auth -}}
       auth = {{ .auth | quote }}
-      {{ else if .identitytoken -}}
+      {{- else if .identitytoken -}}
       identitytoken = {{ .identitytoken  | quote }}
       {{- end }}
     {{- end }}
