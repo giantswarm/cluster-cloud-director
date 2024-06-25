@@ -61,18 +61,6 @@ spec:
             effect: "NoSchedule"
             operator: "Equal"
             value: "true"
-{{- if .Values.internal.ciliumNetworkPolicy.enabled }}
-    defaultPolicies:
-      remove: true
-      enabled: false
-      tolerations:
-        - effect: NoSchedule
-          operator: Exists
-        - effect: NoExecute
-          operator: Exists
-        - key: CriticalAddonsOnly
-          operator: Exists
-{{- end }}
     global:
       podSecurityStandards:
         enforced: {{ .Values.global.podSecurityStandards.enforced }}
