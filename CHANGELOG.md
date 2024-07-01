@@ -7,9 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.54.0] - 2024-06-25
+
+### Added
+
+- Add `.global.connectivity.localRegistryCache` Helm values and support for in-cluster, local registry cache mirrors in containerd configuration.
+  In such cases, the registry should be exposed via node ports and containerd connects via that port at 127.0.0.1 via HTTP (only allowed for this single use case).
+
 ### Changed
 
 - Update example cluster manifest.
+- Move static routes to `set-static-routes` unit and use it as drop-in to `systemd-networkd`.
+
+### Removed
+
+- Stop setting `defaultPolicies.remove=true` in `cilium-app`.
+
+### Fixed
+
+- Fixed `containerd` config file generation when multiple registries are set with authentication
 
 ## [0.53.1] - 2024-06-08
 
@@ -627,7 +643,8 @@ Bump cloud provider to v0.2.5 (fix).
 - Added VCDCluster parameters to match CRD.
 - Nodepool and nodeclass support.
 
-[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.53.1...HEAD
+[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.54.0...HEAD
+[0.54.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.53.1...v0.54.0
 [0.53.1]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.53.0...v0.53.1
 [0.53.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.52.1...v0.53.0
 [0.52.1]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.52.0...v0.52.1

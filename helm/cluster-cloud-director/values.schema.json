@@ -122,9 +122,72 @@
     "type": "object",
     "additionalProperties": false,
     "properties": {
+        "baseDomain": {
+            "type": "string",
+            "title": "Base DNS domain"
+        },
         "cluster-shared": {
             "type": "object",
             "title": "Library chart"
+        },
+        "connectivity": {
+            "type": "object",
+            "title": "Connectivity",
+            "description": "Configurations related to cluster connectivity such as container registries.",
+            "additionalProperties": false,
+            "properties": {
+                "containerRegistries": {
+                    "type": "object",
+                    "title": "Container registries",
+                    "description": "Endpoints and credentials configuration for container registries.",
+                    "additionalProperties": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "required": [
+                                "endpoint"
+                            ],
+                            "additionalProperties": false,
+                            "properties": {
+                                "credentials": {
+                                    "type": "object",
+                                    "title": "Credentials",
+                                    "description": "Credentials for the endpoint.",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "auth": {
+                                            "type": "string",
+                                            "title": "Auth",
+                                            "description": "Base64-encoded string from the concatenation of the username, a colon, and the password."
+                                        },
+                                        "identitytoken": {
+                                            "type": "string",
+                                            "title": "Identity token",
+                                            "description": "Used to authenticate the user and obtain an access token for the registry."
+                                        },
+                                        "password": {
+                                            "type": "string",
+                                            "title": "Password",
+                                            "description": "Used to authenticate for the registry with username/password."
+                                        },
+                                        "username": {
+                                            "type": "string",
+                                            "title": "Username",
+                                            "description": "Used to authenticate for the registry with username/password."
+                                        }
+                                    }
+                                },
+                                "endpoint": {
+                                    "type": "string",
+                                    "title": "Endpoint",
+                                    "description": "Endpoint for the container registry."
+                                }
+                            }
+                        }
+                    },
+                    "default": {}
+                }
+            }
         },
         "global": {
             "type": "object",
@@ -199,6 +262,39 @@
                                 }
                             },
                             "default": {}
+                        },
+                        "localRegistryCache": {
+                            "type": "object",
+                            "title": "Local registry cache",
+                            "description": "Caching container registry within the cluster.",
+                            "required": [
+                                "enabled",
+                                "port"
+                            ],
+                            "additionalProperties": false,
+                            "properties": {
+                                "enabled": {
+                                    "type": "boolean",
+                                    "title": "Enable",
+                                    "description": "Enabling this will deploy the Zot registry service in the cluster. To make use of it as a pull-through cache, you also have to specify registries to cache images for.",
+                                    "default": false
+                                },
+                                "mirroredRegistries": {
+                                    "type": "array",
+                                    "title": "Registries to cache",
+                                    "description": "Here you must specify each registry to cache container images for. Please also make sure to have an entry for each registry in Global > Components > Containerd > Container registries.",
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "default": []
+                                },
+                                "port": {
+                                    "type": "integer",
+                                    "title": "Service port",
+                                    "description": "NodePort used by the local registry service.",
+                                    "default": 32767
+                                }
+                            }
                         },
                         "network": {
                             "type": "object",
@@ -1072,69 +1168,6 @@
         "provider": {
             "type": "string",
             "title": "Cluster API provider name"
-        },
-        "baseDomain": {
-            "type": "string",
-            "title": "Base DNS domain"
-        },
-        "connectivity": {
-            "type": "object",
-            "title": "Connectivity",
-            "description": "Configurations related to cluster connectivity such as container registries.",
-            "additionalProperties": false,
-            "properties": {
-                "containerRegistries": {
-                    "type": "object",
-                    "title": "Container registries",
-                    "description": "Endpoints and credentials configuration for container registries.",
-                    "additionalProperties": {
-                        "type": "array",
-                        "items": {
-                            "type": "object",
-                            "required": [
-                                "endpoint"
-                            ],
-                            "additionalProperties": false,
-                            "properties": {
-                                "credentials": {
-                                    "type": "object",
-                                    "title": "Credentials",
-                                    "description": "Credentials for the endpoint.",
-                                    "additionalProperties": false,
-                                    "properties": {
-                                        "auth": {
-                                            "type": "string",
-                                            "title": "Auth",
-                                            "description": "Base64-encoded string from the concatenation of the username, a colon, and the password."
-                                        },
-                                        "identitytoken": {
-                                            "type": "string",
-                                            "title": "Identity token",
-                                            "description": "Used to authenticate the user and obtain an access token for the registry."
-                                        },
-                                        "password": {
-                                            "type": "string",
-                                            "title": "Password",
-                                            "description": "Used to authenticate for the registry with username/password."
-                                        },
-                                        "username": {
-                                            "type": "string",
-                                            "title": "Username",
-                                            "description": "Used to authenticate for the registry with username/password."
-                                        }
-                                    }
-                                },
-                                "endpoint": {
-                                    "type": "string",
-                                    "title": "Endpoint",
-                                    "description": "Endpoint for the container registry."
-                                }
-                            }
-                        }
-                    },
-                    "default": {}
-                }
-            }
         }
     }
 }
