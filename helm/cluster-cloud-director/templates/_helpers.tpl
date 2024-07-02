@@ -134,10 +134,6 @@ and is used to join the node to the teleport cluster.
   permissions: "0755"
   encoding: base64
   content: {{ $.Files.Get "files/opt/teleport-node-role.sh" | b64enc }}
-- path: /etc/systemd/system/teleport.service
-  permissions: "0644"
-  encoding: base64
-  content: {{ tpl ($.Files.Get "files/systemd/teleport.service") . | b64enc }}
 {{- end -}}
 
 {{- define "hostEntries" -}}
@@ -176,9 +172,9 @@ files:
 {{- include "containerdConfig" . | nindent 2 }}
 {{- if $.Values.global.connectivity.proxy.enabled }}
 {{- include "containerdProxyConfig" . | nindent 2}}
-{{- end }}
-{{- if and $.Values.internal.teleport.enabled $.Values.global.connectivity.proxy.enabled }}
+{{- if $.Values.internal.teleport.enabled }}
 {{- include "teleportProxyConfig" . | nindent 2}}
+{{- end }}
 {{- end }}
 {{- if $.Values.internal.teleport.enabled }}
 {{- include "teleportFiles" . | nindent 2}}
@@ -201,10 +197,6 @@ preKubeadmCommands:
 - systemctl daemon-reload
 - systemctl enable --now static-routes.service
 {{- end }}
-{{- end }}
-{{- if $.Values.internal.teleport.enabled }}
-- systemctl daemon-reload
-- systemctl enable --now teleport.service
 {{- end }}
 postKubeadmCommands:
 {{ include "sshPostKubeadmCommands" . }}

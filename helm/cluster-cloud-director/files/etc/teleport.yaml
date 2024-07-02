@@ -7,9 +7,6 @@ teleport:
   proxy_server: {{ .Values.internal.teleport.proxyAddr }}
   log:
     output: stderr
-    severity: INFO
-    format:
-      output: text
   ca_pin: ""
   diag_addr: ""
 auth_service:
@@ -33,6 +30,3 @@ ssh_service:
     baseDomain: {{ .Values.global.connectivity.baseDomain }}
 proxy_service:
   enabled: "no"
-  https_keypairs: []
-  https_keypairs_reload_interval: 0s
-  acme: {}
