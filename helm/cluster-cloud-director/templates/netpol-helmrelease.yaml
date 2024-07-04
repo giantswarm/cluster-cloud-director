@@ -17,10 +17,10 @@ spec:
       chart: network-policies
       # used by renovate
       # repo: giantswarm/network-policies-app
-      version: 0.1.1
+      version: 0.1.1-c7dde845d4b2cb3edee8bc2f6990bd9ee3fab235
       sourceRef:
         kind: HelmRepository
-        name: {{ include "resource.default.name" $ }}-cluster
+        name: {{ include "resource.default.name" $ }}-cluster-test
   dependsOn:
     - name: {{ include "resource.default.name" $ }}-cilium
       namespace: {{ $.Release.Namespace }}
