@@ -36,6 +36,13 @@ spec:
   values:
     allowEgressToDNS:
       enabled: true
+  {{- if $.Values.global.connectivity.proxy.enabled }}
+    allowEgressToProxy:
+      enabled: true
+  valuesFrom:
+    - kind: Secret
+      name: {{ include "resource.default.name" $ }}-cluster-values
+  {{- end }}
 ---
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
