@@ -42,5 +42,6 @@ spec:
   valuesFrom:
     - kind: Secret
       name: {{ include "resource.default.name" $ }}-cluster-values
+      valuesKey: "values"
   {{- end }}
 {{- end }}
