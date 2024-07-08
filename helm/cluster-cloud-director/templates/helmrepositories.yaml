@@ -36,7 +36,6 @@ metadata:
 spec:
   interval: 10m
   url: https://giantswarm.github.io/cluster-catalog
-{{- end }}
 ---
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
@@ -50,4 +49,3 @@ metadata:
 spec:
   interval: 10m
   url: https://giantswarm.github.io/cluster-test-catalog
-{{- end }}

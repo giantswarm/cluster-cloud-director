@@ -43,4 +43,4 @@ spec:
     - kind: Secret
       name: {{ include "resource.default.name" $ }}-cluster-values
   {{- end }}
-
+{{- end }}
