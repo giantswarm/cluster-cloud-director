@@ -1,5 +1,3 @@
-internal:
-  kubernetesVersion: v1.25.13+vmware.1
 global:
   connectivity:
     network:
@@ -30,7 +28,6 @@ global:
     catalog: giantswarm
     replicas: 1
     sizingPolicy: m1.medium
-    template: ubuntu-2004-kube-v1.25.13
     diskSizeGB: 30
     oidc:
       issuerUrl: https://dex.gerbil.test.gigantic.io
@@ -53,7 +50,6 @@ global:
       default:
         catalog: giantswarm
         sizingPolicy: m1.medium
-        template: ubuntu-2004-kube-v1.25.13
         diskSizeGB: 30
     userContext:
       secretRef:

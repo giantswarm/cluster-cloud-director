@@ -1,5 +1,4 @@
 internal:
-  kubernetesVersion: v1.25.13+vmware.1
   teleport:
     enabled: true
 global:
@@ -11,7 +10,6 @@ global:
   controlPlane:
     catalog: giantswarm
     replicas: 1
-    template: ubuntu-2004-kube-v1.25.13
     oidc:
       issuerUrl: https://dex.gerbil.test.gigantic.io
       caFile: ""
@@ -32,7 +30,6 @@ global:
     nodeClasses:
       default:
         catalog: giantswarm
-        template: ubuntu-2004-kube-v1.25.13
     userContext:
       secretRef:
         secretName: vcd-credentials
