@@ -108,7 +108,11 @@ ignition:
               [Unit]
               # kubeadm must run after coreos-metadata populated /run/metadata directory.
               Requires=coreos-metadata.service
+              {{- if $.Values.global.connectivity.network.staticRoutes }}
+              After=set-static-routes.service
+              {{- else }}
               After=set-networkd-units.service
+              {{- end }}
               [Service]
               # Make metadata environment variables available for pre-kubeadm commands.
               EnvironmentFile=/run/metadata/*
