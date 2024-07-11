@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Run `kubeadm` after the static route service to fix race condition.
+
 ## [0.54.0] - 2024-06-25
 
 ### Added
