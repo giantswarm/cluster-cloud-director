@@ -34,7 +34,7 @@ global:
     oidc: {}
     replicas: 1
     resourceRatio: 8
-    template: flatcar-stable-3815.2.1-kube-v1.25.16
+    template: flatcar-stable-3815.2.0-kube-v1.26.14
   metadata:
     preventDeletion: false
     servicePriority: highest
@@ -61,7 +61,7 @@ global:
     nodeClasses:
       default:
         catalog: giantswarm
-        template: flatcar-stable-3815.2.1-kube-v1.25.16
+        template: flatcar-stable-3815.2.0-kube-v1.26.14
     userContext:
       secretRef: {}
     vmBootstrapFormat: ignition
@@ -86,8 +86,8 @@ internal:
   kubectlImage:
     name: giantswarm/kubectl
     registry: gsoci.azurecr.io
-    tag: 1.25.15
-  kubernetesVersion: v1.25.16
+    tag: 1.26.14
+  kubernetesVersion: v1.26.14
   sandboxContainerImage:
     name: giantswarm/pause
     registry: gsoci.azurecr.io
