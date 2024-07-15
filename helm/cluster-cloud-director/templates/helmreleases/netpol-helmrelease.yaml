@@ -36,17 +36,13 @@ spec:
   values:
     allowEgressToDNS:
       enabled: true
----
-apiVersion: source.toolkit.fluxcd.io/v1beta2
-kind: HelmRepository
-metadata:
-  name: {{ include "resource.default.name" $ }}-cluster
-  namespace: {{ $.Release.Namespace }}
-  annotations:
-    cluster.giantswarm.io/description: "{{ .Values.clusterDescription }}"
-  labels:
-    {{- include "labels.common" . | nindent 4 }}
-spec:
-  interval: 10m
-  url: https://giantswarm.github.io/cluster-catalog
+    {{- if $.Values.global.connectivity.proxy.enabled }}
+    # We collect the proxy variables from the cluster-values secret to feed them to the netpol helmRelease to create the CNP for proxy access.
+    # {{- $secret := lookup "v1" "Secret" .Release.Namespace (list (include "resource.default.name" .) "cluster-values" | join "-") }}
+    {{- $secret := lookup "v1" "Secret" .Release.Namespace (printf "%s-cluster-values" (include "resource.default.name" .)) }}
+    {{- $secret = $secret.data.values | b64dec | fromYaml }}
+    allowEgressToProxy:
+      httpProxy: {{ $secret.http_proxy }}
+      httpsProxy: {{ $secret.https_proxy }}
+    {{- end }}
 {{- end }}
