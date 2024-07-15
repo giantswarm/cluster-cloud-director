@@ -116,7 +116,7 @@
             "type": "string",
             "title": "Template",
             "description": "Name of the template used to create the node VMs.",
-            "default": "flatcar-stable-3815.2.0-kube-v1.26.14"
+            "default": "flatcar-stable-3815.2.2-kube-v1.27.14"
         }
     },
     "type": "object",
@@ -1091,7 +1091,7 @@
                         "tag": {
                             "type": "string",
                             "title": "Tag",
-                            "default": "1.26.14"
+                            "default": "1.27.14"
                         }
                     }
                 },
@@ -1099,7 +1099,7 @@
                     "type": "string",
                     "title": "Kubernetes version",
                     "description": "For cloud-init (Ubuntu), append the version with '+vmware.1'.",
-                    "default": "v1.26.14"
+                    "default": "v1.27.14"
                 },
                 "parentUid": {
                     "type": "string",
