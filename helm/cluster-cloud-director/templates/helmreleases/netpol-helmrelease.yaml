@@ -38,7 +38,6 @@ spec:
       enabled: true
     {{- if $.Values.global.connectivity.proxy.enabled }}
     # We collect the proxy variables from the cluster-values secret to feed them to the netpol helmRelease to create the CNP for proxy access.
-    # {{- $secret := lookup "v1" "Secret" .Release.Namespace (list (include "resource.default.name" .) "cluster-values" | join "-") }}
     {{- $secret := lookup "v1" "Secret" .Release.Namespace (printf "%s-cluster-values" (include "resource.default.name" .)) }}
     {{- $secret = $secret.data.values | b64dec | fromYaml }}
     allowEgressToProxy:
