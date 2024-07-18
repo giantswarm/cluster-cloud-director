@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Rollback CPI from `1.6.0` to `1.5.0` due to VCD version incompatibility.
+
 ## [0.56.0] - 2024-07-15
 
 ### Changed
