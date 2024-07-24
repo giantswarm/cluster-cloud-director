@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Update to custom patch 1.5.1-gs of CPI to address LB health monitor upgrade issue until upstream patch is available.
+
 ## [0.56.1] - 2024-07-18
 
 ### Changed
