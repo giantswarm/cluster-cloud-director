@@ -34,7 +34,7 @@ spec:
       mode: kubernetes
     k8sServiceHost: api.{{ include "resource.default.name" $ }}.{{ .Values.global.connectivity.baseDomain }}
     k8sServicePort: "6443"
-    kubeProxyReplacement: true
+    kubeProxyReplacement: 'true'
     hubble:
       relay:
         enabled: true
