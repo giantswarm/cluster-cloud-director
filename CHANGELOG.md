@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Set `kubeProxyReplacement` to `'true'` instead of deprecated value `strict` in cilium values.
+
 ## [0.56.2] - 2024-07-25
 
 ### Changed
