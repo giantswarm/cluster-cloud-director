@@ -2,7 +2,7 @@
 #
 #    devctl
 #
-#    https://github.com/giantswarm/devctl/blob/1a381db95a01773e471818a4ce56ad16ad5d6111/pkg/gen/input/workflows/internal/file/helm_render_diff.yaml.template
+#    https://github.com/giantswarm/devctl/blob/c90dd09846d2e87f1bad62d2089405b78da11a82/pkg/gen/input/workflows/internal/file/helm_render_diff.yaml.template
 #
 name: Compare Helm Rendering
 
@@ -54,7 +54,7 @@ jobs:
            version: ${{ env.helm_ver }}
       - run: which helm
       - name: install dyff
-        uses: giantswarm/install-binary-action@033b1a657eea23d9c42e77312b370e6125e4e38f  # v2.0.0
+        uses: giantswarm/install-binary-action@c37eb401e5092993fc76d545030b1d1769e61237 # v3.0.0
         with:
           binary: dyff
           download_url: "https://github.com/homeport/dyff/releases/download/v${version}/dyff_${version}_linux_amd64.tar.gz"
