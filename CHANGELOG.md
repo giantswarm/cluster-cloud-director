@@ -9,7 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+> [!WARNING]
+> This release requires the Flatcar template name to be suffixed with `-gs`. Please ensure
+> that VM templates are correctly named.
+
 - Set `kubeProxyReplacement` to `'true'` instead of deprecated value `strict` in cilium values.
+- Suffix Flatcar image name with `-gs`.
 
 ## [0.56.2] - 2024-07-25
 

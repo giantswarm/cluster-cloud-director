@@ -34,7 +34,7 @@ global:
     oidc: {}
     replicas: 1
     resourceRatio: 8
-    template: flatcar-stable-3815.2.2-kube-v1.27.14
+    template: flatcar-stable-3815.2.2-kube-v1.27.14-gs
   metadata:
     preventDeletion: false
     servicePriority: highest
@@ -61,7 +61,7 @@ global:
     nodeClasses:
       default:
         catalog: giantswarm
-        template: flatcar-stable-3815.2.2-kube-v1.27.14
+        template: flatcar-stable-3815.2.2-kube-v1.27.14-gs
     userContext:
       secretRef: {}
     vmBootstrapFormat: ignition
