@@ -99,6 +99,14 @@
             "title": "VM placement policy",
             "description": "Name of the VCD VM placement policy to use."
         },
+        "replicas": {
+            "type": "integer",
+            "title": "Number of nodes",
+            "examples": [
+                3
+            ],
+            "exclusiveMinimum": 1
+        },
         "sizingPolicy": {
             "type": "string",
             "title": "Sizing policy",
@@ -711,17 +719,34 @@
                             "type": "object",
                             "additionalProperties": false,
                             "properties": {
-                                "class": {
-                                    "type": "string",
-                                    "title": "Node class",
-                                    "description": "A valid node class name, as specified in VMware Cloud Director (VCD) settings > Node classes.",
-                                    "pattern": "^[a-z0-9-]+$"
+                                "catalog": {
+                                    "$ref": "#/$defs/catalog"
+                                },
+                                "customNodeLabels": {
+                                    "$ref": "#/$defs/nodeLabels"
+                                },
+                                "customNodeTaints": {
+                                    "$ref": "#/$defs/nodeTaints"
+                                },
+                                "diskSizeGB": {
+                                    "$ref": "#/$defs/diskSizeGB",
+                                    "description": "Node root volume size, in GB."
+                                },
+                                "placementPolicy": {
+                                    "$ref": "#/$defs/placementPolicy"
                                 },
                                 "replicas": {
-                                    "type": "integer",
-                                    "title": "Number of nodes",
-                                    "default": 1,
-                                    "minimum": 1
+                                    "$ref": "#/$defs/replicas",
+                                    "default": 2
+                                },
+                                "sizingPolicy": {
+                                    "$ref": "#/$defs/sizingPolicy"
+                                },
+                                "storageProfile": {
+                                    "$ref": "#/$defs/storageProfile"
+                                },
+                                "template": {
+                                    "$ref": "#/$defs/template"
                                 }
                             }
                         }
@@ -732,17 +757,34 @@
                             "title": "Default nodePool",
                             "additionalProperties": false,
                             "properties": {
-                                "class": {
-                                    "type": "string",
-                                    "title": "Node class",
-                                    "description": "A valid node class name, as specified in VMware Cloud Director (VCD) settings > Node classes.",
-                                    "default": "default"
+                                "catalog": {
+                                    "$ref": "#/$defs/catalog"
+                                },
+                                "customNodeLabels": {
+                                    "$ref": "#/$defs/nodeLabels"
+                                },
+                                "customNodeTaints": {
+                                    "$ref": "#/$defs/nodeTaints"
+                                },
+                                "diskSizeGB": {
+                                    "$ref": "#/$defs/diskSizeGB",
+                                    "description": "Node root volume size, in GB."
+                                },
+                                "placementPolicy": {
+                                    "$ref": "#/$defs/placementPolicy"
                                 },
                                 "replicas": {
-                                    "type": "integer",
-                                    "title": "Number of nodes",
-                                    "default": 2,
-                                    "minimum": 1
+                                    "$ref": "#/$defs/replicas",
+                                    "default": 2
+                                },
+                                "sizingPolicy": {
+                                    "$ref": "#/$defs/sizingPolicy"
+                                },
+                                "storageProfile": {
+                                    "$ref": "#/$defs/storageProfile"
+                                },
+                                "template": {
+                                    "$ref": "#/$defs/template"
                                 }
                             }
                         }
@@ -851,79 +893,6 @@
                                                     "default": ""
                                                 }
                                             }
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        "nodeClasses": {
-                            "type": "object",
-                            "title": "Node classes",
-                            "description": "Re-usable node configuration.",
-                            "additionalProperties": false,
-                            "patternProperties": {
-                                "^[a-z0-9-]+$": {
-                                    "type": "object",
-                                    "additionalProperties": false,
-                                    "properties": {
-                                        "catalog": {
-                                            "$ref": "#/$defs/catalog"
-                                        },
-                                        "customNodeLabels": {
-                                            "$ref": "#/$defs/nodeLabels"
-                                        },
-                                        "customNodeTaints": {
-                                            "$ref": "#/$defs/nodeTaints"
-                                        },
-                                        "diskSizeGB": {
-                                            "$ref": "#/$defs/diskSizeGB",
-                                            "description": "Node root volume size, in GB."
-                                        },
-                                        "placementPolicy": {
-                                            "$ref": "#/$defs/placementPolicy"
-                                        },
-                                        "sizingPolicy": {
-                                            "$ref": "#/$defs/sizingPolicy"
-                                        },
-                                        "storageProfile": {
-                                            "$ref": "#/$defs/storageProfile"
-                                        },
-                                        "template": {
-                                            "$ref": "#/$defs/template"
-                                        }
-                                    }
-                                }
-                            },
-                            "properties": {
-                                "default": {
-                                    "type": "object",
-                                    "title": "Default nodeClass",
-                                    "additionalProperties": false,
-                                    "properties": {
-                                        "catalog": {
-                                            "$ref": "#/$defs/catalog"
-                                        },
-                                        "customNodeLabels": {
-                                            "$ref": "#/$defs/nodeLabels"
-                                        },
-                                        "customNodeTaints": {
-                                            "$ref": "#/$defs/nodeTaints"
-                                        },
-                                        "diskSizeGB": {
-                                            "$ref": "#/$defs/diskSizeGB",
-                                            "description": "Node root volume size, in GB."
-                                        },
-                                        "placementPolicy": {
-                                            "$ref": "#/$defs/placementPolicy"
-                                        },
-                                        "sizingPolicy": {
-                                            "$ref": "#/$defs/sizingPolicy"
-                                        },
-                                        "storageProfile": {
-                                            "$ref": "#/$defs/storageProfile"
-                                        },
-                                        "template": {
-                                            "$ref": "#/$defs/template"
                                         }
                                     }
                                 }
