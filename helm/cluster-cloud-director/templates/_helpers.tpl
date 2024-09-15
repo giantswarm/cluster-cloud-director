@@ -164,10 +164,6 @@ joinConfiguration:
       node-labels: "giantswarm.io/node-pool={{ .pool.name }},{{- include "labelsByClass" . -}}"
     {{- include "taintsByClass" . | nindent  4}}
 
-{{- if eq $.Values.global.providerSpecific.vmBootstrapFormat "ignition" }}
-{{ include "ignitionSpec" . }}
-{{- end }}
-
 files:
 {{- if eq $.Values.global.providerSpecific.vmBootstrapFormat "cloud-config" }}
 {{- include "ntpFiles" . | nindent 2}}

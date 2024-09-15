@@ -94,9 +94,6 @@ spec:
             listen-metrics-urls: "http://0.0.0.0:2381"
       imageRepository: {{ .Values.global.controlPlane.image.repository }}
     {{- include "sshUsers" . | nindent 4 }}
-    {{- if eq $.Values.global.providerSpecific.vmBootstrapFormat "ignition" }}
-    {{- include "ignitionSpec" . | nindent 4 }}
-    {{- end }}
     initConfiguration:
       skipPhases:
         - addon/coredns
