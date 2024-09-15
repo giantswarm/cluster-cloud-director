@@ -165,7 +165,6 @@ joinConfiguration:
     {{- include "taintsByClass" . | nindent  4}}
 
 {{- if eq $.Values.global.providerSpecific.vmBootstrapFormat "ignition" }}
-{{ include "ignitionSpec" . }}
 {{- end }}
 
 files:
