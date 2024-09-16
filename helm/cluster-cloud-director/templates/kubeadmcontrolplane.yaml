@@ -95,6 +95,7 @@ spec:
       imageRepository: {{ .Values.global.controlPlane.image.repository }}
     {{- include "sshUsers" . | nindent 4 }}
     {{- if eq $.Values.global.providerSpecific.vmBootstrapFormat "ignition" }}
+    {{- include "ignitionSpec" . | nindent 4 }}
     {{- end }}
     initConfiguration:
       skipPhases:
