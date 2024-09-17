@@ -93,7 +93,6 @@ spec:
           extraArgs:
             listen-metrics-urls: "http://0.0.0.0:2381"
       imageRepository: {{ .Values.global.controlPlane.image.repository }}
-    {{- include "sshUsers" . | nindent 4 }}
     {{- if eq $.Values.global.providerSpecific.vmBootstrapFormat "ignition" }}
     {{- include "ignitionSpec" . | nindent 4 }}
     {{- end }}
@@ -120,26 +119,8 @@ spec:
           node-labels: "{{- join "," . }}"
           {{- end }}
     files:
-      {{- include "auditLogFiles" . | nindent 6 }}
-      {{- include "sshFiles" . | nindent 6 }}
       {{- if eq $.Values.global.providerSpecific.vmBootstrapFormat "cloud-config" }}
       {{- include "ntpFiles" . | nindent 6 }}
-      {{- end }}
-      {{- if $.Values.global.connectivity.proxy.enabled }}
-      {{- include "containerdProxyConfig" . | nindent 6 }}
-      {{- end }}
-      {{- if $.Values.internal.teleport.enabled }}
-      {{- include "teleportFiles" . | nindent 6 }}
-      {{- end }}
-      {{- if and $.Values.internal.teleport.enabled $.Values.global.connectivity.proxy.enabled }}
-      {{- include "teleportProxyConfig" . | nindent 6 }}
-      {{- end }}
-      {{- include "containerdConfig" . | nindent 6 }}
-      {{- range $kubeadmPatch, $_ :=  .Files.Glob  "files/etc/kubernetes/**" }}
-      - path: {{ (printf "/etc/kubernetes/patches/%s" (base $kubeadmPatch)) }}
-        permissions: "0600"
-        content: |-
-          {{- $.Files.Get $kubeadmPatch | nindent 10 }}
       {{- end }}
       - path: /etc/kubernetes/encryption/config.yaml
         permissions: "0600"
@@ -147,34 +128,9 @@ spec:
           secret:
             name: {{ include "resource.default.name" $ }}-encryption-provider-config
             key: encryption
-      {{- if $.Values.global.connectivity.network.staticRoutes }}
-      {{- if eq $.Values.global.providerSpecific.vmBootstrapFormat "cloud-config" }}
-      {{- include "staticRoutes" . | nindent 6}}
-      {{- end }}
-      {{- end }}
     preKubeadmCommands:
       - bash /etc/kubernetes/patches/kube-apiserver-patch.sh {{ .Values.global.controlPlane.resourceRatio }}
       - /bin/test ! -d /var/lib/kubelet && (/bin/mkdir -p /var/lib/kubelet && /bin/chmod 0750 /var/lib/kubelet)
-      {{- if $.Values.global.connectivity.proxy.enabled }}
-      - systemctl daemon-reload
-      - systemctl restart containerd
-      {{- end }}
-      {{- if $.Values.global.connectivity.network.staticRoutes }}
-      {{- if eq $.Values.global.providerSpecific.vmBootstrapFormat "cloud-config" }}
-      - systemctl daemon-reload
-      - systemctl enable --now static-routes.service
-      {{- end }}
-      {{- end }}
-      {{- if $.Values.internal.teleport.enabled }}
-      - systemctl daemon-reload
-      - systemctl enable --now teleport.service
-      {{- end }}
-      {{- include "hostEntries" . | nindent 6}}
-    postKubeadmCommands:
-      {{- include "sshPostKubeadmCommands" . | nindent 6 }}
-      {{- if eq $.Values.global.providerSpecific.vmBootstrapFormat "cloud-config" }}
-      {{- include "ntpPostKubeadmCommands" . | nindent 6 }}
-      {{- end }}
   machineTemplate:
     metadata:
       labels: {{- include "labels.common" . | nindent 8 }}

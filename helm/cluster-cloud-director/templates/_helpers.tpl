@@ -154,8 +154,6 @@ See https://github.com/kubernetes-sigs/cluster-api/pull/5027/files
 */}}
 {{- define "kubeadmConfigTemplateSpec" -}}
 
-{{ include "sshUsers" . }}
-
 joinConfiguration:
   nodeRegistration:
     criSocket: /run/containerd/containerd.sock
@@ -168,49 +166,9 @@ joinConfiguration:
 {{ include "ignitionSpec" . }}
 {{- end }}
 
-files:
-{{- if eq $.Values.global.providerSpecific.vmBootstrapFormat "cloud-config" }}
-{{- include "ntpFiles" . | nindent 2}}
-{{- end }}
-{{- include "sshFiles" . | nindent 2}}
-{{- include "containerdConfig" . | nindent 2 }}
-{{- if $.Values.global.connectivity.proxy.enabled }}
-{{- include "containerdProxyConfig" . | nindent 2}}
-{{- end }}
-{{- if and $.Values.internal.teleport.enabled $.Values.global.connectivity.proxy.enabled }}
-{{- include "teleportProxyConfig" . | nindent 2}}
-{{- end }}
-{{- if $.Values.internal.teleport.enabled }}
-{{- include "teleportFiles" . | nindent 2}}
-{{- end }}
-{{- if $.Values.global.connectivity.network.staticRoutes }}
-{{- if eq $.Values.global.providerSpecific.vmBootstrapFormat "cloud-config" }}
-{{- include "staticRoutes" . | nindent 2}}
-{{- end }}
-{{- end }}
-
 preKubeadmCommands:
 - /bin/test ! -d /var/lib/kubelet && (/bin/mkdir -p /var/lib/kubelet && /bin/chmod 0750 /var/lib/kubelet)
-{{- if $.Values.global.connectivity.proxy.enabled }}
-- systemctl daemon-reload
-- systemctl restart containerd
-{{- end }}
-{{- include "hostEntries" .}}
-{{- if $.Values.global.connectivity.network.staticRoutes }}
-{{- if eq $.Values.global.providerSpecific.vmBootstrapFormat "cloud-config" }}
-- systemctl daemon-reload
-- systemctl enable --now static-routes.service
-{{- end }}
-{{- end }}
-{{- if $.Values.internal.teleport.enabled }}
-- systemctl daemon-reload
-- systemctl enable --now teleport.service
-{{- end }}
 postKubeadmCommands:
-{{ include "sshPostKubeadmCommands" . }}
-{{- if eq $.Values.global.providerSpecific.vmBootstrapFormat "cloud-config" }}
-{{- include "ntpPostKubeadmCommands" . }}
-{{- end }}
 - usermod -aG root nobody # required for node-exporter to access the host's filesystem
 
 {{- end }}
