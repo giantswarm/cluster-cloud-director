@@ -37,7 +37,7 @@ spec:
   interval: 10m
   install:
     remediation:
-      retries: 30
+      retries: 50
   # Default values
   # https://github.com/giantswarm/cloud-provider-cloud-director-app/blob/main/helm/cloud-provider-cloud-director/values.yaml
   valuesFrom:
