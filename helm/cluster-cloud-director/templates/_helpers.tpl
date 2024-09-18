@@ -264,29 +264,17 @@ taints:
 
 {{- define "mtRevisionByClass" -}}
 {{- $outerScope := . }}
-{{- range $name, $value := .currentValues.global.providerSpecific.nodeClasses }}
-{{- if eq $name $outerScope.class }}
-{{- include "mtRevision" (merge (dict "currentClass" $value) $outerScope.currentValues) }}
-{{- end }}
-{{- end }}
+{{- include "mtRevision" $outerScope.currentValues }}
 {{- end -}}
 
 {{- define "taintsByClass" -}}
 {{- $outerScope := . }}
-{{- range $name, $value := .Values.global.providerSpecific.nodeClasses }}
-{{- if eq $name $outerScope.pool.class }}
-{{- include "taints" $value.customNodeTaints }}
-{{- end }}
-{{- end }}
+{{- include "taints" $outerScope.customNodeTaints }}
 {{- end -}}
 
 {{- define "labelsByClass" -}}
 {{- $outerScope := . }}
-{{- range $name, $value := .Values.global.providerSpecific.nodeClasses }}
-{{- if eq $name $outerScope.pool.class }}
-{{- join "," $value.customNodeLabels -}}
-{{- end }}
-{{- end }}
+{{- join "," $outerScope.customNodeLabels -}}
 {{- end -}}
 
 {{- define "mtRevisionByControlPlane" -}}
