@@ -23,18 +23,15 @@ global:
       groupsPrefix: ""
   nodePools:
     worker:
-      class: default
+      catalog: giantswarm
       replicas: 2
+      sizingPolicy: m1.medium
+      diskSizeGB: 30
   providerSpecific:
     org: test
     ovdc: test
     ovdcNetwork: test
     site: "https://test.cloud"
-    nodeClasses:
-      default:
-        catalog: giantswarm
-        sizingPolicy: m1.medium
-        diskSizeGB: 30
     userContext:
       secretRef:
         secretName: vcd-credentials
