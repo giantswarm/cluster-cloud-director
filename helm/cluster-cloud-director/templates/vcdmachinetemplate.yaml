@@ -1,5 +1,5 @@
-{{- range $name, $value := (merge .Values.global.nodePools (dict "control-plane" .Values.global.controlPlane)) }}
-{{- $c := (merge (dict "currentClass"  $value) $.Values) }}
+{{- range $name, $value := include "createMapOfClusterNodeSpecs" . | fromYaml }}
+{{- $c := (merge (dict "currentPool"  $value) (deepCopy $.Values)) }}
 ---
 apiVersion: {{ include "infrastructureApiVersion" . }}
 kind: VCDMachineTemplate

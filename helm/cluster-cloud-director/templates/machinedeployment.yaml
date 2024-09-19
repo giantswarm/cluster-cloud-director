@@ -1,4 +1,9 @@
-{{- range $name, $value := .Values.global.nodePools }}
+{{- range $name, $value := include "createMapOfWorkerPoolSpecs" . | fromYaml }}
+{{- $c := (merge (dict "currentPool"  $value) $.Values) }}
+{{/* we deepcopy the $value variable inside the loop because it is mutated when it is passed to
+kubeadmConfigTemplateRevision which then affects later functions which also rely on $values.
+$valuesDeepCopied should only be used with the call to kubeadmConfigTemplateRevision */}}
+{{- $valueDeepCopied := (deepCopy $value) -}}
 ---
 apiVersion: cluster.x-k8s.io/v1beta1
 kind: MachineDeployment
@@ -23,13 +28,13 @@ spec:
         configRef:
           apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
           kind: KubeadmConfigTemplate
-          name: {{ include "resource.default.name" $ }}-{{ $name }}-{{- include "kubeadmConfigTemplateRevision" (merge (dict "pool" (set $value "name" $name)) $) }}
+          name: {{ include "resource.default.name" $ }}-{{ $name }}-{{ include "kubeadmConfigTemplateRevision" (merge (dict "pool" (set $valueDeepCopied "name" $name)) $) }}
           namespace: {{ $.Release.Namespace }}
       clusterName: {{ include "resource.default.name" $ }}
       infrastructureRef:
         apiVersion: {{ include "infrastructureApiVersion" . }}
         kind: VCDMachineTemplate
-        name: {{ include "resource.default.name" $ }}-{{ $name }}-{{- include "mtRevisionByClass" (merge (dict "currentClass" (set $value "name" $name)) $) }}
+        name: {{ include "resource.default.name" $ }}-{{ $name }}-{{ include "mtRevision" $c }}
         namespace: {{ $.Release.Namespace }}
       version: {{ $.Values.internal.kubernetesVersion }}
 {{- end }}
