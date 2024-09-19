@@ -29,7 +29,7 @@ spec:
       infrastructureRef:
         apiVersion: {{ include "infrastructureApiVersion" . }}
         kind: VCDMachineTemplate
-        name: {{ include "resource.default.name" $ }}-{{ $name }}-{{ include "mtRevisionByClass" (merge (dict "currentValues" $.Values) $value) }}
+        name: {{ include "resource.default.name" $ }}-{{ $name }}-{{- include "mtRevisionByClass" (merge (dict "currentClass" (set $value "name" $name)) $) }}
         namespace: {{ $.Release.Namespace }}
       version: {{ $.Values.internal.kubernetesVersion }}
 {{- end }}
