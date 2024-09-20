@@ -736,6 +736,10 @@
                                 }
                             }
                         },
+                        "name": {
+                            "type": "string",
+                            "title": "Cluster name"
+                        },
                         "organization": {
                             "type": "string",
                             "title": "Organization"
