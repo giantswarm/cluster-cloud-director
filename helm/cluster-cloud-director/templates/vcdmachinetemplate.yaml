@@ -1,10 +1,10 @@
-{{- range $name, $value := include "createMapOfClusterNodeSpecs" . | fromYaml }}
+{{- range $nodePoolName, $value := include "createMapOfClusterNodeSpecs" . | fromYaml }}
 {{- $c := (merge (dict "currentPool"  $value) (deepCopy $.Values)) }}
 ---
 apiVersion: {{ include "infrastructureApiVersion" . }}
 kind: VCDMachineTemplate
 metadata:
-  name: {{ include "resource.default.name" $ }}-{{ $name }}-{{ include "mtRevision" $c }}
+  name: {{ include "resource.default.name" $ }}-{{ $nodePoolName }}-{{ include "mtRevision" $c }}
   namespace: {{ $.Release.Namespace }}
   labels:
     {{- include "labels.common" $ | nindent 4 }}
