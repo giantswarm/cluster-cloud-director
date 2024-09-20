@@ -18,6 +18,10 @@ global:
       groupsClaim: "groups"
       usernamePrefix: ""
       groupsPrefix: ""
+  metadata:
+    description: "test cluster"
+    name: "test cluster"
+    organization: "giantswarm"
   nodePools:
     worker:
       catalog: giantswarm
