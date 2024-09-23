@@ -161,8 +161,8 @@ joinConfiguration:
     criSocket: /run/containerd/containerd.sock
     kubeletExtraArgs:
       {{- include "kubeletExtraArgs" . | nindent  6 -}}
-      node-labels: "giantswarm.io/node-pool={{ .pool.name }},{{- include "labelsByClass" . -}}"
-    {{- include "taintsByClass" . | nindent  4}}
+      node-labels: "giantswarm.io/node-pool={{ .pool.name }},{{- include "labelsByClass" .pool -}}"
+    {{- include "taintsByClass" .pool | nindent  4}}
 
 {{- if eq $.Values.global.providerSpecific.vmBootstrapFormat "ignition" }}
 {{ include "ignitionSpec" . }}
