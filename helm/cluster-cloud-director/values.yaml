@@ -40,8 +40,9 @@ global:
     servicePriority: highest
   nodePools:
     worker:
-      class: default
+      catalog: giantswarm
       replicas: 2
+      template: flatcar-stable-3815.2.2-kube-v1.27.14-gs
   podSecurityStandards:
     enforced: true
   providerSpecific:
@@ -58,10 +59,6 @@ global:
         retain:
           isDefault: false
           vcdStorageProfileName: ""
-    nodeClasses:
-      default:
-        catalog: giantswarm
-        template: flatcar-stable-3815.2.2-kube-v1.27.14-gs
     userContext:
       secretRef: {}
     vmBootstrapFormat: ignition

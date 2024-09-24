@@ -161,8 +161,8 @@ joinConfiguration:
     criSocket: /run/containerd/containerd.sock
     kubeletExtraArgs:
       {{- include "kubeletExtraArgs" . | nindent  6 -}}
-      node-labels: "giantswarm.io/node-pool={{ .pool.name }},{{- include "labelsByClass" . -}}"
-    {{- include "taintsByClass" . | nindent  4}}
+      node-labels: "giantswarm.io/node-pool={{ .pool.name }},{{- include "labelsByClass" .pool -}}"
+    {{- include "taintsByClass" .pool | nindent  4}}
 
 {{- if eq $.Values.global.providerSpecific.vmBootstrapFormat "ignition" }}
 {{ include "ignitionSpec" . }}
@@ -229,12 +229,12 @@ diskSize is computed with 1024^3 instead of 1000^3 because of https://github.com
 */}}
 
 {{- define "mtSpec" -}}
-catalog: {{ .currentClass.catalog }}
-template: {{ .currentClass.template }}
-sizingPolicy: {{ .currentClass.sizingPolicy }}
-placementPolicy: {{ .currentClass.placementPolicy }}
-storageProfile: {{ .currentClass.storageProfile }}
-diskSize: {{ mul .currentClass.diskSizeGB 1024 1024 1024 }}
+catalog: {{ .currentPool.catalog }}
+template: {{ .currentPool.template }}
+sizingPolicy: {{ .currentPool.sizingPolicy }}
+placementPolicy: {{ .currentPool.placementPolicy }}
+storageProfile: {{ .currentPool.storageProfile }}
+diskSize: {{ mul .currentPool.diskSizeGB 1024 1024 1024 }}
 vmNamingTemplate: {{ $.global.providerSpecific.vmNamingTemplate }}
 {{- if $.global.connectivity.network.extraOvdcNetworks }}
 extraOvdcNetworks:
@@ -255,6 +255,11 @@ taints:
 {{- end }}
 {{- end -}}
 
+{{/*
+mtRevision takes a dict which includes the node's spec and computes a hash value
+from it. This hash value is appended to the name of immutable resources to facilitate
+node replacement when the node spec is changed.
+*/}}
 {{- define "mtRevision" -}}
 {{- $inputs := (dict
   "spec" (include "mtSpec" .)
@@ -262,36 +267,46 @@ taints:
 {{- mustToJson $inputs | toString | quote | sha1sum | trunc 8 }}
 {{- end -}}
 
-{{- define "mtRevisionByClass" -}}
-{{- $outerScope := . }}
-{{- range $name, $value := .currentValues.global.providerSpecific.nodeClasses }}
-{{- if eq $name $outerScope.class }}
-{{- include "mtRevision" (merge (dict "currentClass" $value) $outerScope.currentValues) }}
-{{- end }}
-{{- end }}
+{{/*
+First takes a map of the controlPlane's spec and adds it to a new map, then
+takes a array of maps containing nodePools and adds each nodePool's map to
+the new map. Reults in a map of node specs which can be iterated over to 
+create VSphereMachineTemplates.
+*/}}
+{{ define "createMapOfClusterNodeSpecs" }}
+{{- $nodeMap := dict -}}
+{{- $_ := set $nodeMap "control-plane" .Values.global.controlPlane -}}
+{{- range $index, $pool := .Values.global.nodePools -}}
+  {{- $_ := set $nodeMap $index $pool -}}
 {{- end -}}
+{{ toYaml $nodeMap }}
+{{- end }}
+{{/*
+Takes an array of maps containing worker nodePools and adds each map to a new
+map. Results in a map of node specs which can be iterated over to create
+MachineDeployments.
+*/}}
+{{ define "createMapOfWorkerPoolSpecs" -}}
+{{- $nodeMap := dict -}}
+{{- range $index, $pool := .Values.global.nodePools -}}
+  {{- $_ := set $nodeMap $index $pool -}}
+{{- end -}}
+{{ toYaml $nodeMap }}
+{{- end }}
 
 {{- define "taintsByClass" -}}
 {{- $outerScope := . }}
-{{- range $name, $value := .Values.global.providerSpecific.nodeClasses }}
-{{- if eq $name $outerScope.pool.class }}
-{{- include "taints" $value.customNodeTaints }}
-{{- end }}
-{{- end }}
+{{- include "taints" $outerScope.customNodeTaints }}
 {{- end -}}
 
 {{- define "labelsByClass" -}}
 {{- $outerScope := . }}
-{{- range $name, $value := .Values.global.providerSpecific.nodeClasses }}
-{{- if eq $name $outerScope.pool.class }}
-{{- join "," $value.customNodeLabels -}}
-{{- end }}
-{{- end }}
+{{- join "," $outerScope.customNodeLabels -}}
 {{- end -}}
 
 {{- define "mtRevisionByControlPlane" -}}
 {{- $outerScope := . }}
-{{- include "mtRevision" (merge (dict "currentClass" .Values.global.controlPlane) $outerScope.Values) }}
+{{- include "mtRevision" (merge (dict "currentPool" .Values.global.controlPlane) $outerScope.Values) }}
 {{- end -}}
 
 {{/*

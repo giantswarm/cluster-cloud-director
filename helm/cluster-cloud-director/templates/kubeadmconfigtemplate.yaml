@@ -1,11 +1,16 @@
-{{- range $name, $value := .Values.global.nodePools }}
+{{- range $name, $value := include "createMapOfWorkerPoolSpecs" . | fromYaml }}
+{{- $c := (merge (dict "currentPool"  $value) $.Values) }}
+{{/* we deepcopy the $values because they are mutated when they are passed to kubeadmConfigTemplateRevision
+which then affects later functions which also rely on $values. $valuesDeepCopied should only be used with
+the call to kubeadmConfigTemplateRevision */}}
+{{- $valueDeepCopied := (deepCopy $value) -}}
 ---
 apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
 kind: KubeadmConfigTemplate
 metadata:
   labels:
     {{- include "labels.common" $ | nindent 4 }}
-  name: {{ include "resource.default.name" $ }}-{{ $name }}-{{- include "kubeadmConfigTemplateRevision" (merge (dict "pool" $value) $) }}
+  name: {{ include "resource.default.name" $ }}-{{ $name }}-{{ include "kubeadmConfigTemplateRevision" (merge (dict "pool" (set $valueDeepCopied "name" $name)) $) }}
   namespace: {{ $.Release.Namespace }}
 spec:
   template:

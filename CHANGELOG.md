@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### **Breaking change**.
+
+> [!CAUTION]
+> Upgrading to this chart release will cause all worker nodes to be replaced.
+
+<details>
+<summary>How to migrate values (from `v0.57.0` or later)</summary>
+
+Using `yq`, migrate to the new values layout with the following command:
+
+```bash
+yq eval --inplace 'with(select(.global.providerSpecific.nodeClasses != null);    .global.providerSpecific.nodeClasses as $classes | with(.global.nodePools[]; . *= $classes[.class])) |
+    del(.global.nodePools[].class) |
+    del(.global.providerSpecific.nodeClasses)' values.yaml
+```
+</details>
+
+### Changed
+
+- Move Helm values from each `.global.providerSpecific.nodeClasses.$<class>` to any nodePool which references that class.
+- Deleted Helm values property `.global.nodeClasses`.
+
 ### Changed
 
 > Increase `HelmReleases` retries count to 50.

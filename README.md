@@ -61,12 +61,6 @@ providerSpecific:
       useSecretRef: true
       secretName: vcd-credentials
 
-  nodeClasses:
-    default:
-      catalog: "giantswarm"
-      template: "ubuntu-2004-kube-v1.22.5"
-      sizingPolicy: "m1.large"
-
 controlPlane:
   replicas: 3
   catalog: "giantswarm"
@@ -82,8 +76,10 @@ connectivity:
 
 nodePools:
   worker:
-    class: "default"
     replicas: 2
+    catalog: "giantswarm"
+    template: "ubuntu-2004-kube-v1.22.5"
+    sizingPolicy: "m1.large"
 
 internal:
   kubernetesVersion: "v1.22.5+vmware.1"

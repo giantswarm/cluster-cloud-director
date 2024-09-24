@@ -162,11 +162,35 @@ Groups of worker nodes with identical configuration.
 | **Property** | **Description** | **More Details** |
 | :----------- | :-------------- | :--------------- |
 | `global.nodePools.PATTERN` |**None**|**Type:** `object`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]{3,10}$`<br/>|
-| `global.nodePools.PATTERN.class` | **Node class** - A valid node class name, as specified in VMware Cloud Director (VCD) settings > Node classes.|**Type:** `string`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]{3,10}$`<br/>**Value pattern:** `^[a-z0-9-]+$`<br/>|
-| `global.nodePools.PATTERN.replicas` | **Number of nodes**|**Type:** `integer`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]{3,10}$`<br/>**Default:** `1`|
+| `global.nodePools.PATTERN.catalog` | **Catalog** - Name of the VCD catalog in which the VM template is stored.|**Type:** `string`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]{3,10}$`<br/>**Default:** `"giantswarm"`|
+| `global.nodePools.PATTERN.customNodeLabels` | **Node labels**|**Type:** `array`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]{3,10}$`<br/>|
+| `global.nodePools.PATTERN.customNodeLabels[*]` | **Custom node label**|**Type:** `string`<br/>**Example:** `"key=value"`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]{3,10}$`<br/>**Value pattern:** `^[A-Za-z0-9-_\./]{1,63}=[A-Za-z0-9-_\.]{0,63}$`<br/>|
+| `global.nodePools.PATTERN.customNodeTaints` | **Node taints**|**Type:** `array`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]{3,10}$`<br/>|
+| `global.nodePools.PATTERN.customNodeTaints[*]` | **Custom node taint**|**Type:** `object`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]{3,10}$`<br/>|
+| `global.nodePools.PATTERN.customNodeTaints[*].effect` | **Node taint effect** - One of NoSchedule, PreferNoSchedule or NoExecute.|**Type:** `string`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]{3,10}$`<br/>|
+| `global.nodePools.PATTERN.customNodeTaints[*].key` | **Node taint key** - Name of the label on a node.|**Type:** `string`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]{3,10}$`<br/>|
+| `global.nodePools.PATTERN.customNodeTaints[*].value` | **Node taint value** - Value of the label identified by the key.|**Type:** `string`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]{3,10}$`<br/>|
+| `global.nodePools.PATTERN.diskSizeGB` | **Disk size**|**Type:** `integer`<br/>**Example:** `30`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]{3,10}$`<br/>|
+| `global.nodePools.PATTERN.placementPolicy` | **VM placement policy** - Name of the VCD VM placement policy to use.|**Type:** `string`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]{3,10}$`<br/>|
+| `global.nodePools.PATTERN.replicas` | **Number of nodes**|**Type:** `integer`<br/>**Example:** `3`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]{3,10}$`<br/>|
+| `global.nodePools.PATTERN.sizingPolicy` | **Sizing policy** - Name of the VCD sizing policy to use.|**Type:** `string`<br/>**Example:** `"m1.medium"`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]{3,10}$`<br/>|
+| `global.nodePools.PATTERN.storageProfile` | **Storage profile** - Name of the VCD storage profile to use.|**Type:** `string`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]{3,10}$`<br/>|
+| `global.nodePools.PATTERN.template` | **Template** - Name of the template used to create the node VMs.|**Type:** `string`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]{3,10}$`<br/>**Default:** `"flatcar-stable-3815.2.2-kube-v1.27.14-gs"`|
 | `global.nodePools.worker` | **Default nodePool**|**Type:** `object`<br/>|
-| `global.nodePools.worker.class` | **Node class** - A valid node class name, as specified in VMware Cloud Director (VCD) settings > Node classes.|**Type:** `string`<br/>**Default:** `"default"`|
-| `global.nodePools.worker.replicas` | **Number of nodes**|**Type:** `integer`<br/>**Default:** `2`|
+| `global.nodePools.worker.catalog` | **Catalog** - Name of the VCD catalog in which the VM template is stored.|**Type:** `string`<br/>**Default:** `"giantswarm"`|
+| `global.nodePools.worker.customNodeLabels` | **Node labels**|**Type:** `array`<br/>|
+| `global.nodePools.worker.customNodeLabels[*]` | **Custom node label**|**Type:** `string`<br/>**Example:** `"key=value"`<br/>**Value pattern:** `^[A-Za-z0-9-_\./]{1,63}=[A-Za-z0-9-_\.]{0,63}$`<br/>|
+| `global.nodePools.worker.customNodeTaints` | **Node taints**|**Type:** `array`<br/>|
+| `global.nodePools.worker.customNodeTaints[*]` | **Custom node taint**|**Type:** `object`<br/>|
+| `global.nodePools.worker.customNodeTaints[*].effect` | **Node taint effect** - One of NoSchedule, PreferNoSchedule or NoExecute.|**Type:** `string`<br/>|
+| `global.nodePools.worker.customNodeTaints[*].key` | **Node taint key** - Name of the label on a node.|**Type:** `string`<br/>|
+| `global.nodePools.worker.customNodeTaints[*].value` | **Node taint value** - Value of the label identified by the key.|**Type:** `string`<br/>|
+| `global.nodePools.worker.diskSizeGB` | **Disk size**|**Type:** `integer`<br/>**Example:** `30`<br/>|
+| `global.nodePools.worker.placementPolicy` | **VM placement policy** - Name of the VCD VM placement policy to use.|**Type:** `string`<br/>|
+| `global.nodePools.worker.replicas` | **Number of nodes**|**Type:** `integer`<br/>**Example:** `3`<br/>|
+| `global.nodePools.worker.sizingPolicy` | **Sizing policy** - Name of the VCD sizing policy to use.|**Type:** `string`<br/>**Example:** `"m1.medium"`<br/>|
+| `global.nodePools.worker.storageProfile` | **Storage profile** - Name of the VCD storage profile to use.|**Type:** `string`<br/>|
+| `global.nodePools.worker.template` | **Template** - Name of the template used to create the node VMs.|**Type:** `string`<br/>**Default:** `"flatcar-stable-3815.2.2-kube-v1.27.14-gs"`|
 
 ### Pod Security Standards
 Properties within the `.global.podSecurityStandards` object
@@ -193,35 +217,6 @@ Properties within the `.global.providerSpecific` object
 | `global.providerSpecific.containerStorageInterface.storageClass.retain` | **Pre-create retain storage class**|**Type:** `object`<br/>|
 | `global.providerSpecific.containerStorageInterface.storageClass.retain.isDefault` | **Default storage class**|**Type:** `boolean`<br/>**Default:** `false`|
 | `global.providerSpecific.containerStorageInterface.storageClass.retain.vcdStorageProfileName` | **Name of storage profile in VCD**|**Type:** `string`<br/>**Default:** `""`|
-| `global.providerSpecific.nodeClasses` | **Node classes** - Re-usable node configuration.|**Type:** `object`<br/>|
-| `global.providerSpecific.nodeClasses.PATTERN` |**None**|**Type:** `object`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]+$`<br/>|
-| `global.providerSpecific.nodeClasses.PATTERN.catalog` | **Catalog** - Name of the VCD catalog in which the VM template is stored.|**Type:** `string`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]+$`<br/>**Default:** `"giantswarm"`|
-| `global.providerSpecific.nodeClasses.PATTERN.customNodeLabels` | **Node labels**|**Type:** `array`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]+$`<br/>|
-| `global.providerSpecific.nodeClasses.PATTERN.customNodeLabels[*]` | **Custom node label**|**Type:** `string`<br/>**Example:** `"key=value"`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]+$`<br/>**Value pattern:** `^[A-Za-z0-9-_\./]{1,63}=[A-Za-z0-9-_\.]{0,63}$`<br/>|
-| `global.providerSpecific.nodeClasses.PATTERN.customNodeTaints` | **Node taints**|**Type:** `array`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]+$`<br/>|
-| `global.providerSpecific.nodeClasses.PATTERN.customNodeTaints[*]` | **Custom node taint**|**Type:** `object`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]+$`<br/>|
-| `global.providerSpecific.nodeClasses.PATTERN.customNodeTaints[*].effect` | **Node taint effect** - One of NoSchedule, PreferNoSchedule or NoExecute.|**Type:** `string`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]+$`<br/>|
-| `global.providerSpecific.nodeClasses.PATTERN.customNodeTaints[*].key` | **Node taint key** - Name of the label on a node.|**Type:** `string`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]+$`<br/>|
-| `global.providerSpecific.nodeClasses.PATTERN.customNodeTaints[*].value` | **Node taint value** - Value of the label identified by the key.|**Type:** `string`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]+$`<br/>|
-| `global.providerSpecific.nodeClasses.PATTERN.diskSizeGB` | **Disk size**|**Type:** `integer`<br/>**Example:** `30`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]+$`<br/>|
-| `global.providerSpecific.nodeClasses.PATTERN.placementPolicy` | **VM placement policy** - Name of the VCD VM placement policy to use.|**Type:** `string`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]+$`<br/>|
-| `global.providerSpecific.nodeClasses.PATTERN.sizingPolicy` | **Sizing policy** - Name of the VCD sizing policy to use.|**Type:** `string`<br/>**Example:** `"m1.medium"`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]+$`<br/>|
-| `global.providerSpecific.nodeClasses.PATTERN.storageProfile` | **Storage profile** - Name of the VCD storage profile to use.|**Type:** `string`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]+$`<br/>|
-| `global.providerSpecific.nodeClasses.PATTERN.template` | **Template** - Name of the template used to create the node VMs.|**Type:** `string`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]+$`<br/>**Default:** `"flatcar-stable-3815.2.2-kube-v1.27.14-gs"`|
-| `global.providerSpecific.nodeClasses.default` | **Default nodeClass**|**Type:** `object`<br/>|
-| `global.providerSpecific.nodeClasses.default.catalog` | **Catalog** - Name of the VCD catalog in which the VM template is stored.|**Type:** `string`<br/>**Default:** `"giantswarm"`|
-| `global.providerSpecific.nodeClasses.default.customNodeLabels` | **Node labels**|**Type:** `array`<br/>|
-| `global.providerSpecific.nodeClasses.default.customNodeLabels[*]` | **Custom node label**|**Type:** `string`<br/>**Example:** `"key=value"`<br/>**Value pattern:** `^[A-Za-z0-9-_\./]{1,63}=[A-Za-z0-9-_\.]{0,63}$`<br/>|
-| `global.providerSpecific.nodeClasses.default.customNodeTaints` | **Node taints**|**Type:** `array`<br/>|
-| `global.providerSpecific.nodeClasses.default.customNodeTaints[*]` | **Custom node taint**|**Type:** `object`<br/>|
-| `global.providerSpecific.nodeClasses.default.customNodeTaints[*].effect` | **Node taint effect** - One of NoSchedule, PreferNoSchedule or NoExecute.|**Type:** `string`<br/>|
-| `global.providerSpecific.nodeClasses.default.customNodeTaints[*].key` | **Node taint key** - Name of the label on a node.|**Type:** `string`<br/>|
-| `global.providerSpecific.nodeClasses.default.customNodeTaints[*].value` | **Node taint value** - Value of the label identified by the key.|**Type:** `string`<br/>|
-| `global.providerSpecific.nodeClasses.default.diskSizeGB` | **Disk size**|**Type:** `integer`<br/>**Example:** `30`<br/>|
-| `global.providerSpecific.nodeClasses.default.placementPolicy` | **VM placement policy** - Name of the VCD VM placement policy to use.|**Type:** `string`<br/>|
-| `global.providerSpecific.nodeClasses.default.sizingPolicy` | **Sizing policy** - Name of the VCD sizing policy to use.|**Type:** `string`<br/>**Example:** `"m1.medium"`<br/>|
-| `global.providerSpecific.nodeClasses.default.storageProfile` | **Storage profile** - Name of the VCD storage profile to use.|**Type:** `string`<br/>|
-| `global.providerSpecific.nodeClasses.default.template` | **Template** - Name of the template used to create the node VMs.|**Type:** `string`<br/>**Default:** `"flatcar-stable-3815.2.2-kube-v1.27.14-gs"`|
 | `global.providerSpecific.org` | **Organization** - VCD organization name.|**Type:** `string`<br/>|
 | `global.providerSpecific.ovdc` | **OvDC name** - Name of the organization virtual datacenter (OvDC) to create this cluster in.|**Type:** `string`<br/>|
 | `global.providerSpecific.ovdcNetwork` | **OvDC network** - VCD network to connect VMs.|**Type:** `string`<br/>|
