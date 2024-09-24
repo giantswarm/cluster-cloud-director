@@ -364,6 +364,11 @@
                             ],
                             "additionalProperties": false,
                             "properties": {
+                                "allowAllEgress": {
+                                    "type": "boolean",
+                                    "title": "test",
+                                    "description": "test"
+                                },
                                 "controlPlaneEndpoint": {
                                     "type": "object",
                                     "title": "Control plane endpoint",

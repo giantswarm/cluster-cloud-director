@@ -45,6 +45,7 @@ global:
       mirroredRegistries: []
       port: 32767
     network:
+      allowAllEgress: false
       controlPlaneEndpoint:
         port: 6443
       loadBalancers: {}
