@@ -26,7 +26,7 @@ spec:
   interval: 10m
   install:
     remediation:
-      retries: 30
+      retries: 50
   # Default values
   # https://github.com/giantswarm/cilium-app/blob/main/helm/cilium/values.yaml
   values:

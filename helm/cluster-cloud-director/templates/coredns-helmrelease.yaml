@@ -29,7 +29,7 @@ spec:
   interval: 10m
   install:
     remediation:
-      retries: 30
+      retries: 50
   # Default values
   # https://github.com/giantswarm/coredns-app/blob/main/helm/coredns-app/values.yaml
   values:
