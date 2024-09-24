@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+### **Breaking change**.
+
+> [!CAUTION]
+> The cluster name must be added to the cluster values when upgrading to this chart release.
+
+<details>
+<summary>How to migrate values (from v0.58.0)</summary>
+
+The cluster's name must be added to the cluster values in order to satisfy the updated values
+schema. This can be done by adding the existing cluster name to the `cluster` values. For example,
+where the cluster is named `test`:
+
+```yaml
+global:
+  metadata:
+    name: test
+```
+</details>
+
+- Initial integration of shared `cluster` chart to render `Cluster` resource.
+
 ## [0.58.0] - 2024-09-24
 
 ### **Breaking change**.
