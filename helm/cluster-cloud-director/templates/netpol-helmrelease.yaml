@@ -30,7 +30,7 @@ spec:
   interval: {{ ((.Values.helmReleases).coredns).interval | default "10m" }}
   install:
     remediation:
-      retries: 30
+      retries: 50
   # Default values
   # https://github.com/giantswarm/network-policies-app/blob/main/helm/network-policies-app/values.yaml
   values:

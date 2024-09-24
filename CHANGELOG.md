@@ -29,6 +29,10 @@ yq eval --inplace 'with(select(.global.providerSpecific.nodeClasses != null);   
 - Move Helm values from each `.global.providerSpecific.nodeClasses.$<class>` to any nodePool which references that class.
 - Deleted Helm values property `.global.nodeClasses`.
 
+### Changed
+
+> Increase `HelmReleases` retries count to 50.
+
 ## [0.57.0] - 2024-09-07
 
 ### Changed
