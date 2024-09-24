@@ -57,7 +57,7 @@ giantswarm.io/prevent-deletion: "true"
 Create a prefix for all resource names.
 */}}
 {{- define "resource.default.name" -}}
-{{ .Release.Name }}
+{{- .Values.global.metadata.name | default (.Release.Name | replace "." "-" | trunc 47 | trimSuffix "-") -}}
 {{- end -}}
 
 {{- define "securityContext.runAsUser" -}}
