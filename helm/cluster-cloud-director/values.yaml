@@ -22,8 +22,12 @@ cluster:
         group: infrastructure.cluster.x-k8s.io
         kind: VCDCluster
         version: v1beta2
+      infrastructureMachinePool:
+        group: infrastructure.cluster.x-k8s.io
+        kind: VCDMachineTemplate
+        version: v1beta2
       machineHealthCheckResourceEnabled: false
-      machinePoolResourcesEnabled: false
+      machinePoolResourcesEnabled: true
       networkPoliciesHelmReleaseResourceEnabled: false
       nodePoolKind: MachineDeployment
       verticalPodAutoscalerCrdHelmReleaseResourceEnabled: false
