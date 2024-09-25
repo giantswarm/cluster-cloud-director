@@ -151,6 +151,7 @@ Properties within the `.global.metadata` object
 | `global.metadata.description` | **Cluster description** - User-friendly description of the cluster's purpose.|**Type:** `string`<br/>|
 | `global.metadata.labels` | **Labels** - These labels are added to the Kubernetes resources defining this cluster.|**Type:** `object`<br/>|
 | `global.metadata.labels.PATTERN` | **Label**|**Type:** `string`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-zA-Z0-9/\._-]+$`<br/>**Value pattern:** `^[a-zA-Z0-9\._-]+$`<br/>|
+| `global.metadata.name` | **Cluster name**|**Type:** `string`<br/>|
 | `global.metadata.organization` | **Organization**|**Type:** `string`<br/>|
 | `global.metadata.preventDeletion` | **Prevent cluster deletion**|**Type:** `boolean`<br/>**Default:** `false`|
 | `global.metadata.servicePriority` | **Service priority** - The relative importance of this cluster.|**Type:** `string`<br/>**Default:** `"highest"`|
@@ -232,6 +233,7 @@ Properties within the `.global.providerSpecific` object
 | **Property** | **Description** | **More Details** |
 | :----------- | :-------------- | :--------------- |
 | `baseDomain` | **Base DNS domain**|**Type:** `string`<br/>|
+| `cluster` | **Cluster** - Helm values for the provider-independent cluster chart.|**Type:** `object`<br/>**Default:** `{"providerIntegration":{"controlPlane":{"resources":{"infrastructureMachineTemplate":{"group":"infrastructure.cluster.x-k8s.io","kind":"VCDMachineTemplate","version":"v1beta2"},"infrastructureMachineTemplateSpecTemplateName":"controlplane-vcdmachinetemplate-spec"}},"provider":"vsphere","resourcesApi":{"bastionResourceEnabled":false,"ciliumHelmReleaseResourceEnabled":false,"cleanupHelmReleaseResourcesEnabled":false,"clusterResourceEnabled":true,"controlPlaneResourceEnabled":false,"coreDnsHelmReleaseResourceEnabled":false,"helmRepositoryResourcesEnabled":false,"infrastructureCluster":{"group":"infrastructure.cluster.x-k8s.io","kind":"VCDCluster","version":"v1beta2"},"machineHealthCheckResourceEnabled":false,"machinePoolResourcesEnabled":false,"networkPoliciesHelmReleaseResourceEnabled":false,"nodePoolKind":"MachineDeployment","verticalPodAutoscalerCrdHelmReleaseResourceEnabled":false},"workers":{"defaultNodePools":{"def00":{"catalog":"giantswarm","diskSize":"32212254720","replicas":2,"sizingPolicy":"m1.large","template":"flatcar-stable-3815.2.2-kube-v1.27.14-gs"}}}}}`|
 | `cluster-shared` | **Library chart**|**Type:** `object`<br/>|
 | `managementCluster` | **Management cluster name** - The Cluster API management cluster that manages this cluster.|**Type:** `string`<br/>|
 | `provider` | **Cluster API provider name**|**Type:** `string`<br/>|

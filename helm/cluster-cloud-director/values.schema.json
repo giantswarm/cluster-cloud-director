@@ -134,6 +134,56 @@
             "type": "string",
             "title": "Base DNS domain"
         },
+        "cluster": {
+            "type": "object",
+            "title": "Cluster",
+            "description": "Helm values for the provider-independent cluster chart.",
+            "default": {
+                "providerIntegration": {
+                    "controlPlane": {
+                        "resources": {
+                            "infrastructureMachineTemplate": {
+                                "group": "infrastructure.cluster.x-k8s.io",
+                                "kind": "VCDMachineTemplate",
+                                "version": "v1beta2"
+                            },
+                            "infrastructureMachineTemplateSpecTemplateName": "controlplane-vcdmachinetemplate-spec"
+                        }
+                    },
+                    "provider": "vsphere",
+                    "resourcesApi": {
+                        "bastionResourceEnabled": false,
+                        "ciliumHelmReleaseResourceEnabled": false,
+                        "cleanupHelmReleaseResourcesEnabled": false,
+                        "clusterResourceEnabled": true,
+                        "controlPlaneResourceEnabled": false,
+                        "coreDnsHelmReleaseResourceEnabled": false,
+                        "helmRepositoryResourcesEnabled": false,
+                        "infrastructureCluster": {
+                            "group": "infrastructure.cluster.x-k8s.io",
+                            "kind": "VCDCluster",
+                            "version": "v1beta2"
+                        },
+                        "machineHealthCheckResourceEnabled": false,
+                        "machinePoolResourcesEnabled": false,
+                        "networkPoliciesHelmReleaseResourceEnabled": false,
+                        "nodePoolKind": "MachineDeployment",
+                        "verticalPodAutoscalerCrdHelmReleaseResourceEnabled": false
+                    },
+                    "workers": {
+                        "defaultNodePools": {
+                            "def00": {
+                                "catalog": "giantswarm",
+                                "diskSize": "32212254720",
+                                "replicas": 2,
+                                "sizingPolicy": "m1.large",
+                                "template": "flatcar-stable-3815.2.2-kube-v1.27.14-gs"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "cluster-shared": {
             "type": "object",
             "title": "Library chart"
@@ -312,7 +362,7 @@
                                 "pods",
                                 "services"
                             ],
-                            "additionalProperties": false,
+                            "additionalProperties": true,
                             "properties": {
                                 "controlPlaneEndpoint": {
                                     "type": "object",
@@ -383,7 +433,7 @@
                                     "required": [
                                         "cidrBlocks"
                                     ],
-                                    "additionalProperties": false,
+                                    "additionalProperties": true,
                                     "properties": {
                                         "cidrBlocks": {
                                             "$ref": "#/$defs/cidrBlocks",
@@ -685,6 +735,10 @@
                                     "pattern": "^[a-zA-Z0-9\\._-]+$"
                                 }
                             }
+                        },
+                        "name": {
+                            "type": "string",
+                            "title": "Cluster name"
                         },
                         "organization": {
                             "type": "string",

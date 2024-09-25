@@ -21,3 +21,10 @@ maintainers:
 restrictions:
   compatibleProviders:
     - cloud-director
+dependencies:
+  - name: cluster
+    version: "1.4.1"
+    repository: "https://giantswarm.github.io/cluster-catalog"
+  - name: cluster-shared
+    version: "0.7.1"
+    repository: "https://giantswarm.github.io/cluster-catalog"

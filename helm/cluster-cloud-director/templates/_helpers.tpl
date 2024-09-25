@@ -57,7 +57,7 @@ giantswarm.io/prevent-deletion: "true"
 Create a prefix for all resource names.
 */}}
 {{- define "resource.default.name" -}}
-{{ .Release.Name }}
+{{- .Values.global.metadata.name | default (.Release.Name | replace "." "-" | trunc 47 | trimSuffix "-") -}}
 {{- end -}}
 
 {{- define "securityContext.runAsUser" -}}
@@ -276,7 +276,7 @@ create VSphereMachineTemplates.
 {{ define "createMapOfClusterNodeSpecs" }}
 {{- $nodeMap := dict -}}
 {{- $_ := set $nodeMap "control-plane" .Values.global.controlPlane -}}
-{{- range $index, $pool := .Values.global.nodePools -}}
+{{- range $index, $pool := .Values.global.nodePools | default .Values.cluster.providerIntegration.workers.defaultNodePools -}}
   {{- $_ := set $nodeMap $index $pool -}}
 {{- end -}}
 {{ toYaml $nodeMap }}
@@ -288,7 +288,7 @@ MachineDeployments.
 */}}
 {{ define "createMapOfWorkerPoolSpecs" -}}
 {{- $nodeMap := dict -}}
-{{- range $index, $pool := .Values.global.nodePools -}}
+{{- range $index, $pool := .Values.global.nodePools | default .Values.cluster.providerIntegration.workers.defaultNodePools -}}
   {{- $_ := set $nodeMap $index $pool -}}
 {{- end -}}
 {{ toYaml $nodeMap }}

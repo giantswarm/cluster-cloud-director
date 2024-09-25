@@ -6,6 +6,7 @@ global:
     baseDomain: "test.gigantic.io"
   metadata:
     description: "Testing Cluster"
+    name: "test"
     organization: giantswarm
     servicePriority: highest
   controlPlane:

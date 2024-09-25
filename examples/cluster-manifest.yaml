@@ -23,6 +23,7 @@ data:
         baseDomain: test.gigantic.io
       metadata:
         description: "Test cluster configured with custom node names"
+        name: testing # name of the cluster, no spaces allowed
         organization: multi-project
         servicePriority: highest
       controlPlane:
