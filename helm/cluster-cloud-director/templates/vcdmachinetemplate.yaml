@@ -11,7 +11,7 @@ metadata:
 spec:
   template:
     spec:
-      {{- include "worker-vspheremachinetemplate-spec" $ | nindent 6 -}}
+      {{- include "worker-vcdmachinetemplate-spec" $ | nindent 6 -}}
 {{- end }}
 
 {{- range $nodePoolName, $value := include "createMapOfClusterNodeSpecs" . | fromYaml }}
