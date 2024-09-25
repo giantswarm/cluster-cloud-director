@@ -9,7 +9,7 @@ cluster:
           kind: VCDMachineTemplate
           version: v1beta2
         infrastructureMachineTemplateSpecTemplateName: controlplane-vcdmachinetemplate-spec
-    provider: vsphere
+    provider: cloud-director
     resourcesApi:
       bastionResourceEnabled: false
       ciliumHelmReleaseResourceEnabled: false

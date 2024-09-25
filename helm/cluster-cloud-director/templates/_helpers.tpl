@@ -271,7 +271,7 @@ node replacement when the node spec is changed.
 First takes a map of the controlPlane's spec and adds it to a new map, then
 takes a array of maps containing nodePools and adds each nodePool's map to
 the new map. Reults in a map of node specs which can be iterated over to 
-create VSphereMachineTemplates.
+create VCDMachineTemplates.
 */}}
 {{ define "createMapOfClusterNodeSpecs" }}
 {{- $nodeMap := dict -}}
