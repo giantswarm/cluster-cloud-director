@@ -159,14 +159,14 @@
                         "controlPlaneResourceEnabled": false,
                         "coreDnsHelmReleaseResourceEnabled": false,
                         "helmRepositoryResourcesEnabled": false,
-                        "infrastructureMachinePool": {
-                            "group": "infrastructure.cluster.x-k8s.io",
-                            "kind": "VCDMachineTemplate",
-                            "version": "v1beta2"
-                        },
                         "infrastructureCluster": {
                             "group": "infrastructure.cluster.x-k8s.io",
                             "kind": "VCDCluster",
+                            "version": "v1beta2"
+                        },
+                        "infrastructureMachinePool": {
+                            "group": "infrastructure.cluster.x-k8s.io",
+                            "kind": "VCDMachineTemplate",
                             "version": "v1beta2"
                         },
                         "machineHealthCheckResourceEnabled": false,
@@ -184,6 +184,9 @@
                                 "sizingPolicy": "m1.large",
                                 "template": "flatcar-stable-3815.2.2-kube-v1.27.14-gs"
                             }
+                        },
+                        "resources": {
+                            "infrastructureMachineTemplateSpecTemplateName": "worker-vcdmachinetemplate-spec"
                         }
                     }
                 }

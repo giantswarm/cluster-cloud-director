@@ -39,6 +39,8 @@ cluster:
           replicas: 2
           sizingPolicy: m1.large
           template: flatcar-stable-3815.2.2-kube-v1.27.14-gs
+      resources:
+        infrastructureMachineTemplateSpecTemplateName: worker-vcdmachinetemplate-spec
 connectivity:
   containerRegistries: {}
 global:

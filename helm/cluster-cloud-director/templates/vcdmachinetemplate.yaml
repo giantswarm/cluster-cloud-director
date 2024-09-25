@@ -1,3 +1,19 @@
+{{- range $nodePoolName, $nodePool := include "createMapOfWorkerPoolSpecs" . | fromYaml }}
+{{- $_ := set $ "nodePool" (dict "name" $nodePoolName "config" $nodePool) }}
+---
+apiVersion: {{ include "infrastructureApiVersion" . }}
+kind: VCDMachineTemplate
+metadata:
+  name: {{ include "resource.default.name" $ }}-{{ $.nodePool.name }}-{{ include "machineTemplateSpec.hash" (dict "data" (include "worker-vcdmachinetemplate-spec" $) "salt" $.Values.cluster.providerIntegration.hashSalt) }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "labels.common" $ | nindent 4 }}
+spec:
+  template:
+    spec:
+      {{- include "worker-vspheremachinetemplate-spec" $ | nindent 6 -}}
+{{- end }}
+
 {{- range $nodePoolName, $value := include "createMapOfClusterNodeSpecs" . | fromYaml }}
 {{- $c := (merge (dict "currentPool"  $value) (deepCopy $.Values)) }}
 ---
