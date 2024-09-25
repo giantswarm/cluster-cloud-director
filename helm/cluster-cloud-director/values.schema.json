@@ -362,7 +362,7 @@
                                 "pods",
                                 "services"
                             ],
-                            "additionalProperties": false,
+                            "additionalProperties": true,
                             "properties": {
                                 "controlPlaneEndpoint": {
                                     "type": "object",
@@ -433,7 +433,7 @@
                                     "required": [
                                         "cidrBlocks"
                                     ],
-                                    "additionalProperties": false,
+                                    "additionalProperties": true,
                                     "properties": {
                                         "cidrBlocks": {
                                             "$ref": "#/$defs/cidrBlocks",
