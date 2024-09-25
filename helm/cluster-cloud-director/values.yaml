@@ -9,6 +9,83 @@ cluster:
           kind: VCDMachineTemplate
           version: v1beta2
         infrastructureMachineTemplateSpecTemplateName: controlplane-vcdmachinetemplate-spec
+    environmentVariables:
+      hostName: COREOS_CUSTOM_HOSTNAME
+    kubeadmConfig:
+      enableGiantswarmUser: true
+      files:
+        - contentFrom:
+            secret:
+              key: set-hostname.sh
+              name: provider-specific-files-1
+              prependClusterNameAsPrefix: true
+          path: /opt/bin/set-hostname.sh
+          permissions: "0755"
+      ignition:
+        containerLinuxConfig:
+          additionalConfig:
+            systemd:
+              units:
+                - contents:
+                    install:
+                      wantedBy:
+                        - multi-user.target
+                    unit:
+                      description: VMWare metadata agent
+                  dropins:
+                    - contents: |-
+                        [Unit]
+                        After=nss-lookup.target
+                        After=network-online.target
+                        Wants=network-online.target
+                        [Service]
+                        Type=oneshot
+                        Restart=on-failure
+                        RemainAfterExit=yes
+                        Environment=OUTPUT=/run/metadata/coreos
+                        ExecStart=/usr/bin/mkdir --parent /run/metadata
+                        ExecStart=/usr/bin/bash -cv 'echo "COREOS_CUSTOM_HOSTNAME=$("$(find /usr/bin /usr/share/oem -name vmtoolsd -type f -executable 2>/dev/null | head -n 1)" --cmd "info-get guestinfo.metadata" | base64 -d | awk \'/local-hostname/ {print $2}\' | tr -d \'"\')" >> ${OUTPUT}'
+                      name: 10-coreos-metadata.conf
+                  enabled: true
+                  name: coreos-metadata.service
+                - contents:
+                    install:
+                      wantedBy:
+                        - multi-user.target
+                    unit:
+                      description: Set machine hostname
+                  dropins:
+                    - contents: |-
+                        [Unit]
+                        Requires=coreos-metadata.service
+                        After=coreos-metadata.service
+                        Before=teleport.service
+                        [Service]
+                        Type=oneshot
+                        RemainAfterExit=yes
+                        EnvironmentFile=/run/metadata/coreos
+                        ExecStart=/opt/bin/set-hostname.sh
+                      name: 10-set-hostname.conf
+                  enabled: true
+                  name: set-hostname.service
+                - contents:
+                    install:
+                      wantedBy:
+                        - default.target
+                    unit:
+                      description: Disable TCP segmentation offloading
+                  dropins:
+                    - contents: |-
+                        [Unit]
+                        After=network.target
+                        [Service]
+                        Type=oneshot
+                        RemainAfterExit=yes
+                        ExecStart=/usr/sbin/ethtool -K ens192 tx-udp_tnl-csum-segmentation off
+                        ExecStart=/usr/sbin/ethtool -K ens192 tx-udp_tnl-segmentation off
+                      name: 10-ethtool-segmentation.conf
+                  enabled: true
+                  name: ethtool-segmentation.service
     provider: cloud-director
     resourcesApi:
       bastionResourceEnabled: false
