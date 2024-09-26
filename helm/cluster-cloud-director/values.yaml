@@ -22,6 +22,13 @@ cluster:
               prependClusterNameAsPrefix: true
           path: /opt/bin/set-hostname.sh
           permissions: "0755"
+        - contentFrom:
+            secret:
+              key: add-static-routes.sh
+              name: provider-specific-files-1
+              prependClusterNameAsPrefix: true
+          path: /opt/bin/add-static-routes.sh
+          permissions: "0755"
       ignition:
         containerLinuxConfig:
           additionalConfig:
@@ -70,6 +77,29 @@ cluster:
                       name: 10-set-hostname.conf
                   enabled: true
                   name: set-hostname.service
+                - contents:
+                    install:
+                      wantedBy:
+                        - multi-user.target
+                    unit:
+                      description: Install the systemd-networkd unit files and add static routes
+                  dropins:
+                    - contents: |-
+                        [Unit]
+                        Description=Install the networkd unit files
+                        Requires=coreos-metadata.service
+                        After=set-hostname.service
+                        [Service]
+                        Type=oneshot
+                        RemainAfterExit=yes
+                        ExecStart=/usr/bin/bash -cv 'echo "$("$(find /usr/bin /usr/share/oem -name vmtoolsd -type f -executable 2>/dev/null | head -n 1)" --cmd "info-get guestinfo.ignition.network")" > /opt/bin/set-networkd-units.sh'
+                        ExecStart=/usr/bin/bash -cv 'chmod u+x /opt/bin/set-networkd-units.sh'
+                        ExecStart=/opt/bin/set-networkd-units.sh
+                        ExecStart=/usr/bin/bash -cv 'sleep 3'
+                        ExecStart=/opt/bin/add-static-routes.sh
+                      name: 10-set-networkd-units.conf
+                  enabled: true
+                  name: set-networkd-units.service
                 - contents:
                     install:
                       wantedBy:
