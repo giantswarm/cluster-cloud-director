@@ -120,6 +120,7 @@ cluster:
                   name: ethtool-segmentation.service
       postKubeadmCommands:
         - usermod -aG root nobody
+    kubernetesVersion: 1.27.14
     provider: cloud-director
     resourcesApi:
       bastionResourceEnabled: false
