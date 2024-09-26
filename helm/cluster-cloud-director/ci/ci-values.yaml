@@ -3,10 +3,23 @@ internal:
     enabled: true
 global:
   connectivity:
+    baseDomain: "test.gigantic.io"
     network:
       loadBalancers:
         vipSubnet: 10.205.9.254/24
-    baseDomain: "test.gigantic.io"
+      extraOvdcNetworks:
+        - another-test-network
+      staticRoutes:
+        - destination: 10.2.3.0/24
+          via: 10.9.8.7
+        - destination: 10.20.30.0/24
+          via: 10.9.8.7
+    ntp:
+      servers:
+        - "10.10.10.10"
+    proxy:
+      enabled: true
+      secretName: ""
   controlPlane:
     catalog: giantswarm
     replicas: 1
