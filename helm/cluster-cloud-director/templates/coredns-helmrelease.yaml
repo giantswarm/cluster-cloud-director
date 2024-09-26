@@ -16,7 +16,7 @@ spec:
       chart: coredns-app
       # used by renovate
       # repo: giantswarm/coredns-app
-      version: 1.21.0
+      version: 1.22.0
       sourceRef:
         kind: HelmRepository
         name: {{ include "resource.default.name" $ }}-default
