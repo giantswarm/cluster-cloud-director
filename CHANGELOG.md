@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Bump Cilium `0.27.0` -> `0.28.0`.
+- Bump Coredns `1.21.0` -> `1.22.0`.
+
 ## [0.59.0] - 2024-09-26
 
 ### Changed
