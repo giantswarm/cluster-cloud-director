@@ -11,6 +11,7 @@ cluster:
         infrastructureMachineTemplateSpecTemplateName: controlplane-vcdmachinetemplate-spec
     environmentVariables:
       hostName: COREOS_CUSTOM_HOSTNAME
+      ipv4: COREOS_CUSTOM_IPV4
     kubeadmConfig:
       enableGiantswarmUser: true
       files:
@@ -45,6 +46,7 @@ cluster:
                         Environment=OUTPUT=/run/metadata/coreos
                         ExecStart=/usr/bin/mkdir --parent /run/metadata
                         ExecStart=/usr/bin/bash -cv 'echo "COREOS_CUSTOM_HOSTNAME=$("$(find /usr/bin /usr/share/oem -name vmtoolsd -type f -executable 2>/dev/null | head -n 1)" --cmd "info-get guestinfo.metadata" | base64 -d | awk \'/local-hostname/ {print $2}\' | tr -d \'"\')" >> ${OUTPUT}'
+                        ExecStart=/usr/bin/bash -cv 'echo "COREOS_CUSTOM_IPV4=$("$(find /usr/bin /usr/share/oem -name vmtoolsd -type f -executable 2>/dev/null | head -n 1)" --cmd "info-get guestinfo.ip")" >> ${OUTPUT}'
                       name: 10-coreos-metadata.conf
                   enabled: true
                   name: coreos-metadata.service
@@ -86,6 +88,8 @@ cluster:
                       name: 10-ethtool-segmentation.conf
                   enabled: true
                   name: ethtool-segmentation.service
+      postKubeadmCommands:
+        - usermod -aG root nobody
     provider: cloud-director
     resourcesApi:
       bastionResourceEnabled: false
