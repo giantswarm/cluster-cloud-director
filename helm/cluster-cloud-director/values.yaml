@@ -52,8 +52,7 @@ cluster:
                         RemainAfterExit=yes
                         Environment=OUTPUT=/run/metadata/coreos
                         ExecStart=/usr/bin/mkdir --parent /run/metadata
-                        ExecStart=/usr/bin/bash -cv 'echo "COREOS_CUSTOM_HOSTNAME=$("$(find /usr/bin /usr/share/oem -name vmtoolsd -type f -executable 2>/dev/null | head -n 1)" --cmd "info-get guestinfo.metadata" | base64 -d | awk \'/local-hostname/ {print $2}\' | tr -d \'"\')" >> ${OUTPUT}'
-                        ExecStart=/usr/bin/bash -cv 'echo "COREOS_CUSTOM_IPV4=$("$(find /usr/bin /usr/share/oem -name vmtoolsd -type f -executable 2>/dev/null | head -n 1)" --cmd "info-get guestinfo.ip")" >> ${OUTPUT}'
+                        ExecStart=/usr/bin/bash -cv 'echo "COREOS_CUSTOM_HOSTNAME=$("$(find /usr/bin /usr/share/oem -name vmtoolsd -type f -executable 2>/dev/null | head -n 1)" --cmd "info-get guestinfo.ignition.vmname")" > ${OUTPUT}'
                       name: 10-coreos-metadata.conf
                   enabled: true
                   name: coreos-metadata.service
