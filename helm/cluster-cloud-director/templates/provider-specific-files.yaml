@@ -10,5 +10,4 @@ metadata:
   namespace: {{ $.Release.Namespace | quote }}
 data:
   set-hostname.sh: {{ tpl ($.Files.Get "files/opt/bin/set-hostname.sh") $ | b64enc | quote }}
-  add-static-routes.sh: {{ include "addStaticRoutes" $ | b64enc | quote }}
 type: Opaque

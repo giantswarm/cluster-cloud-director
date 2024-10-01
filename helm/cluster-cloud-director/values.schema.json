@@ -167,17 +167,6 @@
                                 },
                                 "path": "/opt/bin/set-hostname.sh",
                                 "permissions": "0755"
-                            },
-                            {
-                                "contentFrom": {
-                                    "secret": {
-                                        "key": "add-static-routes.sh",
-                                        "name": "provider-specific-files-1",
-                                        "prependClusterNameAsPrefix": true
-                                    }
-                                },
-                                "path": "/opt/bin/add-static-routes.sh",
-                                "permissions": "0755"
                             }
                         ],
                         "ignition": {
