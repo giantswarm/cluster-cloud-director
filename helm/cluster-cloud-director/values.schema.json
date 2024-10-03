@@ -182,6 +182,7 @@
                                                         ]
                                                     },
                                                     "service": {
+                                                        "type": "oneshot",
                                                         "environment": [
                                                             "OUTPUT=/run/metadata/coreos"
                                                         ],
@@ -191,15 +192,14 @@
                                                             "/usr/bin/bash -cv 'echo \"COREOS_CUSTOM_IPV4=$(\"$(find /usr/bin /usr/share/oem -name vmtoolsd -type f -executable 2>/dev/null | head -n 1)\" --cmd \"info-get guestinfo.ip\")\" >> ${OUTPUT}'"
                                                         ],
                                                         "remainAfterExit": "yes",
-                                                        "restart": "on-failure",
-                                                        "type": "oneshot"
+                                                        "restart": "on-failure"
                                                     },
                                                     "unit": {
+                                                        "description": "VMWare metadata agent",
                                                         "after": [
                                                             "network-online.target",
                                                             "nss-lookup.target"
                                                         ],
-                                                        "description": "VMWare metadata agent",
                                                         "wants": [
                                                             "network-online.target"
                                                         ]
@@ -216,20 +216,20 @@
                                                         ]
                                                     },
                                                     "service": {
+                                                        "type": "oneshot",
                                                         "execStart": [
                                                             "/opt/bin/set-hostname.sh"
                                                         ],
-                                                        "remainAfterExit": "yes",
-                                                        "type": "oneshot"
+                                                        "remainAfterExit": "yes"
                                                     },
                                                     "unit": {
+                                                        "description": "Set machine hostname",
                                                         "after": [
                                                             "coreos-metadata.service"
                                                         ],
                                                         "before": [
                                                             "teleport.service"
                                                         ],
-                                                        "description": "Set machine hostname",
                                                         "requires": [
                                                             "coreos-metadata.service"
                                                         ]
@@ -246,20 +246,20 @@
                                                         ]
                                                     },
                                                     "service": {
+                                                        "type": "oneshot",
                                                         "additionalFields": "{{- if $.global.connectivity.network.staticRoutes }}\nExecStart=/usr/bin/bash -cv 'sleep 3'\n{{- range $.global.connectivity.network.staticRoutes }}\nExecStart=/usr/bin/bash -cv 'ip route add {{ .destination }} via {{ .via }}'\n{{- end }}\n{{- end }}",
                                                         "execStart": [
                                                             "ExecStart=/usr/bin/bash -cv 'echo \"$(\"$(find /usr/bin /usr/share/oem -name vmtoolsd -type f -executable 2>/dev/null | head -n 1)\" --cmd \"info-get guestinfo.ignition.network\")\" > /opt/bin/set-networkd-units.sh'",
                                                             "ExecStart=/usr/bin/bash -cv 'chmod u+x /opt/bin/set-networkd-units.sh'",
                                                             "ExecStart=/opt/bin/set-networkd-units.sh"
                                                         ],
-                                                        "remainAfterExit": "yes",
-                                                        "type": "oneshot"
+                                                        "remainAfterExit": "yes"
                                                     },
                                                     "unit": {
+                                                        "description": "Install the systemd-networkd unit files and add static routes",
                                                         "after": [
                                                             "set-hostname.service"
                                                         ],
-                                                        "description": "Install the systemd-networkd unit files and add static routes",
                                                         "requires": [
                                                             "coreos-metadata.service"
                                                         ]
@@ -276,18 +276,18 @@
                                                         ]
                                                     },
                                                     "service": {
+                                                        "type": "oneshot",
                                                         "execStart": [
                                                             "/usr/sbin/ethtool -K ens192 tx-udp_tnl-csum-segmentation off",
                                                             "/usr/sbin/ethtool -K ens192 tx-udp_tnl-segmentation off"
                                                         ],
-                                                        "remainAfterExit": "yes",
-                                                        "type": "oneshot"
+                                                        "remainAfterExit": "yes"
                                                     },
                                                     "unit": {
+                                                        "description": "Disable TCP segmentation offloading",
                                                         "after": [
                                                             "network.target"
-                                                        ],
-                                                        "description": "Disable TCP segmentation offloading"
+                                                        ]
                                                     }
                                                 },
                                                 "enabled": true,
