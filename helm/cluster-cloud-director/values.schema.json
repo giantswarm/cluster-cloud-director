@@ -217,6 +217,9 @@
                                                     },
                                                     "service": {
                                                         "type": "oneshot",
+                                                        "environmentFile": [
+                                                            "/run/metadata/coreos"
+                                                        ],
                                                         "execStart": [
                                                             "/opt/bin/set-hostname.sh"
                                                         ],

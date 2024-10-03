@@ -55,6 +55,8 @@ cluster:
                       wantedBy:
                         - multi-user.target
                     service:
+                      environmentFile:
+                        - /run/metadata/coreos
                       execStart:
                         - /opt/bin/set-hostname.sh
                       remainAfterExit: "yes"
