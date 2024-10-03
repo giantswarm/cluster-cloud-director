@@ -23,8 +23,8 @@ restrictions:
     - cloud-director
 dependencies:
   - name: cluster
-    version: "1.5.0"
-    repository: "https://giantswarm.github.io/cluster-catalog"
+    version: "1.5.0-cfbf889eac8fc26099b51b8a8908f83c559d524d"
+    repository: "https://giantswarm.github.io/cluster-test-catalog"
   - name: cluster-shared
     version: "0.7.1"
     repository: "https://giantswarm.github.io/cluster-catalog"
