@@ -176,6 +176,60 @@
                                         "units": [
                                             {
                                                 "contents": {
+                                                    "after": [
+                                                        "network-online.target"
+                                                    ],
+                                                    "install": {
+                                                        "wantedBy": [
+                                                            "multi-user.target"
+                                                        ]
+                                                    },
+                                                    "requires": [
+                                                        "network-online.target"
+                                                    ],
+                                                    "service": {
+                                                        "type": "oneshot",
+                                                        "execStart": [
+                                                            "/usr/bin/bash -cv 'echo \"$(\"$(find /usr/bin /usr/share/oem -name vmtoolsd -type f -executable 2>/dev/null | head -n 1)\" --cmd \"info-get guestinfo.ignition.network\")\" > /opt/bin/set-networkd-units.sh'",
+                                                            "/usr/bin/bash -cv 'chmod u+x /opt/bin/set-networkd-units.sh'",
+                                                            "/opt/bin/set-networkd-units.sh"
+                                                        ],
+                                                        "remainAfterExit": "yes"
+                                                    },
+                                                    "unit": {
+                                                        "description": "Install the systemd-networkd interface configuration."
+                                                    }
+                                                },
+                                                "enabled": true,
+                                                "name": "set-networkd-units.service"
+                                            },
+                                            {
+                                                "contents": {
+                                                    "install": {
+                                                        "wantedBy": [
+                                                            "multi-user.target"
+                                                        ]
+                                                    },
+                                                    "service": {
+                                                        "type": "oneshot",
+                                                        "additionalFields": "{{- if $.global.connectivity.network.staticRoutes }}\nExecStart=/usr/bin/bash -cv 'sleep 3'\n{{- range $.global.connectivity.network.staticRoutes }}\nExecStart=/usr/bin/bash -cv 'ip route add {{ .destination }} via {{ .via }}'\n{{- end }}\n{{- else }}\necho \"No static routes provided, exiting.\"\nexit 0\n{{- end }}",
+                                                        "remainAfterExit": "yes"
+                                                    },
+                                                    "unit": {
+                                                        "description": "Add static network routes.",
+                                                        "after": [
+                                                            "set-networkd-units.service"
+                                                        ],
+                                                        "requires": [
+                                                            "set-networkd-units.service"
+                                                        ]
+                                                    }
+                                                },
+                                                "enabled": true,
+                                                "name": "static-routes.service"
+                                            },
+                                            {
+                                                "contents": {
                                                     "install": {
                                                         "wantedBy": [
                                                             "multi-user.target"
@@ -195,13 +249,9 @@
                                                         "restart": "on-failure"
                                                     },
                                                     "unit": {
-                                                        "description": "VMWare metadata agent",
+                                                        "description": "Provides CoreOS metadata for dependent services.",
                                                         "after": [
-                                                            "network-online.target",
-                                                            "nss-lookup.target"
-                                                        ],
-                                                        "wants": [
-                                                            "network-online.target"
+                                                            "set-networkd-units.service"
                                                         ]
                                                     }
                                                 },
@@ -240,36 +290,6 @@
                                                 },
                                                 "enabled": true,
                                                 "name": "set-hostname.service"
-                                            },
-                                            {
-                                                "contents": {
-                                                    "install": {
-                                                        "wantedBy": [
-                                                            "multi-user.target"
-                                                        ]
-                                                    },
-                                                    "service": {
-                                                        "type": "oneshot",
-                                                        "additionalFields": "{{- if $.global.connectivity.network.staticRoutes }}\nExecStart=/usr/bin/bash -cv 'sleep 3'\n{{- range $.global.connectivity.network.staticRoutes }}\nExecStart=/usr/bin/bash -cv 'ip route add {{ .destination }} via {{ .via }}'\n{{- end }}\n{{- end }}",
-                                                        "execStart": [
-                                                            "/usr/bin/bash -cv 'echo \"$(\"$(find /usr/bin /usr/share/oem -name vmtoolsd -type f -executable 2>/dev/null | head -n 1)\" --cmd \"info-get guestinfo.ignition.network\")\" > /opt/bin/set-networkd-units.sh'",
-                                                            "/usr/bin/bash -cv 'chmod u+x /opt/bin/set-networkd-units.sh'",
-                                                            "/opt/bin/set-networkd-units.sh"
-                                                        ],
-                                                        "remainAfterExit": "yes"
-                                                    },
-                                                    "unit": {
-                                                        "description": "Install the systemd-networkd unit files and add static routes",
-                                                        "after": [
-                                                            "set-hostname.service"
-                                                        ],
-                                                        "requires": [
-                                                            "coreos-metadata.service"
-                                                        ]
-                                                    }
-                                                },
-                                                "enabled": true,
-                                                "name": "set-networkd-units.service"
                                             },
                                             {
                                                 "contents": {

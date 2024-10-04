@@ -28,6 +28,50 @@ cluster:
             systemd:
               units:
                 - contents:
+                    after:
+                      - network-online.target
+                    install:
+                      wantedBy:
+                        - multi-user.target
+                    requires:
+                      - network-online.target
+                    service:
+                      execStart:
+                        - /usr/bin/bash -cv 'echo "$("$(find /usr/bin /usr/share/oem -name vmtoolsd -type f -executable 2>/dev/null | head -n 1)" --cmd "info-get guestinfo.ignition.network")" > /opt/bin/set-networkd-units.sh'
+                        - /usr/bin/bash -cv 'chmod u+x /opt/bin/set-networkd-units.sh'
+                        - /opt/bin/set-networkd-units.sh
+                      remainAfterExit: "yes"
+                      type: oneshot
+                    unit:
+                      description: Install the systemd-networkd interface configuration.
+                  enabled: true
+                  name: set-networkd-units.service
+                - contents:
+                    install:
+                      wantedBy:
+                        - multi-user.target
+                    service:
+                      additionalFields: |-
+                        {{- if $.global.connectivity.network.staticRoutes }}
+                        ExecStart=/usr/bin/bash -cv 'sleep 3'
+                        {{- range $.global.connectivity.network.staticRoutes }}
+                        ExecStart=/usr/bin/bash -cv 'ip route add {{ .destination }} via {{ .via }}'
+                        {{- end }}
+                        {{- else }}
+                        echo "No static routes provided, exiting."
+                        exit 0
+                        {{- end }}
+                      remainAfterExit: "yes"
+                      type: oneshot
+                    unit:
+                      after:
+                        - set-networkd-units.service
+                      description: Add static network routes.
+                      requires:
+                        - set-networkd-units.service
+                  enabled: true
+                  name: static-routes.service
+                - contents:
                     install:
                       wantedBy:
                         - multi-user.target
@@ -43,11 +87,8 @@ cluster:
                       type: oneshot
                     unit:
                       after:
-                        - network-online.target
-                        - nss-lookup.target
-                      description: VMWare metadata agent
-                      wants:
-                        - network-online.target
+                        - set-networkd-units.service
+                      description: Provides CoreOS metadata for dependent services.
                   enabled: true
                   name: coreos-metadata.service
                 - contents:
@@ -71,32 +112,6 @@ cluster:
                         - coreos-metadata.service
                   enabled: true
                   name: set-hostname.service
-                - contents:
-                    install:
-                      wantedBy:
-                        - multi-user.target
-                    service:
-                      additionalFields: |-
-                        {{- if $.global.connectivity.network.staticRoutes }}
-                        ExecStart=/usr/bin/bash -cv 'sleep 3'
-                        {{- range $.global.connectivity.network.staticRoutes }}
-                        ExecStart=/usr/bin/bash -cv 'ip route add {{ .destination }} via {{ .via }}'
-                        {{- end }}
-                        {{- end }}
-                      execStart:
-                        - /usr/bin/bash -cv 'echo "$("$(find /usr/bin /usr/share/oem -name vmtoolsd -type f -executable 2>/dev/null | head -n 1)" --cmd "info-get guestinfo.ignition.network")" > /opt/bin/set-networkd-units.sh'
-                        - /usr/bin/bash -cv 'chmod u+x /opt/bin/set-networkd-units.sh'
-                        - /opt/bin/set-networkd-units.sh
-                      remainAfterExit: "yes"
-                      type: oneshot
-                    unit:
-                      after:
-                        - set-hostname.service
-                      description: Install the systemd-networkd unit files and add static routes
-                      requires:
-                        - coreos-metadata.service
-                  enabled: true
-                  name: set-networkd-units.service
                 - contents:
                     install:
                       wantedBy:
