@@ -711,6 +711,21 @@
                                     "type": "boolean",
                                     "title": "Enable"
                                 },
+                                "httpProxy": {
+                                    "type": "string",
+                                    "title": "HTTP proxy",
+                                    "description": "HTTP proxy - To be passed to the HTTP_PROXY environment variable in all hosts."
+                                },
+                                "httpsProxy": {
+                                    "type": "string",
+                                    "title": "HTTPS proxy",
+                                    "description": "HTTPS proxy - To be passed to the HTTPS_PROXY environment variable in all hosts."
+                                },
+                                "noProxy": {
+                                    "type": "string",
+                                    "title": "No proxy",
+                                    "description": "No proxy - Comma-separated addresses to be passed to the NO_PROXY environment variable in all hosts."
+                                },
                                 "secretName": {
                                     "type": "string",
                                     "title": "Secret name",
