@@ -37,7 +37,7 @@ cluster:
                       execStart:
                         - /usr/bin/mkdir --parent /run/metadata
                         - /usr/bin/bash -cv 'echo "COREOS_CUSTOM_HOSTNAME=$("$(find /usr/bin /usr/share/oem -name vmtoolsd -type f -executable 2>/dev/null | head -n 1)" --cmd "info-get guestinfo.ignition.vmname")" >> ${OUTPUT}'
-                        - /usr/bin/bash -cv 'echo "COREOS_CUSTOM_IPV4=$("$(find /usr/bin /usr/share/oem -name vmtoolsd -type f -executable 2>/dev/null | head -n 1)" --cmd "info-get guestinfo.ip")" >> ${OUTPUT}'
+                        - /usr/bin/bash -cv 'echo "COREOS_CUSTOM_IPV4=$(ip -4 addr show ens192 | awk '/inet / {print $2}' | cut -d '/' -f1)" >> ${OUTPUT}'
                       remainAfterExit: "yes"
                       restart: on-failure
                       type: oneshot
