@@ -315,6 +315,16 @@
                                                 },
                                                 "enabled": true,
                                                 "name": "ethtool-segmentation.service"
+                                            },
+                                            {
+                                                "dropins": [
+                                                    {
+                                                        "contents": "[Unit]\nUpholds=set-static-routes.service",
+                                                        "name": "10-static-routes-dependency.conf"
+                                                    }
+                                                ],
+                                                "enabled": true,
+                                                "name": "systemd-networkd.service"
                                             }
                                         ]
                                     }
