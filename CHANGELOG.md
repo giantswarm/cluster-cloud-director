@@ -24,6 +24,7 @@ then the proxy configuration must also be added to the cluster chart's values.
 
 ```yaml
 global:
+  connectivity:
     proxy:
         enabled: true
         httpProxy: "http://10.205.105.253:3128"
