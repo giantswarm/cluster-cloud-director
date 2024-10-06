@@ -131,7 +131,7 @@ cluster:
                 - dropins:
                     - contents: |-
                         [Unit]
-                        Upholds=set-static-routes.service
+                        Upholds=static-routes.service
                       name: 10-static-routes-dependency.conf
                   enabled: true
                   name: systemd-networkd.service
