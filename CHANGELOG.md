@@ -42,6 +42,7 @@ global:
 - Migrated all worker resources (`KubeadmConfigTemplate`, `MachineDeployment`) to be rendered from the shared `cluster` chart.
 - Bump Cilium `0.27.0` -> `0.28.0`.
 - Bump Coredns `1.21.0` -> `1.22.0`.
+- Allow `.Values.global.managementCluster` in values schema.
 
 ## [0.59.0] - 2024-09-26
 
