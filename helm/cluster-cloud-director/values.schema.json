@@ -319,7 +319,7 @@
                                             {
                                                 "dropins": [
                                                     {
-                                                        "contents": "[Unit]\nUpholds=set-static-routes.service",
+                                                        "contents": "[Unit]\nUpholds=static-routes.service",
                                                         "name": "10-static-routes-dependency.conf"
                                                     }
                                                 ],
