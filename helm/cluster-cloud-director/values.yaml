@@ -66,6 +66,7 @@ cluster:
                     unit:
                       after:
                         - set-networkd-units.service
+                      bindsTo: set-networkd-units.service
                       description: Add static network routes.
                       requires:
                         - set-networkd-units.service
