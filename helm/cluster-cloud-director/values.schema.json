@@ -218,9 +218,10 @@
                                                     "unit": {
                                                         "description": "Add static network routes.",
                                                         "after": [
-                                                            "set-networkd-units.service"
+                                                            "set-networkd-units.service",
+                                                            "systemd-networkd.service"
                                                         ],
-                                                        "bindsTo": "set-networkd-units.service"
+                                                        "bindsTo": "systemd-networkd.service"
                                                     }
                                                 },
                                                 "enabled": true,
