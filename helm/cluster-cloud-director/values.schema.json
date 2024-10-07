@@ -150,6 +150,191 @@
                             "infrastructureMachineTemplateSpecTemplateName": "controlplane-vcdmachinetemplate-spec"
                         }
                     },
+                    "environmentVariables": {
+                        "hostName": "COREOS_CUSTOM_HOSTNAME",
+                        "ipv4": "COREOS_CUSTOM_IPV4"
+                    },
+                    "kubeadmConfig": {
+                        "enableGiantswarmUser": true,
+                        "files": [
+                            {
+                                "contentFrom": {
+                                    "secret": {
+                                        "key": "set-hostname.sh",
+                                        "name": "provider-specific-files-1",
+                                        "prependClusterNameAsPrefix": true
+                                    }
+                                },
+                                "path": "/opt/bin/set-hostname.sh",
+                                "permissions": "0755"
+                            }
+                        ],
+                        "ignition": {
+                            "containerLinuxConfig": {
+                                "additionalConfig": {
+                                    "systemd": {
+                                        "units": [
+                                            {
+                                                "contents": {
+                                                    "after": [
+                                                        "network-online.target"
+                                                    ],
+                                                    "install": {
+                                                        "wantedBy": [
+                                                            "multi-user.target"
+                                                        ]
+                                                    },
+                                                    "requires": [
+                                                        "network-online.target"
+                                                    ],
+                                                    "service": {
+                                                        "type": "oneshot",
+                                                        "execStart": [
+                                                            "/usr/bin/bash -cv 'echo \"$(\"$(find /usr/bin /usr/share/oem -name vmtoolsd -type f -executable 2>/dev/null | head -n 1)\" --cmd \"info-get guestinfo.ignition.network\")\" > /opt/bin/set-networkd-units.sh'",
+                                                            "/usr/bin/bash -cv 'chmod u+x /opt/bin/set-networkd-units.sh'",
+                                                            "/opt/bin/set-networkd-units.sh"
+                                                        ],
+                                                        "remainAfterExit": "yes"
+                                                    },
+                                                    "unit": {
+                                                        "description": "Install the systemd-networkd interface configuration."
+                                                    }
+                                                },
+                                                "enabled": true,
+                                                "name": "set-networkd-units.service"
+                                            },
+                                            {
+                                                "contents": {
+                                                    "install": {
+                                                        "wantedBy": [
+                                                            "multi-user.target"
+                                                        ]
+                                                    },
+                                                    "service": {
+                                                        "type": "oneshot",
+                                                        "additionalFields": "{{- if $.global.connectivity.network.staticRoutes }}\nExecStart=/usr/bin/bash -cv 'sleep 3'\n{{- range $.global.connectivity.network.staticRoutes }}\nExecStart=/usr/bin/bash -cv 'ip route add {{ .destination }} via {{ .via }}'\n{{- end }}\n{{- else }}\necho \"No static routes provided, exiting.\"\nexit 0\n{{- end }}",
+                                                        "remainAfterExit": "yes"
+                                                    },
+                                                    "unit": {
+                                                        "description": "Add static network routes.",
+                                                        "after": [
+                                                            "set-networkd-units.service",
+                                                            "systemd-networkd.service"
+                                                        ],
+                                                        "bindsTo": "systemd-networkd.service"
+                                                    }
+                                                },
+                                                "enabled": true,
+                                                "name": "static-routes.service"
+                                            },
+                                            {
+                                                "contents": {
+                                                    "install": {
+                                                        "wantedBy": [
+                                                            "multi-user.target"
+                                                        ]
+                                                    },
+                                                    "service": {
+                                                        "type": "oneshot",
+                                                        "environment": [
+                                                            "OUTPUT=/run/metadata/coreos"
+                                                        ],
+                                                        "execStart": [
+                                                            "/usr/bin/mkdir --parent /run/metadata",
+                                                            "/usr/bin/bash -cv 'echo \"COREOS_CUSTOM_HOSTNAME=$(\"$(find /usr/bin /usr/share/oem -name vmtoolsd -type f -executable 2>/dev/null | head -n 1)\" --cmd \"info-get guestinfo.ignition.vmname\")\" > ${OUTPUT}'",
+                                                            "/usr/bin/bash -cv 'echo \"COREOS_CUSTOM_IPV4=$(ip -4 addr show ens192 | awk \\'/inet / {print $2}\\' | cut -d \\'/\\' -f1)\" >> ${OUTPUT}'"
+                                                        ],
+                                                        "remainAfterExit": "yes",
+                                                        "restart": "on-failure"
+                                                    },
+                                                    "unit": {
+                                                        "description": "Provides CoreOS metadata for dependent services.",
+                                                        "after": [
+                                                            "set-networkd-units.service"
+                                                        ]
+                                                    }
+                                                },
+                                                "enabled": true,
+                                                "name": "coreos-metadata.service"
+                                            },
+                                            {
+                                                "contents": {
+                                                    "install": {
+                                                        "wantedBy": [
+                                                            "multi-user.target"
+                                                        ]
+                                                    },
+                                                    "service": {
+                                                        "type": "oneshot",
+                                                        "environmentFile": [
+                                                            "/run/metadata/coreos"
+                                                        ],
+                                                        "execStart": [
+                                                            "/opt/bin/set-hostname.sh"
+                                                        ],
+                                                        "remainAfterExit": "yes"
+                                                    },
+                                                    "unit": {
+                                                        "description": "Set machine hostname",
+                                                        "after": [
+                                                            "coreos-metadata.service"
+                                                        ],
+                                                        "before": [
+                                                            "teleport.service"
+                                                        ],
+                                                        "requires": [
+                                                            "coreos-metadata.service"
+                                                        ]
+                                                    }
+                                                },
+                                                "enabled": true,
+                                                "name": "set-hostname.service"
+                                            },
+                                            {
+                                                "contents": {
+                                                    "install": {
+                                                        "wantedBy": [
+                                                            "default.target"
+                                                        ]
+                                                    },
+                                                    "service": {
+                                                        "type": "oneshot",
+                                                        "execStart": [
+                                                            "/usr/sbin/ethtool -K ens192 tx-udp_tnl-csum-segmentation off",
+                                                            "/usr/sbin/ethtool -K ens192 tx-udp_tnl-segmentation off"
+                                                        ],
+                                                        "remainAfterExit": "yes"
+                                                    },
+                                                    "unit": {
+                                                        "description": "Disable TCP segmentation offloading",
+                                                        "after": [
+                                                            "network.target"
+                                                        ]
+                                                    }
+                                                },
+                                                "enabled": true,
+                                                "name": "ethtool-segmentation.service"
+                                            },
+                                            {
+                                                "dropins": [
+                                                    {
+                                                        "contents": "[Unit]\nUpholds=static-routes.service",
+                                                        "name": "10-static-routes-dependency.conf"
+                                                    }
+                                                ],
+                                                "enabled": true,
+                                                "name": "systemd-networkd.service"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        },
+                        "postKubeadmCommands": [
+                            "usermod -aG root nobody"
+                        ]
+                    },
+                    "kubernetesVersion": "1.27.14",
                     "provider": "cloud-director",
                     "resourcesApi": {
                         "bastionResourceEnabled": false,
@@ -164,8 +349,13 @@
                             "kind": "VCDCluster",
                             "version": "v1beta2"
                         },
+                        "infrastructureMachinePool": {
+                            "group": "infrastructure.cluster.x-k8s.io",
+                            "kind": "VCDMachineTemplate",
+                            "version": "v1beta2"
+                        },
                         "machineHealthCheckResourceEnabled": false,
-                        "machinePoolResourcesEnabled": false,
+                        "machinePoolResourcesEnabled": true,
                         "networkPoliciesHelmReleaseResourceEnabled": false,
                         "nodePoolKind": "MachineDeployment",
                         "verticalPodAutoscalerCrdHelmReleaseResourceEnabled": false
@@ -179,6 +369,9 @@
                                 "sizingPolicy": "m1.large",
                                 "template": "flatcar-stable-3815.2.2-kube-v1.27.14-gs"
                             }
+                        },
+                        "resources": {
+                            "infrastructureMachineTemplateSpecTemplateName": "worker-vcdmachinetemplate-spec"
                         }
                     }
                 }
@@ -527,6 +720,21 @@
                                     "type": "boolean",
                                     "title": "Enable"
                                 },
+                                "httpProxy": {
+                                    "type": "string",
+                                    "title": "HTTP proxy",
+                                    "description": "HTTP proxy - To be passed to the HTTP_PROXY environment variable in all hosts."
+                                },
+                                "httpsProxy": {
+                                    "type": "string",
+                                    "title": "HTTPS proxy",
+                                    "description": "HTTPS proxy - To be passed to the HTTPS_PROXY environment variable in all hosts."
+                                },
+                                "noProxy": {
+                                    "type": "string",
+                                    "title": "No proxy",
+                                    "description": "No proxy - Comma-separated addresses to be passed to the NO_PROXY environment variable in all hosts."
+                                },
                                 "secretName": {
                                     "type": "string",
                                     "title": "Secret name",
@@ -710,6 +918,11 @@
                             "title": "VM template"
                         }
                     }
+                },
+                "managementCluster": {
+                    "type": "string",
+                    "title": "Management cluster",
+                    "description": "Name of the Cluster API cluster managing this workload cluster."
                 },
                 "metadata": {
                     "type": "object",

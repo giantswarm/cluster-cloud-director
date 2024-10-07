@@ -276,9 +276,6 @@ create VCDMachineTemplates.
 {{ define "createMapOfClusterNodeSpecs" }}
 {{- $nodeMap := dict -}}
 {{- $_ := set $nodeMap "control-plane" .Values.global.controlPlane -}}
-{{- range $index, $pool := .Values.global.nodePools | default .Values.cluster.providerIntegration.workers.defaultNodePools -}}
-  {{- $_ := set $nodeMap $index $pool -}}
-{{- end -}}
 {{ toYaml $nodeMap }}
 {{- end }}
 {{/*

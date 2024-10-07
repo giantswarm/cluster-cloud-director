@@ -9,6 +9,135 @@ cluster:
           kind: VCDMachineTemplate
           version: v1beta2
         infrastructureMachineTemplateSpecTemplateName: controlplane-vcdmachinetemplate-spec
+    environmentVariables:
+      hostName: COREOS_CUSTOM_HOSTNAME
+      ipv4: COREOS_CUSTOM_IPV4
+    kubeadmConfig:
+      enableGiantswarmUser: true
+      files:
+        - contentFrom:
+            secret:
+              key: set-hostname.sh
+              name: provider-specific-files-1
+              prependClusterNameAsPrefix: true
+          path: /opt/bin/set-hostname.sh
+          permissions: "0755"
+      ignition:
+        containerLinuxConfig:
+          additionalConfig:
+            systemd:
+              units:
+                - contents:
+                    after:
+                      - network-online.target
+                    install:
+                      wantedBy:
+                        - multi-user.target
+                    requires:
+                      - network-online.target
+                    service:
+                      execStart:
+                        - /usr/bin/bash -cv 'echo "$("$(find /usr/bin /usr/share/oem -name vmtoolsd -type f -executable 2>/dev/null | head -n 1)" --cmd "info-get guestinfo.ignition.network")" > /opt/bin/set-networkd-units.sh'
+                        - /usr/bin/bash -cv 'chmod u+x /opt/bin/set-networkd-units.sh'
+                        - /opt/bin/set-networkd-units.sh
+                      remainAfterExit: "yes"
+                      type: oneshot
+                    unit:
+                      description: Install the systemd-networkd interface configuration.
+                  enabled: true
+                  name: set-networkd-units.service
+                - contents:
+                    install:
+                      wantedBy:
+                        - multi-user.target
+                    service:
+                      additionalFields: |-
+                        {{- if $.global.connectivity.network.staticRoutes }}
+                        ExecStart=/usr/bin/bash -cv 'sleep 3'
+                        {{- range $.global.connectivity.network.staticRoutes }}
+                        ExecStart=/usr/bin/bash -cv 'ip route add {{ .destination }} via {{ .via }}'
+                        {{- end }}
+                        {{- else }}
+                        echo "No static routes provided, exiting."
+                        exit 0
+                        {{- end }}
+                      remainAfterExit: "yes"
+                      type: oneshot
+                    unit:
+                      after:
+                        - set-networkd-units.service
+                        - systemd-networkd.service
+                      bindsTo: systemd-networkd.service
+                      description: Add static network routes.
+                  enabled: true
+                  name: static-routes.service
+                - contents:
+                    install:
+                      wantedBy:
+                        - multi-user.target
+                    service:
+                      environment:
+                        - OUTPUT=/run/metadata/coreos
+                      execStart:
+                        - /usr/bin/mkdir --parent /run/metadata
+                        - /usr/bin/bash -cv 'echo "COREOS_CUSTOM_HOSTNAME=$("$(find /usr/bin /usr/share/oem -name vmtoolsd -type f -executable 2>/dev/null | head -n 1)" --cmd "info-get guestinfo.ignition.vmname")" > ${OUTPUT}'
+                        - /usr/bin/bash -cv 'echo "COREOS_CUSTOM_IPV4=$(ip -4 addr show ens192 | awk \'/inet / {print $2}\' | cut -d \'/\' -f1)" >> ${OUTPUT}'
+                      remainAfterExit: "yes"
+                      restart: on-failure
+                      type: oneshot
+                    unit:
+                      after:
+                        - set-networkd-units.service
+                      description: Provides CoreOS metadata for dependent services.
+                  enabled: true
+                  name: coreos-metadata.service
+                - contents:
+                    install:
+                      wantedBy:
+                        - multi-user.target
+                    service:
+                      environmentFile:
+                        - /run/metadata/coreos
+                      execStart:
+                        - /opt/bin/set-hostname.sh
+                      remainAfterExit: "yes"
+                      type: oneshot
+                    unit:
+                      after:
+                        - coreos-metadata.service
+                      before:
+                        - teleport.service
+                      description: Set machine hostname
+                      requires:
+                        - coreos-metadata.service
+                  enabled: true
+                  name: set-hostname.service
+                - contents:
+                    install:
+                      wantedBy:
+                        - default.target
+                    service:
+                      execStart:
+                        - /usr/sbin/ethtool -K ens192 tx-udp_tnl-csum-segmentation off
+                        - /usr/sbin/ethtool -K ens192 tx-udp_tnl-segmentation off
+                      remainAfterExit: "yes"
+                      type: oneshot
+                    unit:
+                      after:
+                        - network.target
+                      description: Disable TCP segmentation offloading
+                  enabled: true
+                  name: ethtool-segmentation.service
+                - dropins:
+                    - contents: |-
+                        [Unit]
+                        Upholds=static-routes.service
+                      name: 10-static-routes-dependency.conf
+                  enabled: true
+                  name: systemd-networkd.service
+      postKubeadmCommands:
+        - usermod -aG root nobody
+    kubernetesVersion: 1.27.14
     provider: cloud-director
     resourcesApi:
       bastionResourceEnabled: false
@@ -22,8 +151,12 @@ cluster:
         group: infrastructure.cluster.x-k8s.io
         kind: VCDCluster
         version: v1beta2
+      infrastructureMachinePool:
+        group: infrastructure.cluster.x-k8s.io
+        kind: VCDMachineTemplate
+        version: v1beta2
       machineHealthCheckResourceEnabled: false
-      machinePoolResourcesEnabled: false
+      machinePoolResourcesEnabled: true
       networkPoliciesHelmReleaseResourceEnabled: false
       nodePoolKind: MachineDeployment
       verticalPodAutoscalerCrdHelmReleaseResourceEnabled: false
@@ -35,6 +168,8 @@ cluster:
           replicas: 2
           sizingPolicy: m1.large
           template: flatcar-stable-3815.2.2-kube-v1.27.14-gs
+      resources:
+        infrastructureMachineTemplateSpecTemplateName: worker-vcdmachinetemplate-spec
 connectivity:
   containerRegistries: {}
 global:

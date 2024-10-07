@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  {{/*
+      You MUST bump the name suffix here and in `values.schema.json` every time one of these files
+      changes its content. Automatically appending a hash of the content here doesn't work
+      since we'd need to edit `values.schema.json` as well, but that file is created by humans.
+  */}}
+  name: {{ include "resource.default.name" $ }}-provider-specific-files-1
+  namespace: {{ $.Release.Namespace | quote }}
+data:
+  set-hostname.sh: {{ tpl ($.Files.Get "files/opt/bin/set-hostname.sh") $ | b64enc | quote }}
+type: Opaque

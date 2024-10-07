@@ -7,14 +7,44 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### **Breaking change**.
+
+> [!CAUTION]
+> Upstream proxy values must be added to the cluster values when upgrading to this chart release.
+
+<details>
+<summary>VALUES MIGRATION GUIDE (from v0.59.0)</summary>
+
+If your cluster is behind an upstream proxy (if `.global.connectivity.proxy.enabled: true`)
+then the proxy configuration must also be added to the cluster chart's values.
+
+* `httpProxy`: upstream proxy protocol, address and port (e.g. `http://proxy-address:port`)
+* `httpsProxy`: upstream proxy protocol, address and port (e.g. `http://proxy-address:port`)
+* `noProxy`: comma-separated list of domains and IP CIDRs which should not be proxied (e.g. `10.10.10.0/24,internal.domain.com`)
+
+```yaml
+global:
+  connectivity:
+    proxy:
+        enabled: true
+        httpProxy: "http://10.205.105.253:3128"
+        httpsProxy: "http://10.205.105.253:3128"
+        noProxy: "vcd.domain.com,10.205.105.0/24"
+```
+
+> [!NOTE]
+> End of upgrade guide.
+---
+</details>
+
 ### Changed
 
+- Migrated all worker resources (`KubeadmConfigTemplate`, `MachineDeployment`) to be rendered from the shared `cluster` chart.
 - Bump Cilium `0.27.0` -> `0.28.0`.
 - Bump Coredns `1.21.0` -> `1.22.0`.
+- Allow `.Values.global.managementCluster` in values schema.
 
 ## [0.59.0] - 2024-09-26
-
-### Changed
 
 ### **Breaking change**.
 
@@ -34,6 +64,8 @@ global:
     name: test
 ```
 </details>
+
+### Changed
 
 - Initial integration of shared `cluster` chart to render `Cluster` resource.
 
