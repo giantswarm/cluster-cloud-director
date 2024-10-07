@@ -220,10 +220,7 @@
                                                         "after": [
                                                             "set-networkd-units.service"
                                                         ],
-                                                        "bindsTo": "set-networkd-units.service",
-                                                        "requires": [
-                                                            "set-networkd-units.service"
-                                                        ]
+                                                        "bindsTo": "set-networkd-units.service"
                                                     }
                                                 },
                                                 "enabled": true,
