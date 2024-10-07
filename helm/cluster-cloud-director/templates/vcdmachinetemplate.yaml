@@ -14,18 +14,15 @@ spec:
       {{- include "worker-vcdmachinetemplate-spec" $ | nindent 6 -}}
 {{- end }}
 
-{{- range $nodePoolName, $value := include "createMapOfClusterNodeSpecs" . | fromYaml }}
-{{- $c := (merge (dict "currentPool"  $value) (deepCopy $.Values)) }}
 ---
 apiVersion: {{ include "infrastructureApiVersion" . }}
 kind: VCDMachineTemplate
 metadata:
-  name: {{ include "resource.default.name" $ }}-{{ $nodePoolName }}-{{ include "mtRevision" $c }}
+  name: {{ include "resource.default.name" $ }}-control-plane-{{ include "machineTemplateSpec.hash" (dict "data" (include "controlplane-vcdmachinetemplate-spec" $) "salt" $.Values.cluster.providerIntegration.hashSalt) }}
   namespace: {{ $.Release.Namespace }}
   labels:
     {{- include "labels.common" $ | nindent 4 }}
 spec:
   template:
     spec:
-      {{- include "mtSpec" $c | nindent 6 -}}
-{{- end }}
+      {{- include "controlplane-vcdmachinetemplate-spec" $ | nindent 6 -}}

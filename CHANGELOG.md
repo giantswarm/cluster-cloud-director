@@ -7,6 +7,52 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### **Breaking change**.
+
+> [!CAUTION]
+> It is important that you check each of the sections in the upgrade guide below. Note that some may not apply to your specific cluster configuration. However, the cleanup section must always be run against the cluster values.
+
+<details>
+<summary>VALUES MIGRATION GUIDE (from v0.60.0)</summary>
+
+Use the snippets below if the section applies to your chart's values:
+
+## Control plane machineTemplate creation
+
+`v0.60.0` moves certain values from `.Values.global.controlPlane` to `.Values.global.controlPlane.machineTemplate`.
+**This applies to all clusters, do not skip this**.
+
+```
+yq eval --inplace 'with(select(.global.controlPlane.catalog != null); .global.controlPlane.machineTemplate.catalog = .global.controlPlane.catalog) |
+    with(select(.global.controlPlane.diskSizeGB != null); .global.controlPlane.machineTemplate.diskSizeGB = .global.controlPlane.diskSizeGB) |
+    with(select(.global.controlPlane.placementPolicy != null); .global.controlPlane.machineTemplate.placementPolicy = .global.controlPlane.placementPolicy) |
+    with(select(.global.controlPlane.sizingPolicy != null); .global.controlPlane.machineTemplate.sizingPolicy = .global.controlPlane.sizingPolicy) |
+    with(select(.global.controlPlane.storageProfile != null); .global.controlPlane.machineTemplate.storageProfile = .global.controlPlane.storageProfile) |
+    with(select(.global.controlPlane.template != null); .global.controlPlane.machineTemplate.template = .global.controlPlane.template)' values.yaml
+```
+
+## Cleanup
+
+Final tidyup to remove deprecated values:
+
+```
+yq eval --inplace 'del(.global.controlPlane.catalog) |
+    del(.global.controlPlane.diskSizeGB) |
+    del(.global.controlPlane.placementPolicy) |
+    del(.global.controlPlane.sizingPolicy) |
+    del(.global.controlPlane.storageProfile) |
+    del(.global.controlPlane.template)' values.yaml
+```
+
+> [!NOTE]
+> End of upgrade guide.
+---
+</details>
+
+### Changed
+
+- Use `giantswarm/cluster` chart to render `KubeadmControlPlane` resource.
+
 ## [0.60.0] - 2024-10-07
 
 ### **Breaking change**.

@@ -144,7 +144,7 @@ cluster:
       ciliumHelmReleaseResourceEnabled: false
       cleanupHelmReleaseResourcesEnabled: false
       clusterResourceEnabled: true
-      controlPlaneResourceEnabled: false
+      controlPlaneResourceEnabled: true
       coreDnsHelmReleaseResourceEnabled: false
       helmRepositoryResourcesEnabled: false
       infrastructureCluster:
@@ -198,13 +198,14 @@ global:
       sshTrustedUserCAKeys:
         - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM4cvZ01fLmO9cJbWUj7sfF+NhECgy+Cl0bazSrZX7sU vault-ca@vault.operations.giantswarm.io
   controlPlane:
-    catalog: giantswarm
     image:
       repository: gsoci.azurecr.io/giantswarm
+    machineTemplate:
+      catalog: giantswarm
+      template: flatcar-stable-3815.2.2-kube-v1.27.14-gs
     oidc: {}
     replicas: 1
     resourceRatio: 8
-    template: flatcar-stable-3815.2.2-kube-v1.27.14-gs
   metadata:
     preventDeletion: false
     servicePriority: highest

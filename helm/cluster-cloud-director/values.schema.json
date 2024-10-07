@@ -341,7 +341,7 @@
                         "ciliumHelmReleaseResourceEnabled": false,
                         "cleanupHelmReleaseResourcesEnabled": false,
                         "clusterResourceEnabled": true,
-                        "controlPlaneResourceEnabled": false,
+                        "controlPlaneResourceEnabled": true,
                         "coreDnsHelmReleaseResourceEnabled": false,
                         "helmRepositoryResourcesEnabled": false,
                         "infrastructureCluster": {
@@ -800,18 +800,11 @@
                     "type": "object",
                     "title": "Control plane",
                     "required": [
-                        "catalog",
-                        "template",
                         "replicas",
                         "resourceRatio"
                     ],
                     "additionalProperties": false,
                     "properties": {
-                        "catalog": {
-                            "$ref": "#/$defs/catalog",
-                            "title": "Catalog",
-                            "description": "VCD catalog where the VM template is stored."
-                        },
                         "certSANs": {
                             "type": "array",
                             "title": "Subject alternative names (SAN)",
@@ -825,11 +818,6 @@
                             "$ref": "#/$defs/nodeLabels",
                             "title": "Custom node labels"
                         },
-                        "diskSizeGB": {
-                            "$ref": "#/$defs/diskSizeGB",
-                            "title": "Disk size",
-                            "description": "Control plane node root volume size, in GB."
-                        },
                         "image": {
                             "type": "object",
                             "title": "Node container image",
@@ -840,6 +828,40 @@
                                     "type": "string",
                                     "title": "Repository",
                                     "default": "gsoci.azurecr.io/giantswarm"
+                                }
+                            }
+                        },
+                        "machineTemplate": {
+                            "type": "object",
+                            "title": "Template to define control plane nodes",
+                            "required": [
+                                "catalog",
+                                "template"
+                            ],
+                            "additionalProperties": false,
+                            "properties": {
+                                "catalog": {
+                                    "$ref": "#/$defs/catalog",
+                                    "title": "Catalog",
+                                    "description": "VCD catalog where the VM template is stored."
+                                },
+                                "diskSizeGB": {
+                                    "$ref": "#/$defs/diskSizeGB",
+                                    "title": "Disk size",
+                                    "description": "Control plane node root volume size, in gigabytes."
+                                },
+                                "placementPolicy": {
+                                    "$ref": "#/$defs/placementPolicy"
+                                },
+                                "sizingPolicy": {
+                                    "$ref": "#/$defs/sizingPolicy"
+                                },
+                                "storageProfile": {
+                                    "$ref": "#/$defs/storageProfile"
+                                },
+                                "template": {
+                                    "$ref": "#/$defs/template",
+                                    "title": "VM template"
                                 }
                             }
                         },
@@ -891,9 +913,6 @@
                                 }
                             }
                         },
-                        "placementPolicy": {
-                            "$ref": "#/$defs/placementPolicy"
-                        },
                         "replicas": {
                             "type": "integer",
                             "title": "Number of nodes",
@@ -906,16 +925,6 @@
                             "description": "Ratio between node resources and apiserver resource requests.",
                             "default": 8,
                             "minimum": 2
-                        },
-                        "sizingPolicy": {
-                            "$ref": "#/$defs/sizingPolicy"
-                        },
-                        "storageProfile": {
-                            "$ref": "#/$defs/storageProfile"
-                        },
-                        "template": {
-                            "$ref": "#/$defs/template",
-                            "title": "VM template"
                         }
                     }
                 },
