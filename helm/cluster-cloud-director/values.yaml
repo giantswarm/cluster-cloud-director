@@ -189,23 +189,13 @@ global:
       services:
         cidrBlocks:
           - 172.31.0.0/16
-    ntp: {}
     proxy: {}
-    shell:
-      osUsers:
-        - name: giantswarm
-          sudo: ALL=(ALL) NOPASSWD:ALL
-      sshTrustedUserCAKeys:
-        - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM4cvZ01fLmO9cJbWUj7sfF+NhECgy+Cl0bazSrZX7sU vault-ca@vault.operations.giantswarm.io
   controlPlane:
-    image:
-      repository: gsoci.azurecr.io/giantswarm
     machineTemplate:
       catalog: giantswarm
       template: flatcar-stable-3815.2.2-kube-v1.27.14-gs
     oidc: {}
     replicas: 1
-    resourceRatio: 8
   metadata:
     preventDeletion: false
     servicePriority: highest
@@ -234,32 +224,11 @@ global:
       secretRef: {}
     vmBootstrapFormat: ignition
 internal:
-  apiServer:
-    enableAdmissionPlugins:
-      - DefaultStorageClass
-      - DefaultTolerationSeconds
-      - LimitRanger
-      - MutatingAdmissionWebhook
-      - NamespaceLifecycle
-      - PersistentVolumeClaimResize
-      - Priority
-      - ResourceQuota
-      - ServiceAccount
-      - ValidatingAdmissionWebhook
-    featureGates: []
-  ciliumNetworkPolicy:
-    enabled: true
-  controllerManager:
-    featureGates: []
   kubectlImage:
     name: giantswarm/kubectl
     registry: gsoci.azurecr.io
     tag: 1.27.14
   kubernetesVersion: v1.27.14
-  sandboxContainerImage:
-    name: giantswarm/pause
-    registry: gsoci.azurecr.io
-    tag: "3.9"
   teleport:
     enabled: true
     proxyAddr: teleport.giantswarm.io:443

@@ -683,33 +683,6 @@
                                 }
                             }
                         },
-                        "ntp": {
-                            "type": "object",
-                            "title": "Time synchronization (NTP)",
-                            "description": "Servers/pools to synchronize this cluster's clocks with.",
-                            "additionalProperties": false,
-                            "properties": {
-                                "pools": {
-                                    "type": "array",
-                                    "title": "Pools",
-                                    "items": {
-                                        "type": "string",
-                                        "title": "Pool",
-                                        "examples": [
-                                            "ntp.ubuntu.com"
-                                        ]
-                                    }
-                                },
-                                "servers": {
-                                    "type": "array",
-                                    "title": "Servers",
-                                    "items": {
-                                        "type": "string",
-                                        "title": "Server"
-                                    }
-                                }
-                            }
-                        },
                         "proxy": {
                             "type": "object",
                             "title": "Proxy",
@@ -734,63 +707,6 @@
                                     "type": "string",
                                     "title": "No proxy",
                                     "description": "No proxy - Comma-separated addresses to be passed to the NO_PROXY environment variable in all hosts."
-                                },
-                                "secretName": {
-                                    "type": "string",
-                                    "title": "Secret name",
-                                    "description": "Name of a secret resource used by containerd to obtain the HTTP_PROXY, HTTPS_PROXY, and NO_PROXY environment variables. If empty the value will be defaulted to <clusterName>-cluster-values.",
-                                    "pattern": "^[a-z0-9-]{0,63}$"
-                                }
-                            }
-                        },
-                        "shell": {
-                            "type": "object",
-                            "title": "Shell access",
-                            "additionalProperties": false,
-                            "properties": {
-                                "osUsers": {
-                                    "type": "array",
-                                    "title": "OS Users",
-                                    "description": "Configuration for OS users in cluster nodes.",
-                                    "items": {
-                                        "type": "object",
-                                        "title": "User",
-                                        "required": [
-                                            "name"
-                                        ],
-                                        "additionalProperties": false,
-                                        "properties": {
-                                            "name": {
-                                                "type": "string",
-                                                "title": "Name",
-                                                "description": "Username of the user.",
-                                                "minLength": 2,
-                                                "pattern": "^[a-z][-a-z0-9]+$"
-                                            },
-                                            "sudo": {
-                                                "type": "string",
-                                                "title": "Sudoers configuration",
-                                                "description": "Permissions string to add to /etc/sudoers for this user."
-                                            }
-                                        }
-                                    },
-                                    "default": [
-                                        {
-                                            "name": "giantswarm",
-                                            "sudo": "ALL=(ALL) NOPASSWD:ALL"
-                                        }
-                                    ]
-                                },
-                                "sshTrustedUserCAKeys": {
-                                    "type": "array",
-                                    "title": "Trusted SSH cert issuers",
-                                    "description": "CA certificates of issuers that are trusted to sign SSH user certificates.",
-                                    "items": {
-                                        "type": "string"
-                                    },
-                                    "default": [
-                                        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM4cvZ01fLmO9cJbWUj7sfF+NhECgy+Cl0bazSrZX7sU vault-ca@vault.operations.giantswarm.io"
-                                    ]
                                 }
                             }
                         }
@@ -800,36 +716,13 @@
                     "type": "object",
                     "title": "Control plane",
                     "required": [
-                        "replicas",
-                        "resourceRatio"
+                        "replicas"
                     ],
                     "additionalProperties": false,
                     "properties": {
-                        "certSANs": {
-                            "type": "array",
-                            "title": "Subject alternative names (SAN)",
-                            "description": "Alternative names to encode in the API server's certificate.",
-                            "items": {
-                                "type": "string",
-                                "title": "SAN"
-                            }
-                        },
                         "customNodeLabels": {
                             "$ref": "#/$defs/nodeLabels",
                             "title": "Custom node labels"
-                        },
-                        "image": {
-                            "type": "object",
-                            "title": "Node container image",
-                            "description": "Set to 'gsoci.azurecr.io/giantswarm' for ignition (Flatcar) and 'projects.registry.vmware.com/tkg' for cloud-init (Ubuntu).",
-                            "additionalProperties": false,
-                            "properties": {
-                                "repository": {
-                                    "type": "string",
-                                    "title": "Repository",
-                                    "default": "gsoci.azurecr.io/giantswarm"
-                                }
-                            }
                         },
                         "machineTemplate": {
                             "type": "object",
@@ -876,7 +769,7 @@
                             ],
                             "additionalProperties": false,
                             "properties": {
-                                "caFile": {
+                                "caPem": {
                                     "type": "string",
                                     "title": "Certificate authority file",
                                     "description": "Path to identity provider's CA certificate in PEM format."
@@ -891,11 +784,6 @@
                                     "title": "Groups claim",
                                     "description": "Name of the identity token claim bearing the user's group memberships."
                                 },
-                                "groupsPrefix": {
-                                    "type": "string",
-                                    "title": "Groups prefix",
-                                    "description": "Prefix prepended to groups values to prevent clashes with existing names."
-                                },
                                 "issuerUrl": {
                                     "type": "string",
                                     "title": "Issuer URL",
@@ -905,11 +793,6 @@
                                     "type": "string",
                                     "title": "Username claim",
                                     "description": "Name of the identity token claim bearing the unique user identifier."
-                                },
-                                "usernamePrefix": {
-                                    "type": "string",
-                                    "title": "Username prefix",
-                                    "description": "Prefix prepended to username values to prevent clashes with existing names."
                                 }
                             }
                         },
@@ -918,13 +801,6 @@
                             "title": "Number of nodes",
                             "description": "Number of control plane instances to create. Must be an odd number.",
                             "default": 1
-                        },
-                        "resourceRatio": {
-                            "type": "integer",
-                            "title": "Resource ratio",
-                            "description": "Ratio between node resources and apiserver resource requests.",
-                            "default": 8,
-                            "minimum": 2
                         }
                     }
                 },
@@ -1239,84 +1115,6 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-                "apiServer": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "properties": {
-                        "certSANs": {
-                            "type": "array",
-                            "title": "Subject alternative names (SAN)",
-                            "description": "Alternative names to encode in the API server's certificate.",
-                            "items": {
-                                "type": "string",
-                                "title": "SAN"
-                            }
-                        },
-                        "enableAdmissionPlugins": {
-                            "type": "array",
-                            "title": "Admission plugins",
-                            "description": "List of admission plugins to be passed to the API server via the --enable-admission-plugins flag.",
-                            "items": {
-                                "type": "string",
-                                "title": "Plugin",
-                                "examples": [
-                                    "DefaultStorageClass",
-                                    "Priority"
-                                ],
-                                "pattern": "^[A-Za-z0-9]+$"
-                            },
-                            "default": [
-                                "DefaultStorageClass",
-                                "DefaultTolerationSeconds",
-                                "LimitRanger",
-                                "MutatingAdmissionWebhook",
-                                "NamespaceLifecycle",
-                                "PersistentVolumeClaimResize",
-                                "Priority",
-                                "ResourceQuota",
-                                "ServiceAccount",
-                                "ValidatingAdmissionWebhook"
-                            ]
-                        },
-                        "featureGates": {
-                            "type": "array",
-                            "title": "Feature gates",
-                            "description": "API server feature gate activation/deactivation.",
-                            "items": {
-                                "$ref": "#/$defs/featureGate"
-                            },
-                            "default": []
-                        }
-                    }
-                },
-                "ciliumNetworkPolicy": {
-                    "type": "object",
-                    "title": "CiliumNetworkPolicies",
-                    "properties": {
-                        "enabled": {
-                            "type": "boolean",
-                            "title": "Enable CiliumNetworkPolicies",
-                            "description": "Installs the network-policies-app (deny all by default) if set to true",
-                            "default": true
-                        }
-                    }
-                },
-                "controllerManager": {
-                    "type": "object",
-                    "title": "Controller manager",
-                    "additionalProperties": false,
-                    "properties": {
-                        "featureGates": {
-                            "type": "array",
-                            "title": "Feature gates",
-                            "description": "Controller manager feature gate activation/deactivation.",
-                            "items": {
-                                "$ref": "#/$defs/featureGate"
-                            },
-                            "default": []
-                        }
-                    }
-                },
                 "kubectlImage": {
                     "type": "object",
                     "title": "Kubectl image",
@@ -1355,27 +1153,6 @@
                     "type": "string",
                     "title": "Runtime defined entity (RDE) identifier",
                     "description": "This cluster's RDE ID in the VCD API."
-                },
-                "sandboxContainerImage": {
-                    "type": "object",
-                    "title": "Sandbox Container image (pause container)",
-                    "properties": {
-                        "name": {
-                            "type": "string",
-                            "title": "Repository",
-                            "default": "giantswarm/pause"
-                        },
-                        "registry": {
-                            "type": "string",
-                            "title": "Registry",
-                            "default": "gsoci.azurecr.io"
-                        },
-                        "tag": {
-                            "type": "string",
-                            "title": "Tag",
-                            "default": "3.9"
-                        }
-                    }
                 },
                 "skipRde": {
                     "type": "boolean",
