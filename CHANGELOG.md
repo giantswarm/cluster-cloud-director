@@ -90,12 +90,22 @@ If you are providing additional trusted CA keys for SSH authentication (other th
 yq eval --inplace 'with(select(.global.connectivity.shell.sshTrustedUserCAKeys != null); .cluster.providerIntegration.connectivity.sshSsoPublicKey = .global.connectivity.shell.sshTrustedUserCAKeys)' values.yaml
 ```
 
+## NTP servers
+
+If provided, NTP server addresses need to be migrated to the new location.
+
+```
+yq eval --inplace 'with(select(.global.connectivity.ntp.servers != null); .cluster.providerIntegration.components.systemd.timesyncd.ntp = .global.connectivity.ntp.servers)' values.yaml
+```
+
 ## Upstream proxy settings
 
 Upstream proxy configuration is no longer read from the `.global.connectivity.proxy.secretName` value so this must be removed (see the **Cleanup** section below).
 
 ## Additional notes
 
+* `.global.connectivity.shell` is no longer used; this is deleted.
+* `.global.connectivity.ntp` is no longer used; this is deleted.
 * `.global.controlPlane.certSANs` is no longer used; this is deleted.
 * `.global.controlPlane.image` is no longer used; this is deleted.
 * `.global.controlPlane.resourceRatio` is no longer used; this is deleted.
@@ -119,7 +129,8 @@ yq eval --inplace 'del(.global.controlPlane.catalog) |
     del(.global.controlPlane.oidc.caFile) |
     del(.global.controlPlane.oidc.groupsPrefix) |
     del(.global.controlPlane.oidc.usernamePrefix) |
-    del(.global.connectivity.shell.sshTrustedUserCAKeys) |
+    del(.global.connectivity.ntp) |
+    del(.global.connectivity.shell) |
     del(.global.connectivity.proxy.secretName) |
     del(.internal.ciliumNetworkPolicy) |
     del(.internal.sandboxContainerImage) |
