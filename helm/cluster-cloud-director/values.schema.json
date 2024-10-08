@@ -716,6 +716,7 @@
                     "type": "object",
                     "title": "Control plane",
                     "required": [
+                        "machineTemplate",
                         "replicas"
                     ],
                     "additionalProperties": false,
