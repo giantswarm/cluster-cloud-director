@@ -7,6 +7,8 @@ Generates template spec for worker machines.
 {{- $pool = unset $pool "diskSizeGB" -}}
 {{- $pool = unset $pool "replicas" -}}
 {{- $pool = unset $pool "machineHealthCheck" -}}
+{{- $pool = unset $pool "customNodeLabels" -}}
+{{- $pool = unset $pool "customNodeTaints" -}}
 
 {{- if $pool }}
 {{- $pool | toYaml }}
