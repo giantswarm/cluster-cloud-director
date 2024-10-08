@@ -3,11 +3,13 @@ Generates template spec for worker machines.
 */}}
 {{- define "worker-vcdmachinetemplate-spec" -}}
 {{- $pool := $.nodePool.config | deepCopy -}}
+{{- $pool = set $pool "diskSize" ( include "calculateDiskBytes" $pool.diskSizeGB ) -}}
+{{- $pool = unset $pool "diskSizeGB" -}}
 {{- $pool = unset $pool "replicas" -}}
 {{- $pool = unset $pool "machineHealthCheck" -}}
 
 {{- if $pool }}
-{{ $pool | toYaml }}
+{{- $pool | toYaml }}
 {{- end }}
 vmNamingTemplate: {{ $.Values.global.providerSpecific.vmNamingTemplate }}
 {{- if $.Values.global.connectivity.network.extraOvdcNetworks }}

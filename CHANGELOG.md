@@ -52,6 +52,7 @@ yq eval --inplace 'del(.global.controlPlane.catalog) |
 ### Changed
 
 - Use `giantswarm/cluster` chart to render `KubeadmControlPlane` resource.
+- Fix disk size calculation for worker nodes.
 
 ## [0.60.0] - 2024-10-07
 
