@@ -13,13 +13,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 > It is important that you check each of the sections in the upgrade guide below. Note that some may not apply to your specific cluster configuration. However, the cleanup section must always be run against the cluster values.
 
 <details>
-<summary>VALUES MIGRATION GUIDE (from v0.60.0)</summary>
+<summary>VALUES MIGRATION GUIDE (from v0.61.0)</summary>
 
 Use the snippets below if the section applies to your chart's values:
 
 ## Control plane machineTemplate creation
 
-`v0.60.0` moves certain values from `.Values.global.controlPlane` to `.Values.global.controlPlane.machineTemplate`.
+`v0.61.0` moves certain values from `.Values.global.controlPlane` to `.Values.global.controlPlane.machineTemplate`.
+
 **This applies to all clusters, do not skip this**.
 
 ```
@@ -31,6 +32,76 @@ yq eval --inplace 'with(select(.global.controlPlane.catalog != null); .global.co
     with(select(.global.controlPlane.template != null); .global.controlPlane.machineTemplate.template = .global.controlPlane.template)' values.yaml
 ```
 
+## Control plane endpoint address
+
+If the controlPlane endpoint IP (loadbalancer for the Kubernetes API) has been statically assigned (**this likely will not apply to workload clusters**) then this value will need to be duplicated to the extraCertificateSANs list. 
+
+```
+yq eval --inplace 'with(select(.global.connectivity.network.controlPlaneEndpoint.host != null); .cluster.internal.advancedConfiguration.controlPlane.apiServer.extraCertificateSANs += [ .global.connectivity.network.controlPlaneEndpoint.host ])' values.yaml
+```
+
+## API server admission plugins
+
+The default list is [here](https://github.com/giantswarm/cluster/blob/main/helm/cluster/templates/clusterapi/controlplane/_helpers_clusterconfiguration_apiserver.tpl#L104). If you have not extended this list then you do not need to provide a list of admission plugins at all (defaults will be used from the cluster chart). If you have enabled additional plugins then you will need to run the command below.
+
+```
+yq eval --inplace 'with(select(.internal.apiServer.enableAdmissionPlugins != null); .cluster.providerIntegration.controlPlane.kubeadmConfig.clusterConfiguration.apiServer.additionalAdmissionPlugins = .internal.apiServer.enableAdmissionPlugins)' values.yaml
+```
+
+## API server feature gates
+
+There is no default list of feature gates in the shared cluster chart, so if you have any values under `.internal.apiServer.featureGates` then these must be migrated to the new location.
+
+```
+yq eval --inplace 'with(select(.internal.apiServer.featureGates != null); .cluster.providerIntegration.controlPlane.kubeadmConfig.clusterConfiguration.apiServer.featureGates = .internal.apiServer.featureGates)' values.yaml
+```
+
+## Controller manager feature gates
+
+There is no default list of feature gates in the shared cluster chart, so if you have any values under `.internal.controllerManager.featureGates` then these must be migrated to the new location.
+
+```
+yq eval --inplace 'with(select(.internal.controllerManager.featureGates != null); .cluster.providerIntegration.controlPlane.kubeadmConfig.clusterConfiguration.controllerManager.featureGates = .internal.controllerManager.featureGates)' values.yaml
+```
+
+### Extra certificate SANs for Kubernetes API
+
+Any additional certificate SANs must be added to the extraCertificateSANs list.
+
+```
+yq eval --inplace 'with(select(.internal.apiSserver.certSANs != null); .cluster.internal.advancedConfiguration.controlPlane.apiServer.extraCertificateSANs += [ .internal.apiServer.certSANs[] ])' values.yaml
+```
+
+## OIDC config
+
+`caFile` has been renamed to `caPem`.
+
+```
+yq eval --inplace 'with(select(.global.controlPlane.oidc.caFile != null); .global.controlPlane.oidc.caPem = .global.controlPlane.oidc.caFile)' values.yaml
+```
+
+Additionally, `groupsPrefix` and `usernamePrefix` are removed (see the **Cleanup** section below).
+
+## SSH trusted CA keys
+
+If you are providing additional trusted CA keys for SSH authentication (other than the default Giant Swarm key) then these need to migrated to the new location.
+
+```
+yq eval --inplace 'with(select(.global.connectivity.shell.sshTrustedUserCAKeys != null); .cluster.providerIntegration.connectivity.sshSsoPublicKey = .global.connectivity.shell.sshTrustedUserCAKeys)' values.yaml
+```
+
+## Upstream proxy settings
+
+Upstream proxy configuration is no longer read from the `.global.connectivity.proxy.secretName` value so this must be removed (see the **Cleanup** section below).
+
+## Additional notes
+
+* `.global.controlPlane.certSANs` is no longer used; this is deleted.
+* `.global.controlPlane.image` is no longer used; this is deleted.
+* `.global.controlPlane.resourceRatio` is no longer used; this is deleted.
+* `.internal.ciliumNetworkPolicy` is no longer used; this is deleted.
+* `.internal.sandboxContainerImage` is no longer used; this is deleted.
+
 ## Cleanup
 
 Final tidyup to remove deprecated values:
@@ -41,7 +112,19 @@ yq eval --inplace 'del(.global.controlPlane.catalog) |
     del(.global.controlPlane.placementPolicy) |
     del(.global.controlPlane.sizingPolicy) |
     del(.global.controlPlane.storageProfile) |
-    del(.global.controlPlane.template)' values.yaml
+    del(.global.controlPlane.template) |
+    del(.global.controlPlane.certSANs) |
+    del(.internal.apiServer) |
+    del(.internal.controllerManager) |
+    del(.global.controlPlane.oidc.caFile) |
+    del(.global.controlPlane.oidc.groupsPrefix) |
+    del(.global.controlPlane.oidc.usernamePrefix) |
+    del(.global.connectivity.shell.sshTrustedUserCAKeys) |
+    del(.global.connectivity.proxy.secretName) |
+    del(.internal.ciliumNetworkPolicy) |
+    del(.internal.sandboxContainerImage) |
+    del(.global.controlPlane.image) |
+    del(.global.controlPlane.resourceRatio)' values.yaml
 ```
 
 > [!NOTE]
