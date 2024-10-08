@@ -1115,6 +1115,18 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
+                "ciliumNetworkPolicy": {
+                    "type": "object",
+                    "title": "CiliumNetworkPolicies",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean",
+                            "title": "Enable CiliumNetworkPolicies",
+                            "description": "Installs the network-policies-app (deny all by default) if set to true",
+                            "default": true
+                        }
+                    }
+                },
                 "kubectlImage": {
                     "type": "object",
                     "title": "Kubectl image",

@@ -109,7 +109,6 @@ Upstream proxy configuration is no longer read from the `.global.connectivity.pr
 * `.global.controlPlane.certSANs` is no longer used; this is deleted.
 * `.global.controlPlane.image` is no longer used; this is deleted.
 * `.global.controlPlane.resourceRatio` is no longer used; this is deleted.
-* `.internal.ciliumNetworkPolicy` is no longer used; this is deleted.
 * `.internal.sandboxContainerImage` is no longer used; this is deleted.
 
 ## Cleanup
@@ -132,7 +131,6 @@ yq eval --inplace 'del(.global.controlPlane.catalog) |
     del(.global.connectivity.ntp) |
     del(.global.connectivity.shell) |
     del(.global.connectivity.proxy.secretName) |
-    del(.internal.ciliumNetworkPolicy) |
     del(.internal.sandboxContainerImage) |
     del(.global.controlPlane.image) |
     del(.global.controlPlane.resourceRatio)' values.yaml

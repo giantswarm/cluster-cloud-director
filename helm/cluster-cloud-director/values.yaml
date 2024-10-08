@@ -224,6 +224,8 @@ global:
       secretRef: {}
     vmBootstrapFormat: ignition
 internal:
+  ciliumNetworkPolicy:
+    enabled: true
   kubectlImage:
     name: giantswarm/kubectl
     registry: gsoci.azurecr.io
