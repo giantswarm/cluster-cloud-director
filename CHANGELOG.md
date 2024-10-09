@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-> Fix new line in additionalFields.
+- Fix new line in additionalFields.
 
 ## [0.60.0] - 2024-10-07
 
