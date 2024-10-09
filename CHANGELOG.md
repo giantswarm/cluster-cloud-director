@@ -80,8 +80,6 @@ yq eval --inplace 'with(select(.internal.apiSserver.certSANs != null); .cluster.
 yq eval --inplace 'with(select(.global.controlPlane.oidc.caFile != null); .global.controlPlane.oidc.caPem = .global.controlPlane.oidc.caFile)' values.yaml
 ```
 
-Additionally, `groupsPrefix` and `usernamePrefix` are removed (see the **Cleanup** section below).
-
 ## SSH trusted CA keys
 
 If you are providing additional trusted CA keys for SSH authentication (other than the default Giant Swarm key) then these need to migrated to the new location.
@@ -126,8 +124,6 @@ yq eval --inplace 'del(.global.controlPlane.catalog) |
     del(.internal.apiServer) |
     del(.internal.controllerManager) |
     del(.global.controlPlane.oidc.caFile) |
-    del(.global.controlPlane.oidc.groupsPrefix) |
-    del(.global.controlPlane.oidc.usernamePrefix) |
     del(.global.connectivity.ntp) |
     del(.global.connectivity.shell) |
     del(.global.connectivity.proxy.secretName) |
