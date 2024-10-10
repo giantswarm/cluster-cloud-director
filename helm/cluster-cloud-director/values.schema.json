@@ -212,7 +212,7 @@
                                                     },
                                                     "service": {
                                                         "type": "oneshot",
-                                                        "additionalFields": "{{- if $.global.connectivity.network.staticRoutes }}\nExecStart=/usr/bin/bash -cv 'sleep 3'\n{{- range $.global.connectivity.network.staticRoutes }}\nExecStart=/usr/bin/bash -cv 'ip route add {{ .destination }} via {{ .via }}'\n{{- end }}\n{{- else }}\necho \"No static routes provided, exiting.\"\nexit 0\n{{- end }}",
+                                                        "additionalFields": "{{- if $.global.connectivity.network.staticRoutes -}}\nExecStart=/usr/bin/bash -cv 'sleep 3'\n{{- range $.global.connectivity.network.staticRoutes }}\nExecStart=/usr/bin/bash -cv 'ip route add {{ .destination }} via {{ .via }}'\n{{- end }}\n{{- else -}}\necho \"No static routes provided, exiting.\"\nexit 0\n{{- end -}}",
                                                         "remainAfterExit": "yes"
                                                     },
                                                     "unit": {
