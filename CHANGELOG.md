@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 > It is important that you check each of the sections in the upgrade guide below. Note that some may not apply to your specific cluster configuration. However, the cleanup section must always be run against the cluster values.
 
 <details>
-<summary>VALUES MIGRATION GUIDE (from v0.61.0)</summary>
+<summary>VALUES MIGRATION GUIDE (from v0.60.0)</summary>
 
 Use the snippets below if the section applies to your chart's values:
 
