@@ -5,6 +5,13 @@ metadata:
   namespace: org-multi-project
 data:
   values: |
+    cluster:
+      providerIntegration:
+        components:
+          systemd:
+            timesyncd:
+              ntp:
+                - 10.10.10.123
     global:
       connectivity:
         network:
@@ -17,6 +24,9 @@ data:
               via: 172.32.150.1
         proxy:
           enabled: true
+          httpProxy: "http://10.205.105.253:3128"
+          httpsProxy: "http://10.205.105.253:3128"
+          noProxy: "my.domain.com,10.205.105.0/24"
         ntp:
           servers:
             - "10.10.10.123"
@@ -27,12 +37,13 @@ data:
         organization: multi-project
         servicePriority: highest
       controlPlane:
-        catalog: giantswarm
         replicas: 3
-        sizingPolicy: m1.medium
+        machineTemplate:
+          catalog: giantswarm
+          sizingPolicy: m1.medium
         oidc:
           issuerUrl: https://dex.testing.test.gigantic.io
-          caFile: ""
+          caPem: ""
           clientId: "dex-k8s-authenticator"
           usernameClaim: "email"
           groupsClaim: "groups"
@@ -82,7 +93,7 @@ spec:
   name: cluster-cloud-director
   namespace: org-multi-project
   catalog: cluster
-  version: 0.13.1
+  version: 0.61.0
   kubeConfig:
     inCluster: true
   userConfig:
@@ -102,7 +113,7 @@ spec:
   name: default-apps-cloud-director
   namespace: org-multi-project
   catalog: cluster
-  version: 0.6.4
+  version: 0.10.0
   kubeConfig:
     inCluster: true
   userConfig:
