@@ -52,15 +52,15 @@ cluster:
                         - multi-user.target
                     service:
                       additionalFields: |-
-                        {{- if $.global.connectivity.network.staticRoutes }}
+                        {{- if $.global.connectivity.network.staticRoutes -}}
                         ExecStart=/usr/bin/bash -cv 'sleep 3'
                         {{- range $.global.connectivity.network.staticRoutes }}
                         ExecStart=/usr/bin/bash -cv 'ip route add {{ .destination }} via {{ .via }}'
                         {{- end }}
-                        {{- else }}
+                        {{- else -}}
                         echo "No static routes provided, exiting."
                         exit 0
-                        {{- end }}
+                        {{- end -}}
                       remainAfterExit: "yes"
                       type: oneshot
                     unit:
