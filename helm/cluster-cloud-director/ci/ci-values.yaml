@@ -14,23 +14,21 @@ global:
           via: 10.9.8.7
         - destination: 10.20.30.0/24
           via: 10.9.8.7
-    ntp:
-      servers:
-        - "10.10.10.10"
     proxy:
       enabled: true
-      secretName: ""
+      httpProxy: "http://proxy.test.gigantic.io:3128"
+      httpsProxy: "http://proxy.test.gigantic.io:3128"
+      noProxy: "test.gigantic.io,some.other.domain,10.0.0.0/24"
   controlPlane:
-    catalog: giantswarm
     replicas: 1
     oidc:
       issuerUrl: https://dex.gerbil.test.gigantic.io
-      caFile: ""
       clientId: "dex-k8s-authenticator"
       usernameClaim: "email"
       groupsClaim: "groups"
-      usernamePrefix: ""
-      groupsPrefix: ""
+      caPem: ""
+    machineTemplate:
+      catalog: giantswarm
   metadata:
     description: "test cluster"
     name: "test"
@@ -47,3 +45,10 @@ global:
     userContext:
       secretRef:
         secretName: vcd-credentials
+cluster:
+  providerIntegration:
+    components:
+      systemd:
+        timesyncd:
+          ntp:
+            - "10.10.10.10"

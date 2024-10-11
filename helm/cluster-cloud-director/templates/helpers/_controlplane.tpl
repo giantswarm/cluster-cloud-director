@@ -1,14 +1,10 @@
 {{/*
-Generates template spec for worker machines.
+Generates template spec for controlplane machines.
 */}}
-{{- define "worker-vcdmachinetemplate-spec" -}}
-{{- $pool := $.nodePool.config | deepCopy -}}
+{{- define "controlplane-vcdmachinetemplate-spec" -}}
+{{- $pool := $.Values.global.controlPlane.machineTemplate | deepCopy -}}
 {{- $pool = set $pool "diskSize" ( include "calculateDiskBytes" $pool.diskSizeGB ) -}}
 {{- $pool = unset $pool "diskSizeGB" -}}
-{{- $pool = unset $pool "replicas" -}}
-{{- $pool = unset $pool "machineHealthCheck" -}}
-{{- $pool = unset $pool "customNodeLabels" -}}
-{{- $pool = unset $pool "customNodeTaints" -}}
 
 {{- if $pool }}
 {{- $pool | toYaml }}
@@ -21,4 +17,3 @@ extraOvdcNetworks:
   {{- end }}
 {{- end -}}
 {{- end -}}
-

@@ -26,18 +26,17 @@ global:
     organization: giantswarm
     servicePriority: highest
   controlPlane:
-    catalog: giantswarm
     replicas: 1
-    sizingPolicy: m1.medium
-    diskSizeGB: 30
     oidc:
       issuerUrl: https://dex.gerbil.test.gigantic.io
-      caFile: ""
       clientId: "dex-k8s-authenticator"
       usernameClaim: "email"
       groupsClaim: "groups"
-      usernamePrefix: ""
-      groupsPrefix: ""
+      caPem: ""
+    machineTemplate:
+      catalog: giantswarm
+      diskSizeGB: 30
+      sizingPolicy: m1.medium
   nodePools:
     worker:
       catalog: giantswarm
@@ -52,4 +51,3 @@ global:
     userContext:
       secretRef:
         secretName: vcd-credentials
-
