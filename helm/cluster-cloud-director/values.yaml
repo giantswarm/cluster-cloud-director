@@ -58,8 +58,7 @@ cluster:
                         ExecStart=/usr/bin/bash -cv 'ip route add {{ .destination }} via {{ .via }}'
                         {{- end }}
                         {{- else -}}
-                        echo "No static routes provided, exiting."
-                        exit 0
+                        ExecStart=/usr/bin/bash -cv 'echo "No static routes provided, exiting."'
                         {{- end -}}
                       remainAfterExit: "yes"
                       type: oneshot
