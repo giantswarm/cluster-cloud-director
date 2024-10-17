@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Restore handling of hostEntries values.
+
 ## [0.61.1] - 2024-10-14
 
 ### Fixed
