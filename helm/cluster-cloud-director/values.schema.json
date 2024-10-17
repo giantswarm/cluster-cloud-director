@@ -145,7 +145,7 @@
                             "enable": true
                         },
                         "certExporter": {
-                            "configTemplateName": "cloudDirectorCertExporterHelmValues:w",
+                            "configTemplateName": "cloudDirectorCertExporterHelmValues",
                             "enable": true
                         },
                         "certManager": {
@@ -430,6 +430,7 @@
                         "cleanupHelmReleaseResourcesEnabled": false,
                         "clusterResourceEnabled": true,
                         "controlPlaneResourceEnabled": true,
+                        "helmRepositoryResourcesEnabled": true,
                         "infrastructureCluster": {
                             "group": "infrastructure.cluster.x-k8s.io",
                             "kind": "VCDCluster",
