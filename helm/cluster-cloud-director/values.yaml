@@ -152,6 +152,8 @@ cluster:
                       type: oneshot
                     unit:
                       description: Add /etc/hosts entries.
+                      after:
+                        - static-routes.service
                   enabled: true
                   name: etc-hosts-entries.service
       postKubeadmCommands:

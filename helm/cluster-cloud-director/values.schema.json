@@ -338,7 +338,10 @@
                                                         "remainAfterExit": "yes"
                                                     },
                                                     "unit": {
-                                                        "description": "Add /etc/hosts entries."
+                                                        "description": "Add /etc/hosts entries.",
+                                                        "after": [
+                                                            "static-routes.service"
+                                                        ]
                                                     }
                                                 },
                                                 "enabled": true,
