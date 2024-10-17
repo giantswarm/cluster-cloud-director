@@ -427,12 +427,9 @@
                     "provider": "cloud-director",
                     "resourcesApi": {
                         "bastionResourceEnabled": false,
-                        "ciliumHelmReleaseResourceEnabled": false,
                         "cleanupHelmReleaseResourcesEnabled": false,
                         "clusterResourceEnabled": true,
                         "controlPlaneResourceEnabled": true,
-                        "coreDnsHelmReleaseResourceEnabled": false,
-                        "helmRepositoryResourcesEnabled": false,
                         "infrastructureCluster": {
                             "group": "infrastructure.cluster.x-k8s.io",
                             "kind": "VCDCluster",
@@ -445,9 +442,7 @@
                         },
                         "machineHealthCheckResourceEnabled": false,
                         "machinePoolResourcesEnabled": true,
-                        "networkPoliciesHelmReleaseResourceEnabled": false,
-                        "nodePoolKind": "MachineDeployment",
-                        "verticalPodAutoscalerCrdHelmReleaseResourceEnabled": false
+                        "nodePoolKind": "MachineDeployment"
                     },
                     "workers": {
                         "defaultNodePools": {
