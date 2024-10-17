@@ -140,6 +140,70 @@
             "description": "Helm values for the provider-independent cluster chart.",
             "default": {
                 "providerIntegration": {
+                    "apps": {
+                        "capiNodeLabeler": {
+                            "enable": true
+                        },
+                        "certExporter": {
+                            "configTemplateName": "cloudDirectorCertExporterHelmValues:w",
+                            "enable": true
+                        },
+                        "certManager": {
+                            "configTemplateName": "cloudDirectorCertManagerHelmValues",
+                            "enable": true
+                        },
+                        "chartOperatorExtensions": {
+                            "enable": true
+                        },
+                        "cilium": {
+                            "configTemplateName": "cloudDirectorCiliumHelmValues",
+                            "enable": true
+                        },
+                        "ciliumServiceMonitors": {
+                            "enable": true
+                        },
+                        "coreDns": {
+                            "enable": true
+                        },
+                        "etcdKubernetesResourcesCountExporter": {
+                            "enable": true
+                        },
+                        "k8sDnsNodeCache": {
+                            "enable": true
+                        },
+                        "metricsServer": {
+                            "enable": true
+                        },
+                        "netExporter": {
+                            "enable": true
+                        },
+                        "networkPolicies": {
+                            "configTemplateName": "cloudDirectorNetworkPoliciesHelmValues",
+                            "enable": true
+                        },
+                        "nodeExporter": {
+                            "configTemplateName": "cloudDirectorNodeExporterHelmValues",
+                            "enable": true
+                        },
+                        "observabilityBundle": {
+                            "enable": true
+                        },
+                        "observabilityPolicies": {
+                            "enable": true
+                        },
+                        "securityBundle": {
+                            "enable": true
+                        },
+                        "teleportKubeAgent": {
+                            "enable": true
+                        },
+                        "verticalPodAutoscaler": {
+                            "enable": true
+                        },
+                        "verticalPodAutoscalerCrd": {
+                            "enable": true
+                        }
+                    },
                     "controlPlane": {
                         "resources": {
                             "infrastructureMachineTemplate": {
