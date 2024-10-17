@@ -340,7 +340,10 @@
                                                     "unit": {
                                                         "description": "Add /etc/hosts entries.",
                                                         "after": [
-                                                            "static-routes.service"
+                                                            "set-hostname.service"
+                                                        ],
+                                                        "requires": [
+                                                            "set-hostname.service"
                                                         ]
                                                     }
                                                 },

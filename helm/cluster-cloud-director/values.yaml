@@ -151,9 +151,11 @@ cluster:
                       remainAfterExit: "yes"
                       type: oneshot
                     unit:
-                      description: Add /etc/hosts entries.
                       after:
-                        - static-routes.service
+                        - set-hostname.service
+                      description: Add /etc/hosts entries.
+                      requires:
+                        - set-hostname.service
                   enabled: true
                   name: etc-hosts-entries.service
       postKubeadmCommands:
