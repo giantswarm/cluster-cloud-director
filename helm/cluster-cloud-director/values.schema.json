@@ -324,6 +324,25 @@
                                                 ],
                                                 "enabled": true,
                                                 "name": "systemd-networkd.service"
+                                            },
+                                            {
+                                                "contents": {
+                                                    "install": {
+                                                        "wantedBy": [
+                                                            "multi-user.target"
+                                                        ]
+                                                    },
+                                                    "service": {
+                                                        "type": "oneshot",
+                                                        "additionalFields": "{{- if $.global.connectivity.network.hostEntries -}}\n# Helm templating is a nightmare\n{{- range $.global.connectivity.network.hostEntries }}\nExecStart=/usr/bin/bash -cv 'echo {{ .ip }} {{ .fqdn }} >> /etc/hosts'\n{{- end }}\n{{- else -}}\nExecStart=/usr/bin/bash -cv 'echo \"No host entries provided, exiting.\"'\n{{- end -}}",
+                                                        "remainAfterExit": "yes"
+                                                    },
+                                                    "unit": {
+                                                        "description": "Add /etc/hosts entries."
+                                                    }
+                                                },
+                                                "enabled": true,
+                                                "name": "etc-hosts-entries.service"
                                             }
                                         ]
                                     }

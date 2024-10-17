@@ -134,6 +134,26 @@ cluster:
                       name: 10-static-routes-dependency.conf
                   enabled: true
                   name: systemd-networkd.service
+                - contents:
+                    install:
+                      wantedBy:
+                        - multi-user.target
+                    service:
+                      additionalFields: |-
+                        {{- if $.global.connectivity.network.hostEntries -}}
+                        # Helm templating is a nightmare
+                        {{- range $.global.connectivity.network.hostEntries }}
+                        ExecStart=/usr/bin/bash -cv 'echo {{ .ip }} {{ .fqdn }} >> /etc/hosts'
+                        {{- end }}
+                        {{- else -}}
+                        ExecStart=/usr/bin/bash -cv 'echo "No host entries provided, exiting."'
+                        {{- end -}}
+                      remainAfterExit: "yes"
+                      type: oneshot
+                    unit:
+                      description: Add /etc/hosts entries.
+                  enabled: true
+                  name: etc-hosts-entries.service
       postKubeadmCommands:
         - usermod -aG root nobody
     kubernetesVersion: 1.27.14
