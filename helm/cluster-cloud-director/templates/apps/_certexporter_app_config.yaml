@@ -1,0 +1,6 @@
+{{/* cloud-director-specific cert-exporter Helm values*/}}
+{{/* https://github.com/giantswarm/cert-exporter/blob/master/helm/cert-exporter/values.yaml */}}
+{{- define "cloudDirectorCertExporterHelmValues" }}
+ciliumNetworkPolicy:
+  enabled: true
+{{- end }}

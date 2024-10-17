@@ -1,0 +1,6 @@
+{{/* cloud-director-specific network-policies Helm values*/}}
+{{/* https://github.com/giantswarm/network-policies-app/blob/main/helm/network-policies-app/values.yaml */}}
+{{- define "cloudDirectorNetworkPoliciesHelmValues" }}
+allowEgressToDNS:
+  enabled: true
+{{- end }}

@@ -1,0 +1,7 @@
+{{/* cloud-director-specific cert-manager Helm values*/}}
+{{/* https://github.com/giantswarm/cert-manager-app/blob/main/helm/cert-manager/values.yaml*/}}
+{{- define "cloudDirectorCertManagerHelmValues" }}
+enableServiceLinks: true
+ciliumNetworkPolicy:
+    enabled: true
+{{- end }}
