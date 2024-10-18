@@ -1,0 +1,29 @@
+{{/* cloud-director-specific cilium Helm values*/}}
+{{/* https://github.com/giantswarm/cilium-app/blob/main/helm/cilium/values.yaml */}}
+{{- define "cloudDirectorCiliumHelmValues" }}
+hubble:
+  relay:
+    tolerations:
+    - key: "node-role.kubernetes.io/master"
+      effect: "NoSchedule"
+      operator: "Exists"
+    - key: "node-role.kubernetes.io/control-plane"
+      effect: "NoSchedule"
+      operator: "Exists"
+    - key: "node.cloudprovider.kubernetes.io/uninitialized"
+      effect: "NoSchedule"
+      operator: "Equal"
+      value: "true"
+  ui:
+    tolerations:
+    - key: "node-role.kubernetes.io/master"
+      effect: "NoSchedule"
+      operator: "Exists"
+    - key: "node-role.kubernetes.io/control-plane"
+      effect: "NoSchedule"
+      operator: "Exists"
+    - key: "node.cloudprovider.kubernetes.io/uninitialized"
+      effect: "NoSchedule"
+      operator: "Equal"
+      value: "true"
+{{- end }}

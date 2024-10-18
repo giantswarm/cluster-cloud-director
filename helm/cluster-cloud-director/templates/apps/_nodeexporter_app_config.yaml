@@ -1,0 +1,6 @@
+{{/* cloud-director-specific node-exporter Helm values*/}}
+{{/* https://github.com/giantswarm/node-exporter-app/blob/main/helm/node-exporter-app/values.yaml */}}
+{{- define "cloudDirectorNodeExporterHelmValues" }}
+disableConntrackCollector: true
+disableNvmeCollector: true
+{{- end }}
