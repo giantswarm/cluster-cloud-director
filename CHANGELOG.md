@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.62.0] - 2024-10-21
+
 > [!WARNING]
 > This release adds all default apps to cluster-cloud-director, so the default-apps-cloud-director App is not used anymore.
 > These changes in cluster-cloud-director are breaking and the cluster upgrade requires manual steps where the 
@@ -1032,7 +1034,8 @@ Bump cloud provider to v0.2.5 (fix).
 - Added VCDCluster parameters to match CRD.
 - Nodepool and nodeclass support.
 
-[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.61.2...HEAD
+[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.62.0...HEAD
+[0.62.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.61.2...v0.62.0
 [0.61.2]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.61.1...v0.61.2
 [0.61.1]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.61.0...v0.61.1
 [0.61.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.60.0...v0.61.0
