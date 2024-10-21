@@ -63,7 +63,9 @@ The steps to upgrade a workload cluster with the unified cluster-cloud-director 
   - Chart resources on the workload cluster will get updated, as newly deployed App resources will take over the reconciliation
     of the existing Chart resources.
 
-We're almost there, with just one more issue to fix manually.
+### Manual fixes
+
+We're almost there, with just a couple more issues to fix manually.
 
 The VPA CRD used to be installed as an App resource from default-apps-cloud-director, but now it's being installed as a HelmRelease
 from cluster-cloud-director. Now, as a consequence of the above upgrade, we have the following situation:
