@@ -106,6 +106,14 @@ This will unblock the deletion and vertical-pod-autoscaler-crd will get removed,
 
 From now on, the VPA CustomResourceDefinition will be maintained by the vertical-pod-autoscaler HelmRelease on the management cluster.
 
+#### Observability Platform Configuration
+
+The observability operator is responsible for creating the `<cluster-name>-observability-platform-configuration` configmap and patching the `<cluster-name>-observability-bundle` app to reference it. This configuration is lost after upgrading the cluster app. As a result, the observability operator has to be restarted.
+
+"""shell
+kubectl delete pod -n monitoring -l app.kubernetes.io/instance=observability-operator
+"""
+
 ## [0.61.2] - 2024-10-17
 
 ### Fixed
