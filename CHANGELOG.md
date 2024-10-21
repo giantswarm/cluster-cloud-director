@@ -49,6 +49,9 @@ The steps to upgrade a workload cluster with the unified cluster-cloud-director 
 - Update default-apps-cloud-director Helm value `.Values.deleteOptions.moveAppsHelmOwnershipToClusterCloudDirector` to `true`.
   - All App CRs, except observability-bundle and security-bundle, will get `app-operator.giantswarm.io/paused: true` annotation,
     so wait few minutes for Helm post-upgrade hook to apply the change to all required App CRs.
+  - Check all App CRs deployed by default-apps-cloud-director to see if they reference any `extraConfigs`; if so then these must be
+    added to the `cluster-cloud-director` values for use when the cluster is upgraded to `v0.62.0` (see below). For more information
+    on how to do this, see the [giantswarm/cluster chart readme](https://github.com/giantswarm/cluster/tree/main/helm/cluster#apps).
 - Delete default-apps-cloud-director App CR.
   - ⚠️ In case you are removing the default-apps-cloud-director App CR from your gitops repo which is using Flux, and depending on
     how Flux is configured, the default-apps-cloud-director App CR may or may not get deleted from the management cluster. In case
