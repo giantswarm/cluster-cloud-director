@@ -7,6 +7,113 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+> [!WARNING]
+> This release adds all default apps to cluster-cloud-director, so the default-apps-cloud-director App is not used anymore.
+> These changes in cluster-cloud-director are breaking and the cluster upgrade requires manual steps where the 
+> default-apps-cloud-director App is removed before upgrading cluster-cloud-director. See details below.
+
+### Added
+
+- Render capi-node-labeler App CR from cluster chart.
+- Render cert-exporter App CR from cluster chart and add cloud-director-specific cert-exporter config.
+- Render cert-manager App CR from cluster chart and add cloud-director-specific cert-manager config.
+- Render chart-operator-extensions App CR from cluster chart.
+- Render cilium HelmRelease CR from cluster chart and add cloud-director-specific cilium config.
+- Render cilium-servicemonitors App CR from cluster chart.
+- Render coredns HelmRelease CR from cluster chart.
+- Render etc-kubernetes-resources-count-exporter App CR from cluster chart.
+- Render k8s-dns-node-cache App CR from cluster chart.
+- Render metrics-server App CR from cluster chart.
+- Render net-exporter App CR from cluster chart.
+- Render network-policies HelmRelease CR from cluster chart and add cloud-director-specific network-policies config.
+- Render node-exporter App CR from cluster chart and add cloud-director-specific node-exporter config.
+- Render observability-bundle App CR from cluster chart.
+- Render observability-policies App CR from cluster chart.
+- Render security-bundle App CR from cluster chart.
+- Render teleport-kube-agent App CR from cluster chart.
+- Render vertical-pod-autoscaler App CR from cluster chart.
+- Render vertical-pod-autoscaler-crd HelmRelease CR from cluster chart.
+- Render HelmRepository CRs from cluster chart.
+
+### Removed
+
+- Remove cilium HelmRelease.
+- Remove coredns HelmRelease.
+- Remove network-policies HelmRelease.
+- Remove HelmRepository CRs.
+
+### ⚠️ Workload cluster upgrade with manual steps
+
+The steps to upgrade a workload cluster with the unified cluster-cloud-director and default-apps-cloud-director are the following:
+- Upgrade default-apps-cloud-director App to the v0.11.0 release.
+- Update default-apps-cloud-director Helm value `.Values.deleteOptions.moveAppsHelmOwnershipToClusterCloudDirector` to `true`.
+  - All App CRs, except observability-bundle and security-bundle, will get `app-operator.giantswarm.io/paused: true` annotation,
+    so wait few minutes for Helm post-upgrade hook to apply the change to all required App CRs.
+  - Check all App CRs deployed by default-apps-cloud-director to see if they reference any `extraConfigs`; if so then these must be
+    added to the `cluster-cloud-director` values for use when the cluster is upgraded to `v0.62.0` (see below). For more information
+    on how to do this, see the [giantswarm/cluster chart readme](https://github.com/giantswarm/cluster/tree/main/helm/cluster#apps).
+- Delete default-apps-cloud-director App CR.
+  - ⚠️ In case you are removing the default-apps-cloud-director App CR from your gitops repo which is using Flux, and depending on
+    how Flux is configured, the default-apps-cloud-director App CR may or may not get deleted from the management cluster. In case
+    Flux does not delete the default-apps-cloud-director App CR from the management cluster, make sure to delete it manually.
+  - App CRs (on the MC) for all default Apps will be deleted. Wait a few minutes for this to happen.
+  - Chart CRs on the workload cluster will remain untouched, so all apps will continue running.
+- Upgrade the cluster-cloud-director App CR to the v0.62.0 release.
+  - cluster-cloud-director will deploy all default Apps, so wait a few minutes for all Apps to be successfully deployed.
+  - Chart resources on the workload cluster will get updated, as newly deployed App resources will take over the reconciliation
+    of the existing Chart resources.
+
+### Manual fixes
+
+We're almost there, with just a couple more issues to fix manually.
+
+#### Vertical Pod Autoscaler
+
+The VPA CRD used to be installed as an App resource from default-apps-cloud-director, but now it's being installed as a HelmRelease
+from cluster-cloud-director. Now, as a consequence of the above upgrade, we have the following situation:
+- the default-apps-cloud-director App has been deleted, but the vertical-pod-autoscaler-crd Chart CRs remains in the workload cluster.
+- cluster-cloud-director has been upgraded, so now it also installs the vertical-pod-autoscaler-crd HelmRelease.
+- outcome: we now have a vertical-pod-autoscaler-crd HelmRelease in the MC and a vertical-pod-autoscaler-crd Chart CR in the WC.
+
+Now we will remove the leftover vertical-pod-autoscaler-crd Chart CR in a safe way:
+
+1. Pause the vertical-pod-autoscaler-crd Chart CR.
+
+Add annotation `chart-operator.giantswarm.io/paused: "true"` to the vertical-pod-autoscaler-crd Chart CR in the workload cluster:
+
+```sh
+kubectl annotate -n giantswarm chart vertical-pod-autoscaler-crd chart-operator.giantswarm.io/paused="true" --overwrite
+```
+
+2. Delete the vertical-pod-autoscaler-crd Chart CR in the workload cluster.
+
+```shell
+kubectl delete -n giantswarm chart vertical-pod-autoscaler-crd
+```
+
+Kubectl will probably hang, as the chart-operator finalizer is not removed (vertical-pod-autoscaler-crd
+Chart CR has been paused). Proceed to the next step to remove the finalizer and unblock the deletion.
+
+3. Remove finalizers from the vertical-pod-autoscaler-crd Chart CR
+
+Open another terminal window and run the following command to remove the vertical-pod-autoscaler-crd Chart CR finalizers:
+
+```shell
+kubectl patch chart vertical-pod-autoscaler-crd -n giantswarm --type=json -p='[{"op": "remove", "path": "/metadata/finalizers"}]'
+```
+
+This will unblock the deletion and vertical-pod-autoscaler-crd will get removed, **without actually deleting the VPA CustomResourceDefinition**.
+
+From now on, the VPA CustomResourceDefinition will be maintained by the vertical-pod-autoscaler HelmRelease on the management cluster.
+
+#### Observability Platform Configuration
+
+The observability operator is responsible for creating the `<cluster-name>-observability-platform-configuration` configmap and patching the `<cluster-name>-observability-bundle` app to reference it. This configuration is lost after upgrading the cluster app. As a result, the observability operator has to be restarted.
+
+```shell
+kubectl delete pod -n monitoring -l app.kubernetes.io/instance=observability-operator
+```
+
 ## [0.61.2] - 2024-10-17
 
 ### Fixed
