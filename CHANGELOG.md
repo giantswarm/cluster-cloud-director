@@ -67,6 +67,8 @@ The steps to upgrade a workload cluster with the unified cluster-cloud-director 
 
 We're almost there, with just a couple more issues to fix manually.
 
+#### Vertical Pod Autoscaler
+
 The VPA CRD used to be installed as an App resource from default-apps-cloud-director, but now it's being installed as a HelmRelease
 from cluster-cloud-director. Now, as a consequence of the above upgrade, we have the following situation:
 - the default-apps-cloud-director App has been deleted, but the vertical-pod-autoscaler-crd Chart CRs remains in the workload cluster.
