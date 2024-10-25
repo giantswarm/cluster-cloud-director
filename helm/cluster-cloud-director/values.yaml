@@ -224,7 +224,7 @@ cluster:
       defaultNodePools:
         def00:
           catalog: giantswarm
-          diskSize: "32212254720"
+          diskSize: "30"
           replicas: 2
           sizingPolicy: m1.large
           template: flatcar-stable-3815.2.2-kube-v1.27.14-gs
