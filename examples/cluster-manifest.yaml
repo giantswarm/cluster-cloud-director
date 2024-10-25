@@ -13,6 +13,7 @@ data:
               ntp:
                 - 10.10.10.123
     global:
+      release: "27.0.0"
       connectivity:
         network:
           loadBalancers:
@@ -69,18 +70,6 @@ data:
           oneArm:
             enabled: true
 ---
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: testing-da-user-values
-  namespace: org-multi-project
-data:
-  values: |
-    clusterName: testing
-    managementCluster: guppy
-    metadata:
-      organization: multi-project
----
 apiVersion: application.giantswarm.io/v1alpha1
 kind: App
 metadata:
@@ -93,30 +82,10 @@ spec:
   name: cluster-cloud-director
   namespace: org-multi-project
   catalog: cluster
-  version: 0.61.0
+  version: "" # this is provided by the Release
   kubeConfig:
     inCluster: true
   userConfig:
     configMap:
       name: testing-cluster-user-values
-      namespace: org-multi-project
----
-apiVersion: application.giantswarm.io/v1alpha1
-kind: App
-metadata:
-  labels:
-    app-operator.giantswarm.io/version: 0.0.0
-    giantswarm.io/managed-by: flux
-  name: testing-default-apps
-  namespace: org-multi-project
-spec:
-  name: default-apps-cloud-director
-  namespace: org-multi-project
-  catalog: cluster
-  version: 0.10.0
-  kubeConfig:
-    inCluster: true
-  userConfig:
-    configMap:
-      name: testing-da-user-values
       namespace: org-multi-project
