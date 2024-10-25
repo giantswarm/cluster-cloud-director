@@ -288,8 +288,4 @@ internal:
     name: giantswarm/kubectl
     registry: gsoci.azurecr.io
     tag: 1.27.14
-  kubernetesVersion: v1.27.14
-  teleport:
-    enabled: true
-    proxyAddr: teleport.giantswarm.io:443
   useAsManagementCluster: false
