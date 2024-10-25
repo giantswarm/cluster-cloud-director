@@ -428,8 +428,6 @@
                     "resourcesApi": {
                         "bastionResourceEnabled": false,
                         "cleanupHelmReleaseResourcesEnabled": true,
-                        "clusterResourceEnabled": true,
-                        "controlPlaneResourceEnabled": true,
                         "helmRepositoryResourcesEnabled": true,
                         "infrastructureCluster": {
                             "group": "infrastructure.cluster.x-k8s.io",
@@ -442,7 +440,6 @@
                             "version": "v1beta2"
                         },
                         "machineHealthCheckResourceEnabled": false,
-                        "machinePoolResourcesEnabled": true,
                         "nodePoolKind": "MachineDeployment"
                     },
                     "workers": {
