@@ -427,9 +427,7 @@
                     "provider": "cloud-director",
                     "resourcesApi": {
                         "bastionResourceEnabled": false,
-                        "cleanupHelmReleaseResourcesEnabled": false,
-                        "clusterResourceEnabled": true,
-                        "controlPlaneResourceEnabled": true,
+                        "cleanupHelmReleaseResourcesEnabled": true,
                         "helmRepositoryResourcesEnabled": true,
                         "infrastructureCluster": {
                             "group": "infrastructure.cluster.x-k8s.io",
@@ -442,14 +440,13 @@
                             "version": "v1beta2"
                         },
                         "machineHealthCheckResourceEnabled": false,
-                        "machinePoolResourcesEnabled": true,
                         "nodePoolKind": "MachineDeployment"
                     },
                     "workers": {
                         "defaultNodePools": {
                             "def00": {
                                 "catalog": "giantswarm",
-                                "diskSize": "32212254720",
+                                "diskSize": "30",
                                 "replicas": 2,
                                 "sizingPolicy": "m1.large",
                                 "template": "flatcar-stable-3815.2.2-kube-v1.27.14-gs"
@@ -1234,12 +1231,6 @@
                         }
                     }
                 },
-                "kubernetesVersion": {
-                    "type": "string",
-                    "title": "Kubernetes version",
-                    "description": "For cloud-init (Ubuntu), append the version with '+vmware.1'.",
-                    "default": "v1.27.14"
-                },
                 "parentUid": {
                     "type": "string",
                     "title": "Management cluster UID",
@@ -1254,22 +1245,6 @@
                     "type": "boolean",
                     "title": "Skip RDE",
                     "description": "Set to true if the API schema extension is installed in the correct version in VCD to create CAPVCD entities in the API. Set to false otherwise."
-                },
-                "teleport": {
-                    "type": "object",
-                    "title": "Teleport",
-                    "properties": {
-                        "enabled": {
-                            "type": "boolean",
-                            "title": "Enable teleport",
-                            "default": true
-                        },
-                        "proxyAddr": {
-                            "type": "string",
-                            "title": "Teleport proxy address",
-                            "default": "teleport.giantswarm.io:443"
-                        }
-                    }
                 },
                 "useAsManagementCluster": {
                     "type": "boolean",

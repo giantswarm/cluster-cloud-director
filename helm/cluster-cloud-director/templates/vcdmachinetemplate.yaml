@@ -4,7 +4,7 @@
 apiVersion: {{ include "infrastructureApiVersion" . }}
 kind: VCDMachineTemplate
 metadata:
-  name: {{ include "resource.default.name" $ }}-{{ $.nodePool.name }}-{{ include "machineTemplateSpec.hash" (dict "data" (include "worker-vcdmachinetemplate-spec" $) "salt" $.Values.cluster.providerIntegration.hashSalt) }}
+  name: {{ include "resource.default.name" $ }}-{{ $.nodePool.name }}-{{ include "cluster.data.hash" (dict "data" (include "worker-vcdmachinetemplate-spec" $) "salt" $.Values.cluster.providerIntegration.hashSalt) }}
   namespace: {{ $.Release.Namespace }}
   labels:
     {{- include "labels.common" $ | nindent 4 }}
@@ -18,7 +18,7 @@ spec:
 apiVersion: {{ include "infrastructureApiVersion" . }}
 kind: VCDMachineTemplate
 metadata:
-  name: {{ include "resource.default.name" $ }}-control-plane-{{ include "machineTemplateSpec.hash" (dict "data" (include "controlplane-vcdmachinetemplate-spec" $) "salt" $.Values.cluster.providerIntegration.hashSalt) }}
+  name: {{ include "resource.default.name" $ }}-control-plane-{{ include "cluster.data.hash" (dict "data" (include "controlplane-vcdmachinetemplate-spec" $) "salt" $.Values.cluster.providerIntegration.hashSalt) }}
   namespace: {{ $.Release.Namespace }}
   labels:
     {{- include "labels.common" $ | nindent 4 }}

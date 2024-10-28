@@ -22,3 +22,15 @@ extraOvdcNetworks:
 {{- end -}}
 {{- end -}}
 
+{{/*
+Takes an array of maps containing worker nodePools and adds each map to a new
+map. Results in a map of node specs which can be iterated over to create
+MachineDeployments. Used when templating VCDMachineTemplates.
+*/}}
+{{ define "createMapOfWorkerPoolSpecs" -}}
+{{- $nodeMap := dict -}}
+{{- range $index, $pool := .Values.global.nodePools | default .Values.cluster.providerIntegration.workers.defaultNodePools -}}
+  {{- $_ := set $nodeMap $index $pool -}}
+{{- end -}}
+{{ toYaml $nodeMap }}
+{{- end }}

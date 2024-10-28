@@ -208,9 +208,7 @@ cluster:
     provider: cloud-director
     resourcesApi:
       bastionResourceEnabled: false
-      cleanupHelmReleaseResourcesEnabled: false
-      clusterResourceEnabled: true
-      controlPlaneResourceEnabled: true
+      cleanupHelmReleaseResourcesEnabled: true
       helmRepositoryResourcesEnabled: true
       infrastructureCluster:
         group: infrastructure.cluster.x-k8s.io
@@ -221,13 +219,12 @@ cluster:
         kind: VCDMachineTemplate
         version: v1beta2
       machineHealthCheckResourceEnabled: false
-      machinePoolResourcesEnabled: true
       nodePoolKind: MachineDeployment
     workers:
       defaultNodePools:
         def00:
           catalog: giantswarm
-          diskSize: "32212254720"
+          diskSize: "30"
           replicas: 2
           sizingPolicy: m1.large
           template: flatcar-stable-3815.2.2-kube-v1.27.14-gs
@@ -291,8 +288,4 @@ internal:
     name: giantswarm/kubectl
     registry: gsoci.azurecr.io
     tag: 1.27.14
-  kubernetesVersion: v1.27.14
-  teleport:
-    enabled: true
-    proxyAddr: teleport.giantswarm.io:443
   useAsManagementCluster: false

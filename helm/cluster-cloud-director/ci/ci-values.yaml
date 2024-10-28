@@ -1,6 +1,3 @@
-internal:
-  teleport:
-    enabled: true
 global:
   connectivity:
     baseDomain: "test.gigantic.io"
