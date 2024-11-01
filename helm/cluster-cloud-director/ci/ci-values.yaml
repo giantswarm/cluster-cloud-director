@@ -42,6 +42,8 @@ global:
     userContext:
       secretRef:
         secretName: vcd-credentials
+  release:
+    version: 27.0.0
 cluster:
   providerIntegration:
     components:
@@ -49,5 +51,3 @@ cluster:
         timesyncd:
           ntp:
             - "10.10.10.10"
-  release:
-    version: 27.0.0
