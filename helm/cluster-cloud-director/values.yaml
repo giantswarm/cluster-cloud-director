@@ -219,6 +219,7 @@ cluster:
         version: v1beta2
       machineHealthCheckResourceEnabled: false
       nodePoolKind: MachineDeployment
+    useReleases: true
     workers:
       defaultNodePools:
         def00:

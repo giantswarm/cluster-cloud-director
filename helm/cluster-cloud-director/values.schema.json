@@ -440,6 +440,7 @@
                         "machineHealthCheckResourceEnabled": false,
                         "nodePoolKind": "MachineDeployment"
                     },
+                    "useReleases": true,
                     "workers": {
                         "defaultNodePools": {
                             "def00": {
