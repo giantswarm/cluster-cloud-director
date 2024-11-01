@@ -21,6 +21,7 @@ global:
       catalog: giantswarm
       diskSizeGB: 30
       sizingPolicy: m1.medium
+      template: flatcar-stable--kube--tooling--gs
   nodePools:
     worker:
       catalog: giantswarm
