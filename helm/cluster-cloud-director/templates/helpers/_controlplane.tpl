@@ -6,9 +6,17 @@ Generates template spec for controlplane machines.
 {{- $pool = set $pool "diskSize" ( include "calculateDiskBytes" $pool.diskSizeGB ) -}}
 {{- $pool = unset $pool "diskSizeGB" -}}
 
-{{- if $pool }}
+{{- $osName := include "cluster.os.name" $ }}
+{{- $osReleaseChannel := include "cluster.os.releaseChannel" $ }}
+{{- $osVersion := include "cluster.os.version" $ }}
+{{- $kubernetesVersion := include "cluster.component.kubernetes.version" $ }}
+{{- $osToolingVersion := include "cluster.os.tooling.version" $ }}
+
+{{- /* Modify $pool.template here */ -}}
+{{- $templateValue := printf "%s-%s-%s-kube-%s-tooling-%s-gs" $osName $osReleaseChannel $osVersion $kubernetesVersion $osToolingVersion -}}
+{{- $_ := set $pool "template" $templateValue -}}
+
 {{- $pool | toYaml }}
-{{- end }}
 vmNamingTemplate: {{ $.Values.global.providerSpecific.vmNamingTemplate }}
 {{- if $.Values.global.connectivity.network.extraOvdcNetworks }}
 extraOvdcNetworks:

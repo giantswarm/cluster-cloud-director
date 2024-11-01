@@ -204,7 +204,6 @@ cluster:
                   name: etc-hosts-entries.service
       postKubeadmCommands:
         - usermod -aG root nobody
-    kubernetesVersion: 1.27.14
     provider: cloud-director
     resourcesApi:
       bastionResourceEnabled: false
@@ -227,7 +226,6 @@ cluster:
           diskSize: "30"
           replicas: 2
           sizingPolicy: m1.large
-          template: flatcar-stable-3815.2.2-kube-v1.27.14-gs
       resources:
         infrastructureMachineTemplateSpecTemplateName: worker-vcdmachinetemplate-spec
 connectivity:
@@ -253,7 +251,6 @@ global:
   controlPlane:
     machineTemplate:
       catalog: giantswarm
-      template: flatcar-stable-3815.2.2-kube-v1.27.14-gs
     oidc: {}
     replicas: 1
   metadata:
@@ -263,7 +260,6 @@ global:
     worker:
       catalog: giantswarm
       replicas: 2
-      template: flatcar-stable-3815.2.2-kube-v1.27.14-gs
   podSecurityStandards:
     enforced: true
   providerSpecific:
@@ -283,6 +279,7 @@ global:
     userContext:
       secretRef: {}
     vmBootstrapFormat: ignition
+  release: {}
 internal:
   kubectlImage:
     name: giantswarm/kubectl

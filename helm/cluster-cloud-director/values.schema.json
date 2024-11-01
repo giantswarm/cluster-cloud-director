@@ -123,8 +123,7 @@
         "template": {
             "type": "string",
             "title": "Template",
-            "description": "Name of the template used to create the node VMs.",
-            "default": "flatcar-stable-3815.2.2-kube-v1.27.14-gs"
+            "description": "Name of the template used to create the node VMs."
         }
     },
     "type": "object",
@@ -423,7 +422,6 @@
                             "usermod -aG root nobody"
                         ]
                     },
-                    "kubernetesVersion": "1.27.14",
                     "provider": "cloud-director",
                     "resourcesApi": {
                         "bastionResourceEnabled": false,
@@ -448,8 +446,7 @@
                                 "catalog": "giantswarm",
                                 "diskSize": "30",
                                 "replicas": 2,
-                                "sizingPolicy": "m1.large",
-                                "template": "flatcar-stable-3815.2.2-kube-v1.27.14-gs"
+                                "sizingPolicy": "m1.large"
                             }
                         },
                         "resources": {
@@ -526,6 +523,8 @@
             "type": "object",
             "title": "Global parameters",
             "required": [
+                "metadata",
+                "release",
                 "connectivity",
                 "controlPlane",
                 "nodePools"
@@ -1199,6 +1198,20 @@
                             "examples": [
                                 "mytenant-{{ .machine.Name | sha256sum | trunc 7 }}"
                             ]
+                        }
+                    }
+                },
+                "release": {
+                    "type": "object",
+                    "title": "Release",
+                    "description": "Information about the workload cluster release.",
+                    "required": [
+                        "version"
+                    ],
+                    "properties": {
+                        "version": {
+                            "type": "string",
+                            "title": "Version"
                         }
                     }
                 }
