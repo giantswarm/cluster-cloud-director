@@ -811,8 +811,7 @@
                             "type": "object",
                             "title": "Template to define control plane nodes",
                             "required": [
-                                "catalog",
-                                "template"
+                                "catalog"
                             ],
                             "additionalProperties": false,
                             "properties": {

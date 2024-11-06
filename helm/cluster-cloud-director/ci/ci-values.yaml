@@ -26,7 +26,6 @@ global:
       caPem: ""
     machineTemplate:
       catalog: giantswarm
-      template: flatcar-stable--kube--tooling--gs
   metadata:
     description: "test cluster"
     name: "test"
