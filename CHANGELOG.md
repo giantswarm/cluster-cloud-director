@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### :warning: **Breaking change** :warning:
+
+  - Support for Release CR's.
+
+  <details>
+  <summary>Migration steps</summary>
+
+  * In ConfigMap `<cluster name>-userconfig` set `.Values.global.release` to the release version, e.g. `27.0.0`. 
+  * In App `<cluster name>` set the `version` to an empty string.
+  </details>
+
 ## [0.62.0] - 2024-10-21
 
 > [!WARNING]

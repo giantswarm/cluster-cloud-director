@@ -51,3 +51,10 @@ global:
     userContext:
       secretRef:
         secretName: vcd-credentials
+  release:
+    version: 27.0.0
+cluster:
+  internal:
+    ephemeralConfiguration:
+      offlineTesting:
+        renderWithoutReleaseResource: true
