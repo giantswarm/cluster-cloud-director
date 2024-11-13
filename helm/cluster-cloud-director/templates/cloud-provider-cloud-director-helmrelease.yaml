@@ -22,9 +22,9 @@ spec:
   chart:
     spec:
       chart: cloud-provider-cloud-director
-      # used by renovate
-      # repo: giantswarm/cloud-provider-cloud-director-app
-      version: 0.3.1
+      {{- $_ := set $ "appName" "cloud-provider-cloud-director" }}
+      {{- $appVersion := include "cluster.app.version" $ }}
+      version: {{ $appVersion }}
       sourceRef:
         kind: HelmRepository
         name: {{ include "resource.default.name" $ }}-default
