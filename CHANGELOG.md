@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.64.0] - 2024-12-11
+
+### Changed
+
+- Chart: Update `cluster` to [v1.7.0](https://github.com/giantswarm/cluster/releases/tag/v1.7.0).
+  - Add `teleport-init` systemd unit to handle initial token setup before `teleport` service starts
+  - Improve `teleport` service reliability by adding proper file and service dependencies and pre-start checks
+
 ## [0.63.1] - 2024-11-13
 
 ### Fixed
@@ -1053,7 +1061,8 @@ Bump cloud provider to v0.2.5 (fix).
 - Added VCDCluster parameters to match CRD.
 - Nodepool and nodeclass support.
 
-[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.63.1...HEAD
+[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.64.0...HEAD
+[0.64.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.63.1...v0.64.0
 [0.63.1]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.63.0...v0.63.1
 [0.63.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.62.0...v0.63.0
 [0.62.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.61.2...v0.62.0
