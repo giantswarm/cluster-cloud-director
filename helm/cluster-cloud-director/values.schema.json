@@ -531,6 +531,135 @@
                 "nodePools"
             ],
             "properties": {
+                "components": {
+                    "type": "object",
+                    "title": "Components",
+                    "description": "Advanced configuration of components that are running on all nodes.",
+                    "additionalProperties": false,
+                    "properties": {
+                        "containerd": {
+                            "type": "object",
+                            "title": "Containerd",
+                            "description": "Configuration of containerd.",
+                            "required": [
+                                "containerRegistries"
+                            ],
+                            "additionalProperties": false,
+                            "properties": {
+                                "containerRegistries": {
+                                    "type": "object",
+                                    "title": "Container registries",
+                                    "description": "Endpoints and credentials configuration for container registries.",
+                                    "additionalProperties": {
+                                        "type": "array",
+                                        "title": "Registries",
+                                        "description": "Container registries and mirrors",
+                                        "items": {
+                                            "type": "object",
+                                            "title": "Registry",
+                                            "required": [
+                                                "endpoint"
+                                            ],
+                                            "properties": {
+                                                "credentials": {
+                                                    "type": "object",
+                                                    "title": "Credentials",
+                                                    "properties": {
+                                                        "auth": {
+                                                            "type": "string",
+                                                            "title": "Auth",
+                                                            "description": "Base64-encoded string from the concatenation of the username, a colon, and the password."
+                                                        },
+                                                        "identitytoken": {
+                                                            "type": "string",
+                                                            "title": "Identity token",
+                                                            "description": "Used to authenticate the user and obtain an access token for the registry."
+                                                        },
+                                                        "password": {
+                                                            "type": "string",
+                                                            "title": "Password",
+                                                            "description": "Used to authenticate for the registry with username/password."
+                                                        },
+                                                        "username": {
+                                                            "type": "string",
+                                                            "title": "Username",
+                                                            "description": "Used to authenticate for the registry with username/password."
+                                                        }
+                                                    }
+                                                },
+                                                "endpoint": {
+                                                    "type": "string",
+                                                    "title": "Endpoint",
+                                                    "description": "Endpoint for the container registry."
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "default": {}
+                                },
+                                "localRegistryCache": {
+                                    "type": "object",
+                                    "title": "Local registry caches configuration",
+                                    "description": "Enable local cache via http://127.0.0.1:<PORT>.",
+                                    "required": [
+                                        "enabled",
+                                        "port"
+                                    ],
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "enabled": {
+                                            "type": "boolean",
+                                            "title": "Enable local registry caches",
+                                            "description": "Flag to enable local registry cache.",
+                                            "default": false
+                                        },
+                                        "mirroredRegistries": {
+                                            "type": "array",
+                                            "title": "Registries to cache locally",
+                                            "description": "A list of registries that should be cached.",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "default": []
+                                        },
+                                        "port": {
+                                            "type": "integer",
+                                            "title": "Local port for the registry cache",
+                                            "description": "Port for the local registry cache under: http://127.0.0.1:<PORT>.",
+                                            "default": 32767
+                                        }
+                                    }
+                                },
+                                "managementClusterRegistryCache": {
+                                    "type": "object",
+                                    "title": "Management cluster registry cache",
+                                    "description": "Caching container registry on a management cluster level.",
+                                    "required": [
+                                        "enabled"
+                                    ],
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "enabled": {
+                                            "type": "boolean",
+                                            "title": "Enabled",
+                                            "description": "Enabling this will configure containerd to use management cluster's Zot registry service. To make use of it as a pull-through cache, you also have to specify registries to cache images for.",
+                                            "default": true
+                                        },
+                                        "mirroredRegistries": {
+                                            "type": "array",
+                                            "title": "Registries to cache",
+                                            "description": "Here you must specify each registry to cache container images for. Please also make sure to have an entry for each registry in Global > Components > Containerd > Container registries.",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "default": []
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
                 "connectivity": {
                     "type": "object",
                     "title": "Connectivity",

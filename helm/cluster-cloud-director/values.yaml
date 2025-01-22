@@ -232,6 +232,16 @@ cluster:
 connectivity:
   containerRegistries: {}
 global:
+  components:
+    containerd:
+      containerRegistries: {}
+      localRegistryCache:
+        enabled: false
+        mirroredRegistries: []
+        port: 32767
+      managementClusterRegistryCache:
+        enabled: true
+        mirroredRegistries: []
   connectivity:
     containerRegistries: {}
     localRegistryCache:

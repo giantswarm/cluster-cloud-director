@@ -1,25 +1,27 @@
 global:
+  components:
+    containerd:
+      containerRegistries:
+        gsoci.azurecr.io:
+          - endpoint: zot-test-1.golem.gaws.gigantic.io
+            credentials:
+              username: example
+              password: xxxxx
+        gsociprivate.azurecr.io:
+          - endpoint: zot-test-2.golem.gaws.gigantic.io
+            credentials:
+              username: example
+              password: yyyyy
+      localRegistryCache:
+        enabled: true
+        mirroredRegistries:
+          - gsoci.azurecr.io
+          - gsociprivate.azurecr.io
   connectivity:
     network:
       loadBalancers:
         vipSubnet: 10.205.9.254/24
     baseDomain: "test.gigantic.io"
-    containerRegistries:
-      gsoci.azurecr.io:
-        - endpoint: zot-test-1.golem.gaws.gigantic.io
-          credentials:
-            username: example
-            password: xxxxx
-      gsociprivate.azurecr.io:
-        - endpoint: zot-test-2.golem.gaws.gigantic.io
-          credentials:
-            username: example
-            password: yyyyy
-    localRegistryCache:
-      enabled: true
-      mirroredRegistries:
-        - gsoci.azurecr.io
-        - gsociprivate.azurecr.io
   metadata:
     description: "Testing Cluster"
     name: "test"
