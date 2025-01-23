@@ -20,6 +20,8 @@ cluster:
         enable: true
       coreDns:
         enable: true
+      etcdDefrag:
+        enable: true
       etcdKubernetesResourcesCountExporter:
         enable: true
       k8sDnsNodeCache:
