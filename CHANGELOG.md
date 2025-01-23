@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.64.1] - 2025-01-23
+
 ### Added
 
 - Add `components.containerd` to the schema and values.
@@ -1065,7 +1067,8 @@ Bump cloud provider to v0.2.5 (fix).
 - Added VCDCluster parameters to match CRD.
 - Nodepool and nodeclass support.
 
-[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.64.0...HEAD
+[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.64.1...HEAD
+[0.64.1]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.64.0...v0.64.1
 [0.64.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.63.1...v0.64.0
 [0.63.1]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.63.0...v0.63.1
 [0.63.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.62.0...v0.63.0
