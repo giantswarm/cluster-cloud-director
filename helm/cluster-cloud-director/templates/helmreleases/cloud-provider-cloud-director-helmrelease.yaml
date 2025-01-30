@@ -23,11 +23,10 @@ spec:
     spec:
       chart: cloud-provider-cloud-director
       {{- $_ := set $ "appName" "cloud-provider-cloud-director" }}
-      {{- $appVersion := include "cluster.app.version" $ }}
-      version: {{ $appVersion }}
+      version: {{ include "cluster.app.version" $ }}
       sourceRef:
         kind: HelmRepository
-        name: {{ include "resource.default.name" $ }}-default
+        name: {{ include "resource.default.name" $ }}-{{ include "cluster.app.catalog" $ }}
   dependsOn:
     - name: {{ include "resource.default.name" $ }}-cilium
       namespace: {{ $.Release.Namespace }}
