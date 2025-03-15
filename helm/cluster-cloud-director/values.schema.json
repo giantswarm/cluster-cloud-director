@@ -164,6 +164,12 @@
                         "coreDns": {
                             "enable": true
                         },
+                        "coreDnsExtensions": {
+                            "enable": true
+                        },
+                        "etcdDefrag": {
+                            "enable": true
+                        },
                         "etcdKubernetesResourcesCountExporter": {
                             "enable": true
                         },
