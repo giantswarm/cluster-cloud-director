@@ -2,7 +2,7 @@
 #
 #    devctl
 #
-#    https://github.com/giantswarm/devctl/blob/c90dd09846d2e87f1bad62d2089405b78da11a82/pkg/gen/input/workflows/internal/file/helm_render_diff.yaml.template
+#    https://github.com/giantswarm/devctl/blob/f2b5cf71dfa175afa70f721eca503072d0e7d4c4/pkg/gen/input/workflows/internal/file/helm_render_diff.yaml.template
 #
 name: Compare Helm Rendering
 
@@ -19,7 +19,7 @@ jobs:
   # This job is for checking for the `/no_diffs_printing` comment in the PR. When it is found,
   # the `get-rendering-values` job is skipped, what makes `cmp-helm-rendering` skipped as well.
   check-cmp-state:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     if: github.event_name == 'pull_request'
     steps:
       - name: Find suspend comment
@@ -44,12 +44,12 @@ jobs:
       suspend_diffs_printing_from_pr_body: ${{ steps.pr_body.outputs.suspend_diffs_printing_from_pr_body }}
   cmp-helm-rendering:
     needs: check-cmp-state
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     if: github.event_name == 'pull_request' && needs.check-cmp-state.outputs.suspend_comment_id == 0 && needs.check-cmp-state.outputs.suspend_diffs_printing_from_pr_body == 'false'
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - name: install helm
-        uses: azure/setup-helm@fe7b79cd5ee1e45176fcad797de68ecaf3ca4814 # v4.2.0
+        uses: azure/setup-helm@b9e51907a09c216f16ebe8536097933489208112 # v4.3.0
         with:
            version: ${{ env.helm_ver }}
       - run: which helm
@@ -81,7 +81,7 @@ jobs:
 
             helm template -n org-giantswarm -f "helm/${{ github.event.repository.name }}/ci/ci-values.yaml" -f "${test_file_path}" "helm/${{ github.event.repository.name }}" > "/tmp/${test_file_path}/render-new.yaml"
           done
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           ref: "${{ github.event.repository.default_branch }}"
           path: 'old'
