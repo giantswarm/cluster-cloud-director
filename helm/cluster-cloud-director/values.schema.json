@@ -543,6 +543,20 @@
                     "description": "Advanced configuration of components that are running on all nodes.",
                     "additionalProperties": false,
                     "properties": {
+                        "auditd": {
+                            "type": "object",
+                            "title": "Auditd",
+                            "description": "Enable Auditd service.",
+                            "additionalProperties": false,
+                            "properties": {
+                                "enabled": {
+                                    "type": "boolean",
+                                    "title": "Enabled",
+                                    "description": "Whether or not the Auditd service shall be enabled. When true, the Auditd service is enabled. When false, the Auditd rules service is disabled.",
+                                    "default": false
+                                }
+                            }
+                        },
                         "containerd": {
                             "type": "object",
                             "title": "Containerd",
@@ -661,6 +675,45 @@
                                             "default": []
                                         }
                                     }
+                                },
+                                "selinux": {
+                                    "type": "object",
+                                    "title": "SELinux configuration",
+                                    "description": "SELinux configuration for containerd.",
+                                    "required": [
+                                        "enabled"
+                                    ],
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "enabled": {
+                                            "type": "boolean",
+                                            "title": "Enabled",
+                                            "description": "Enabling this will configure containerd to do SELinux relabeling to containers.",
+                                            "default": false
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "selinux": {
+                            "type": "object",
+                            "title": "SELinux",
+                            "description": "Configuration of SELinux.",
+                            "required": [
+                                "mode"
+                            ],
+                            "additionalProperties": false,
+                            "properties": {
+                                "mode": {
+                                    "type": "string",
+                                    "title": "SELinux mode",
+                                    "description": "Configure SELinux mode: 'enforcing', 'permissive' or 'disabled'.",
+                                    "enum": [
+                                        "enforcing",
+                                        "permissive",
+                                        "disabled"
+                                    ],
+                                    "default": "permissive"
                                 }
                             }
                         }

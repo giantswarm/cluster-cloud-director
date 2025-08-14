@@ -237,6 +237,8 @@ connectivity:
   containerRegistries: {}
 global:
   components:
+    auditd:
+      enabled: false
     containerd:
       containerRegistries: {}
       localRegistryCache:
@@ -246,6 +248,10 @@ global:
       managementClusterRegistryCache:
         enabled: true
         mirroredRegistries: []
+      selinux:
+        enabled: false
+    selinux:
+      mode: permissive
   connectivity:
     containerRegistries: {}
     localRegistryCache:
