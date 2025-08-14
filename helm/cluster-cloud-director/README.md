@@ -22,6 +22,8 @@ Advanced configuration of components that are running on all nodes.
 
 | **Property** | **Description** | **More Details** |
 | :----------- | :-------------- | :--------------- |
+| `global.components.auditd` | **Auditd** - Enable Auditd service.|**Type:** `object`<br/>|
+| `global.components.auditd.enabled` | **Enabled** - Whether or not the Auditd service shall be enabled. When true, the Auditd service is enabled. When false, the Auditd rules service is disabled.|**Type:** `boolean`<br/>**Default:** `false`|
 | `global.components.containerd` | **Containerd** - Configuration of containerd.|**Type:** `object`<br/>|
 | `global.components.containerd.containerRegistries` | **Container registries** - Endpoints and credentials configuration for container registries.|**Type:** `object`<br/>**Default:** `{}`|
 | `global.components.containerd.containerRegistries.*` | **Registries** - Container registries and mirrors|**Type:** `array`<br/>|
@@ -41,6 +43,10 @@ Advanced configuration of components that are running on all nodes.
 | `global.components.containerd.managementClusterRegistryCache.enabled` | **Enabled** - Enabling this will configure containerd to use management cluster's Zot registry service. To make use of it as a pull-through cache, you also have to specify registries to cache images for.|**Type:** `boolean`<br/>**Default:** `true`|
 | `global.components.containerd.managementClusterRegistryCache.mirroredRegistries` | **Registries to cache** - Here you must specify each registry to cache container images for. Please also make sure to have an entry for each registry in Global > Components > Containerd > Container registries.|**Type:** `array`<br/>**Default:** `[]`|
 | `global.components.containerd.managementClusterRegistryCache.mirroredRegistries[*]` |**None**|**Type:** `string`<br/>|
+| `global.components.containerd.selinux` | **SELinux configuration** - SELinux configuration for containerd.|**Type:** `object`<br/>|
+| `global.components.containerd.selinux.enabled` | **Enabled** - Enabling this will configure containerd to do SELinux relabeling to containers.|**Type:** `boolean`<br/>**Default:** `false`|
+| `global.components.selinux` | **SELinux** - Configuration of SELinux.|**Type:** `object`<br/>|
+| `global.components.selinux.mode` | **SELinux mode** - Configure SELinux mode: 'enforcing', 'permissive' or 'disabled'.|**Type:** `string`<br/>**Default:** `"permissive"`|
 
 ### Connectivity
 Properties within the `.connectivity` top-level object
