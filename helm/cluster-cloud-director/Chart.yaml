@@ -23,7 +23,7 @@ restrictions:
     - cloud-director
 dependencies:
   - name: cluster
-    version: "2.6.0"
+    version: "2.6.1"
     repository: "https://giantswarm.github.io/cluster-catalog"
   - name: cluster-shared
     version: "0.7.1"
