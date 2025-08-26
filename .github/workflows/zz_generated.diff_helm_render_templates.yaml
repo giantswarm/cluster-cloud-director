@@ -2,7 +2,7 @@
 #
 #    devctl
 #
-#    https://github.com/giantswarm/devctl/blob/1cdd97df06f82c259b6d84867164af1b9435bc8f/pkg/gen/input/workflows/internal/file/helm_render_diff.yaml.template
+#    https://github.com/giantswarm/devctl/blob/711bb02bf2264ea758197d2cd8cfbed920736d95/pkg/gen/input/workflows/internal/file/helm_render_diff.yaml.template
 #
 name: Compare Helm Rendering
 
@@ -93,7 +93,7 @@ jobs:
             echo
             echo "Rendering Helm template for ${test_file_path} on old code"
 
-            if [ ! -d "/tmp/${test_file_path}" ]; then
+            if [ ! -f "old/${test_file_path}" ]; then
               echo "File ${test_file_path} does not yet exist in old code, skipping"
               continue
             fi
