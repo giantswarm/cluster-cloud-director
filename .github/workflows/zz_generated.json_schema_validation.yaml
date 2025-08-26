@@ -2,7 +2,7 @@
 #
 #    devctl
 #
-#    https://github.com/giantswarm/devctl/blob/f2b5cf71dfa175afa70f721eca503072d0e7d4c4/pkg/gen/input/workflows/internal/file/cluster_app_schema_validation.yaml.template
+#    https://github.com/giantswarm/devctl/blob/8da382794b2aabc7395d04c50234c3e0cc71fa89/pkg/gen/input/workflows/internal/file/cluster_app_schema_validation.yaml.template
 #
 
 # This workflow validates the JSON schema of the cluster-app, which is located in
@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout code
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - name: Run schemalint
         id: run-schemalint
         uses: giantswarm/schemalint/actions/verify-helm-schema@5d64fa08da5ef5d593b0298a1ebb6c0e02dfa0b6 # v2.6.1
@@ -39,7 +39,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout code
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
 
       - name: Run helm-values-gen
         id: run-helm-values-gen
