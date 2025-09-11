@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Chart: Update `cluster` to v2.6.2.
+  - **BREAKING CHANGE:** Cgroups v1 is not supported anymore. The `.internal.advancedConfiguration.cgroupsv1` and `.global.nodePools.().cgroupsv1` flags have been removed.
+
 ## [0.69.1] - 2025-09-02
 
 ### Changed
