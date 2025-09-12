@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.0] - 2025-09-12
+
 ### Changed
 
 - Chart: Update `cluster` to v3.0.1.
@@ -1129,7 +1131,8 @@ Bump cloud provider to v0.2.5 (fix).
 - Added VCDCluster parameters to match CRD.
 - Nodepool and nodeclass support.
 
-[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.69.1...HEAD
+[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.69.1...v1.0.0
 [0.69.1]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.69.0...v0.69.1
 [0.69.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.68.1...v0.69.0
 [0.68.1]: https://github.com/giantswarm/cluster-cloud-director/compare/v0.68.0...v0.68.1
