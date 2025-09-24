@@ -140,9 +140,6 @@
             "default": {
                 "providerIntegration": {
                     "apps": {
-                        "capiNodeLabeler": {
-                            "enable": true
-                        },
                         "certExporter": {
                             "configTemplateName": "cloudDirectorCertExporterHelmValues",
                             "enable": true
