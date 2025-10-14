@@ -238,6 +238,11 @@ global:
     auditd:
       enabled: false
     containerd:
+      cdi:
+        enabled: false
+        specDirs:
+          - /etc/cdi
+          - /var/run/cdi
       containerRegistries: {}
       localRegistryCache:
         enabled: false

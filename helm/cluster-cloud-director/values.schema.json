@@ -599,6 +599,37 @@
                             ],
                             "additionalProperties": false,
                             "properties": {
+                                "cdi": {
+                                    "type": "object",
+                                    "title": "Container Device Interface (CDI)",
+                                    "description": "Configuration of CDI support in containerd.",
+                                    "required": [
+                                        "enabled"
+                                    ],
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "enabled": {
+                                            "type": "boolean",
+                                            "title": "Enabled",
+                                            "description": "Enabling this will configure containerd to support Container Device Interface (CDI) specification.",
+                                            "default": false
+                                        },
+                                        "specDirs": {
+                                            "type": "array",
+                                            "title": "CDI spec directories",
+                                            "description": "List of directories to search for CDI spec files.",
+                                            "items": {
+                                                "type": "string",
+                                                "title": "CDI spec directory",
+                                                "description": "Directory to search for CDI spec files."
+                                            },
+                                            "default": [
+                                                "/etc/cdi",
+                                                "/var/run/cdi"
+                                            ]
+                                        }
+                                    }
+                                },
                                 "containerRegistries": {
                                     "type": "object",
                                     "title": "Container registries",
