@@ -120,6 +120,42 @@
             "title": "Storage profile",
             "description": "Name of the VCD storage profile to use."
         },
+        "strategy": {
+            "type": "object",
+            "title": "Update strategy",
+            "description": "Strategy to use when updating the machines.",
+            "properties": {
+                "rollingUpdate": {
+                    "type": "object",
+                    "title": "Rolling update strategy",
+                    "description": "Rolling update config params.",
+                    "properties": {
+                        "deletePolicy": {
+                            "type": "string",
+                            "title": "Delete policy",
+                            "description": "DeletePolicy defines the policy used by the MachineDeployment to identify nodes to delete when downscaling. When no value is supplied, the default DeletePolicy of MachineSet is used.",
+                            "enum": [
+                                "Random",
+                                "Newest",
+                                "Oldest"
+                            ]
+                        },
+                        "maxSurge": {
+                            "type": "string",
+                            "title": "Max surge",
+                            "description": "The maximum number of machines that can be scheduled above the desired number of machines. Value can be an absolute number (ex: 5) or a percentage of desired machines (ex: 10%). This can not be 0 if MaxUnavailable is 0. Absolute number is calculated from percentage by rounding up. Defaults to 1.",
+                            "default": "1"
+                        },
+                        "maxUnavailable": {
+                            "type": "string",
+                            "title": "Max unavailable",
+                            "description": "The maximum number of machines that can be unavailable during the update. Value can be an absolute number (ex: 5) or a percentage of desired machines (ex: 10%). Absolute number is calculated from percentage by rounding down. This can not be 0 if MaxSurge is 0. Defaults to 0.",
+                            "default": "0"
+                        }
+                    }
+                }
+            }
+        },
         "template": {
             "type": "string",
             "title": "Template",
@@ -1174,6 +1210,9 @@
                                 "storageProfile": {
                                     "$ref": "#/$defs/storageProfile"
                                 },
+                                "strategy": {
+                                    "$ref": "#/$defs/strategy"
+                                },
                                 "template": {
                                     "$ref": "#/$defs/template"
                                 }
@@ -1211,6 +1250,9 @@
                                 },
                                 "storageProfile": {
                                     "$ref": "#/$defs/storageProfile"
+                                },
+                                "strategy": {
+                                    "$ref": "#/$defs/strategy"
                                 },
                                 "template": {
                                     "$ref": "#/$defs/template"
