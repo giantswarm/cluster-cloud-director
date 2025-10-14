@@ -170,6 +170,11 @@ Groups of worker nodes with identical configuration.
 | `global.nodePools.PATTERN.replicas` | **Number of nodes**|**Type:** `[integer]`<br/>**Example:** `3`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]{3,10}$`<br/>|
 | `global.nodePools.PATTERN.sizingPolicy` | **Sizing policy** - Name of the VCD sizing policy to use.|**Type:** `[string]`<br/>**Example:** `"m1.medium"`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]{3,10}$`<br/>|
 | `global.nodePools.PATTERN.storageProfile` | **Storage profile** - Name of the VCD storage profile to use.|**Type:** `[string]`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]{3,10}$`<br/>|
+| `global.nodePools.PATTERN.strategy` | **Update strategy** - Strategy to use when updating the machines.|**Type:** `[object]`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]{3,10}$`<br/>|
+| `global.nodePools.PATTERN.strategy.rollingUpdate` | **Rolling update strategy** - Rolling update config params.|**Type:** `[object]`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]{3,10}$`<br/>|
+| `global.nodePools.PATTERN.strategy.rollingUpdate.deletePolicy` | **Delete policy** - DeletePolicy defines the policy used by the MachineDeployment to identify nodes to delete when downscaling. When no value is supplied, the default DeletePolicy of MachineSet is used.|**Type:** `[string]`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]{3,10}$`<br/>|
+| `global.nodePools.PATTERN.strategy.rollingUpdate.maxSurge` | **Max surge** - The maximum number of machines that can be scheduled above the desired number of machines. Value can be an absolute number (ex: 5) or a percentage of desired machines (ex: 10%). This can not be 0 if MaxUnavailable is 0. Absolute number is calculated from percentage by rounding up. Defaults to 1.|**Type:** `[string]`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]{3,10}$`<br/>**Default:** `"1"`|
+| `global.nodePools.PATTERN.strategy.rollingUpdate.maxUnavailable` | **Max unavailable** - The maximum number of machines that can be unavailable during the update. Value can be an absolute number (ex: 5) or a percentage of desired machines (ex: 10%). Absolute number is calculated from percentage by rounding down. This can not be 0 if MaxSurge is 0. Defaults to 0.|**Type:** `[string]`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]{3,10}$`<br/>**Default:** `"0"`|
 | `global.nodePools.PATTERN.template` | **Template** - Name of the template used to create the node VMs.|**Type:** `[string]`<br/>**Key pattern:**<br/>`PATTERN`=`^[a-z0-9-]{3,10}$`<br/>|
 | `global.nodePools.worker` | **Default nodePool**|**Type:** `[object]`<br/>|
 | `global.nodePools.worker.catalog` | **Catalog** - Name of the VCD catalog in which the VM template is stored.|**Type:** `[string]`<br/>**Default:** `"giantswarm"`|
@@ -185,6 +190,11 @@ Groups of worker nodes with identical configuration.
 | `global.nodePools.worker.replicas` | **Number of nodes**|**Type:** `[integer]`<br/>**Example:** `3`<br/>|
 | `global.nodePools.worker.sizingPolicy` | **Sizing policy** - Name of the VCD sizing policy to use.|**Type:** `[string]`<br/>**Example:** `"m1.medium"`<br/>|
 | `global.nodePools.worker.storageProfile` | **Storage profile** - Name of the VCD storage profile to use.|**Type:** `[string]`<br/>|
+| `global.nodePools.worker.strategy` | **Update strategy** - Strategy to use when updating the machines.|**Type:** `[object]`<br/>|
+| `global.nodePools.worker.strategy.rollingUpdate` | **Rolling update strategy** - Rolling update config params.|**Type:** `[object]`<br/>|
+| `global.nodePools.worker.strategy.rollingUpdate.deletePolicy` | **Delete policy** - DeletePolicy defines the policy used by the MachineDeployment to identify nodes to delete when downscaling. When no value is supplied, the default DeletePolicy of MachineSet is used.|**Type:** `[string]`<br/>|
+| `global.nodePools.worker.strategy.rollingUpdate.maxSurge` | **Max surge** - The maximum number of machines that can be scheduled above the desired number of machines. Value can be an absolute number (ex: 5) or a percentage of desired machines (ex: 10%). This can not be 0 if MaxUnavailable is 0. Absolute number is calculated from percentage by rounding up. Defaults to 1.|**Type:** `[string]`<br/>**Default:** `"1"`|
+| `global.nodePools.worker.strategy.rollingUpdate.maxUnavailable` | **Max unavailable** - The maximum number of machines that can be unavailable during the update. Value can be an absolute number (ex: 5) or a percentage of desired machines (ex: 10%). Absolute number is calculated from percentage by rounding down. This can not be 0 if MaxSurge is 0. Defaults to 0.|**Type:** `[string]`<br/>**Default:** `"0"`|
 | `global.nodePools.worker.template` | **Template** - Name of the template used to create the node VMs.|**Type:** `[string]`<br/>|
 
 ### Other global
