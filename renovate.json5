@@ -2,9 +2,5 @@
   "extends": [
     // Base config - https://github.com/giantswarm/renovate-presets/blob/main/default.json5
     "github>giantswarm/renovate-presets:default.json5",
-  ],
-  "prBodyNotes": [
-    "Trigger E2E tests:",
-    "/run cluster-test-suites"
   ]
 }
