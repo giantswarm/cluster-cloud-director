@@ -223,6 +223,9 @@
                             "configTemplateName": "cloudDirectorNodeExporterHelmValues",
                             "enable": true
                         },
+                        "nodeProblemDetector": {
+                            "enable": false
+                        },
                         "observabilityBundle": {
                             "enable": true
                         },
