@@ -42,6 +42,8 @@ cluster:
         enable: true
       observabilityPolicies:
         enable: true
+      priorityClasses:
+        enable: true
       securityBundle:
         enable: true
       teleportKubeAgent:

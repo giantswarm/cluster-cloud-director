@@ -1,4 +1,5 @@
 global:
+  managementCluster: "test-mc"
   connectivity:
     network:
       loadBalancers:
