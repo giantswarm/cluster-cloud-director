@@ -1,4 +1,5 @@
 global:
+  managementCluster: "test-mc"
   components:
     containerd:
       containerRegistries:

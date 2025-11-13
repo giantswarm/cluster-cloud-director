@@ -1,4 +1,5 @@
 global:
+  managementCluster: "test-mc"
   connectivity:
     baseDomain: "test.gigantic.io"
     network:
