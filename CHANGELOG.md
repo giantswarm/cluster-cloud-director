@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Chart: Update `cluster` to v4.5.1.
+- Chart: Update `cluster` to v5.0.0.
 
 ## [2.4.0] - 2025-10-29
 
