@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.0.0] - 2025-12-02
+
 ### Added
 
 - Add the `priority-classes` default app, enabled by default. This app provides standardised `PriorityClass` resources like `giantswarm-critical` and `giantswarm-high`, which should replace the previous inconsistent per-app priority classes.
@@ -1182,7 +1184,8 @@ Bump cloud provider to v0.2.5 (fix).
 - Added VCDCluster parameters to match CRD.
 - Nodepool and nodeclass support.
 
-[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v2.4.0...HEAD
+[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v3.0.0...HEAD
+[3.0.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v2.4.0...v3.0.0
 [2.4.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v2.3.0...v2.4.0
 [2.3.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v2.2.0...v2.3.0
 [2.2.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v2.1.0...v2.2.0
