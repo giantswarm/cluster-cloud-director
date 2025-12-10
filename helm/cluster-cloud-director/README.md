@@ -38,6 +38,11 @@ Advanced configuration of components that are running on all nodes.
 | `global.components.containerd.containerRegistries.*[*].credentials.password` | **Password** - Used to authenticate for the registry with username/password.|**Type:** `string`<br/>|
 | `global.components.containerd.containerRegistries.*[*].credentials.username` | **Username** - Used to authenticate for the registry with username/password.|**Type:** `string`<br/>|
 | `global.components.containerd.containerRegistries.*[*].endpoint` | **Endpoint** - Endpoint for the container registry.|**Type:** `string`<br/>|
+| `global.components.containerd.containerRegistries.*[*].insecure` | **HTTP endpoint** - Set to true to configure endpoint as HTTP instead of HTTPS (default).|**Type:** `boolean`<br/>**Default:** `false`|
+| `global.components.containerd.containerRegistries.*[*].overridePath` | **Override path enabled** - This setting is used to indicate the host's API root endpoint is defined in the URL path rather than by the API specification. This may be used with non-compliant OCI registries which are missing the /v2 prefix. (Defaults to false).|**Type:** `boolean`<br/>**Default:** `false`|
+| `global.components.containerd.containerRegistries.*[*].skipVerify` | **Skip TLS verify** - Skip TLS verification of the endpoint.|**Type:** `boolean`<br/>**Default:** `false`|
+| `global.components.containerd.debug` | **ContainerD debug configuration** - Debug configuration for containerd.|**Type:** `object`<br/>|
+| `global.components.containerd.debug.level` | **Debug level** - Debug level for containerd logging [trace, debug, info, warn, error, fatal, panic].|**Type:** `string`<br/>**Allowed values:** `trace`, `debug`, `info`, `warn`, `error`, `fatal`, `panic`<br/>**Default:** `"info"`|
 | `global.components.containerd.localRegistryCache` | **Local registry caches configuration** - Enable local cache via http://127.0.0.1:<PORT>.|**Type:** `object`<br/>|
 | `global.components.containerd.localRegistryCache.enabled` | **Enable local registry caches** - Flag to enable local registry cache.|**Type:** `boolean`<br/>**Default:** `false`|
 | `global.components.containerd.localRegistryCache.mirroredRegistries` | **Registries to cache locally** - A list of registries that should be cached.|**Type:** `array`<br/>**Default:** `[]`|
@@ -137,6 +142,51 @@ Properties within the `.global.controlPlane` object
 | `global.controlPlane.oidc.groupsClaim` | **Groups claim** - Name of the identity token claim bearing the user's group memberships.|**Type:** `string`<br/>|
 | `global.controlPlane.oidc.groupsPrefix` | **Groups prefix** - Prefix prepended to groups values to prevent clashes with existing names.|**Type:** `string`<br/>|
 | `global.controlPlane.oidc.issuerUrl` | **Issuer URL** - URL of the provider which allows the API server to discover public signing keys, not including any path. Discovery URL without the '/.well-known/openid-configuration' part.|**Type:** `string`<br/>|
+| `global.controlPlane.oidc.structuredAuthentication` | **Structured authentication**|**Type:** `object`<br/>|
+| `global.controlPlane.oidc.structuredAuthentication.enabled` | **Enable structured authentication**|**Type:** `boolean`<br/>**Default:** `false`|
+| `global.controlPlane.oidc.structuredAuthentication.issuers` | **Issuers**|**Type:** `array`<br/>|
+| `global.controlPlane.oidc.structuredAuthentication.issuers[*]` |**None**|**Type:** `object`<br/>|
+| `global.controlPlane.oidc.structuredAuthentication.issuers[*].audienceMatchPolicy` | **Audience match policy**|**Type:** `string`<br/>**Allowed value:** `MatchAny`<br/>|
+| `global.controlPlane.oidc.structuredAuthentication.issuers[*].audiences` | **Audiences**|**Type:** `array`<br/>|
+| `global.controlPlane.oidc.structuredAuthentication.issuers[*].audiences[*]` |**None**|**Type:** `string`<br/>|
+| `global.controlPlane.oidc.structuredAuthentication.issuers[*].caPem` | **Certificate authority** - Identity provider's CA certificate in PEM format.|**Type:** `string`<br/>|
+| `global.controlPlane.oidc.structuredAuthentication.issuers[*].claimMappings` | **Claim mappings**|**Type:** `object`<br/>|
+| `global.controlPlane.oidc.structuredAuthentication.issuers[*].claimMappings.extra` | **Extra attributes**|**Type:** `array`<br/>|
+| `global.controlPlane.oidc.structuredAuthentication.issuers[*].claimMappings.extra[*]` |**None**|**Type:** `object`<br/>|
+| `global.controlPlane.oidc.structuredAuthentication.issuers[*].claimMappings.extra[*].key` | **Key**|**Type:** `string`<br/>|
+| `global.controlPlane.oidc.structuredAuthentication.issuers[*].claimMappings.extra[*].valueExpression` | **Value expression**|**Type:** `string`<br/>|
+| `global.controlPlane.oidc.structuredAuthentication.issuers[*].claimMappings.groups` | **Groups mapping**|**Type:** `object`<br/>|
+| `global.controlPlane.oidc.structuredAuthentication.issuers[*].claimMappings.groups.claim` | **Claim** - JWT claim to use for groups. Mutually exclusive with 'expression'.|**Type:** `string`<br/>|
+| `global.controlPlane.oidc.structuredAuthentication.issuers[*].claimMappings.groups.expression` | **CEL expression** - CEL expression to determine groups. Mutually exclusive with 'claim' and 'prefix'.|**Type:** `string`<br/>|
+| `global.controlPlane.oidc.structuredAuthentication.issuers[*].claimMappings.groups.prefix` | **Prefix** - Prefix to prepend to group claims. Required if 'claim' is set. Mutually exclusive with 'expression'.|**Type:** `string`<br/>|
+| `global.controlPlane.oidc.structuredAuthentication.issuers[*].claimMappings.uid` | **UID mapping**|**Type:** `object`<br/>|
+| `global.controlPlane.oidc.structuredAuthentication.issuers[*].claimMappings.uid.claim` | **Claim** - JWT claim to use as the UID. Mutually exclusive with 'expression'.|**Type:** `string`<br/>|
+| `global.controlPlane.oidc.structuredAuthentication.issuers[*].claimMappings.uid.expression` | **CEL expression** - CEL expression to determine the UID. Mutually exclusive with 'claim'.|**Type:** `string`<br/>|
+| `global.controlPlane.oidc.structuredAuthentication.issuers[*].claimMappings.username` | **Username mapping**|**Type:** `object`<br/>|
+| `global.controlPlane.oidc.structuredAuthentication.issuers[*].claimMappings.username.claim` | **Claim** - JWT claim to use as the username. Mutually exclusive with 'expression'.|**Type:** `string`<br/>|
+| `global.controlPlane.oidc.structuredAuthentication.issuers[*].claimMappings.username.expression` | **CEL expression** - CEL expression to determine the username. Mutually exclusive with 'claim' and 'prefix'.|**Type:** `string`<br/>|
+| `global.controlPlane.oidc.structuredAuthentication.issuers[*].claimMappings.username.prefix` | **Prefix** - Prefix to prepend to the username claim. Required if 'claim' is set. Mutually exclusive with 'expression'.|**Type:** `string`<br/>|
+| `global.controlPlane.oidc.structuredAuthentication.issuers[*].claimValidationRules` | **Claim validation rules**|**Type:** `array`<br/>|
+| `global.controlPlane.oidc.structuredAuthentication.issuers[*].claimValidationRules[*]` |**None**|**Type:** `object`<br/>|
+| `global.controlPlane.oidc.structuredAuthentication.issuers[*].claimValidationRules[*].claim` | **Claim** - JWT claim to validate. Used with 'requiredValue'. Mutually exclusive with 'expression'.|**Type:** `string`<br/>|
+| `global.controlPlane.oidc.structuredAuthentication.issuers[*].claimValidationRules[*].expression` | **CEL expression** - CEL expression that must evaluate to true. Mutually exclusive with 'claim' and 'requiredValue'.|**Type:** `string`<br/>|
+| `global.controlPlane.oidc.structuredAuthentication.issuers[*].claimValidationRules[*].message` | **Validation message** - Error message shown in API server logs when validation fails.|**Type:** `string`<br/>|
+| `global.controlPlane.oidc.structuredAuthentication.issuers[*].claimValidationRules[*].requiredValue` | **Required value** - Required value for the claim. Used with 'claim'. Mutually exclusive with 'expression'.|**Type:** `string`<br/>|
+| `global.controlPlane.oidc.structuredAuthentication.issuers[*].clientId` | **Client ID**|**Type:** `string`<br/>|
+| `global.controlPlane.oidc.structuredAuthentication.issuers[*].discoveryUrl` | **Discovery URL** - Overrides the URL used to fetch discovery information.|**Type:** `string`<br/>|
+| `global.controlPlane.oidc.structuredAuthentication.issuers[*].groupsClaim` | **Groups claim**|**Type:** `string`<br/>|
+| `global.controlPlane.oidc.structuredAuthentication.issuers[*].groupsPrefix` | **Groups prefix**|**Type:** `string`<br/>|
+| `global.controlPlane.oidc.structuredAuthentication.issuers[*].issuerUrl` | **Issuer URL** - Exact issuer URL that will be included in identity tokens.|**Type:** `string`<br/>|
+| `global.controlPlane.oidc.structuredAuthentication.issuers[*].requiredClaims` | **Required claims (Legacy)**|**Type:** `array`<br/>|
+| `global.controlPlane.oidc.structuredAuthentication.issuers[*].requiredClaims[*]` |**None**|**Type:** `object`<br/>|
+| `global.controlPlane.oidc.structuredAuthentication.issuers[*].requiredClaims[*].claim` | **Claim**|**Type:** `string`<br/>|
+| `global.controlPlane.oidc.structuredAuthentication.issuers[*].requiredClaims[*].requiredValue` | **Required value**|**Type:** `string`<br/>|
+| `global.controlPlane.oidc.structuredAuthentication.issuers[*].userValidationRules` | **User validation rules**|**Type:** `array`<br/>|
+| `global.controlPlane.oidc.structuredAuthentication.issuers[*].userValidationRules[*]` |**None**|**Type:** `object`<br/>|
+| `global.controlPlane.oidc.structuredAuthentication.issuers[*].userValidationRules[*].expression` | **CEL expression** - CEL expression that must evaluate to true for the user to be valid.|**Type:** `string`<br/>|
+| `global.controlPlane.oidc.structuredAuthentication.issuers[*].userValidationRules[*].message` | **Validation message** - Error message shown in API server logs when validation fails.|**Type:** `string`<br/>|
+| `global.controlPlane.oidc.structuredAuthentication.issuers[*].usernameClaim` | **Username claim**|**Type:** `string`<br/>|
+| `global.controlPlane.oidc.structuredAuthentication.issuers[*].usernamePrefix` | **Username prefix**|**Type:** `string`<br/>|
 | `global.controlPlane.oidc.usernameClaim` | **Username claim** - Name of the identity token claim bearing the unique user identifier.|**Type:** `string`<br/>|
 | `global.controlPlane.oidc.usernamePrefix` | **Username prefix** - Prefix prepended to username values to prevent clashes with existing names.|**Type:** `string`<br/>|
 | `global.controlPlane.replicas` | **Number of nodes** - Number of control plane instances to create. Must be an odd number.|**Type:** `integer`<br/>**Default:** `1`|

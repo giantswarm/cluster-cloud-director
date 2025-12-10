@@ -681,11 +681,55 @@
                                                     "type": "string",
                                                     "title": "Endpoint",
                                                     "description": "Endpoint for the container registry."
+                                                },
+                                                "insecure": {
+                                                    "type": "boolean",
+                                                    "title": "HTTP endpoint",
+                                                    "description": "Set to true to configure endpoint as HTTP instead of HTTPS (default).",
+                                                    "default": false
+                                                },
+                                                "overridePath": {
+                                                    "type": "boolean",
+                                                    "title": "Override path enabled",
+                                                    "description": "This setting is used to indicate the host's API root endpoint is defined in the URL path rather than by the API specification. This may be used with non-compliant OCI registries which are missing the /v2 prefix. (Defaults to false).",
+                                                    "default": false
+                                                },
+                                                "skipVerify": {
+                                                    "type": "boolean",
+                                                    "title": "Skip TLS verify",
+                                                    "description": "Skip TLS verification of the endpoint.",
+                                                    "default": false
                                                 }
                                             }
                                         }
                                     },
                                     "default": {}
+                                },
+                                "debug": {
+                                    "type": "object",
+                                    "title": "ContainerD debug configuration",
+                                    "description": "Debug configuration for containerd.",
+                                    "required": [
+                                        "level"
+                                    ],
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "level": {
+                                            "type": "string",
+                                            "title": "Debug level",
+                                            "description": "Debug level for containerd logging [trace, debug, info, warn, error, fatal, panic].",
+                                            "enum": [
+                                                "trace",
+                                                "debug",
+                                                "info",
+                                                "warn",
+                                                "error",
+                                                "fatal",
+                                                "panic"
+                                            ],
+                                            "default": "info"
+                                        }
+                                    }
                                 },
                                 "localRegistryCache": {
                                     "type": "object",
@@ -1133,6 +1177,245 @@
                                     "type": "string",
                                     "title": "Issuer URL",
                                     "description": "URL of the provider which allows the API server to discover public signing keys, not including any path. Discovery URL without the '/.well-known/openid-configuration' part."
+                                },
+                                "structuredAuthentication": {
+                                    "type": "object",
+                                    "title": "Structured authentication",
+                                    "properties": {
+                                        "enabled": {
+                                            "type": "boolean",
+                                            "title": "Enable structured authentication",
+                                            "default": false
+                                        },
+                                        "issuers": {
+                                            "type": "array",
+                                            "title": "Issuers",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "audienceMatchPolicy": {
+                                                        "type": "string",
+                                                        "title": "Audience match policy",
+                                                        "enum": [
+                                                            "MatchAny"
+                                                        ]
+                                                    },
+                                                    "audiences": {
+                                                        "type": "array",
+                                                        "title": "Audiences",
+                                                        "items": {
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "caPem": {
+                                                        "type": "string",
+                                                        "title": "Certificate authority",
+                                                        "description": "Identity provider's CA certificate in PEM format."
+                                                    },
+                                                    "claimMappings": {
+                                                        "type": "object",
+                                                        "title": "Claim mappings",
+                                                        "properties": {
+                                                            "extra": {
+                                                                "type": "array",
+                                                                "title": "Extra attributes",
+                                                                "items": {
+                                                                    "type": "object",
+                                                                    "properties": {
+                                                                        "key": {
+                                                                            "type": "string",
+                                                                            "title": "Key"
+                                                                        },
+                                                                        "valueExpression": {
+                                                                            "type": "string",
+                                                                            "title": "Value expression"
+                                                                        }
+                                                                    }
+                                                                }
+                                                            },
+                                                            "groups": {
+                                                                "type": "object",
+                                                                "title": "Groups mapping",
+                                                                "properties": {
+                                                                    "claim": {
+                                                                        "type": "string",
+                                                                        "title": "Claim",
+                                                                        "description": "JWT claim to use for groups. Mutually exclusive with 'expression'."
+                                                                    },
+                                                                    "expression": {
+                                                                        "type": "string",
+                                                                        "title": "CEL expression",
+                                                                        "description": "CEL expression to determine groups. Mutually exclusive with 'claim' and 'prefix'."
+                                                                    },
+                                                                    "prefix": {
+                                                                        "type": "string",
+                                                                        "title": "Prefix",
+                                                                        "description": "Prefix to prepend to group claims. Required if 'claim' is set. Mutually exclusive with 'expression'."
+                                                                    }
+                                                                },
+                                                                "not": {
+                                                                    "required": [
+                                                                        "expression",
+                                                                        "claim"
+                                                                    ]
+                                                                }
+                                                            },
+                                                            "uid": {
+                                                                "type": "object",
+                                                                "title": "UID mapping",
+                                                                "properties": {
+                                                                    "claim": {
+                                                                        "type": "string",
+                                                                        "title": "Claim",
+                                                                        "description": "JWT claim to use as the UID. Mutually exclusive with 'expression'."
+                                                                    },
+                                                                    "expression": {
+                                                                        "type": "string",
+                                                                        "title": "CEL expression",
+                                                                        "description": "CEL expression to determine the UID. Mutually exclusive with 'claim'."
+                                                                    }
+                                                                },
+                                                                "not": {
+                                                                    "required": [
+                                                                        "expression",
+                                                                        "claim"
+                                                                    ]
+                                                                }
+                                                            },
+                                                            "username": {
+                                                                "type": "object",
+                                                                "title": "Username mapping",
+                                                                "properties": {
+                                                                    "claim": {
+                                                                        "type": "string",
+                                                                        "title": "Claim",
+                                                                        "description": "JWT claim to use as the username. Mutually exclusive with 'expression'."
+                                                                    },
+                                                                    "expression": {
+                                                                        "type": "string",
+                                                                        "title": "CEL expression",
+                                                                        "description": "CEL expression to determine the username. Mutually exclusive with 'claim' and 'prefix'."
+                                                                    },
+                                                                    "prefix": {
+                                                                        "type": "string",
+                                                                        "title": "Prefix",
+                                                                        "description": "Prefix to prepend to the username claim. Required if 'claim' is set. Mutually exclusive with 'expression'."
+                                                                    }
+                                                                },
+                                                                "not": {
+                                                                    "required": [
+                                                                        "expression",
+                                                                        "claim"
+                                                                    ]
+                                                                }
+                                                            }
+                                                        }
+                                                    },
+                                                    "claimValidationRules": {
+                                                        "type": "array",
+                                                        "title": "Claim validation rules",
+                                                        "items": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "claim": {
+                                                                    "type": "string",
+                                                                    "title": "Claim",
+                                                                    "description": "JWT claim to validate. Used with 'requiredValue'. Mutually exclusive with 'expression'."
+                                                                },
+                                                                "expression": {
+                                                                    "type": "string",
+                                                                    "title": "CEL expression",
+                                                                    "description": "CEL expression that must evaluate to true. Mutually exclusive with 'claim' and 'requiredValue'."
+                                                                },
+                                                                "message": {
+                                                                    "type": "string",
+                                                                    "title": "Validation message",
+                                                                    "description": "Error message shown in API server logs when validation fails."
+                                                                },
+                                                                "requiredValue": {
+                                                                    "type": "string",
+                                                                    "title": "Required value",
+                                                                    "description": "Required value for the claim. Used with 'claim'. Mutually exclusive with 'expression'."
+                                                                }
+                                                            },
+                                                            "not": {
+                                                                "required": [
+                                                                    "expression",
+                                                                    "claim"
+                                                                ]
+                                                            }
+                                                        }
+                                                    },
+                                                    "clientId": {
+                                                        "type": "string",
+                                                        "title": "Client ID"
+                                                    },
+                                                    "discoveryUrl": {
+                                                        "type": "string",
+                                                        "title": "Discovery URL",
+                                                        "description": "Overrides the URL used to fetch discovery information."
+                                                    },
+                                                    "groupsClaim": {
+                                                        "type": "string",
+                                                        "title": "Groups claim"
+                                                    },
+                                                    "groupsPrefix": {
+                                                        "type": "string",
+                                                        "title": "Groups prefix"
+                                                    },
+                                                    "issuerUrl": {
+                                                        "type": "string",
+                                                        "title": "Issuer URL",
+                                                        "description": "Exact issuer URL that will be included in identity tokens."
+                                                    },
+                                                    "requiredClaims": {
+                                                        "type": "array",
+                                                        "title": "Required claims (Legacy)",
+                                                        "items": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "claim": {
+                                                                    "type": "string",
+                                                                    "title": "Claim"
+                                                                },
+                                                                "requiredValue": {
+                                                                    "type": "string",
+                                                                    "title": "Required value"
+                                                                }
+                                                            }
+                                                        }
+                                                    },
+                                                    "userValidationRules": {
+                                                        "type": "array",
+                                                        "title": "User validation rules",
+                                                        "items": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "expression": {
+                                                                    "type": "string",
+                                                                    "title": "CEL expression",
+                                                                    "description": "CEL expression that must evaluate to true for the user to be valid."
+                                                                },
+                                                                "message": {
+                                                                    "type": "string",
+                                                                    "title": "Validation message",
+                                                                    "description": "Error message shown in API server logs when validation fails."
+                                                                }
+                                                            }
+                                                        }
+                                                    },
+                                                    "usernameClaim": {
+                                                        "type": "string",
+                                                        "title": "Username claim"
+                                                    },
+                                                    "usernamePrefix": {
+                                                        "type": "string",
+                                                        "title": "Username prefix"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
                                 },
                                 "usernameClaim": {
                                     "type": "string",

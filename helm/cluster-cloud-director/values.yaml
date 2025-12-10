@@ -248,6 +248,8 @@ global:
           - /etc/cdi
           - /var/run/cdi
       containerRegistries: {}
+      debug:
+        level: info
       localRegistryCache:
         enabled: false
         mirroredRegistries: []
@@ -279,7 +281,9 @@ global:
   controlPlane:
     machineTemplate:
       catalog: giantswarm
-    oidc: {}
+    oidc:
+      structuredAuthentication:
+        enabled: false
     replicas: 1
   metadata:
     preventDeletion: false
