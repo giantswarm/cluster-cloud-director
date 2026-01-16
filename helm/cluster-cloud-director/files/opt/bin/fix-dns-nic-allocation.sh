@@ -16,15 +16,15 @@ if [ -z "$DNS_SERVERS" ]; then
     exit 0
 fi
 
-echo "DNS servers: \n$DNS_SERVERS"
+echo "Found DNS servers:"
+echo "$DNS_SERVERS"
+echo ""
 
 # For each DNS server, find the routing interface
 declare -A DNS_TO_INTERFACE
-declare -A ALL_DNS_SERVERS_MAP
 
 for dns_ip in $DNS_SERVERS; do
     echo "Checking route to $dns_ip..."
-    ALL_DNS_SERVERS_MAP[$dns_ip]=1
     
     # Get the interface from ip route
     route_info=$(ip route get $dns_ip 2>/dev/null || echo "")
@@ -34,7 +34,7 @@ for dns_ip in $DNS_SERVERS; do
         continue
     fi
     
-    # Extract the interface name (look for "dev <interface>")
+    # Extract the interface name
     interface=$(echo "$route_info" | grep -oP "dev \K[^ ]+" | head -1)
     
     if [ -z "$interface" ]; then
@@ -52,77 +52,85 @@ for dns_ip in $DNS_SERVERS; do
     fi
 done
 
-echo "\n=== DNS-to-Interface Mapping ==="
+echo "=== DNS-to-Interface Mapping ==="
 for iface in "${!DNS_TO_INTERFACE[@]}"; do
     echo "Interface $iface should have DNS: ${DNS_TO_INTERFACE[$iface]}"
 done
 
-echo \n"=== Processing All Network Files ==="
+echo "=== Processing All Network Files ==="
 
-# Get all network files
+# Process all network files
 for network_file in /etc/systemd/network/*.network; do
     [ -f "$network_file" ] || continue
     
-    # Get the interface name for this file
-    iface=$(grep -h "^Name=" "$network_file" 2>/dev/null | cut -d= -f2)
-    if [ -z "$iface" ]; then
-        # Try to find interface by MAC address match
-        mac=$(grep "^MACAddress=" "$network_file" 2>/dev/null | cut -d= -f2)
-        if [ -n "$mac" ]; then
-            iface=$(ip -o link | grep -i "$mac" | awk -F: "{print \$2}" | tr -d " ")
+    basename=$(basename "$network_file")
+    echo ""
+    echo "File: $basename"
+    
+    # Get the interface name for this file via networkctl
+    iface=""
+    for possible_iface in $(networkctl list --no-legend | awk "{print \$2}"); do
+        iface_netfile=$(networkctl status $possible_iface 2>/dev/null | grep "Network File:" | awk "{print \$3}")
+        if [ "$iface_netfile" = "$network_file" ]; then
+            iface=$possible_iface
+            break
         fi
-    fi
+    done
     
     if [ -z "$iface" ]; then
-        echo "Cannot determine interface for $network_file, skipping"
+        echo "  Cannot determine interface, skipping"
         continue
     fi
     
-    echo "\nProcessing $network_file (interface: $iface)..."
+    echo "  Interface: $iface"
     
-    # Check if this file currently has DNS entries
-    if ! grep -q "^DNS=" "$network_file" 2>/dev/null; then
-        echo "  No DNS entries in this file, skipping"
-        continue
-    fi
+    # Determine if this interface should have DNS servers
+    should_have_dns="${DNS_TO_INTERFACE[$iface]}"
+    has_dns=$(grep -c "^DNS=" "$network_file" 2>/dev/null || echo "0")
     
-    # Check if this interface should have DNS servers
-    if [ -n "${DNS_TO_INTERFACE[$iface]}" ]; then
-        echo "  This interface SHOULD have DNS servers"
+    if [ -n "$should_have_dns" ]; then
+        echo "  Action: ADD/UPDATE DNS servers"
         
-        # Backup the file
+        # Backup
         cp "$network_file" "${network_file}.backup-$(date +%Y%m%d-%H%M%S)"
-        echo "  Backup created"
         
         # Remove existing DNS entries
         sed -i "/^DNS=/d" "$network_file"
         
-        # Add the correct DNS servers
+        # Add correct DNS servers after [Network] section
         if grep -q "^\[Network\]" "$network_file"; then
-            for dns_ip in ${DNS_TO_INTERFACE[$iface]}; do
-                sed -i "/^\[Network\]/a DNS=$dns_ip" "$network_file"
+            # Insert after [Network], in reverse order so they appear in correct order
+            dns_array=($should_have_dns)
+            for ((i=${#dns_array[@]}-1; i>=0; i--)); do
+                sed -i "/^\[Network\]/a DNS=${dns_array[i]}" "$network_file"
             done
         else
+            # Create [Network] section
             echo "" >> "$network_file"
             echo "[Network]" >> "$network_file"
-            for dns_ip in ${DNS_TO_INTERFACE[$iface]}; do
+            for dns_ip in $should_have_dns; do
                 echo "DNS=$dns_ip" >> "$network_file"
             done
         fi
         
-        echo "  Added DNS servers: ${DNS_TO_INTERFACE[$iface]}"
-    else
-        echo "  This interface should NOT have DNS servers (removing them)"
+        echo "  Added DNS: $should_have_dns"
+    elif [ "$has_dns" != "0" ]; then
+        echo "  Action: REMOVE DNS servers (interface should not have them)"
         
-        # Backup the file
+        # Backup
         cp "$network_file" "${network_file}.backup-$(date +%Y%m%d-%H%M%S)"
-        echo "  Backup created"
         
         # Remove DNS entries
         sed -i "/^DNS=/d" "$network_file"
-        echo "  Removed DNS entries"
+        echo "  Removed $has_dns DNS entries"
+    else
+        echo "  Action: No change needed"
     fi
-    
-    echo "  Updated configuration:"
-    cat "$network_file" | sed "s/^/    /"
 done
+
+echo "Restart systemd-networkd to apply changes"
+systemctl restart systemd-networkd
+sleep 3
+
+echo "Current DNS configuration per interface:"
+resolvectl dns
