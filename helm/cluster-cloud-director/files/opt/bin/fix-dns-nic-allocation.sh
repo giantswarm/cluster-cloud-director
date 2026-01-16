@@ -5,7 +5,7 @@
 
 set -e
 
-# Wait for networkd restart after /opt/bin/set-networkd-units.sh
+# Wait for networkd restart after static routes unit
 sleep 3
 
 # Get all DNS servers from all interfaces
