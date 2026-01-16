@@ -6,4 +6,4 @@ dependencies:
   repository: https://giantswarm.github.io/cluster-catalog
   version: 0.7.1
 digest: sha256:47dbb272844b17781c6549cb77532dd7fc5e1b2a71ed2d288b53dfeda348c7cd
-generated: "2025-12-17T04:43:33.697493925Z"
+generated: "2026-01-16T12:21:22.196145+01:00"
