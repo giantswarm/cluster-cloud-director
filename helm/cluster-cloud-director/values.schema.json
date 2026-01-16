@@ -269,11 +269,22 @@
                                 "contentFrom": {
                                     "secret": {
                                         "key": "set-hostname.sh",
-                                        "name": "provider-specific-files-1",
+                                        "name": "provider-specific-files-2",
                                         "prependClusterNameAsPrefix": true
                                     }
                                 },
                                 "path": "/opt/bin/set-hostname.sh",
+                                "permissions": "0755"
+                            },
+                            {
+                                "contentFrom": {
+                                    "secret": {
+                                        "key": "fix-dns-nic-allocation.sh",
+                                        "name": "provider-specific-files-2",
+                                        "prependClusterNameAsPrefix": true
+                                    }
+                                },
+                                "path": "/opt/bin/fix-dns-nic-allocation.sh",
                                 "permissions": "0755"
                             }
                         ],
