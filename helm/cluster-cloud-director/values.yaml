@@ -116,7 +116,7 @@ cluster:
                         {{- end }}
                         {{- else -}}
                         ExecStart=/usr/bin/bash -cv 'echo "No static routes provided, exiting."'
-                        {{- end -}}
+                        {{- end }}
                         ExecStart=/usr/bin/bash -cv 'chmod u+x /opt/bin/fix-dns-nic-allocation.sh'
                         ExecStart=/opt/bin/fix-dns-nic-allocation.sh
                       remainAfterExit: "yes"
