@@ -331,7 +331,7 @@
                                                     },
                                                     "service": {
                                                         "type": "oneshot",
-                                                        "additionalFields": "{{- if $.global.connectivity.network.staticRoutes -}}\nExecStart=/usr/bin/bash -cv 'sleep 3'\n{{- range $.global.connectivity.network.staticRoutes }}\nExecStart=/usr/bin/bash -cv 'ip route add {{ .destination }} via {{ .via }}'\n{{- end }}\n{{- else -}}\nExecStart=/usr/bin/bash -cv 'echo \"No static routes provided, exiting.\"'\n{{- end }}\nExecStart=/usr/bin/bash -cv 'chmod u+x /opt/bin/fix-dns-nic-allocation.sh'\nExecStart=/opt/bin/fix-dns-nic-allocation.sh",
+                                                        "additionalFields": "{{- if $.global.connectivity.network.staticRoutes -}}\nExecStart=/usr/bin/bash -cv 'sleep 3'\n{{- range $.global.connectivity.network.staticRoutes }}\nExecStart=/usr/bin/bash -cv 'ip route add {{ .destination }} via {{ .via }}'\n{{- end }}\n{{- else -}}\nExecStart=/usr/bin/bash -cv 'echo \"No static routes provided, exiting.\"'\n{{- end }}",
                                                         "remainAfterExit": "yes"
                                                     },
                                                     "unit": {
@@ -345,6 +345,31 @@
                                                 },
                                                 "enabled": true,
                                                 "name": "static-routes.service"
+                                            },
+                                            {
+                                                "contents": {
+                                                    "install": {
+                                                        "wantedBy": [
+                                                            "multi-user.target"
+                                                        ]
+                                                    },
+                                                    "service": {
+                                                        "type": "oneshot",
+                                                        "execStart": [
+                                                            "/usr/bin/bash -cv 'chmod u+x /opt/bin/fix-dns-nic-allocation.sh'",
+                                                            "/opt/bin/fix-dns-nic-allocation.sh"
+                                                        ],
+                                                        "remainAfterExit": "yes"
+                                                    },
+                                                    "unit": {
+                                                        "after": [
+                                                            "static-routes.service"
+                                                        ],
+                                                        "description": "Attach DNS servers to correct NICs."
+                                                    }
+                                                },
+                                                "enabled": true,
+                                                "name": "fix-dns-nic-allocation"
                                             },
                                             {
                                                 "contents": {

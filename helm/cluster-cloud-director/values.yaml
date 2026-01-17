@@ -117,8 +117,6 @@ cluster:
                         {{- else -}}
                         ExecStart=/usr/bin/bash -cv 'echo "No static routes provided, exiting."'
                         {{- end }}
-                        ExecStart=/usr/bin/bash -cv 'chmod u+x /opt/bin/fix-dns-nic-allocation.sh'
-                        ExecStart=/opt/bin/fix-dns-nic-allocation.sh
                       remainAfterExit: "yes"
                       type: oneshot
                     unit:
@@ -129,6 +127,22 @@ cluster:
                       description: Add static network routes.
                   enabled: true
                   name: static-routes.service
+                - contents:
+                    install:
+                      wantedBy:
+                        - multi-user.target
+                    service:
+                      execStart:
+                        - /usr/bin/bash -cv 'chmod u+x /opt/bin/fix-dns-nic-allocation.sh'
+                        - /opt/bin/fix-dns-nic-allocation.sh
+                      remainAfterExit: "yes"
+                      type: oneshot
+                    unit:
+                      after:
+                        - static-routes.service
+                      description: Attach DNS servers to correct NICs.
+                  enabled: true
+                  name: fix-dns-nic-allocation
                 - contents:
                     install:
                       wantedBy:
