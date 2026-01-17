@@ -362,10 +362,10 @@
                                                         "remainAfterExit": "yes"
                                                     },
                                                     "unit": {
+                                                        "description": "Attach DNS servers to correct NICs.",
                                                         "after": [
                                                             "static-routes.service"
-                                                        ],
-                                                        "description": "Attach DNS servers to correct NICs."
+                                                        ]
                                                     }
                                                 },
                                                 "enabled": true,
