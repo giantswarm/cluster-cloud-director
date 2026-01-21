@@ -311,9 +311,7 @@
                                                         "execStart": [
                                                             "/usr/bin/bash -cv 'echo \"$(\"$(find /usr/bin /usr/share/oem -name vmtoolsd -type f -executable 2>/dev/null | head -n 1)\" --cmd \"info-get guestinfo.ignition.network\")\" > /opt/bin/set-networkd-units.sh'",
                                                             "/usr/bin/bash -cv 'chmod u+x /opt/bin/set-networkd-units.sh'",
-                                                            "/opt/bin/set-networkd-units.sh",
-                                                            "/usr/bin/bash -cv 'sleep 5'"
-                                                        ],
+                                                            "/opt/bin/set-networkd-units.sh"                                                        ],
                                                         "remainAfterExit": "yes"
                                                     },
                                                     "unit": {
