@@ -161,7 +161,10 @@ cluster:
                     unit:
                       after:
                         - set-networkd-units.service
+                        - network-online.target
                       description: Provides CoreOS metadata for dependent services.
+                      wants:
+                        - network-online.target
                   enabled: true
                   name: coreos-metadata.service
                 - contents:

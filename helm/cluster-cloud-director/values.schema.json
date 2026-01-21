@@ -395,7 +395,11 @@
                                                     "unit": {
                                                         "description": "Provides CoreOS metadata for dependent services.",
                                                         "after": [
-                                                            "set-networkd-units.service"
+                                                            "set-networkd-units.service",
+                                                            "network-online.target"
+                                                        ],
+                                                        "wants": [
+                                                            "network-online.target"
                                                         ]
                                                     }
                                                 },
