@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Added a `sleep` to fix a race condition when populating `/run/metadata/coreos`.
+- Fix race condition in `ntpd` unit.
 
 ## [3.1.1] - 2025-12-17
 
