@@ -468,6 +468,16 @@
                                                 "name": "systemd-networkd.service"
                                             },
                                             {
+                                                "dropins": [
+                                                    {
+                                                        "contents": "[Unit]\nAfter=network-online.target\nWants=network-online.target",
+                                                        "name": "10-ntpd-networkd-readiness.conf"
+                                                    }
+                                                ],
+                                                "enabled": true,
+                                                "name": "ntpd.service"
+                                            },
+                                            {
                                                 "contents": {
                                                     "install": {
                                                         "wantedBy": [

@@ -206,6 +206,14 @@ cluster:
                       name: 10-static-routes-dependency.conf
                   enabled: true
                   name: systemd-networkd.service
+                - dropins:
+                    - contents: |-
+                        [Unit]
+                        After=network-online.target
+                        Wants=network-online.target
+                      name: 10-ntpd-networkd-readiness.conf
+                  enabled: true
+                  name: ntpd.service
                 - contents:
                     install:
                       wantedBy:
