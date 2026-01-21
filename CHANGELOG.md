@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Added `fix-dns-nic-allocation.sh` Ignition script to attach DNS servers to correct network interfaces.
+
+### Fixed
+
+- Added a `sleep` to fix a race condition when populating `/run/metadata/coreos`.
+
 ## [2.4.0] - 2025-10-29
 
 ### Changed

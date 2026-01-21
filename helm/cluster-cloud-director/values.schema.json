@@ -266,11 +266,22 @@
                                 "contentFrom": {
                                     "secret": {
                                         "key": "set-hostname.sh",
-                                        "name": "provider-specific-files-1",
+                                        "name": "provider-specific-files-2",
                                         "prependClusterNameAsPrefix": true
                                     }
                                 },
                                 "path": "/opt/bin/set-hostname.sh",
+                                "permissions": "0755"
+                            },
+                            {
+                                "contentFrom": {
+                                    "secret": {
+                                        "key": "fix-dns-nic-allocation.sh",
+                                        "name": "provider-specific-files-2",
+                                        "prependClusterNameAsPrefix": true
+                                    }
+                                },
+                                "path": "/opt/bin/fix-dns-nic-allocation.sh",
                                 "permissions": "0755"
                             }
                         ],
@@ -297,7 +308,8 @@
                                                         "execStart": [
                                                             "/usr/bin/bash -cv 'echo \"$(\"$(find /usr/bin /usr/share/oem -name vmtoolsd -type f -executable 2>/dev/null | head -n 1)\" --cmd \"info-get guestinfo.ignition.network\")\" > /opt/bin/set-networkd-units.sh'",
                                                             "/usr/bin/bash -cv 'chmod u+x /opt/bin/set-networkd-units.sh'",
-                                                            "/opt/bin/set-networkd-units.sh"
+                                                            "/opt/bin/set-networkd-units.sh",
+                                                            "/usr/bin/bash -cv 'sleep 5'"
                                                         ],
                                                         "remainAfterExit": "yes"
                                                     },
@@ -317,7 +329,7 @@
                                                     },
                                                     "service": {
                                                         "type": "oneshot",
-                                                        "additionalFields": "{{- if $.global.connectivity.network.staticRoutes -}}\nExecStart=/usr/bin/bash -cv 'sleep 3'\n{{- range $.global.connectivity.network.staticRoutes }}\nExecStart=/usr/bin/bash -cv 'ip route add {{ .destination }} via {{ .via }}'\n{{- end }}\n{{- else -}}\nExecStart=/usr/bin/bash -cv 'echo \"No static routes provided, exiting.\"'\n{{- end -}}",
+                                                        "additionalFields": "{{- if $.global.connectivity.network.staticRoutes -}}\nExecStart=/usr/bin/bash -cv 'sleep 3'\n{{- range $.global.connectivity.network.staticRoutes }}\nExecStart=/usr/bin/bash -cv 'ip route replace {{ .destination }} via {{ .via }}'\n{{- end }}\n{{- else -}}\nExecStart=/usr/bin/bash -cv 'echo \"No static routes provided, exiting.\"'\n{{- end }}",
                                                         "remainAfterExit": "yes"
                                                     },
                                                     "unit": {
@@ -331,6 +343,31 @@
                                                 },
                                                 "enabled": true,
                                                 "name": "static-routes.service"
+                                            },
+                                            {
+                                                "contents": {
+                                                    "install": {
+                                                        "wantedBy": [
+                                                            "multi-user.target"
+                                                        ]
+                                                    },
+                                                    "service": {
+                                                        "type": "oneshot",
+                                                        "execStart": [
+                                                            "/usr/bin/bash -cv 'chmod u+x /opt/bin/fix-dns-nic-allocation.sh'",
+                                                            "/opt/bin/fix-dns-nic-allocation.sh"
+                                                        ],
+                                                        "remainAfterExit": "yes"
+                                                    },
+                                                    "unit": {
+                                                        "description": "Attach DNS servers to correct NICs.",
+                                                        "after": [
+                                                            "static-routes.service"
+                                                        ]
+                                                    }
+                                                },
+                                                "enabled": true,
+                                                "name": "fix-dns-nic-allocation.service"
                                             },
                                             {
                                                 "contents": {
