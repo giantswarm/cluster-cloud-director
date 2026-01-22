@@ -97,7 +97,6 @@ cluster:
                         - /usr/bin/bash -cv 'echo "$("$(find /usr/bin /usr/share/oem -name vmtoolsd -type f -executable 2>/dev/null | head -n 1)" --cmd "info-get guestinfo.ignition.network")" > /opt/bin/set-networkd-units.sh'
                         - /usr/bin/bash -cv 'chmod u+x /opt/bin/set-networkd-units.sh'
                         - /opt/bin/set-networkd-units.sh
-                        - /usr/bin/bash -cv 'sleep 5'
                       remainAfterExit: "yes"
                       type: oneshot
                     unit:
@@ -161,7 +160,10 @@ cluster:
                     unit:
                       after:
                         - set-networkd-units.service
+                        - network-online.target
                       description: Provides CoreOS metadata for dependent services.
+                      wants:
+                        - network-online.target
                   enabled: true
                   name: coreos-metadata.service
                 - contents:
