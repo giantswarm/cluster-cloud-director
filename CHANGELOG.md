@@ -13,13 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added `fix-dns-nic-allocation.sh` Ignition script to attach DNS servers to correct network interfaces.
 
-### Fixed
+### Changed
 
 - Fix a race condition when populating `/run/metadata/coreos`.
 - Fix race condition in `ntpd` unit.
-
-### Changed
-
 - Chart: Update `cluster` to v5.1.2.
 
 ## [3.1.1] - 2025-12-17
