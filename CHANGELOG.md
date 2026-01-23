@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.4.1] - 2026-01-22
+
 ### Added
 
 - Added `fix-dns-nic-allocation.sh` Ignition script to attach DNS servers to correct network interfaces.
@@ -1182,7 +1184,8 @@ Bump cloud provider to v0.2.5 (fix).
 - Added VCDCluster parameters to match CRD.
 - Nodepool and nodeclass support.
 
-[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v2.4.0...HEAD
+[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v2.4.1...HEAD
+[2.4.1]: https://github.com/giantswarm/cluster-cloud-director/compare/v2.4.0...v2.4.1
 [2.4.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v2.3.0...v2.4.0
 [2.3.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v2.2.0...v2.3.0
 [2.2.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v2.1.0...v2.2.0
