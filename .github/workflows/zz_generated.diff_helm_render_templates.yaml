@@ -2,7 +2,7 @@
 #
 #    devctl
 #
-#    https://github.com/giantswarm/devctl/blob/063b90515fe92a8350c734f2caea0343ae3aca64/pkg/gen/input/workflows/internal/file/helm_render_diff.yaml.template
+#    https://github.com/giantswarm/devctl/blob/1acd23e6a78c21ca61ccbe8a7e5a8a3139feeab5/pkg/gen/input/workflows/internal/file/helm_render_diff.yaml.template
 #
 name: Compare Helm Rendering
 
@@ -15,11 +15,15 @@ env:
   dyff_ver: "1.7.1"
   helm_ver: "3.11.1"
 
+permissions: {}
+
 jobs:
   # This job is for checking for the `/no_diffs_printing` comment in the PR. When it is found,
   # the `get-rendering-values` job is skipped, what makes `cmp-helm-rendering` skipped as well.
   check-cmp-state:
     runs-on: ubuntu-24.04
+    permissions:
+      pull-requests: read
     if: github.event_name == 'pull_request'
     steps:
       - name: Find suspend comment
@@ -45,16 +49,19 @@ jobs:
   cmp-helm-rendering:
     needs: check-cmp-state
     runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      pull-requests: write
     if: github.event_name == 'pull_request' && needs.check-cmp-state.outputs.suspend_comment_id == 0 && needs.check-cmp-state.outputs.suspend_diffs_printing_from_pr_body == 'false'
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: install helm
         uses: azure/setup-helm@1a275c3b69536ee54be43f2070a358922e12c8d4 # v4.3.1
         with:
            version: ${{ env.helm_ver }}
       - run: which helm
       - name: install dyff
-        uses: giantswarm/install-binary-action@0797deb878056114fa54ee30c519f617716e8c69 # v3.1.1
+        uses: giantswarm/install-binary-action@c94c7adadeb14af4bdbdd601f9a6e7f69638134c # v4.0.0
         with:
           binary: dyff
           download_url: "https://github.com/homeport/dyff/releases/download/v${version}/dyff_${version}_linux_amd64.tar.gz"
@@ -81,7 +88,7 @@ jobs:
 
             helm template -n org-giantswarm -f "helm/${{ github.event.repository.name }}/ci/ci-values.yaml" -f "${test_file_path}" "helm/${{ github.event.repository.name }}" > "/tmp/${test_file_path}/render-new.yaml"
           done
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           ref: "${{ github.event.repository.default_branch }}"
           path: 'old'
