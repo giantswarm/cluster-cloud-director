@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Values: Enable management cluster registry cache for `gsoci.azurecr.io`.
+
 ## [3.1.2] - 2026-01-21
 
 ### Added

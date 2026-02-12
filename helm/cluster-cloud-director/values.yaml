@@ -290,7 +290,8 @@ global:
         port: 32767
       managementClusterRegistryCache:
         enabled: true
-        mirroredRegistries: []
+        mirroredRegistries:
+          - gsoci.azurecr.io
       selinux:
         enabled: false
     selinux:
