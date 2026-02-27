@@ -235,6 +235,9 @@
                         "priorityClasses": {
                             "enable": true
                         },
+                        "rbacBootstrap": {
+                            "enable": true
+                        },
                         "securityBundle": {
                             "enable": true
                         },
