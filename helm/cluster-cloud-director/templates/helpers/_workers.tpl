@@ -9,6 +9,7 @@ Generates template spec for worker machines.
 {{- $pool = unset $pool "machineHealthCheck" -}}
 {{- $pool = unset $pool "customNodeLabels" -}}
 {{- $pool = unset $pool "customNodeTaints" -}}
+{{- $pool = unset $pool "strategy" -}}
 
 {{- $osName := include "cluster.os.name" $ }}
 {{- $osReleaseChannel := include "cluster.os.releaseChannel" $ }}
