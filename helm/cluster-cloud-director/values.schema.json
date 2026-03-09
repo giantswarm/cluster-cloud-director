@@ -130,16 +130,6 @@
                     "title": "Rolling update strategy",
                     "description": "Rolling update config params.",
                     "properties": {
-                        "deletePolicy": {
-                            "type": "string",
-                            "title": "Delete policy",
-                            "description": "DeletePolicy defines the policy used by the MachineDeployment to identify nodes to delete when downscaling. When no value is supplied, the default DeletePolicy of MachineSet is used.",
-                            "enum": [
-                                "Random",
-                                "Newest",
-                                "Oldest"
-                            ]
-                        },
                         "maxSurge": {
                             "type": "string",
                             "title": "Max surge",
@@ -208,6 +198,9 @@
                         },
                         "k8sDnsNodeCache": {
                             "enable": true
+                        },
+                        "kamajiEtcd": {
+                            "enable": false
                         },
                         "metricsServer": {
                             "enable": true
