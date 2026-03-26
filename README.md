@@ -121,3 +121,4 @@ cd helm/cluster-cloud-director
 
 helm-values-gen values.schema.json -o values.yaml -f
 ```
+- test
