@@ -165,7 +165,6 @@
             "description": "Helm values for the provider-independent cluster chart.",
             "default": {
                 "providerIntegration": {
-                    "clusterAnnotationsTemplateName": "cloudDirectorClusterAnnotations",
                     "apps": {
                         "certExporter": {
                             "configTemplateName": "cloudDirectorCertExporterHelmValues",
@@ -245,6 +244,7 @@
                             "enable": true
                         }
                     },
+                    "clusterAnnotationsTemplateName": "cloudDirectorClusterAnnotations",
                     "controlPlane": {
                         "resources": {
                             "infrastructureMachineTemplate": {
