@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add support for `network.giantswarm.io/wildcard-cname-target` annotation on the `Cluster` CR via `global.connectivity.dns.wildcardCnameTarget`.
+
 ## [4.1.0] - 2026-03-18
 
 ### Changed

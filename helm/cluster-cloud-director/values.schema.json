@@ -165,6 +165,7 @@
             "description": "Helm values for the provider-independent cluster chart.",
             "default": {
                 "providerIntegration": {
+                    "clusterAnnotationsTemplateName": "cloudDirectorClusterAnnotations",
                     "apps": {
                         "certExporter": {
                             "configTemplateName": "cloudDirectorCertExporterHelmValues",
@@ -945,6 +946,19 @@
                                 }
                             },
                             "default": {}
+                        },
+                        "dns": {
+                            "type": "object",
+                            "title": "DNS",
+                            "additionalProperties": false,
+                            "properties": {
+                                "wildcardCnameTarget": {
+                                    "type": "string",
+                                    "title": "Wildcard CNAME Target",
+                                    "description": "Override the wildcard CNAME record value. If no value is passed defaults to \"ingress\". Only subdomains from the cluster DNS zone are valid.",
+                                    "examples": ["gateway"]
+                                }
+                            }
                         },
                         "localRegistryCache": {
                             "type": "object",

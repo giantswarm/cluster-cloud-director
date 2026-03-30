@@ -75,3 +75,12 @@ Converts disk size from gigabytes to bytes.
 {{- define "calculateDiskBytes" -}}
 {{- mul $ 1024 1024 1024 }}
 {{- end -}}
+
+{{- define "cloudDirectorClusterAnnotations" }}
+{{- if .Values.global.connectivity.dns.wildcardCnameTarget }}
+{{- if regexMatch "\\." .Values.global.connectivity.dns.wildcardCnameTarget }}
+{{- fail "global.connectivity.dns.wildcardCnameTarget must be a single word - no FQDNs are allowed" }}
+{{- end }}
+network.giantswarm.io/wildcard-cname-target: "{{ .Values.global.connectivity.dns.wildcardCnameTarget }}"
+{{- end }}
+{{- end }}
