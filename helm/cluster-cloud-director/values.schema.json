@@ -956,7 +956,9 @@
                                     "type": "string",
                                     "title": "Wildcard CNAME Target",
                                     "description": "Override the wildcard CNAME record value. If no value is passed defaults to \"ingress\". Only subdomains from the cluster DNS zone are valid.",
-                                    "examples": ["gateway"]
+                                    "examples": [
+                                        "gateway"
+                                    ]
                                 }
                             }
                         },
