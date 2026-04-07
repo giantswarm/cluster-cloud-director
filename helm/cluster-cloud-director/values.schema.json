@@ -552,10 +552,6 @@
                 }
             }
         },
-        "cluster-shared": {
-            "type": "object",
-            "title": "Library chart"
-        },
         "connectivity": {
             "type": "object",
             "title": "Connectivity",
