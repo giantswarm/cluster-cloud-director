@@ -16,6 +16,8 @@ cluster:
         enable: true
       ciliumServiceMonitors:
         enable: true
+      clusterProbes:
+        enable: false
       coreDns:
         enable: true
       coreDnsExtensions:
