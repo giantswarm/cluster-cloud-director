@@ -476,7 +476,7 @@
                                             {
                                                 "dropins": [
                                                     {
-                                                        "contents": "[Unit]\nAfter=network-online.target\nWants=network-online.target",
+                                                        "contents": "[Unit]\nAfter=network-online.target\nWants=network-online.target\nStartLimitIntervalSec=0\n[Service]\nRestartSec=5s",
                                                         "name": "10-ntpd-networkd-readiness.conf"
                                                     }
                                                 ],
