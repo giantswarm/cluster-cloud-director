@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Fix ntpd failing permanently on boot due to systemd rate limiting.
+
 ### Removed
 
 - Chart: Remove unused `cluster-shared` library chart dependency.
