@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Fix ntpd failing permanently on boot due to systemd rate limiting.
+- Fix ntpd failing permanently on boot due to systemd rate limiting (**node rolling**).
 
 ### Removed
 
