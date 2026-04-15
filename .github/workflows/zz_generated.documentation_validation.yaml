@@ -2,14 +2,11 @@
 #
 #    devctl
 #
-#    https://github.com/giantswarm/devctl/blob/1acd23e6a78c21ca61ccbe8a7e5a8a3139feeab5/pkg/gen/input/workflows/internal/file/cluster_app_documentation_validation.yaml.template
+#    https://github.com/giantswarm/devctl/blob/2626dbeab9f4e8b270a36c3cccc75ccc8730b250/pkg/gen/input/workflows/internal/file/cluster_app_documentation_validation.yaml.template
 #
 
-# This workflow validates the documentation generated from the JSON schema of the cluster-app
-# which is located in `helm/*/values.schema.json`. Specifically, it checks whether the changes
-# from `make generate-docs` were committed.
-
 name: Documentation validation
+
 on:
   pull_request:
     branches:
@@ -18,7 +15,7 @@ on:
     paths:
       - 'helm/**/values.yaml'
       - 'helm/**/values.schema.json'
-      - '**/*.md'  # if someone manually edited a file that should contain the generated documentation
+      - '**/*.md'
 
   push: {}
 
@@ -26,24 +23,6 @@ permissions: {}
 
 jobs:
   validate:
-    name: Validate documentation
-    runs-on: ubuntu-24.04
+    uses: giantswarm/github-workflows/.github/workflows/documentation-validation.yaml@main
     permissions:
       contents: read
-    env:
-      GO_VERSION: 1.21.3
-    steps:
-      - name: Set up Go ${{ env.GO_VERSION }}
-        uses: actions/setup-go@0c52d547c9bc32b1aa3301fd7a9cb496313a4491 # v5.0.0
-        with:
-          go-version: ${{ env.GO_VERSION }}
-      - name: Checkout code
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      - name: "Run 'make generate-docs' and check for differences"
-        run: |
-          make generate-docs
-
-          if ! git diff --exit-code; then
-            echo "ERROR: You need to commit the changes made by \"make generate-docs\"."
-            exit 1
-          fi

@@ -2,7 +2,7 @@
 #
 #    devctl
 #
-#    https://github.com/giantswarm/devctl/blob/1acd23e6a78c21ca61ccbe8a7e5a8a3139feeab5/pkg/gen/input/workflows/internal/file/helm_render_diff.yaml.template
+#    https://github.com/giantswarm/devctl/blob/2626dbeab9f4e8b270a36c3cccc75ccc8730b250/pkg/gen/input/workflows/internal/file/helm_render_diff.yaml.template
 #
 name: Compare Helm Rendering
 
@@ -11,164 +11,11 @@ on:
   push:
     branches: [HEAD_BRANCH, main]
 
-env:
-  dyff_ver: "1.7.1"
-  helm_ver: "3.11.1"
-
 permissions: {}
 
 jobs:
-  # This job is for checking for the `/no_diffs_printing` comment in the PR. When it is found,
-  # the `get-rendering-values` job is skipped, what makes `cmp-helm-rendering` skipped as well.
-  check-cmp-state:
-    runs-on: ubuntu-24.04
-    permissions:
-      pull-requests: read
-    if: github.event_name == 'pull_request'
-    steps:
-      - name: Find suspend comment
-        uses: peter-evans/find-comment@b30e6a3c0ed37e7c023ccd3f1db5c6c0b0c23aad # v4.0.0
-        continue-on-error: true
-        id: fc
-        with:
-          issue-number: ${{ github.event.pull_request.number }}
-          body-regex: '^\s*/no_diffs_printing' # on a separate line, not as Markdown `<!-- /no_diffs_printing -->` comment
-      - name: Find suspend comment in PR body # PR body isn't a comment, so the above step won't find it
-        id: pr_body
-        run: |
-          if jq -r .pull_request.body "${GITHUB_EVENT_PATH}" | grep -qE '^\s*/no_diffs_printing'; then
-            echo "Found /no_diffs_printing command in PR body"
-            echo "suspend_diffs_printing_from_pr_body=true" >> $GITHUB_OUTPUT
-          else
-            echo "Did not find /no_diffs_printing command in PR body"
-            echo "suspend_diffs_printing_from_pr_body=false" >> $GITHUB_OUTPUT
-          fi
-    outputs:
-      suspend_comment_id: ${{ steps.fc.outputs.comment-id }}
-      suspend_diffs_printing_from_pr_body: ${{ steps.pr_body.outputs.suspend_diffs_printing_from_pr_body }}
-  cmp-helm-rendering:
-    needs: check-cmp-state
-    runs-on: ubuntu-24.04
+  helm-render-diff:
+    uses: giantswarm/github-workflows/.github/workflows/helm-render-diff.yaml@main
     permissions:
       contents: read
       pull-requests: write
-    if: github.event_name == 'pull_request' && needs.check-cmp-state.outputs.suspend_comment_id == 0 && needs.check-cmp-state.outputs.suspend_diffs_printing_from_pr_body == 'false'
-    steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      - name: install helm
-        uses: azure/setup-helm@1a275c3b69536ee54be43f2070a358922e12c8d4 # v4.3.1
-        with:
-           version: ${{ env.helm_ver }}
-      - run: which helm
-      - name: install dyff
-        uses: giantswarm/install-binary-action@c94c7adadeb14af4bdbdd601f9a6e7f69638134c # v4.0.0
-        with:
-          binary: dyff
-          download_url: "https://github.com/homeport/dyff/releases/download/v${version}/dyff_${version}_linux_amd64.tar.gz"
-          smoke_test: "${binary} version"
-          tarball_binary_path: "${binary}"
-          version: ${{ env.dyff_ver }}
-      - run: which dyff
-      - run: ls -la /opt/hostedtoolcache
-      - name: render helm with current code
-        run: |
-          helm repo add cluster-catalog https://giantswarm.github.io/cluster-catalog/
-
-          # We also add cluster-test-catalog so we can more easily test dev builds of subcharts.
-          # Charts from cluster-test-catalog should be used only for testing purposes.
-          helm repo add cluster-test-catalog https://giantswarm.github.io/cluster-test-catalog/
-
-          helm dependency build helm/${{ github.event.repository.name }}
-
-          for test_file_path in helm/${{ github.event.repository.name }}/ci/test-*-values.yaml; do
-            echo
-            echo "Rendering Helm template for ${test_file_path} on current code"
-
-            mkdir -p "/tmp/${test_file_path}"
-
-            helm template -n org-giantswarm -f "helm/${{ github.event.repository.name }}/ci/ci-values.yaml" -f "${test_file_path}" "helm/${{ github.event.repository.name }}" > "/tmp/${test_file_path}/render-new.yaml"
-          done
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-        with:
-          ref: "${{ github.event.repository.default_branch }}"
-          path: 'old'
-      - name: render helm with main branch code
-        run: |
-          helm dependency build old/helm/${{ github.event.repository.name }}
-
-          for test_file_path in helm/${{ github.event.repository.name }}/ci/test-*-values.yaml; do
-            echo
-            echo "Rendering Helm template for ${test_file_path} on old code"
-
-            if [ ! -f "old/${test_file_path}" ]; then
-              echo "File ${test_file_path} does not yet exist in old code, skipping"
-              continue
-            fi
-
-            helm template -n org-giantswarm -f "old/helm/${{ github.event.repository.name }}/ci/ci-values.yaml" -f "${test_file_path}" "old/helm/${{ github.event.repository.name }}" > "/tmp/${test_file_path}/render-old.yaml"
-          done
-      - name: get the diffs
-        uses: mathiasvr/command-output@34408ea3d0528273faff3d9e201761ae96106cd0  # v2.0.0
-        with:
-          run: |
-            marker="=== No differences at all ==="
-            (
-            found_differences=
-            first=1
-            for test_file_path in helm/${{ github.event.repository.name }}/ci/test-*-values.yaml; do
-              if [ "${first}" = 1 ]; then
-                first=
-              else
-                echo
-                echo
-              fi
-              echo "=== Differences when rendered with values file ${test_file_path} ==="
-                dyff between --set-exit-code --ignore-order-changes --omit-header --use-go-patch-style "/tmp/${test_file_path}/render-old.yaml" "/tmp/${test_file_path}/render-new.yaml" && echo "No difference" || { res=$?; found_differences=1; if [[ $res -eq 255 ]]; then echo "Diff error"; fi; }
-            done
-
-            if [ -z "${found_differences}" ]; then
-              echo
-                echo
-                echo "${marker}"
-            fi
-            ) > /tmp/diffs
-
-            (
-              if ! grep -qF "${marker}" /tmp/diffs ; then
-                echo "**There were differences in the rendered Helm template, please check! ⚠️**"
-              else
-                echo "There were no differences in the rendered Helm template."
-              fi
-
-              echo
-              echo "<details>"
-              echo "<summary>Output</summary>"
-              echo "<!-- mandatory empty line -->"
-              echo ""
-              echo '```'
-              cat /tmp/diffs
-              echo '```'
-              echo "</details>"
-              echo "<!-- mandatory empty line -->"
-            ) > /tmp/comment-body
-      - name: Find diff comment
-        uses: peter-evans/find-comment@b30e6a3c0ed37e7c023ccd3f1db5c6c0b0c23aad # v4.0.0
-        continue-on-error: true
-        id: fc
-        with:
-          issue-number: ${{ github.event.pull_request.number }}
-          comment-author: 'github-actions[bot]'
-          body-includes: 'differences in the rendered Helm template'
-      - name: Delete old comment
-        uses: winterjung/comment@fda92dbcb5e7e79cccd55ecb107a8a3d7802a469  # v1.1.0
-        continue-on-error: true
-        if: steps.fc.outputs.comment-id != 0
-        with:
-          type: delete
-          comment_id: ${{ steps.fc.outputs.comment-id }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Create comment
-        uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9  # v5.0.0
-        with:
-          issue-number: ${{ github.event.pull_request.number }}
-          body-path: /tmp/comment-body
