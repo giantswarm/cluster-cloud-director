@@ -23,5 +23,5 @@ restrictions:
     - cloud-director
 dependencies:
   - name: cluster
-    version: "6.3.0"
+    version: "6.4.0"
     repository: "https://giantswarm.github.io/cluster-catalog"
