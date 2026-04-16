@@ -26,6 +26,8 @@ cluster:
         enable: true
       etcdKubernetesResourcesCountExporter:
         enable: true
+      externalDnsCrossplaneResources:
+        enable: false
       k8sDnsNodeCache:
         enable: true
       kamajiEtcd:
