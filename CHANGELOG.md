@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Chart: Update `cluster` to v5.3.2.
+- Chart: Fix validation errors.
+
 ## [3.2.2] - 2026-04-15
 
 ### Fixed
