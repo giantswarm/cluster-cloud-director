@@ -2,7 +2,7 @@
 #
 #    devctl
 #
-#    https://github.com/giantswarm/devctl/blob/57c68171868158d915a92dd45201bbeadaa17214/pkg/gen/input/workflows/internal/file/cluster_app_documentation_validation.yaml.template
+#    https://github.com/giantswarm/devctl/blob/d3a480179d9cde63b905a4b518e150f98a9f472e/pkg/gen/input/workflows/internal/file/cluster_app_documentation_validation.yaml.template
 #
 
 name: Documentation validation
