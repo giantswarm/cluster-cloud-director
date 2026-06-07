@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [4.6.0] - 2026-06-07
 
+### Changed
+
+- Chart: Update `cluster` to v6.6.0.
+
 ## [4.5.0] - 2026-05-20
 
 ### Changed
