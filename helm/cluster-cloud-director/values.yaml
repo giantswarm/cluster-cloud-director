@@ -281,8 +281,6 @@ cluster:
           sizingPolicy: m1.large
       resources:
         infrastructureMachineTemplateSpecTemplateName: worker-vcdmachinetemplate-spec
-connectivity:
-  containerRegistries: {}
 global:
   components:
     auditd:
@@ -309,12 +307,7 @@ global:
     selinux:
       mode: permissive
   connectivity:
-    containerRegistries: {}
     dns: {}
-    localRegistryCache:
-      enabled: false
-      mirroredRegistries: []
-      port: 32767
     network:
       controlPlaneEndpoint:
         port: 6443
