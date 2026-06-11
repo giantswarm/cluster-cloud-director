@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Removed
+
+- Values: Remove dead container registry cache schema.
+
 ## [4.6.0] - 2026-06-07
 
 ### Changed
