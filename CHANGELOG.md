@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Updated `cert-manager` to v4.0.0 and migrated the values to match the new chart's schema.
+
 ## [4.7.0] - 2026-06-18
 
 ### Changed
@@ -268,7 +272,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   <details>
   <summary>Migration steps</summary>
 
-  * In ConfigMap `<cluster name>-userconfig` set `.Values.global.release.version` to the release version, e.g. `27.0.0`. 
+  * In ConfigMap `<cluster name>-userconfig` set `.Values.global.release.version` to the release version, e.g. `27.0.0`.
   * In App `<cluster name>` set the `version` to an empty string.
   </details>
 
@@ -276,7 +280,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 > [!WARNING]
 > This release adds all default apps to cluster-cloud-director, so the default-apps-cloud-director App is not used anymore.
-> These changes in cluster-cloud-director are breaking and the cluster upgrade requires manual steps where the 
+> These changes in cluster-cloud-director are breaking and the cluster upgrade requires manual steps where the
 > default-apps-cloud-director App is removed before upgrading cluster-cloud-director. See details below.
 
 ### Added
@@ -422,7 +426,7 @@ yq eval --inplace 'with(select(.global.controlPlane.catalog != null); .global.co
 
 ## Control plane endpoint address
 
-If the controlPlane endpoint IP (loadbalancer for the Kubernetes API) has been statically assigned (**this likely will not apply to workload clusters**) then this value will need to be duplicated to the extraCertificateSANs list. 
+If the controlPlane endpoint IP (loadbalancer for the Kubernetes API) has been statically assigned (**this likely will not apply to workload clusters**) then this value will need to be duplicated to the extraCertificateSANs list.
 
 ```
 yq eval --inplace 'with(select(.global.connectivity.network.controlPlaneEndpoint.host != null); .cluster.internal.advancedConfiguration.controlPlane.apiServer.extraCertificateSANs += [ .global.connectivity.network.controlPlaneEndpoint.host ])' values.yaml
@@ -885,7 +889,7 @@ yq eval --inplace 'with(select(.connectivity != null);  .global.connectivity = .
 
 ### Added
 
-- Set value for `controller-manager` `terminated-pod-gc-threshold` to `125` ( consistent with vintage ) 
+- Set value for `controller-manager` `terminated-pod-gc-threshold` to `125` ( consistent with vintage )
 
 ### Changed
 
