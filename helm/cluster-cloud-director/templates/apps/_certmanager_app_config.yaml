@@ -1,7 +1,17 @@
-{{/* cloud-director-specific cert-manager Helm values*/}}
-{{/* https://github.com/giantswarm/cert-manager-app/blob/main/helm/cert-manager/values.yaml*/}}
+{{- /* cloud-director-specific cert-manager Helm values */}}
+{{- /* https://github.com/giantswarm/cert-manager-app/blob/main/helm/cert-manager/values.yaml */}}
 {{- define "cloudDirectorCertManagerHelmValues" }}
+{{- /* Get cert-manager version. */}}
+{{- $version := "N/A" }}
+{{- if .Values.providerIntegration.useReleases }}
+{{- $_ := set $ "appName" "cert-manager" }}
+{{- $version := include "cluster.app.version" $ | trim }}
+{{- end }}
+{{- /* Check cert-manager version. Since v4.0.0, upstream properties need to be under the `cert-manager` key. */}}
+{{- if or (eq $version "N/A") (semverCompare ">=4.0.0" $version) }}
+cert-manager:
+  enableServiceLinks: true
+{{- else }}
 enableServiceLinks: true
-ciliumNetworkPolicy:
-    enabled: true
+{{- end }}
 {{- end }}
