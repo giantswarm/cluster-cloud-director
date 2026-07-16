@@ -5,7 +5,7 @@
 {{- $version := "N/A" }}
 {{- if .Values.providerIntegration.useReleases }}
 {{- $_ := set $ "appName" "cert-manager" }}
-{{- $version := include "cluster.app.version" $ | trim }}
+{{- $version = include "cluster.app.version" $ | trim }}
 {{- end }}
 {{- /* Check cert-manager version. Since v4.0.0, upstream properties need to be under the `cert-manager` key. */}}
 {{- if or (eq $version "N/A") (semverCompare ">=4.0.0" $version) }}
