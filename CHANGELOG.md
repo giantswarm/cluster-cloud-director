@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [5.0.0] - 2026-07-22
+
 ### Fixed
 
 - Bump `HelmRelease` resources from the removed `helm.toolkit.fluxcd.io/v2beta1` API to `helm.toolkit.fluxcd.io/v2` so cluster apps render on management clusters running current Flux.
@@ -1315,7 +1317,8 @@ Bump cloud provider to v0.2.5 (fix).
 - Added VCDCluster parameters to match CRD.
 - Nodepool and nodeclass support.
 
-[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v4.8.1...HEAD
+[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v5.0.0...HEAD
+[5.0.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v4.8.1...v5.0.0
 [4.8.1]: https://github.com/giantswarm/cluster-cloud-director/compare/v4.8.0...v4.8.1
 [4.8.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v4.7.0...v4.8.0
 [4.7.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v4.6.0...v4.7.0
