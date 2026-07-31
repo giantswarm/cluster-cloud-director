@@ -84,3 +84,16 @@ Converts disk size from gigabytes to bytes.
 network.giantswarm.io/wildcard-cname-target: "{{ .Values.global.connectivity.dns.wildcardCnameTarget }}"
 {{- end }}
 {{- end }}
+
+{{/*
+Creates a list of no-proxy addresses to be rendered by giantswarm/cluster. The controlPlaneEndpointHost
+will only be added if the value is populated.
+*/}}
+{{- define "cloudDirectorNoProxyList" }}
+{{- with .Values.global.connectivity.network.loadBalancers.vipSubnet }}
+- {{ . }}
+{{- end }}
+{{- with .Values.global.connectivity.network.controlPlaneEndpoint.host }}
+- {{ . }}
+{{- end }}
+{{- end }}
