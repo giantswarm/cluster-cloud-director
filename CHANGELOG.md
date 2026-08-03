@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Ensure the API server address is added to the no_proxy list.
+
 ## [5.0.0] - 2026-07-22
 
 ### Fixed

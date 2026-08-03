@@ -251,6 +251,13 @@
                         }
                     },
                     "clusterAnnotationsTemplateName": "cloudDirectorClusterAnnotations",
+                    "connectivity": {
+                        "proxy": {
+                            "noProxy": {
+                                "templateName": "cloudDirectorNoProxyList"
+                            }
+                        }
+                    },
                     "controlPlane": {
                         "resources": {
                             "infrastructureMachineTemplate": {
