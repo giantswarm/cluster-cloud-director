@@ -9,6 +9,8 @@ cluster:
       certManager:
         configTemplateName: cloudDirectorCertManagerHelmValues
         enable: true
+      certManagerCrossplaneResources:
+        enable: false
       chartOperatorExtensions:
         enable: true
       cilium:
