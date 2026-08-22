@@ -1,8 +1,26 @@
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: OCIRepository
+metadata:
+  name: {{ include "resource.default.name" . }}-cloud-provider-cloud-director
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    cluster.giantswarm.io/description: {{ .Values.global.metadata.description | quote }}
+  labels:
+    cluster-apps-operator.giantswarm.io/watching: ""
+    {{- include "labels.common" . | nindent 4 }}
+spec:
+  {{- $_ := set $ "appName" "cloud-provider-cloud-director" }}
+  url: oci://gsoci.azurecr.io/charts/giantswarm/cloud-provider-cloud-director
+  ref:
+    tag: {{ include "cluster.app.version" . }}
+  interval: 24h
+  timeout: 60s
+---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: {{ include "resource.default.name" $ }}-cloud-provider-cloud-director
-  namespace: {{ $.Release.Namespace }}
+  name: {{ include "resource.default.name" . }}-cloud-provider-cloud-director
+  namespace: {{ .Release.Namespace }}
   annotations:
     cluster.giantswarm.io/description: {{ .Values.global.metadata.description | quote }}
   labels:
@@ -15,35 +33,27 @@ metadata:
     {{- end }}
     {{- end }}
 spec:
-  suspend: true # It will be unsuspended by the post-install/post-upgrade hook in update-values-hook-job.yaml.
   releaseName: cloud-provider-cloud-director
   targetNamespace: kube-system
   storageNamespace: kube-system
-  chart:
-    spec:
-      chart: cloud-provider-cloud-director
-      {{- $_ := set $ "appName" "cloud-provider-cloud-director" }}
-      version: {{ include "cluster.app.version" $ }}
-      sourceRef:
-        kind: HelmRepository
-        name: {{ include "resource.default.name" $ }}-{{ include "cluster.app.catalog" $ }}
+  chartRef:
+    kind: OCIRepository
+    name: {{ include "resource.default.name" . }}-cloud-provider-cloud-director
   dependsOn:
-    - name: {{ include "resource.default.name" $ }}-cilium
-      namespace: {{ $.Release.Namespace }}
+  - name: {{ include "resource.default.name" . }}-cilium
+    namespace: {{ .Release.Namespace }}
   kubeConfig:
     secretRef:
-      name: {{ include "resource.default.name" $ }}-kubeconfig
+      name: {{ include "resource.default.name" . }}-kubeconfig
   interval: 10m
   install:
     remediation:
       retries: 50
-  # Default values
-  # https://github.com/giantswarm/cloud-provider-cloud-director-app/blob/main/helm/cloud-provider-cloud-director/values.yaml
   valuesFrom:
-    - kind: Secret
-      name: {{ .Values.global.providerSpecific.userContext.secretRef.secretName | quote }}
-      valuesKey: "refreshToken"
-      targetPath: "global.basicAuthSecret.refreshToken"
+  - kind: Secret
+    name: {{ .Values.global.providerSpecific.userContext.secretRef.secretName | quote }}
+    valuesKey: refreshToken
+    targetPath: global.basicAuthSecret.refreshToken
   values:
     global:
       basicAuthSecret:
@@ -51,12 +61,13 @@ spec:
       podSecurityStandards:
         enforced: {{ .Values.global.podSecurityStandards.enforced }}
       vcdConfig:
-        clusterid: "" # It will be set by the post-install/post-upgrade hook in post-install-rdeid-job.yaml.
+        {{- /* It gets set by the post-install/post-upgrade hook. */}}
+        clusterid: ""
         org: {{ .Values.global.providerSpecific.org | quote }}
         ovdc: {{ .Values.global.providerSpecific.ovdc | quote }}
         ovdcNetwork: {{ .Values.global.providerSpecific.ovdcNetwork | quote }}
         site: {{ .Values.global.providerSpecific.site | quote }}
-        vAppName: {{ include "resource.default.name" $  | quote }}
+        vAppName: {{ include "resource.default.name" .  | quote }}
         vipSubnet: {{ .Values.global.connectivity.network.loadBalancers.vipSubnet }}
         enableVirtualServiceSharedIP: {{ .Values.global.providerSpecific.cloudProviderInterface.enableVirtualServiceSharedIP }}
         oneArm:
@@ -67,8 +78,10 @@ spec:
         enabled: {{ .enabled }}
         delete:
           isDefault: {{ .delete.isDefault }}
-          vcdStorageProfileName: {{ .delete.vcdStorageProfileName }}
+          vcdStorageProfileName: {{ .delete.vcdStorageProfileName | quote }}
         retain:
           isDefault: {{ .retain.isDefault }}
-          vcdStorageProfileName: {{ .retain.vcdStorageProfileName }}
+          vcdStorageProfileName: {{ .retain.vcdStorageProfileName | quote }}
         {{- end }}
+  {{- /* It gets unsuspended by the post-install/post-upgrade hook. */}}
+  suspend: true
