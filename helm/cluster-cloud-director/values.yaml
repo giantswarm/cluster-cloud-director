@@ -312,6 +312,7 @@ global:
         enabled: false
     selinux:
       mode: permissive
+      writablePolicyStore: true
   connectivity:
     dns: {}
     network:

@@ -830,6 +830,12 @@
                                         "disabled"
                                     ],
                                     "default": "permissive"
+                                },
+                                "writablePolicyStore": {
+                                    "type": "boolean",
+                                    "title": "Writable SELinux policy store",
+                                    "description": "Make /var/lib/selinux writable for loading additional policies.",
+                                    "default": true
                                 }
                             }
                         }
