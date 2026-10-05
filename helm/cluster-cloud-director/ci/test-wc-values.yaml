@@ -12,12 +12,6 @@ global:
     servicePriority: highest
   controlPlane:
     replicas: 1
-    oidc:
-      issuerUrl: https://dex.gerbil.test.gigantic.io
-      clientId: "dex-k8s-authenticator"
-      usernameClaim: "email"
-      groupsClaim: "groups"
-      caPem: ""
     machineTemplate:
       catalog: giantswarm
       diskSizeGB: 30

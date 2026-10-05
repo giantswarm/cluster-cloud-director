@@ -1087,12 +1087,6 @@
                         "oidc": {
                             "type": "object",
                             "title": "OIDC authentication",
-                            "required": [
-                                "clientId",
-                                "groupsClaim",
-                                "issuerUrl",
-                                "usernameClaim"
-                            ],
                             "additionalProperties": false,
                             "properties": {
                                 "caPem": {
