@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Remove requirement to always provide OIDC settings.
+- Chart: Update `cluster` to v9.0.2.
 
 ## [8.0.0] - 2026-09-29
 
