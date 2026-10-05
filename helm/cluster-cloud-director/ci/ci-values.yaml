@@ -19,12 +19,6 @@ global:
       noProxy: "test.gigantic.io,some.other.domain,10.0.0.0/24"
   controlPlane:
     replicas: 1
-    oidc:
-      issuerUrl: https://dex.gerbil.test.gigantic.io
-      clientId: "dex-k8s-authenticator"
-      usernameClaim: "email"
-      groupsClaim: "groups"
-      caPem: ""
     machineTemplate:
       catalog: giantswarm
   metadata:
