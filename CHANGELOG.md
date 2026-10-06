@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [7.3.3] - 2026-10-06
+
 ### Changed
 
 - Update resources to ensure compatibility with Flux 2.8.
@@ -1373,7 +1375,8 @@ Bump cloud provider to v0.2.5 (fix).
 - Added VCDCluster parameters to match CRD.
 - Nodepool and nodeclass support.
 
-[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v7.3.2...HEAD
+[Unreleased]: https://github.com/giantswarm/cluster-cloud-director/compare/v7.3.3...HEAD
+[7.3.3]: https://github.com/giantswarm/cluster-cloud-director/compare/v7.3.2...v7.3.3
 [7.3.2]: https://github.com/giantswarm/cluster-cloud-director/compare/v7.3.1...v7.3.2
 [7.3.1]: https://github.com/giantswarm/cluster-cloud-director/compare/v7.3.0...v7.3.1
 [7.3.0]: https://github.com/giantswarm/cluster-cloud-director/compare/v7.2.0...v7.3.0
