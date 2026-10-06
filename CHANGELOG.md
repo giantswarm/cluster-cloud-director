@@ -7,9 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [8.0.1] - 2026-10-05
-
 ### Changed
+
+- Update resources to ensure compatibility with Flux 2.8.
+
+## [8.0.1] - 2026-10-05
 
 - Remove requirement to always provide OIDC settings.
 - Chart: Update `cluster` to v9.0.2.
