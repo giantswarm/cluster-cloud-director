@@ -2,7 +2,7 @@
 #
 #    devctl
 #
-#    https://github.com/giantswarm/devctl/blob/cbdb6d5fa8756316d0c43e5945e3d3078c9e617e/pkg/gen/input/makefile/internal/file/Makefile.gen.cluster_app.mk.template
+#    https://github.com/giantswarm/devctl/blob/e4e201cc3265e82992dfbe3cce6b285df431e2df/pkg/gen/input/makefile/internal/file/Makefile.gen.cluster_app.mk.template
 #
 
 ##@ Schema
@@ -30,4 +30,3 @@ generate-docs: ## Generate values documentation from schema
 generate-values: ## Generate values.yaml from schema
 	go install github.com/giantswarm/helm-values-gen@v1
 	helm-values-gen $(VALUES_SCHEMA) -o $(VALUES) --force
-
