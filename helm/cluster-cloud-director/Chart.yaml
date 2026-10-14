@@ -21,4 +21,4 @@ restrictions:
 dependencies:
   - repository: https://giantswarm.github.io/cluster-catalog
     name: cluster
-    version: 9.0.2
+    version: 9.1.0
