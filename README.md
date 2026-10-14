@@ -3,7 +3,7 @@
 This repository contains the Helm chart used for deploying CAPI clusters via [CAPVCD](https://github.com/vmware/cluster-api-provider-cloud-director). It deploys:
 
 - CAPI resources
-- `cilium` as CNI in `kube-proxy` replacement mode (see [Limitations](#Limitations) section below)
+- `cilium` as CNI in `kube-proxy` replacement mode
 - CPI and CSI for VMware Cloud Director
 
 ## Authentication to VCD
