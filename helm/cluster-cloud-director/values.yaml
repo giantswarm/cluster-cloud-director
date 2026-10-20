@@ -316,6 +316,8 @@ global:
       mode: permissive
       writablePolicyStore: true
   connectivity:
+    cni:
+      managed: true
     dns: {}
     network:
       controlPlaneEndpoint:
