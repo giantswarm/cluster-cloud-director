@@ -51,6 +51,8 @@ Configurations related to cluster connectivity.
 | **Property** | **Description** | **More Details** |
 | :----------- | :-------------- | :--------------- |
 | `global.connectivity.baseDomain` | **Base DNS domain**|**Type:** `string`<br/>|
+| `global.connectivity.cni` | **CNI**|**Type:** `object`<br/>|
+| `global.connectivity.cni.managed` | **Managed CNI** - The CNI is installed and operated by Giant Swarm. When false, the Cilium app is not rendered and is removed from the dependencies of every other app. Only set it to false when the provider installs its own CNI.|**Type:** `boolean`<br/>**Default:** `true`|
 | `global.connectivity.dns` | **DNS**|**Type:** `object`<br/>|
 | `global.connectivity.dns.wildcardCnameTarget` | **Wildcard CNAME Target** - Override the wildcard CNAME record value. If no value is passed defaults to "ingress". Only subdomains from the cluster DNS zone are valid.|**Type:** `string`<br/>**Example:** `"gateway"`<br/>|
 | `global.connectivity.network` | **Network**|**Type:** `object`<br/>|
