@@ -46,6 +46,85 @@
                 }
             }
         },
+        "kernel": {
+            "type": "object",
+            "title": "Kernel",
+            "description": "Node-level kernel settings for all nodes of this node pool. They are applied early during boot, before any Kubernetes component starts. Changing them replaces the nodes of this node pool.",
+            "additionalProperties": false,
+            "properties": {
+                "sysctls": {
+                    "type": "object",
+                    "title": "Sysctls",
+                    "description": "Kernel parameters under /proc/sys, keyed by name in dotted notation and written to /etc/sysctl.d/90-node-pool.conf for systemd-sysctl. For interface names containing dots, such as VLANs, use a slash in that part of the name. Use * as a wildcard to match multiple parameters. Parameters that do not exist on the node are skipped. Prefix a name with - to also ignore any other error when setting it, such as an invalid value. Integers outside of ±9007199254740991 must be quoted, as they cannot be represented exactly. The parameters kubelet checks with protectKernelDefaults (vm.overcommit_memory, vm.panic_on_oom, kernel.panic, kernel.panic_on_oops, kernel.keys.root_maxkeys and kernel.keys.root_maxbytes) cannot be set by name: they are documented as required by kubelet, and changing them prevents it from starting. Wildcards are not checked against this list. As some of these parameters are not set by anything else on the node, a wildcard matching them, e.g. vm.* or kernel.keys.*, can change them persistently. Matching them with a wildcard is at your own risk. Other parameters can be set, but those the node needs to work may be overridden by the Image Builder and Cilium configuration applied after this file, e.g. net.ipv4.ip_forward or net.ipv4.conf.all.rp_filter. Parameters of kernel modules loaded after early boot, e.g. net.netfilter.*, might not be applied.",
+                    "examples": [
+                        {
+                            "-net.ipv4.conf.eth1.rp_filter": 0,
+                            "fs.file-max": "9223372036854775807",
+                            "net.ipv4.conf.*.log_martians": 0,
+                            "net.ipv4.conf.eth0/100.rp_filter": 2,
+                            "net.ipv4.ip_local_port_range": "32768 60999",
+                            "vm.max_map_count": 262144
+                        }
+                    ],
+                    "additionalProperties": {
+                        "type": [
+                            "integer",
+                            "string"
+                        ],
+                        "title": "Value",
+                        "maximum": 9007199254740991,
+                        "minimum": -9007199254740991,
+                        "pattern": "^\\S([^\\n\\r]*\\S)?$"
+                    },
+                    "default": {},
+                    "propertyNames": {
+                        "not": {
+                            "enum": [
+                                "vm.overcommit_memory",
+                                "vm.panic_on_oom",
+                                "kernel.panic",
+                                "kernel.panic_on_oops",
+                                "kernel.keys.root_maxkeys",
+                                "kernel.keys.root_maxbytes",
+                                "-vm.overcommit_memory",
+                                "-vm.panic_on_oom",
+                                "-kernel.panic",
+                                "-kernel.panic_on_oops",
+                                "-kernel.keys.root_maxkeys",
+                                "-kernel.keys.root_maxbytes"
+                            ]
+                        },
+                        "pattern": "^-?[a-z][a-z0-9_]*(\\.[A-Za-z0-9_*-]+(/[A-Za-z0-9_*-]+)*)+$"
+                    }
+                },
+                "sysfs": {
+                    "type": "object",
+                    "title": "Sysfs",
+                    "description": "Sysfs attributes, keyed by absolute path under /sys and written to /etc/tmpfiles.d/00-node-pool.conf for systemd-tmpfiles. Use *, ? or [...] as wildcards to match multiple paths. Paths that do not exist during early boot, e.g. of devices appearing later, are skipped. Integers outside of ±9007199254740991 must be quoted, as they cannot be represented exactly. Also quote values YAML could misinterpret, such as CPU masks with leading zeros: an unquoted 0011 is read as the octal number 9.",
+                    "examples": [
+                        {
+                            "/sys/block/nvme*n1/queue/scheduler": "none",
+                            "/sys/class/net/eth0/queues/rx-0/rps_cpus": "00ff",
+                            "/sys/kernel/mm/transparent_hugepage/enabled": "madvise"
+                        }
+                    ],
+                    "additionalProperties": {
+                        "type": [
+                            "integer",
+                            "string"
+                        ],
+                        "title": "Value",
+                        "maximum": 9007199254740991,
+                        "minimum": -9007199254740991,
+                        "pattern": "^\\S([^\\n\\r]*\\S)?$"
+                    },
+                    "default": {},
+                    "propertyNames": {
+                        "pattern": "^/sys(/[A-Za-z0-9_:!+@,=*?\\[\\]-][A-Za-z0-9._:!+@,=*?\\[\\]-]*)+$"
+                    }
+                }
+            }
+        },
         "nodeLabels": {
             "type": "array",
             "title": "Node labels",
@@ -1465,6 +1544,9 @@
                                     "$ref": "#/$defs/diskSizeGB",
                                     "description": "Node root volume size, in GB."
                                 },
+                                "kernel": {
+                                    "$ref": "#/$defs/kernel"
+                                },
                                 "placementPolicy": {
                                     "$ref": "#/$defs/placementPolicy"
                                 },
@@ -1505,6 +1587,9 @@
                                 "diskSizeGB": {
                                     "$ref": "#/$defs/diskSizeGB",
                                     "description": "Node root volume size, in GB."
+                                },
+                                "kernel": {
+                                    "$ref": "#/$defs/kernel"
                                 },
                                 "placementPolicy": {
                                     "$ref": "#/$defs/placementPolicy"
