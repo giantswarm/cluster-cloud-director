@@ -341,6 +341,9 @@ global:
   nodePools:
     worker:
       catalog: giantswarm
+      kernel:
+        sysctls: {}
+        sysfs: {}
       replicas: 2
       strategy:
         rollingUpdate:
