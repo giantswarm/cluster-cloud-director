@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Chart: Add `internal.unsolicitedArp.enabled` flag (default `false`). When enabled, nodes send unsolicited ARP for the IPv4 addresses of the interface holding the default route before `kubeadm` runs, so gateways drop stale IP-to-MAC entries when a new node reuses the IP of a removed node. This is only needed in Giant Swarm's testing environment so far and most likely not required in customer environments.
+
 ## [9.4.0] - 2026-10-26
 
 ### Changed
