@@ -6,9 +6,10 @@ metadata:
       changes its content. Automatically appending a hash of the content here doesn't work
       since we'd need to edit `values.schema.json` as well, but that file is created by humans.
   */}}
-  name: {{ include "resource.default.name" $ }}-provider-specific-files-2
+  name: {{ include "resource.default.name" $ }}-provider-specific-files-3
   namespace: {{ $.Release.Namespace | quote }}
 data:
   set-hostname.sh: {{ tpl ($.Files.Get "files/opt/bin/set-hostname.sh") $ | b64enc | quote }}
   fix-dns-nic-allocation.sh: {{ tpl ($.Files.Get "files/opt/bin/fix-dns-nic-allocation.sh") $ | b64enc | quote }}
+  announce-ip.sh: {{ tpl ($.Files.Get "files/opt/bin/announce-ip.sh") $ | b64enc | quote }}
 type: Opaque

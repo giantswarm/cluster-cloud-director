@@ -364,7 +364,7 @@
                                 "contentFrom": {
                                     "secret": {
                                         "key": "set-hostname.sh",
-                                        "name": "provider-specific-files-2",
+                                        "name": "provider-specific-files-3",
                                         "prependClusterNameAsPrefix": true
                                     }
                                 },
@@ -375,11 +375,22 @@
                                 "contentFrom": {
                                     "secret": {
                                         "key": "fix-dns-nic-allocation.sh",
-                                        "name": "provider-specific-files-2",
+                                        "name": "provider-specific-files-3",
                                         "prependClusterNameAsPrefix": true
                                     }
                                 },
                                 "path": "/opt/bin/fix-dns-nic-allocation.sh",
+                                "permissions": "0755"
+                            },
+                            {
+                                "contentFrom": {
+                                    "secret": {
+                                        "key": "announce-ip.sh",
+                                        "name": "provider-specific-files-3",
+                                        "prependClusterNameAsPrefix": true
+                                    }
+                                },
+                                "path": "/opt/bin/announce-ip.sh",
                                 "permissions": "0755"
                             }
                         ],
@@ -602,6 +613,38 @@
                                                 },
                                                 "enabled": true,
                                                 "name": "etc-hosts-entries.service"
+                                            },
+                                            {
+                                                "contents": {
+                                                    "install": {
+                                                        "wantedBy": [
+                                                            "multi-user.target"
+                                                        ]
+                                                    },
+                                                    "service": {
+                                                        "type": "oneshot",
+                                                        "execStart": [
+                                                            "/opt/bin/announce-ip.sh"
+                                                        ],
+                                                        "remainAfterExit": "yes"
+                                                    },
+                                                    "unit": {
+                                                        "description": "Announce node IPs via unsolicited ARP.",
+                                                        "after": [
+                                                            "network-online.target",
+                                                            "static-routes.service",
+                                                            "fix-dns-nic-allocation.service"
+                                                        ],
+                                                        "before": [
+                                                            "kubeadm.service"
+                                                        ],
+                                                        "wants": [
+                                                            "network-online.target"
+                                                        ]
+                                                    }
+                                                },
+                                                "enabled": true,
+                                                "name": "announce-ip.service"
                                             }
                                         ]
                                     }
@@ -1838,6 +1881,20 @@
                     "type": "boolean",
                     "title": "Skip RDE",
                     "description": "Set to true if the API schema extension is installed in the correct version in VCD to create CAPVCD entities in the API. Set to false otherwise."
+                },
+                "unsolicitedArp": {
+                    "type": "object",
+                    "title": "Unsolicited ARP",
+                    "description": "Announce node IPv4 addresses via unsolicited (gratuitous) ARP at boot, before kubeadm runs. Works around a stale IP-to-MAC entry on the gateway when a new node reuses the IP of a removed node. Only needed in Giant Swarm's testing environment so far; most likely not required in customer environments.",
+                    "additionalProperties": false,
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean",
+                            "title": "Enabled",
+                            "description": "If true, nodes send unsolicited ARP for the addresses of the interface holding the default route. Leave disabled unless nodes that reuse an IP cannot reach other subnets.",
+                            "default": false
+                        }
+                    }
                 },
                 "useAsManagementCluster": {
                     "type": "boolean",

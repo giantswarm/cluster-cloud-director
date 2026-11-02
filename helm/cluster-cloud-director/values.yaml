@@ -85,16 +85,23 @@ cluster:
         - contentFrom:
             secret:
               key: set-hostname.sh
-              name: provider-specific-files-2
+              name: provider-specific-files-3
               prependClusterNameAsPrefix: true
           path: /opt/bin/set-hostname.sh
           permissions: "0755"
         - contentFrom:
             secret:
               key: fix-dns-nic-allocation.sh
-              name: provider-specific-files-2
+              name: provider-specific-files-3
               prependClusterNameAsPrefix: true
           path: /opt/bin/fix-dns-nic-allocation.sh
+          permissions: "0755"
+        - contentFrom:
+            secret:
+              key: announce-ip.sh
+              name: provider-specific-files-3
+              prependClusterNameAsPrefix: true
+          path: /opt/bin/announce-ip.sh
           permissions: "0755"
       ignition:
         containerLinuxConfig:
@@ -262,6 +269,27 @@ cluster:
                         - set-hostname.service
                   enabled: true
                   name: etc-hosts-entries.service
+                - contents:
+                    install:
+                      wantedBy:
+                        - multi-user.target
+                    service:
+                      execStart:
+                        - /opt/bin/announce-ip.sh
+                      remainAfterExit: "yes"
+                      type: oneshot
+                    unit:
+                      after:
+                        - network-online.target
+                        - static-routes.service
+                        - fix-dns-nic-allocation.service
+                      before:
+                        - kubeadm.service
+                      description: Announce node IPs via unsolicited ARP.
+                      wants:
+                        - network-online.target
+                  enabled: true
+                  name: announce-ip.service
       postKubeadmCommands:
         - usermod -aG root nobody
     provider: cloud-director
@@ -376,4 +404,6 @@ internal:
     name: giantswarm/kubectl
     registry: gsoci.azurecr.io
     tag: 1.27.14
+  unsolicitedArp:
+    enabled: false
   useAsManagementCluster: false
