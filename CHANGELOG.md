@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Update architect to v10.17.4 (giantswarm/cluster-cloud-director#683)
+- Chart: Update `cluster` to v9.6.0.
 
 ## [9.5.0] - 2026-11-04
 
