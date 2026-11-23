@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Chart: Test `cluster` dev version `9.6.1-r12ba8beet20261123095712haaf92c6` from giantswarm/cluster#1167.
+
 ## [9.6.0] - 2026-11-17
 
 ### Changed

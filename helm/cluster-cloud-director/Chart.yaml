@@ -19,6 +19,6 @@ restrictions:
   compatibleProviders:
     - cloud-director
 dependencies:
-  - repository: https://giantswarm.github.io/cluster-catalog
+  - repository: https://giantswarm.github.io/cluster-test-catalog
     name: cluster
-    version: 9.6.0
+    version: "9.6.1-r12ba8beet20261123095712haaf92c6"
