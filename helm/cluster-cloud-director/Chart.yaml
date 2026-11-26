@@ -19,6 +19,6 @@ restrictions:
   compatibleProviders:
     - cloud-director
 dependencies:
-  - repository: https://giantswarm.github.io/cluster-catalog
+  - repository: oci://gsoci.azurecr.io/charts/giantswarm
     name: cluster
     version: 9.6.0

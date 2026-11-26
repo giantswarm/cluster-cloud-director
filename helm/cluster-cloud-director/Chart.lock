@@ -1,6 +1,6 @@
 dependencies:
 - name: cluster
-  repository: https://giantswarm.github.io/cluster-catalog
+  repository: oci://gsoci.azurecr.io/charts/giantswarm
   version: 9.6.0
-digest: sha256:8d75180fd6f1d5ad017157b28885662e5222ec176e2a6483c9c18227ed9daa93
-generated: "2026-11-16T19:45:08.271316906Z"
+digest: sha256:dd438045aff452abb170cba937c83bd035e5726fc536754edd02d57bf99669ce
+generated: "2026-11-26T12:01:48.578247Z"

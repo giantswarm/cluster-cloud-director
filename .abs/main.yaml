@@ -2,4 +2,3 @@ chart-dir: helm/cluster-cloud-director
 replace-chart-version-with-git: true
 helm-template-extra-values: helm/cluster-cloud-director/ci/ci-values.yaml
 generate-metadata: true
-ct-config: .abs/ct.yaml
